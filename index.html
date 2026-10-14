@@ -49,13 +49,13 @@
     {"@type": "City", "name": "Odessa", "containedInPlace": {"@type": "State", "name": "Texas"}},
     {"@type": "City", "name": "Midland", "containedInPlace": {"@type": "State", "name": "Texas"}}
   ],
-  "makesOffer": {
-    "@type": "Offer",
-    "name": "Local SEO audit",
-    "price": "149",
-    "priceCurrency": "USD",
-    "description": "Founder price for the first 3 clients; $297 afterwards."
-  }
+  "makesOffer": [
+    {"@type": "Offer", "name": "Free 1-page review", "price": "0", "priceCurrency": "USD", "itemOffered": {"@type": "Service", "name": "Free 1-page review"}},
+    {"@type": "Offer", "name": "Local SEO Audit", "price": "149", "priceCurrency": "USD", "description": "Founder price for the first 3 clients; $297 afterwards.", "itemOffered": {"@type": "Service", "name": "Local SEO Audit"}},
+    {"@type": "Offer", "name": "Website Refresh or Build", "priceSpecification": {"@type": "PriceSpecification", "minPrice": 490, "priceCurrency": "USD"}, "itemOffered": {"@type": "Service", "name": "Website Refresh or Build"}},
+    {"@type": "Offer", "name": "Growth Partner", "priceSpecification": {"@type": "UnitPriceSpecification", "price": 249, "priceCurrency": "USD", "unitText": "MONTH"}, "itemOffered": {"@type": "Service", "name": "Growth Partner"}},
+    {"@type": "Offer", "name": "Business Visibility Review", "price": "397", "priceCurrency": "USD", "itemOffered": {"@type": "Service", "name": "Business Visibility Review"}}
+  ]
 }
 </script>
 </head>
@@ -70,6 +70,7 @@
     </a>
     <nav class="nav" aria-label="Main">
       <a href="/#what">What we do</a>
+      <a href="/#sectors">Who we help</a>
       <a href="/#how">How it works</a>
       <a href="/#examples">Examples</a>
       <a href="/#pricing">Pricing</a>
@@ -103,14 +104,82 @@
     </div>
   </section>
 
-  <section class="sectors" aria-label="Businesses we work with">
-    <div class="marquee">
-      <ul class="marquee__group">
-        <li>Plumbers</li><li>HVAC</li><li>Roofers</li><li>Dentists</li><li>Salons and spas</li><li>Auto shops</li><li>Attorneys</li><li>Oilfield services</li>
-      </ul>
-      <ul class="marquee__group" aria-hidden="true">
-        <li>Plumbers</li><li>HVAC</li><li>Roofers</li><li>Dentists</li><li>Salons and spas</li><li>Auto shops</li><li>Attorneys</li><li>Oilfield services</li>
-      </ul>
+  <section class="section sectors" id="sectors" aria-labelledby="sectors-title">
+    <div class="wrap">
+      <div class="section__head" data-reveal>
+        <h2 id="sectors-title">Built for local businesses like yours.</h2>
+        <p class="lead">Pick your type of business to see why it matters, what often goes wrong and which plan fits.</p>
+      </div>
+      <div class="sector-ui" data-reveal>
+        <div class="sector-tabs" role="tablist" aria-label="Types of business" aria-orientation="vertical">
+          <button type="button" role="tab" id="tab-plumbers" class="sector-tab" aria-selected="true" aria-controls="panel-plumbers" tabindex="0">Plumbers</button>
+          <button type="button" role="tab" id="tab-hvac" class="sector-tab" aria-selected="false" aria-controls="panel-hvac" tabindex="-1">HVAC</button>
+          <button type="button" role="tab" id="tab-roofers" class="sector-tab" aria-selected="false" aria-controls="panel-roofers" tabindex="-1">Roofers</button>
+          <button type="button" role="tab" id="tab-dentists" class="sector-tab" aria-selected="false" aria-controls="panel-dentists" tabindex="-1">Dentists</button>
+          <button type="button" role="tab" id="tab-salons" class="sector-tab" aria-selected="false" aria-controls="panel-salons" tabindex="-1">Salons &amp; spas</button>
+          <button type="button" role="tab" id="tab-autoshops" class="sector-tab" aria-selected="false" aria-controls="panel-autoshops" tabindex="-1">Auto shops</button>
+          <button type="button" role="tab" id="tab-attorneys" class="sector-tab" aria-selected="false" aria-controls="panel-attorneys" tabindex="-1">Attorneys</button>
+          <button type="button" role="tab" id="tab-oilfield" class="sector-tab" aria-selected="false" aria-controls="panel-oilfield" tabindex="-1">Oilfield services</button>
+        </div>
+        <div class="sector-panels">
+          <div role="tabpanel" id="panel-plumbers" class="sector-panel" aria-labelledby="tab-plumbers" tabindex="0">
+            <h3>Plumbers</h3>
+            <p class="sector-why">People call a plumber when something is already leaking. They pick from whoever shows up first with the right address and a phone number that works.</p>
+            <h4>What usually goes wrong, from reviews of real Permian Basin sites</h4>
+            <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The site gives Google no structured address, phone or hours, so it may show old information.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The title and description name only Midland, so someone in Odessa searching for a plumber sees a different city.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Links shared on Facebook or in a text show no picture.</span></li></ul>
+            <p class="sector-plan"><strong>Plan that fits: Local SEO Audit.</strong> The audit lines up your listing, your site and the cities you actually serve.</p>
+          </div>
+          <div role="tabpanel" id="panel-hvac" class="sector-panel" aria-labelledby="tab-hvac" tabindex="0" hidden>
+            <h3>HVAC</h3>
+            <p class="sector-why">AC breaks in July and people search from their phone, in a hurry. If your listing and site are clear, you get the call.</p>
+            <h4>What usually goes wrong, from reviews of real Permian Basin sites</h4>
+            <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The home page has no description, so Google writes the search snippet for you.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Two main headlines on the home page, and titles long enough to be cut off in results.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The home and About pages share one description, and shared links show a blank preview.</span></li></ul>
+            <p class="sector-plan"><strong>Plan that fits: Local SEO Audit.</strong> A plain list of what to fix first, starting with the quick wins.</p>
+          </div>
+          <div role="tabpanel" id="panel-roofers" class="sector-panel" aria-labelledby="tab-roofers" tabindex="0" hidden>
+            <h3>Roofers</h3>
+            <p class="sector-why">A roof is a big, infrequent purchase. Customers compare a few companies online and look for signs that a business is established and reachable.</p>
+            <h4>What usually goes wrong, from reviews of real Permian Basin sites</h4>
+            <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Two different phone numbers across the site, so a customer may call the wrong one.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The title and headline name only Odessa, though the company serves Odessa and Midland.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>A footer dated 2022 makes the site look like it is not looked after.</span></li></ul>
+            <p class="sector-plan"><strong>Plan that fits: Website Refresh or Build.</strong> If the site itself is the problem, a clean static rebuild fixes the details above in one pass.</p>
+          </div>
+          <div role="tabpanel" id="panel-dentists" class="sector-panel" aria-labelledby="tab-dentists" tabindex="0" hidden>
+            <h3>Dentists</h3>
+            <p class="sector-why">New patients choose a practice from its Google listing: hours, services, photos and reviews, often before they ever open the website.</p>
+            <h4>What we check first (no real review of a dental site in these examples yet)</h4>
+            <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether the Google listing has the right category, hours and services.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether the website says clearly which services and which city it covers.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether reviews are answered and the practice looks active.</span></li></ul>
+            <p class="sector-plan"><strong>Plan that fits: Business Visibility Review.</strong> Covers the website, the listing, reviews and reminders in one 90-day plan.</p>
+          </div>
+          <div role="tabpanel" id="panel-salons" class="sector-panel" aria-labelledby="tab-salons" tabindex="0" hidden>
+            <h3>Salons &amp; spas</h3>
+            <p class="sector-why">Salons live on photos, reviews and booking. If the listing is thin, people book the place with the better-looking one.</p>
+            <h4>What we check first (no real review of a salon site in these examples yet)</h4>
+            <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether photos on the listing and the site are current and show your work.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether a customer can see services and book without hunting for it.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether reviews get a reply.</span></li></ul>
+            <p class="sector-plan"><strong>Plan that fits: Growth Partner.</strong> Ongoing listing upkeep and review replies suit a business with steady bookings.</p>
+          </div>
+          <div role="tabpanel" id="panel-autoshops" class="sector-panel" aria-labelledby="tab-autoshops" tabindex="0" hidden>
+            <h3>Auto shops</h3>
+            <p class="sector-why">When a car will not start, people search for the nearest open shop. Address, hours and phone must be right everywhere.</p>
+            <h4>What we check first (no real review of an auto shop site in these examples yet)</h4>
+            <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether address, phone and hours match on the site and the listing.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether the services you want more of are named on the site.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether the site shows well on a phone.</span></li></ul>
+            <p class="sector-plan"><strong>Plan that fits: Local SEO Audit.</strong> A first look at the listing, the site and the shops that rank above you.</p>
+          </div>
+          <div role="tabpanel" id="panel-attorneys" class="sector-panel" aria-labelledby="tab-attorneys" tabindex="0" hidden>
+            <h3>Attorneys</h3>
+            <p class="sector-why">People look for a lawyer for a specific problem and judge the firm by how clear and current its site and listing are. We look only at visibility and presentation, never at legal matters.</p>
+            <h4>What we check first (no real review of a law firm site in these examples yet)</h4>
+            <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether each practice area has its own clear page and title.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether the listing matches the site, with the right office address.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether reviews and contact details are easy to find.</span></li></ul>
+            <p class="sector-plan"><strong>Plan that fits: Local SEO Audit.</strong> A clear, plain-English read of how the firm shows up online.</p>
+          </div>
+          <div role="tabpanel" id="panel-oilfield" class="sector-panel" aria-labelledby="tab-oilfield" tabindex="0" hidden>
+            <h3>Oilfield services</h3>
+            <p class="sector-why">Buyers searching for a vacuum truck or field service in the Permian Basin need to see in seconds what you do and where.</p>
+            <h4>What usually goes wrong, from reviews of real Permian Basin sites</h4>
+            <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The main headline does not say what the company does or where.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>No hours listed anywhere on the site.</span></li></ul>
+            <p class="sector-plan"><strong>Plan that fits: Website Refresh or Build.</strong> A short, clear site built around the services and the area you cover.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -160,6 +229,26 @@
         <article class="tile tile--stat t-f" data-reveal>
           <p class="stat" aria-label="3 to 5 days"><span data-count="3">3</span><small>to</small> <span data-count="5">5</span><small>days</small></p>
           <p>From the day you say yes to the day you have the audit.</p>
+        </article>
+
+        <article class="tile t-g" data-reveal>
+          <svg class="tile__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg>
+          <h3>Website refresh or build</h3>
+          <p>A simple, fast, static website with the SEO basics included: clear titles and descriptions, proper headings, your business details in a form Google reads, and a preview image for shared links. Usually 7 to 10 days.</p>
+        </article>
+
+        <article class="tile tile--wide t-h" data-reveal>
+          <svg class="tile__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></svg>
+          <h3>Business Visibility Review</h3>
+          <p>One review of how your business looks and works online, ending in a 90-day plan. It covers:</p>
+          <ul class="tile__list">
+            <li>Your website</li>
+            <li>Your Google presence</li>
+            <li>Reviews and reputation</li>
+            <li>Your competitors</li>
+            <li>Automating repetitive tasks: appointments, follow-ups and review replies</li>
+            <li>A 90-day next-step plan</li>
+          </ul>
         </article>
       </div>
     </div>
@@ -264,29 +353,45 @@
   <section class="section" id="pricing" aria-labelledby="pricing-title">
     <div class="wrap">
       <div class="section__head" data-reveal>
-        <h2 id="pricing-title">Simple pricing.</h2>
-        <p class="lead">The free review comes first. You only pay if you decide you want the full audit.</p>
+        <h2 id="pricing-title">Plans and pricing.</h2>
+        <p class="lead">The free review comes first. You only pay if you decide you want more.</p>
       </div>
-      <div class="price">
-        <article class="plan plan--main" data-reveal>
-          <h3>Founder price</h3>
-          <p class="plan__price">$149<small>one time</small></p>
-          <p>For the first 3 clients. After that the audit is $297.</p>
-          <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Google Business Profile review</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Website review</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Local competitor comparison</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Prioritized plan in plain English</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Delivered in 3 to 5 days</li>
-          </ul>
-          <a class="btn" href="mailto:hello@permianlocalseo.com?subject=Free%201-page%20review%20request&amp;body=Business%20name%3A%0AWebsite%3A%0ACity%20(Odessa%20or%20Midland)%3A">Start with the free review</a>
-        </article>
+      <!-- [SUPUESTO] Los precios y el alcance de los planes 3, 4 y 5 (490 / 249 al mes / 397) son provisionales hasta que Carlos los confirme. El plan 2 (149 fundador / 297) viene de config.yaml. -->
+      <div class="plans">
         <article class="plan" data-reveal>
           <h3>Free 1-page review</h3>
           <p class="plan__price">$0</p>
-          <p>A real review of your site and listing: what looks good, three things to fix and one quick fix. If your listing is already in good shape, I'll say so. There's nothing to sign and no follow-up pressure.</p>
+          <p>A real review of your site and listing: what looks good, three things to fix and one quick fix. Nothing to sign.</p>
+          <a class="btn btn--ghost" href="mailto:hello@permianlocalseo.com?subject=Free%201-page%20review%20request&amp;body=Business%20name%3A%0AWebsite%3A%0ACity%20(Odessa%20or%20Midland)%3A">Get your free review</a>
+        </article>
+        <article class="plan plan--main" data-reveal>
+          <h3>Local SEO Audit</h3>
+          <p class="plan__price">$149<small>founder price</small></p>
+          <p>Founder price for the first 3 clients. After that, $297.</p>
+          <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Google Business Profile review</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Website review</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Local competitor comparison</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Prioritized plan in plain English</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Delivered in 3 to 5 days</li></ul>
+          <a class="btn" href="mailto:hello@permianlocalseo.com?subject=Local%20SEO%20Audit&amp;body=Business%20name%3A%0AWebsite%3A%0ACity%20(Odessa%20or%20Midland)%3A">Ask about the audit</a>
+        </article>
+        <article class="plan" data-reveal>
+          <h3>Website Refresh or Build</h3>
+          <p class="plan__price">$490<small>and up</small></p>
+          <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>7 to 10 days</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Static, fast website</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>SEO basics included</li></ul>
+          <a class="btn btn--ghost" href="mailto:hello@permianlocalseo.com?subject=Website%20Refresh%20or%20Build&amp;body=Business%20name%3A%0AWebsite%3A%0ACity%20(Odessa%20or%20Midland)%3A">Ask about a website</a>
+        </article>
+        <article class="plan" data-reveal>
+          <h3>Growth Partner</h3>
+          <p class="plan__price">$249<small>per month</small></p>
+          <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Google Business Profile upkeep</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Review replies</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>A monthly report</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>A clear next step each month</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>No contract</li></ul>
+          <a class="btn btn--ghost" href="mailto:hello@permianlocalseo.com?subject=Growth%20Partner&amp;body=Business%20name%3A%0AWebsite%3A%0ACity%20(Odessa%20or%20Midland)%3A">Ask about Growth Partner</a>
+        </article>
+        <article class="plan" data-reveal>
+          <h3>Business Visibility Review</h3>
+          <p class="plan__price">$397<small>one time</small></p>
+          <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Website</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Google presence</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Reviews and reputation</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Competitors</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Automating repetitive tasks</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>90-day next-step roadmap</li></ul>
+          <p>If money questions come up, we help you prepare the right questions for your accountant.</p>
+          <a class="btn btn--ghost" href="mailto:hello@permianlocalseo.com?subject=Business%20Visibility%20Review&amp;body=Business%20name%3A%0AWebsite%3A%0ACity%20(Odessa%20or%20Midland)%3A">Ask about the review</a>
         </article>
       </div>
+      <p class="fine adjust" data-reveal>Different situation? Tell me what you need and we adjust the plan. <a href="mailto:hello@permianlocalseo.com?subject=A%20plan%20that%20fits%20my%20business&amp;body=Business%20name%3A%0AWebsite%3A%0ACity%20(Odessa%20or%20Midland)%3A">Tell me what you need</a>. I don't promise rankings: nobody honest can.</p>
     </div>
   </section>
 
