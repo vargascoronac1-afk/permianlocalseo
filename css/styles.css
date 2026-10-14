@@ -98,7 +98,7 @@ p{text-wrap:pretty}
 
 /* entrada del hero: solo CSS, sin depender de JS */
 @media(prefers-reduced-motion:no-preference){
-  .split .hero h1 .w{opacity:0;transform:translateY(20px);animation:wordin .7s var(--ease) forwards;animation-delay:calc(var(--i)*55ms)}
+  .split .hero h1 .w{opacity:0;transform:translateY(20px);animation:wordin .5s var(--ease) forwards;animation-delay:calc(var(--i)*35ms)}
   @keyframes wordin{to{opacity:1;transform:none}}
   .hero__cta,.hero__note{opacity:0;animation:fade .7s var(--ease) .25s forwards}
   .hero__cta{animation-delay:.32s}.hero__note{animation-delay:.4s}

@@ -35,10 +35,19 @@
     function orient() { list.setAttribute('aria-orientation', wide.matches ? 'vertical' : 'horizontal'); }
     orient(); wide.addEventListener('change', orient);
     function panelOf(t) { return document.getElementById(t.getAttribute('aria-controls')); }
+    /* Las imagenes de fondo de los paneles cerrados no se piden hasta que se activa su pestana */
+    function ensureLoaded(panel) {
+      var pic = panel.querySelector('picture[data-lazy]');
+      if (!pic) return;
+      pic.querySelectorAll('source').forEach(function (s) { s.srcset = s.getAttribute('data-srcset'); });
+      var img = pic.querySelector('img'); img.src = img.getAttribute('data-src');
+      pic.removeAttribute('data-lazy');
+    }
     function select(tab, focus) {
       var current = tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0];
       if (current === tab) { if (focus) tab.focus(); return; }
       var from = panelOf(current), to = panelOf(tab);
+      ensureLoaded(to);
       tabs.forEach(function (t) {
         var on = t === tab;
         t.setAttribute('aria-selected', on ? 'true' : 'false');
