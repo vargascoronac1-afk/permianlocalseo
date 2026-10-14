@@ -33,11 +33,14 @@
       if (focus) tab.focus();
       if (busy) { busy.kill(); busy = null; tabs.forEach(function (t) { var p = panelOf(t); if (p !== to) p.hidden = true; }); }
       if (!canAnimate) { from.hidden = true; to.hidden = false; return; }
+      var bgImg = to.querySelector('.sector-bg img'), body = to.querySelector('.sector-body');
       busy = gsap.timeline({ onComplete: function () { busy = null; } })
         .to(from, { opacity: 0, y: -10, duration: 0.18, ease: 'power1.in',
           onComplete: function () { from.hidden = true; gsap.set(from, { clearProps: 'opacity,transform' }); to.hidden = false; } })
-        .fromTo(to, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out', clearProps: 'opacity,transform',
-          onComplete: function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); } });
+        .fromTo(to, { opacity: 0 }, { opacity: 1, duration: 0.45, ease: 'power3.out', clearProps: 'opacity',
+          onComplete: function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); } })
+        .fromTo(bgImg, { scale: 1.22 }, { scale: 1, duration: 1.3, ease: 'power3.out' }, '<')
+        .fromTo(body, { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out', clearProps: 'transform,opacity' }, '<0.1');
     }
     tabs.forEach(function (t, i) {
       t.addEventListener('click', function () { select(t, false); });
@@ -88,6 +91,12 @@
       yPercent: k * 100, ease: 'none',
       scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true }
     });
+  });
+
+  /* Los fondos de sector se amplian suavemente al hacer scroll */
+  document.querySelectorAll('.sector-bg picture').forEach(function (pic) {
+    gsap.fromTo(pic, { scale: 1 }, { scale: 1.12, ease: 'none',
+      scrollTrigger: { trigger: '.sector-ui', start: 'top bottom', end: 'bottom top', scrub: true } });
   });
 
   /* Contador animado (solo cifras reales: 3 a 5 dias) */

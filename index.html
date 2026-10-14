@@ -25,7 +25,9 @@
 <link rel="preload" href="/fonts/instrument.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/webp" fetchpriority="high"
   imagesrcset="/img/pumpjack-sunset-silhouette-480.webp 480w, /img/pumpjack-sunset-silhouette-960.webp 960w, /img/pumpjack-sunset-silhouette-1600.webp 1600w" imagesizes="100vw">
-<link rel="stylesheet" href="/css/styles.css">
+<style id="critical">@font-face{font-family:"Bricolage Grotesque";src:url("../fonts/bricolage.woff2") format("woff2");font-weight:500 800;font-style:normal;font-display:swap}@font-face{font-family:"Instrument Sans";src:url("../fonts/instrument.woff2") format("woff2");font-weight:400 600;font-style:normal;font-display:swap}:root{--ink:#070b12;--ink-2:#0d1420;--ink-3:#152031;--line:rgba(190,205,225,.16);--text:#e8ebf0;--muted:#a9b4c3;--amber:#f2a93b;--amber-ink:#1a1204;--petrol:#58bfc4;--petrol-deep:#13555a;--display:"Bricolage Grotesque","Arial Narrow",Arial,sans-serif;--sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--gutter:clamp(20px,5vw,72px);--max:1240px;--ease:cubic-bezier(.22,.8,.2,1)}*,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--ink)}html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}.lenis.lenis-stopped{overflow:hidden}body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}img{display:block;max-width:100%;height:auto}a{color:inherit}h1,h2,h3,p,ul,figure{margin:0}ul{padding:0;list-style:none}:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:4px}.skip{position:absolute;left:12px;top:-60px;background:var(--amber);color:var(--amber-ink);padding:10px 16px;border-radius:999px;font-weight:600;z-index:100;text-decoration:none}.skip:focus{top:12px}.wrap{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.025em;line-height:1.02;text-wrap:balance}h2{font-size:clamp(2.1rem,5.6vw,4.4rem);font-weight:800;letter-spacing:-.035em}h3{font-size:clamp(1.3rem,2.2vw,1.7rem);line-height:1.12}.lead{font-size:clamp(1.1rem,1.6vw,1.3rem);color:var(--muted);max-width:56ch;text-wrap:pretty}p{text-wrap:pretty}.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;min-height:52px;padding:.85em 1.6em;border-radius:999px;background:var(--amber);color:var(--amber-ink);font-weight:600;font-size:1.0625rem;text-decoration:none;border:2px solid var(--amber);transition:transform .25s var(--ease),background .25s,box-shadow .25s}.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -8px rgba(242,169,59,.55);background:#ffbb55}.btn--ghost{background:transparent;color:var(--text);border-color:var(--line)}.btn--ghost:hover{background:rgba(255,255,255,.06);box-shadow:none;border-color:var(--text)}.btn--sm{white-space:nowrap;min-height:44px;padding:.55em 1.2em;font-size:.98rem}.site-header{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}.site-header.is-solid{background:rgba(7,11,18,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}.site-header .wrap{display:flex;align-items:center;justify-content:space-between;min-height:72px;gap:16px}.brand{white-space:nowrap;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:-.02em;text-decoration:none}.brand svg{width:28px;height:28px;flex:none}.nav{display:none}.nav a{padding:10px 14px;text-decoration:none;color:var(--muted);font-weight:500;border-radius:999px;transition:color .2s}.nav a:hover{color:var(--text)}@media(min-width:900px){.nav{display:flex;gap:4px;margin-left:auto;margin-right:16px}}.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}.hero__media{position:absolute;inset:-14% 0;z-index:-2}.hero__media img{width:100%;height:100%;object-fit:cover;object-position:62% 60%}.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(7,11,18,.55) 0%,rgba(7,11,18,.05) 32%,rgba(7,11,18,.55) 70%,var(--ink) 100%)}.hero__body{padding-block:120px clamp(36px,6vw,72px);width:100%}.hero h1{font-size:clamp(2.5rem,9.2vw,8rem);font-weight:800;line-height:.92;letter-spacing:-.045em;text-shadow:0 2px 40px rgba(7,11,18,.45)}.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.08em;white-space:nowrap}.hero h1 .ln>span{display:block}.hero__sub{margin-top:clamp(20px,3vw,32px);font-size:clamp(1.1rem,1.7vw,1.35rem);max-width:46ch;color:#dbe1ea}.hero__cta{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}.hero__note{margin-top:16px;color:var(--muted);font-size:.95rem}@media(prefers-reduced-motion:no-preference){.hero h1 .ln>span{transform:translateY(105%);animation:rise .6s var(--ease) forwards}.hero h1 .ln:nth-child(2)>span{animation-delay:.05s}.hero h1 .ln:nth-child(3)>span{animation-delay:.1s}.hero__cta,.hero__note{opacity:0;animation:fade .7s var(--ease) .25s forwards}.hero__cta{animation-delay:.32s}.hero__note{animation-delay:.4s}.hero__media img{animation:settle 2.4s var(--ease) both}@keyframes rise{to{transform:none}}@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}@keyframes settle{from{transform:scale(1.07)}to{transform:scale(1)}}}</style>
+<link rel="preload" href="/css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="/css/styles.css"></noscript>
 <script>document.documentElement.classList.add("js")</script>
 
 <script type="application/ld+json">
@@ -41,8 +43,10 @@
   "knowsLanguage": ["en", "es"],
   "address": {
     "@type": "PostalAddress",
+    "streetAddress": "4305 Clover Ave",
     "addressLocality": "Odessa",
     "addressRegion": "TX",
+    "postalCode": "79762",
     "addressCountry": "US"
   },
   "areaServed": [
@@ -123,60 +127,84 @@
         </div>
         <div class="sector-panels">
           <div role="tabpanel" id="panel-plumbers" class="sector-panel" aria-labelledby="tab-plumbers" tabindex="0">
+            <div class="sector-bg" aria-hidden="true"><picture><source type="image/webp" srcset="/img/sector-plumbers-640.webp 640w, /img/sector-plumbers-1280.webp 1280w" sizes="(min-width:900px) 66vw, 100vw"><img src="/img/sector-plumbers-640.webp" width="640" height="427" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="sector-body">
             <h3>Plumbers</h3>
             <p class="sector-why">People call a plumber when something is already leaking. They pick from whoever shows up first with the right address and a phone number that works.</p>
             <h4>What usually goes wrong, from reviews of real Permian Basin sites</h4>
             <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The site gives Google no structured address, phone or hours, so it may show old information.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The title and description name only Midland, so someone in Odessa searching for a plumber sees a different city.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Links shared on Facebook or in a text show no picture.</span></li></ul>
             <p class="sector-plan"><strong>Plan that fits: Local SEO Audit.</strong> The audit lines up your listing, your site and the cities you actually serve.</p>
+            </div>
           </div>
           <div role="tabpanel" id="panel-hvac" class="sector-panel" aria-labelledby="tab-hvac" tabindex="0" hidden>
+            <div class="sector-bg" aria-hidden="true"><picture><source type="image/webp" srcset="/img/sector-hvac-640.webp 640w, /img/sector-hvac-1280.webp 1280w" sizes="(min-width:900px) 66vw, 100vw"><img src="/img/sector-hvac-640.webp" width="640" height="427" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="sector-body">
             <h3>HVAC</h3>
             <p class="sector-why">AC breaks in July and people search from their phone, in a hurry. If your listing and site are clear, you get the call.</p>
             <h4>What usually goes wrong, from reviews of real Permian Basin sites</h4>
             <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The home page has no description, so Google writes the search snippet for you.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Two main headlines on the home page, and titles long enough to be cut off in results.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The home and About pages share one description, and shared links show a blank preview.</span></li></ul>
             <p class="sector-plan"><strong>Plan that fits: Local SEO Audit.</strong> A plain list of what to fix first, starting with the quick wins.</p>
+            </div>
           </div>
           <div role="tabpanel" id="panel-roofers" class="sector-panel" aria-labelledby="tab-roofers" tabindex="0" hidden>
+            <div class="sector-bg" aria-hidden="true"><picture><source type="image/webp" srcset="/img/sector-roofers-640.webp 640w, /img/sector-roofers-1280.webp 1280w" sizes="(min-width:900px) 66vw, 100vw"><img src="/img/sector-roofers-640.webp" width="640" height="427" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="sector-body">
             <h3>Roofers</h3>
             <p class="sector-why">A roof is a big, infrequent purchase. Customers compare a few companies online and look for signs that a business is established and reachable.</p>
             <h4>What usually goes wrong, from reviews of real Permian Basin sites</h4>
             <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Two different phone numbers across the site, so a customer may call the wrong one.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The title and headline name only Odessa, though the company serves Odessa and Midland.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>A footer dated 2022 makes the site look like it is not looked after.</span></li></ul>
             <p class="sector-plan"><strong>Plan that fits: Website Refresh or Build.</strong> If the site itself is the problem, a clean static rebuild fixes the details above in one pass.</p>
+            </div>
           </div>
           <div role="tabpanel" id="panel-dentists" class="sector-panel" aria-labelledby="tab-dentists" tabindex="0" hidden>
+            <div class="sector-bg" aria-hidden="true"><picture><source type="image/webp" srcset="/img/sector-dentists-640.webp 640w, /img/sector-dentists-1280.webp 1280w" sizes="(min-width:900px) 66vw, 100vw"><img src="/img/sector-dentists-640.webp" width="640" height="427" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="sector-body">
             <h3>Dentists</h3>
             <p class="sector-why">New patients choose a practice from its Google listing: hours, services, photos and reviews, often before they ever open the website.</p>
             <h4>What we check first (no real review of a dental site in these examples yet)</h4>
             <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether the Google listing has the right category, hours and services.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether the website says clearly which services and which city it covers.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether reviews are answered and the practice looks active.</span></li></ul>
             <p class="sector-plan"><strong>Plan that fits: Business Visibility Review.</strong> Covers the website, the listing, reviews and reminders in one 90-day plan.</p>
+            </div>
           </div>
           <div role="tabpanel" id="panel-salons" class="sector-panel" aria-labelledby="tab-salons" tabindex="0" hidden>
+            <div class="sector-bg" aria-hidden="true"><picture><source type="image/webp" srcset="/img/sector-salons-640.webp 640w, /img/sector-salons-1280.webp 1280w" sizes="(min-width:900px) 66vw, 100vw"><img src="/img/sector-salons-640.webp" width="640" height="427" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="sector-body">
             <h3>Salons &amp; spas</h3>
             <p class="sector-why">Salons live on photos, reviews and booking. If the listing is thin, people book the place with the better-looking one.</p>
             <h4>What we check first (no real review of a salon site in these examples yet)</h4>
             <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether photos on the listing and the site are current and show your work.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether a customer can see services and book without hunting for it.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether reviews get a reply.</span></li></ul>
             <p class="sector-plan"><strong>Plan that fits: Growth Partner.</strong> Ongoing listing upkeep and review replies suit a business with steady bookings.</p>
+            </div>
           </div>
           <div role="tabpanel" id="panel-autoshops" class="sector-panel" aria-labelledby="tab-autoshops" tabindex="0" hidden>
+            <div class="sector-bg" aria-hidden="true"><picture><source type="image/webp" srcset="/img/sector-autoshops-640.webp 640w, /img/sector-autoshops-1280.webp 1280w" sizes="(min-width:900px) 66vw, 100vw"><img src="/img/sector-autoshops-640.webp" width="640" height="427" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="sector-body">
             <h3>Auto shops</h3>
             <p class="sector-why">When a car will not start, people search for the nearest open shop. Address, hours and phone must be right everywhere.</p>
             <h4>What we check first (no real review of an auto shop site in these examples yet)</h4>
             <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether address, phone and hours match on the site and the listing.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether the services you want more of are named on the site.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether the site shows well on a phone.</span></li></ul>
             <p class="sector-plan"><strong>Plan that fits: Local SEO Audit.</strong> A first look at the listing, the site and the shops that rank above you.</p>
+            </div>
           </div>
           <div role="tabpanel" id="panel-attorneys" class="sector-panel" aria-labelledby="tab-attorneys" tabindex="0" hidden>
+            <div class="sector-bg" aria-hidden="true"><picture><source type="image/webp" srcset="/img/sector-attorneys-640.webp 640w, /img/sector-attorneys-1280.webp 1280w" sizes="(min-width:900px) 66vw, 100vw"><img src="/img/sector-attorneys-640.webp" width="640" height="427" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="sector-body">
             <h3>Attorneys</h3>
             <p class="sector-why">People look for a lawyer for a specific problem and judge the firm by how clear and current its site and listing are. We look only at visibility and presentation, never at legal matters.</p>
             <h4>What we check first (no real review of a law firm site in these examples yet)</h4>
             <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether each practice area has its own clear page and title.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether the listing matches the site, with the right office address.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Whether reviews and contact details are easy to find.</span></li></ul>
             <p class="sector-plan"><strong>Plan that fits: Local SEO Audit.</strong> A clear, plain-English read of how the firm shows up online.</p>
+            </div>
           </div>
           <div role="tabpanel" id="panel-oilfield" class="sector-panel" aria-labelledby="tab-oilfield" tabindex="0" hidden>
+            <div class="sector-bg" aria-hidden="true"><picture><source type="image/webp" srcset="/img/sector-oilfield-640.webp 640w, /img/sector-oilfield-1280.webp 1280w" sizes="(min-width:900px) 66vw, 100vw"><img src="/img/sector-oilfield-640.webp" width="640" height="427" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="sector-body">
             <h3>Oilfield services</h3>
             <p class="sector-why">Buyers searching for a vacuum truck or field service in the Permian Basin need to see in seconds what you do and where.</p>
             <h4>What usually goes wrong, from reviews of real Permian Basin sites</h4>
             <ul class="sector-list"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The main headline does not say what the company does or where.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>No hours listed anywhere on the site.</span></li></ul>
             <p class="sector-plan"><strong>Plan that fits: Website Refresh or Build.</strong> A short, clear site built around the services and the area you cover.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -440,7 +468,7 @@
       </div>
       <div>
         <h2>Contact</h2>
-        <address>Odessa, TX<!-- DIRECCION_POSTAL: pendiente --><br><a href="mailto:hello@permianlocalseo.com">hello@permianlocalseo.com</a></address>
+        <address>4305 Clover Ave<br>Odessa, TX 79762<br><a href="mailto:hello@permianlocalseo.com">hello@permianlocalseo.com</a></address>
       </div>
       <div>
         <h2>More</h2>
@@ -461,6 +489,7 @@
         <li>Tap and sink: <a href="https://unsplash.com/photos/Vve7XkiUq_Y">Jacek Dylag</a></li>
         <li>Wrenches: <a href="https://unsplash.com/photos/OegFhZfw6Ok">Isabela Kronemberger</a></li>
         <li>Mechanic: <a href="https://unsplash.com/photos/K5624F8cipE">Tahamie Farooqui</a></li>
+        <li>Sector backgrounds: <a href="https://unsplash.com/photos/uSfiDo13ois">Roger Starnes Sr</a>, <a href="https://unsplash.com/photos/JsPkVrHMQoo">Everett Pachmann</a>, <a href="https://unsplash.com/photos/l3lQZ4m9GEE">Austin Walker</a>, <a href="https://unsplash.com/photos/e7MJLM5VGjY">Benyamin Bohlouli</a>, <a href="https://unsplash.com/photos/PtOfbGkU3uI">Guilherme Petri</a>, <a href="https://unsplash.com/photos/VurHDpO4VYI">Tim Mossholder</a>, <a href="https://unsplash.com/photos/zeH-ljawHtg">Giammarco Boscaro</a>, <a href="https://unsplash.com/photos/dcdIVHpFDus">Jason Mitrione</a></li>
         <li>Main street: <a href="https://unsplash.com/photos/MjH55Ef3w_0">Land O'Lakes, Inc.</a></li>
       </ul>
       <p style="margin-top:10px">Photos from <a href="https://unsplash.com">Unsplash</a>. Photographs are illustrative and do not show our clients.</p>
