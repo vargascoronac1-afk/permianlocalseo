@@ -107,6 +107,9 @@ p{text-wrap:pretty}
   @keyframes settle{from{transform:scale(1.07)}to{transform:scale(1)}}
 }
 
+@media(min-width:900px){.nav a{white-space:nowrap}}
+@media(min-width:900px) and (max-width:1120px){.nav{margin-right:8px}.nav a,.nav.is-open a{padding:10px 8px;font-size:.93rem}}
+
 /* sectores interactivos */
 .sector-ui{display:grid;gap:24px}
 .sector-tabs{display:flex;flex-wrap:nowrap;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;margin-inline:calc(var(--gutter)*-1);padding:4px var(--gutter);scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -297,3 +300,54 @@ p{text-wrap:pretty}
   .plans .plan .btn{width:100%;align-self:stretch}
 }
 
+
+/* paginas nuevas: informe de muestra y formulario */
+.page{padding-block:130px 80px}
+.page h1{font-size:clamp(2.2rem,6vw,4.6rem);font-weight:800;letter-spacing:-.04em;line-height:1;max-width:20ch}
+.page .lead{margin-top:20px}
+.eyebrow{color:var(--amber);font-weight:600;font-size:.95rem;letter-spacing:.02em;margin-bottom:14px}
+.notebox{margin-top:26px;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:6px;background:var(--ink-2);padding:16px 20px;color:var(--muted);max-width:68ch;font-size:.98rem}
+.rp{margin-top:48px;display:grid;gap:56px}
+.rp-cover{border:1px solid rgba(242,169,59,.55);background:linear-gradient(160deg,#1a2536,var(--ink-2));border-radius:6px;padding:clamp(24px,4vw,44px);display:grid;gap:12px}
+.rp-cover .eyebrow{margin:0}
+.rp-cover p{color:var(--muted);max-width:62ch}
+.rp-title{font-family:var(--display);font-weight:800;font-size:clamp(2rem,5vw,3.4rem);line-height:1;letter-spacing:-.04em;color:var(--text)!important}
+.rp-sub{font-size:1.15rem;color:var(--text)!important}
+.rp-meta{display:grid;gap:10px;margin:8px 0}
+.rp-meta div{display:grid;gap:2px}
+.rp-meta dt{color:var(--petrol);font-weight:600;font-size:.9rem}
+.rp-meta dd{margin:0;color:var(--text)}
+@media(min-width:760px){.rp-meta{grid-template-columns:repeat(3,1fr);gap:24px}}
+.rp section>h2{font-size:clamp(1.8rem,4vw,2.9rem);letter-spacing:-.03em;margin-bottom:8px;max-width:none}
+.rp h3{font-size:clamp(1.2rem,2.2vw,1.55rem);margin:28px 0 10px}
+.rp p,.rp li{color:var(--muted);max-width:68ch}
+.rp p+p{margin-top:12px}
+.rp ul,.rp ol{display:grid;gap:10px;margin-top:10px;padding-left:1.4em}
+.rp ul{list-style:disc}
+.rp ol{list-style:decimal}
+.rp strong{color:var(--text);font-weight:600}
+.rp a,.hint a,.page .lead a{color:var(--petrol)}
+.rp-find{background:var(--ink-2);border:1px solid var(--line);border-left:3px solid var(--petrol);border-radius:6px;padding:clamp(20px,3vw,32px);margin-top:18px}
+.rp-find h3{margin-top:0}
+.tbl{overflow-x:auto;margin-top:14px;border:1px solid var(--line);border-radius:6px}
+.tbl table{border-collapse:collapse;width:100%;min-width:560px;font-size:.98rem}
+.tbl th,.tbl td{text-align:left;vertical-align:top;padding:12px 16px;border-bottom:1px solid var(--line);color:var(--muted)}
+.tbl thead th{color:var(--text);background:var(--ink-2)}
+.tbl tbody th{color:var(--text);font-weight:600}
+.tbl tr:last-child>*{border-bottom:0}
+.cta{margin-top:72px;background:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:clamp(28px,5vw,56px);display:grid;gap:18px}
+.cta h2{font-size:clamp(1.9rem,4.5vw,3.2rem);max-width:18ch}
+.form{display:grid;gap:22px;max-width:620px;margin-top:36px}
+.field{display:grid;gap:8px}
+.form label{font-weight:600}
+.opt{color:var(--muted);font-weight:400}
+.form input[type=text],.form input[type=email],.form select,.form textarea{font:inherit;color:var(--text);background:var(--ink-2);border:1px solid rgba(190,205,225,.4);border-radius:6px;padding:.75em 1em;min-height:52px;width:100%}
+.form textarea{min-height:130px;resize:vertical}
+.form ::placeholder{color:#7f8b9b}
+.hint{color:var(--muted);font-size:.95rem}
+.form button.btn{font-family:inherit;cursor:pointer}
+.h2s{font-size:clamp(1.6rem,3.4vw,2.4rem);margin-top:44px;margin-bottom:14px}
+.next{display:grid;gap:12px;padding-left:1.4em;list-style:decimal;color:var(--muted);max-width:60ch}
+.page>.hint{margin-top:24px;max-width:60ch}
+.more{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px}
+.nav a[aria-current=page]{color:var(--text)}
