@@ -392,3 +392,6 @@ p{text-wrap:pretty}
 .reassure{margin-top:14px;color:var(--text-2);font-size:.98rem}
 .pending{color:var(--amber);font-weight:600}
 .rp>*{min-width:0}
+[hidden]{display:none!important}
+.about:has(>[hidden]){grid-template-columns:1fr}
+.about:has(>[hidden]) .about__txt{max-width:62ch}
