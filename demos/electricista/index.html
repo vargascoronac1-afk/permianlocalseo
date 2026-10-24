@@ -142,7 +142,8 @@ p{margin:0}
 @media (min-width:900px){
   .hero{grid-template-columns:55fr 45fr;min-height:100svh}
   .hero__txt{order:1;padding:calc(var(--hdr) + 40px) 36px calc(var(--cut) + 40px) clamp(24px,5vw,72px)}
-  .hero__yel{order:2;min-height:0;padding-top:0}
+  .hero__yel{order:2;min-height:0;padding-top:0;grid-column:2;grid-row:1}
+  .hero__txt{grid-column:1;grid-row:1}
   .hero__pro{width:min(112%,640px)}
   .tag24{top:calc(var(--hdr) + 40px);left:8%;font-size:clamp(3.6rem,6.4vw,6rem)}
 }
@@ -208,6 +209,50 @@ p{margin:0}
 .area .map iframe{display:block;width:100%;height:100%;min-height:352px;border:0}
 .area__cta{margin-top:26px}
 @media (min-width:900px){.area__grid{grid-template-columns:5fr 7fr;gap:56px;align-items:stretch}.area .map{min-height:460px}.area .map iframe{min-height:452px}}
+
+
+/* glass cards over hero */
+.hero__glass{order:1;display:grid;gap:10px;padding:16px 20px 0;background:var(--navy);list-style:none;margin:0}
+.glass{display:flex;align-items:center;gap:12px;padding:12px 16px;min-height:56px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:10px;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:700 1rem/1.25 var(--body);box-shadow:0 8px 24px rgba(10,19,48,.18)}
+.glass svg{width:26px;height:26px;flex:none;color:var(--yellow)}
+.glass em{font:800 .72rem/1 var(--head);font-style:normal;letter-spacing:.14em;text-transform:uppercase;border:1px solid currentColor;border-radius:3px;padding:3px 6px 2px;margin-left:6px;white-space:nowrap}
+@media (min-width:900px){
+  .hero__glass{order:0;grid-column:2;grid-row:1;align-self:start;justify-self:end;z-index:5;background:transparent;padding:calc(var(--hdr) + 150px) 20px 0 0;width:min(100%,280px);pointer-events:none}
+  .glass{color:var(--navy);box-shadow:0 8px 24px rgba(10,19,48,.12)}
+  .glass svg{color:var(--navy)}
+}
+
+/* panel hotspots */
+.panel .h2{max-width:14ch}
+.hs{position:relative;margin:34px 12px 12px 0;border:3px solid #fff;box-shadow:12px 12px 0 var(--yellow);background:var(--navy);max-width:960px}
+.hs>img{width:100%;height:auto;display:block}
+.hs__dot{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer;z-index:2}
+.hs__dot::before{content:"";position:absolute;left:50%;top:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:var(--yellow);border:3px solid var(--navy);box-shadow:0 0 0 2px #fff}
+.hs__dot::after{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid var(--yellow);animation:hspulse 1.8s ease-out infinite}
+.hs__dot[aria-expanded="true"]::before{background:#fff}
+.hs__dot[aria-expanded="true"]::after{animation:none;opacity:0}
+.hs__dot:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@keyframes hspulse{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.5);opacity:0}}
+.hs__card{position:absolute;left:12px;right:12px;z-index:3;max-width:360px;background:var(--yellow);color:var(--navy);border:3px solid var(--navy);padding:12px 16px 14px;box-shadow:6px 6px 0 rgba(10,19,48,.35)}
+.hs__card[hidden]{display:none}
+.hs__card.at-bottom{bottom:12px}
+.hs__card.at-top{top:12px}
+.hs__card strong{display:block;font:800 1.35rem/1.05 var(--head);text-transform:uppercase}
+.hs__card p{margin:4px 0 0;font-size:.95rem;line-height:1.35;color:var(--navy)}
+.hs__price{display:inline-block;margin-top:8px;background:var(--navy);color:var(--yellow);font:800 1rem/1 var(--head);letter-spacing:.06em;text-transform:uppercase;padding:7px 10px 6px}
+.hs__hint{margin-top:22px;color:var(--soft);max-width:36rem}
+@media (min-width:900px){.hs__card{left:auto;right:auto}.hs__card.at-right{right:16px}.hs__card.at-left{left:16px}}
+@media (prefers-reduced-motion:reduce){.hs__dot::after{animation:none;opacity:.55;transform:scale(1.15)}}
+
+/* technical grid in service area */
+.area{background-color:var(--yellow);background-image:linear-gradient(rgba(10,19,48,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(10,19,48,.08) 1px,transparent 1px);background-size:48px 48px;background-position:-1px -1px}
+.route li .ci-n{position:absolute;right:4px;top:50%;transform:translateY(-52%);font:800 clamp(3.4rem,2.4rem + 4vw,5.5rem)/.8 var(--head);color:transparent;-webkit-text-stroke:2px var(--navy);pointer-events:none;letter-spacing:.02em}
+.route li .ci-c{display:block;margin-top:2px;font:700 .78rem/1.2 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--navy)}
+.route li .ci-c::before{content:"+ ";font-weight:800}
+.route li:nth-child(-n+2){padding-right:96px}
+.area .map{position:relative}
+.area .map-lbl{position:absolute;left:10px;bottom:10px;z-index:2;background:var(--navy);color:var(--yellow);font:800 .75rem/1 var(--head);letter-spacing:.16em;text-transform:uppercase;padding:6px 9px 5px;pointer-events:none}
 
 /* process */
 .steps{list-style:none;margin:44px 0 0;padding:0;display:grid;gap:40px;position:relative}
@@ -362,6 +407,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
       </div>
     </div>
   </div>
+  <ul class="hero__glass rv" aria-label="Highlights" data-aria-en="Highlights" data-aria-es="Datos clave">
+    <li class="glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-en="Open 24/7 · emergencies" data-es="Abierto 24/7 · emergencias">Open 24/7 · emergencies</span></li>
+    <li class="glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg><span data-en="Written quote in 24 h" data-es="Presupuesto por escrito en 24 h">Written quote in 24 h</span><em data-en="demo" data-es="demo">demo</em></li>
+    <li class="glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><span data-en="TECL license (demo)" data-es="Licencia TECL (demo)">TECL license (demo)</span></li>
+  </ul>
 </div>
 
 <!-- 2. SERVICES: numbered technical index -->
@@ -428,6 +478,43 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
   </div>
 </section>
 
+<!-- 2b. PANEL HOTSPOTS -->
+<section class="sec cutB s-navy panel" id="panel">
+  <div class="wrap">
+    <p class="eyebrow rv" data-en="Panels &amp; breaker boxes" data-es="Paneles y cuadros eléctricos">Panels &amp; breaker boxes</p>
+    <h2 class="h2 rv" data-en="Inside your panel" data-es="Dentro de tu panel">Inside your panel</h2>
+    <p class="sub rv" data-en="Tap a point on the photo to see what we check and a ballpark price. Demo prices, not a real quote." data-es="Pulsa un punto de la foto para ver qué revisamos y un precio orientativo. Precios de demostración, no un presupuesto real.">Tap a point on the photo to see what we check and a ballpark price. Demo prices, not a real quote.</p>
+    <div class="hs rv" id="hs">
+      <img src="../../img/servicios/paneles-960.webp" srcset="../../img/servicios/paneles-480.webp 480w, ../../img/servicios/paneles-960.webp 960w" sizes="(min-width:1000px) 940px, 92vw" width="960" height="640" loading="lazy" decoding="async" alt="Breaker panel with neatly color-coded wires" data-alt-en="Breaker panel with neatly color-coded wires" data-alt-es="Panel de breakers con cables ordenados por colores">
+      <button class="hs__dot" type="button" style="left:75%;top:39%" aria-expanded="false" aria-controls="hs-c1" aria-label="Main breaker" data-aria-en="Main breaker" data-aria-es="Breaker principal"></button>
+      <button class="hs__dot" type="button" style="left:50%;top:67%" aria-expanded="false" aria-controls="hs-c2" aria-label="Wiring" data-aria-en="Wiring" data-aria-es="Cableado"></button>
+      <button class="hs__dot" type="button" style="left:30%;top:82%" aria-expanded="false" aria-controls="hs-c3" aria-label="Ground bar" data-aria-en="Ground bar" data-aria-es="Barra de tierra"></button>
+      <button class="hs__dot" type="button" style="left:26%;top:32%" aria-expanded="false" aria-controls="hs-c4" aria-label="Labeling" data-aria-en="Labeling" data-aria-es="Etiquetado"></button>
+      <div class="hs__card at-bottom at-left" id="hs-c1" role="group" aria-labelledby="hs-t1" hidden>
+        <strong id="hs-t1" data-en="Main breaker" data-es="Breaker principal">Main breaker</strong>
+        <p data-en="We test it, tighten the lugs and swap it if it runs hot or trips." data-es="Lo probamos, apretamos los bornes y lo cambiamos si se calienta o salta.">We test it, tighten the lugs and swap it if it runs hot or trips.</p>
+        <span class="hs__price" data-en="from $180 (demo)" data-es="desde $180 (demo)">from $180 (demo)</span>
+      </div>
+      <div class="hs__card at-top at-right" id="hs-c2" role="group" aria-labelledby="hs-t2" hidden>
+        <strong id="hs-t2" data-en="Wiring" data-es="Cableado">Wiring</strong>
+        <p data-en="Loose, scorched or undersized conductors repaired and neatly dressed." data-es="Conductores flojos, quemados o cortos de sección, reparados y bien ordenados.">Loose, scorched or undersized conductors repaired and neatly dressed.</p>
+        <span class="hs__price" data-en="from $220 (demo)" data-es="desde $220 (demo)">from $220 (demo)</span>
+      </div>
+      <div class="hs__card at-top at-left" id="hs-c3" role="group" aria-labelledby="hs-t3" hidden>
+        <strong id="hs-t3" data-en="Ground bar" data-es="Barra de tierra">Ground bar</strong>
+        <p data-en="Check the ground and neutral bars and bond them to code." data-es="Revisamos las barras de tierra y neutro y las conectamos según norma.">Check the ground and neutral bars and bond them to code.</p>
+        <span class="hs__price" data-en="from $150 (demo)" data-es="desde $150 (demo)">from $150 (demo)</span>
+      </div>
+      <div class="hs__card at-bottom at-right" id="hs-c4" role="group" aria-labelledby="hs-t4" hidden>
+        <strong id="hs-t4" data-en="Labeling" data-es="Etiquetado">Labeling</strong>
+        <p data-en="Every circuit labeled, so you know what to switch off." data-es="Cada circuito etiquetado, para saber qué apagar.">Every circuit labeled, so you know what to switch off.</p>
+        <span class="hs__price" data-en="from $95 (demo)" data-es="desde $95 (demo)">from $95 (demo)</span>
+      </div>
+    </div>
+    <p class="note hs__hint rv" data-en="Keyboard: Tab to a point, Enter to open, Esc to close." data-es="Teclado: Tab hasta un punto, Intro para abrir, Esc para cerrar.">Keyboard: Tab to a point, Enter to open, Esc to close.</p>
+  </div>
+</section>
+
 <!-- 3. SERVICE AREA -->
 <section class="sec cutB s-yellow area on-light" id="area">
   <div class="wrap">
@@ -436,8 +523,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
     <div class="area__grid">
       <div class="rv">
         <ul class="route">
-          <li>Odessa<small data-en="Home base" data-es="Base central">Home base</small></li>
-          <li>Midland</li>
+          <li><b class="ci-n" aria-hidden="true">01</b>Odessa<small data-en="Home base" data-es="Base central">Home base</small><span class="ci-c" data-en="≈ N 31.85 · W 102.37" data-es="≈ N 31.85 · O 102.37">≈ N 31.85 · W 102.37</span></li>
+          <li><b class="ci-n" aria-hidden="true">02</b>Midland<span class="ci-c" data-en="≈ N 32.00 · W 102.08" data-es="≈ N 32.00 · O 102.08">≈ N 32.00 · W 102.08</span></li>
           <li>Gardendale</li>
           <li>Goldsmith</li>
           <li>Greenwood</li>
@@ -447,6 +534,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
         <div class="area__cta"><a class="btn btn--dark" href="tel:+14325550162"><span data-en="Call (432) 555-0162" data-es="Llamar (432) 555-0162">Call (432) 555-0162</span></a></div>
       </div>
       <div class="map rv">
+        <span class="map-lbl" aria-hidden="true">31.85 N · 102.37 W</span>
         <iframe title="Map of Odessa, TX" data-title-en="Map of Odessa, TX" data-title-es="Mapa de Odessa, TX" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
           src="https://www.google.com/maps?q=Odessa,+TX&amp;output=embed"></iframe>
       </div>
@@ -595,6 +683,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
     document.querySelectorAll('[data-en]').forEach(function(el){var v=el.getAttribute('data-'+l); if(v!==null) el.textContent=v;});
     document.querySelectorAll('[data-en-ph]').forEach(function(el){el.placeholder=el.getAttribute('data-'+l+'-ph');});
     document.querySelectorAll('[data-alt-en]').forEach(function(el){el.setAttribute('alt',el.getAttribute('data-alt-'+l));});
+    document.querySelectorAll('[data-aria-en]').forEach(function(el){el.setAttribute('aria-label',el.getAttribute('data-aria-'+l));});
     document.querySelectorAll('[data-title-en]').forEach(function(el){el.setAttribute('title',el.getAttribute('data-title-'+l));});
     document.title=T.title[l];
     var m=document.querySelector('meta[name=description]'); if(m) m.setAttribute('content',T.desc[l]);
@@ -606,6 +695,26 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
     e.preventDefault(); var b=document.getElementById('send'); b.disabled=true; b.textContent=T.demo[lang];
   });
   apply(lang);
+})();
+
+/* panel hotspots: one card open at a time, Esc closes, click outside closes */
+(function(){
+  var box=document.getElementById('hs'); if(!box) return;
+  var dots=[].slice.call(box.querySelectorAll('.hs__dot'));
+  function closeAll(except){dots.forEach(function(d){if(d===except) return; d.setAttribute('aria-expanded','false'); var c=document.getElementById(d.getAttribute('aria-controls')); if(c) c.hidden=true;});}
+  dots.forEach(function(d){
+    d.addEventListener('click',function(e){
+      e.stopPropagation();
+      var open=d.getAttribute('aria-expanded')==='true', c=document.getElementById(d.getAttribute('aria-controls'));
+      closeAll(d); d.setAttribute('aria-expanded',open?'false':'true'); c.hidden=open;
+    });
+  });
+  addEventListener('keydown',function(e){
+    if(e.key!=='Escape') return;
+    var o=dots.filter(function(d){return d.getAttribute('aria-expanded')==='true';})[0];
+    if(o){closeAll(); o.setAttribute('aria-expanded','false'); document.getElementById(o.getAttribute('aria-controls')).hidden=true; o.focus();}
+  });
+  document.addEventListener('click',function(e){if(!e.target.closest('.hs__card')) closeAll();});
 })();
 
 /* lateral scroll progress + dock height (work without GSAP) */
