@@ -90,18 +90,13 @@ p{margin:0}
 .hero__title h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.04em}
 .hero__title h1 .w>span{display:inline-block;will-change:transform}
 .hero__title h1 .sp{display:inline-block;width:.22em}
-.hero__photo{position:relative;z-index:2;width:min(860px,104vw,75vh);pointer-events:none;will-change:transform}
+.hero__photo{position:relative;z-index:2;width:min(780px,104vw,78vh);margin-bottom:-4%;pointer-events:none;will-change:transform}
 .hero__photo::after{content:"";position:absolute;left:8%;right:8%;bottom:-3%;height:8%;background:radial-gradient(closest-side,rgba(0,0,0,.7),transparent);z-index:-1}
-.hero__photo img{width:100%;height:auto;filter:drop-shadow(0 24px 30px rgba(0,0,0,.5))}
-/* truck scroll effects (accumulated scroll: zoom + glass glint + tilt). Off unless JS enables .fx */
-.truck{position:relative;transform-origin:50% 60%}
-.fx .truck{will-change:transform}
-.truck__shine{display:none;position:absolute;inset:0;overflow:hidden;pointer-events:none;
-  -webkit-mask-image:url(../../img/recortes/camioneta-1132.webp);mask-image:url(../../img/recortes/camioneta-1132.webp);
-  -webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
-.fx-shine .truck__shine{display:block}
-.truck__shine i{position:absolute;top:-10%;bottom:-10%;left:0;width:26%;will-change:transform;transform:translate3d(-200%,0,0) skewX(-22deg);
-  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.5) 45%,rgba(255,255,255,.75) 50%,rgba(255,255,255,.5) 55%,rgba(255,255,255,0))}
+/* truck: video frame sequence on canvas, driven by accumulated scroll; engine "idles" at the last frame */
+.truck{position:relative;transform-origin:50% 50%}
+.truck canvas{position:relative;display:block;width:100%;height:auto;transform-origin:50% 50%;will-change:transform}
+.truck__glow{position:absolute;left:50%;top:48%;width:70%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(closest-side,rgba(224,54,26,.55),rgba(224,54,26,.18) 55%,transparent 75%)}
 .hero__ui{position:relative;z-index:3;padding:18px 20px 0;max-width:1180px;width:100%;margin:0 auto;text-align:center}
 .hero__ui .lead{font-size:clamp(1.05rem,.95rem + .6vw,1.4rem);max-width:36rem;margin:0 auto 20px;color:#f6f1ea;text-shadow:0 2px 14px rgba(0,0,0,.8)}
 .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
@@ -278,10 +273,9 @@ footer a{color:#fff}
   <!-- aqui va la foto recortada de la camioneta/mecanico del cliente (PNG/WebP sin fondo, ancho ~1600 px) -->
   <div class="hero__photo" id="heroPhoto">
    <div class="truck" id="truck">
-    <img src="../../img/recortes/camioneta-1132.webp" srcset="../../img/recortes/camioneta-640.webp 640w, ../../img/recortes/camioneta-1132.webp 1132w" sizes="(min-width:900px) 1000px, 112vw"
-         width="1132" height="443" fetchpriority="high"
-         alt="Yellow pickup truck in side view" data-alt-en="Yellow pickup truck in side view" data-alt-es="Camioneta pickup amarilla de perfil">
-    <div class="truck__shine" aria-hidden="true"><i id="shine"></i></div>
+    <div class="truck__glow" id="truckGlow" aria-hidden="true"></div>
+    <canvas id="truckCv" width="1100" height="619" role="img"
+         aria-label="Yellow pickup truck, camera circling it and the hood opening on the engine" data-alt-en="Yellow pickup truck, camera circling it and the hood opening on the engine" data-alt-es="Camioneta pickup amarilla: la cámara la rodea y se abre el capó hasta ver el motor"></canvas>
    </div>
   </div>
   </div>
@@ -502,7 +496,7 @@ footer a{color:#fff}
   function apply(l){
     lang=l; document.documentElement.lang=l;
     document.querySelectorAll('[data-en]').forEach(function(el){var v=el.getAttribute('data-'+l); if(v!==null) el.textContent=v;});
-    document.querySelectorAll('[data-alt-en]').forEach(function(el){el.setAttribute('alt',el.getAttribute('data-alt-'+l));});
+    document.querySelectorAll('[data-alt-en]').forEach(function(el){el.setAttribute(el.tagName==='CANVAS'?'aria-label':'alt',el.getAttribute('data-alt-'+l));});
     document.querySelectorAll('[data-title-en]').forEach(function(el){el.setAttribute('title',el.getAttribute('data-title-'+l));});
     document.title=T.title[l];
     var m=document.querySelector('meta[name=description]'); if(m) m.setAttribute('content',T.desc[l]);
@@ -574,48 +568,72 @@ footer a{color:#fff}
     document.addEventListener('mouseleave',function(){cur.classList.remove('on');});
   }
 
-  /* truck: effects driven by ACCUMULATED scroll distance (never rewinds on scroll up).
-     zoom 1 -> 1.12, glass glint masked to the truck silhouette (cyclic), subtle rotateY oscillation.
-     Frame time is probed; the glint is switched off if the average frame takes > 32 ms. */
+  /* truck: 60-frame video sequence (clean frames 0005-0064 of the 88 extracted) (orbit + hood opening) painted on a canvas by ACCUMULATED scroll
+     (acc += min(|dy|,400), lerped; never rewinds). Frame 0 -> last over 1.4 viewport heights (hero pinned 2.2), then the
+     engine "idles": tiny fast shake (+-1.5px, +-0.15deg, ~12 Hz) and a pulsing red glow.
+     Reduced motion: last frame, static. <700px: 600px series. Frame time is probed while shaking. */
   (function(){
-    var truck=document.getElementById('truck'),shine=document.getElementById('shine'),hero=document.querySelector('.hero');
-    if(reduce||!truck||!shine||!hero) return;
-    root.classList.add('fx');
-    var acc=0,cur=0,lastY=window.scrollY||0,W=truck.offsetWidth||800,vis=true,running=false,shineOn=false,last=0,win=[];
-    var API=window.__truckFx={acc:0,cur:0,shine:false,avg:0,probed:false};
-    addEventListener('resize',function(){W=truck.offsetWidth||W;});
+    var cv=document.getElementById('truckCv'),truck=document.getElementById('truck'),glow=document.getElementById('truckGlow'),hero=document.querySelector('.hero');
+    if(!cv||!truck||!hero||!cv.getContext) return;
+    var ctx=cv.getContext('2d'),N=60,FIRST=5,dir=matchMedia('(max-width:699px)').matches?'video/motor600/':'video/motor/';
+    var imgs=new Array(N),ok=new Array(N),acc=0,cur=0,lastY=window.scrollY||0,vis=true,running=false,shaking=false,t0=0,shown=-1,last=0,win=[];
+    var API=window.__truckFx={acc:0,cur:0,frame:0,frames:N,loaded:0,shake:false,avg:0,off:false};
+    function seqLen(){return 1.4*Math.max(innerHeight,500);} /* acc distance first->last frame; hero is pinned for 2.2 screens, so ~36% of the pin is the engine idling */
+    function name(i){return dir+('000'+(i+FIRST)).slice(-4)+'.webp';}
+    function load(i,cb){
+      if(imgs[i]) return;
+      var im=new Image();im.decoding='async';
+      im.onload=function(){ok[i]=true;API.loaded++;if(cb)cb();draw(true);};
+      im.onerror=function(){};
+      im.src=name(i);imgs[i]=im;
+    }
+    function frameFor(){var f=Math.min(cur/seqLen(),1);return Math.round(f*(N-1));}
+    function draw(force){
+      var f=reduce?N-1:frameFor();
+      while(f>=0&&!ok[f]) f--;                    /* nearest earlier frame already loaded */
+      if(f<0||(f===shown&&!force)) return;
+      var im=imgs[f];
+      if(cv.width!==im.naturalWidth){cv.width=im.naturalWidth;cv.height=im.naturalHeight;}
+      ctx.clearRect(0,0,cv.width,cv.height);ctx.drawImage(im,0,0);
+      shown=f;API.frame=f;
+    }
+    /* progressive preload: first 12 right away (frame 0 first), then the rest */
+    if(reduce){load(N-1);}
+    else{
+      var first=0;
+      for(var i=0;i<12;i++) load(i,function(){if(++first===12) setTimeout(rest,0);});
+      function rest(){var k=12;(function step(){var n=0;while(k<N&&n<4){load(k++);n++;}if(k<N) setTimeout(step,40);})();}
+      setTimeout(function(){if(first<12) rest();},3000); /* do not stall on a missing early frame */
+    }
+    if(reduce) return;
     if(window.IntersectionObserver) new IntersectionObserver(function(en){vis=en[0].isIntersecting;if(vis)kick();}).observe(hero);
     addEventListener('scroll',function(){
       var y=window.scrollY||0,d=Math.abs(y-lastY);lastY=y;
       if(d>0){acc+=Math.min(d,400);API.acc=acc;kick();}
     },{passive:true});
-    function render(){
-      var z=Math.min(cur/900,1);z=1-(1-z)*(1-z);
-      truck.style.transform='perspective(900px) rotateY('+(6*Math.sin(cur/260)).toFixed(2)+'deg) scale('+(1+.12*z).toFixed(4)+')';
-      if(shineOn){var ph=(cur/700)%1;shine.style.transform='translate3d('+((ph*1.8-.4)*W).toFixed(1)+'px,0,0) skewX(-22deg)';}
-      API.cur=cur;
-    }
     function avgOf(a){var s=0;for(var i=0;i<a.length;i++)s+=a[i];return a.length?s/a.length:0;}
-    function setShine(on){shineOn=on;API.shine=on;root.classList.toggle('fx-shine',on);}
-    API.force=function(on){API.locked=true;setShine(on);render();}; /* test hook */
+    function endAcc(){return seqLen();}
+    function atEnd(){return cur>=endAcc()-.5&&shown===N-1;}
+    function shake(t){
+      var a=Math.min(1,(t-t0)/700),s=t/1000;
+      var dx=1.5*Math.sin(s*Math.PI*2*12)*a,dy=.7*Math.sin(s*Math.PI*2*12.7+1.3)*a;
+      var rot=.15*Math.sin(s*Math.PI*2*11.3+.6)*a;
+      cv.style.transform='translate('+dx.toFixed(2)+'px,'+dy.toFixed(2)+'px) rotate('+rot.toFixed(3)+'deg)';
+      glow.style.opacity=(a*(.45+.35*Math.sin(s*Math.PI*2*.8))).toFixed(3);
+    }
+    function stopShake(){shaking=false;API.shake=false;cv.style.transform='';glow.style.opacity=0;}
     function tick(t){
-      if(last){var dt=t-last;if(dt<250){win.push(dt);if(win.length>30)win.shift();if(win.length>=20){API.avg=avgOf(win);if(shineOn&&!API.locked&&API.avg>32)setShine(false);}}}
+      if(last){var dt=t-last;if(dt<250&&shaking){win.push(dt);if(win.length>40)win.shift();if(win.length>=30){API.avg=avgOf(win);if(API.avg>32&&!API.locked){stopShake();API.off=true;}}}}
+      var k=last?1-Math.exp(-Math.min(t-last,100)/150):.08; /* frame-rate independent lerp */
       last=t;
-      cur+=(acc-cur)*.08;if(Math.abs(acc-cur)<.3)cur=acc;
-      render();
-      if(Math.abs(acc-cur)>.3&&vis) requestAnimationFrame(tick); else {running=false;last=0;}
+      cur+=(acc-cur)*k;if(Math.abs(acc-cur)<.3)cur=acc;
+      API.cur=cur;draw(false);
+      if(atEnd()&&!API.off){if(!shaking){shaking=true;API.shake=true;t0=t;win=[];}shake(t);}
+      else if(shaking) stopShake();
+      if(vis&&((Math.abs(acc-cur)>.3)||(shaking&&!API.off)||(atEnd()&&!API.off))) requestAnimationFrame(tick); else {running=false;last=0;}
     }
     function kick(){if(!running&&vis){running=true;requestAnimationFrame(tick);}}
-    /* initial probe: 40 frames after load */
-    function probe(){
-      var n=0,pl=0,ds=[];
-      (function f(t){if(pl){var dt=t-pl;if(dt<250)ds.push(dt);}pl=t;
-        if(++n<42) requestAnimationFrame(f);
-        else{var a=avgOf(ds);API.avg=a;API.probed=true;if(ds.length>=20&&a<=32){setShine(true);render();}}
-      })(performance.now());
-    }
-    if(document.readyState==='complete') setTimeout(probe,300); else addEventListener('load',function(){setTimeout(probe,300);});
-    render();
+    draw(false);
   })();
 
   if(reduce||!window.gsap||!window.ScrollTrigger){ /* static look, still correct per-section background */
@@ -642,7 +660,10 @@ footer a{color:#fff}
   gsap.from('.hero__halo',{opacity:0,duration:1.6,ease:'power2.out'});
 
   /* hero parallax: photo slower than text */
-  var st={trigger:'.hero',start:'top top',end:'bottom top',scrub:true};
+  var pinLen=function(){return '+='+Math.round(2.2*Math.max(innerHeight,500));};
+  var st={trigger:'.hero',start:'top top',end:pinLen,scrub:true,invalidateOnRefresh:true};
+  /* hero stays fixed while the truck sequence plays and the engine idles; pinSpacing keeps the page flow intact */
+  ScrollTrigger.create({trigger:'.hero',start:'top top',end:pinLen,pin:true,pinSpacing:true,anticipatePin:1,invalidateOnRefresh:true});
   gsap.to('#heroTitle',{yPercent:-28,ease:'none',scrollTrigger:st});
   gsap.to('#heroPhoto',{y:60,ease:'none',scrollTrigger:st});
   gsap.to('.hero__halo',{y:30,ease:'none',scrollTrigger:st});
