@@ -173,7 +173,7 @@
  "v8_wq3": "Cambio entre inglés y español",
  "v8_e_extras": "( 02 ) Extras",
  "v8_x_h": "Tu camioneta, tu plato, tu producto. En 3D.",
- "v8_x_p": "Hecho con 4 fotos del vehículo real. Extra: <strong>$350</strong>.",
+ "v8_x_p": "Hecho con 4 fotos del vehículo real. Extra: <strong>$250</strong>.",
  "v8_x_credit": "Modelo 3D: Chevrolet Silverado de Ddiaz Design (Sketchfab, CC BY), recoloreado.",
  "v8_x_alt": "Una camioneta, de las que convertimos en modelo 3D",
  "v8_a_3d": "Camioneta en 3D que gira al hacer scroll",
