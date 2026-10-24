@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Hero proposal | Permian Local SEO</title>
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#070b12">
+<link rel="preload" href="../../fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../fonts/instrument.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/styles.css">
+<style>
+/* PROPUESTA de hero. Solo CSS adicional; no toca styles.css ni index.html.
+   Prefijo .hp para no chocar con .hero de la web publicada. */
+.hp{position:relative;isolation:isolate;overflow:hidden;min-height:100svh;display:flex;align-items:center;padding-block:104px 56px}
+.hp__grid{display:grid;grid-template-columns:minmax(0,1fr);gap:44px;align-items:center;width:100%}
+@media(min-width:900px){.hp__grid{grid-template-columns:minmax(0,11fr) minmax(0,9fr);gap:clamp(24px,4vw,64px)}}
+
+.hp__eyebrow{display:inline-flex;align-items:center;gap:.6em;font-size:.95rem;font-weight:500;color:var(--text-2);margin-bottom:18px}
+.hp__eyebrow::before{content:"";width:28px;height:2px;background:var(--amber);border-radius:2px}
+.hp h1{font-size:clamp(2.15rem,6.4vw,4.6rem);font-weight:800;line-height:.98;letter-spacing:-.04em}
+.hp h1 .ln{display:inline}
+@media(min-width:640px){.hp h1 .ln{display:block;white-space:nowrap}}
+@media(min-width:900px){.hp h1{font-size:clamp(2.4rem,4vw,4.4rem)}.hp h1 .ln{white-space:normal}}
+.hp h1 em{font-style:normal;color:var(--amber)}
+.hp__sub{margin-top:clamp(18px,2.4vw,26px);font-size:clamp(1.08rem,1.6vw,1.28rem);color:#dbe1ea;max-width:46ch}
+.hp__cta{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.hp__cta .btn{min-height:56px}
+.hp__cta .btn--ghost{border-color:rgba(232,235,240,.4)}
+@media(max-width:479px){.hp__cta .btn{width:100%}}
+.hp__trust{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px 22px;color:var(--text-2);font-size:.96rem}
+.hp__trust li{display:inline-flex;align-items:center;gap:.5em}
+.hp__trust svg{width:18px;height:18px;flex:none;color:var(--amber)}
+
+.hp__visual{position:relative;display:grid;place-items:center;min-height:380px;padding:12px 0 70px}
+.hp__halo{position:absolute;z-index:-1;width:min(125%,640px);aspect-ratio:1;left:50%;top:50%;translate:-50% -50%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(242,169,59,.42),rgba(242,169,59,.16) 48%,rgba(242,169,59,0) 72%);filter:blur(6px)}
+.hp__pump{display:none}
+.hp__pump svg{display:block;width:100%;height:auto}
+@media(max-width:899px){.hp__pump{width:80%;right:-10%;bottom:4%}}
+
+.sheet{position:relative;width:min(100%,410px);background:#f6f3ec;color:#1c2230;border-radius:10px;padding:22px 22px 18px;
+  transform:rotate(-2.2deg);box-shadow:0 2px 0 rgba(255,255,255,.5) inset,0 30px 60px -18px rgba(0,0,0,.75),0 10px 24px -10px rgba(0,0,0,.5);font-family:var(--sans);line-height:1.4}
+.sheet__top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:12px;border-bottom:2px solid #1c2230}
+.sheet__title{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.03em;line-height:1.05}
+.sheet__meta{font-size:.78rem;color:#4a5263;margin-top:3px}
+.sheet__score{flex:none;font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;background:#1c2230;color:#f6f3ec;border-radius:999px;padding:5px 10px;white-space:nowrap}
+.sheet__list{margin-top:6px}
+.sheet__list li{display:grid;grid-template-columns:26px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid rgba(28,34,48,.14);align-items:start}
+.sheet__list li:last-child{border-bottom:0}
+.sheet__ico{width:24px;height:24px}
+.sheet__ico--ok{color:#1d7347}
+.sheet__ico--warn{color:#b3440c}
+.sheet__h{font-weight:600;font-size:.93rem;line-height:1.3}
+.sheet__p{font-size:.8rem;color:#4a5263;margin-top:2px}
+.sheet__p b{font-weight:600;color:#1c2230}
+.sheet__foot{margin-top:6px;padding:10px 12px;background:rgba(242,169,59,.28);border-radius:6px;font-size:.8rem;font-weight:600;color:#3a2603}
+
+.proof{position:absolute;z-index:2;left:-6px;bottom:-62px;max-width:230px;background:var(--ink-3);color:var(--text);border:1px solid var(--line);border-radius:14px;padding:12px 14px;
+  box-shadow:0 18px 40px -14px rgba(0,0,0,.8);display:flex;gap:10px;align-items:flex-start;transform:rotate(1.4deg)}
+.proof svg{width:22px;height:22px;flex:none;color:var(--amber);margin-top:1px}
+.proof strong{display:block;font-size:.9rem;line-height:1.25;color:var(--text)}
+.proof span{display:block;font-size:.8rem;color:var(--text-2);margin-top:2px}
+@media(min-width:900px){.proof{left:-34px}}
+@media(max-width:380px){.sheet{padding:18px 16px 14px}.proof{left:0;max-width:200px}}
+
+@media(prefers-reduced-motion:no-preference){
+  .hp .hp__fade{opacity:0;animation:hpfade .7s var(--ease) forwards;animation-delay:var(--d,.3s)}
+  @keyframes hpfade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .split .hp h1 .w{opacity:0;transform:translateY(20px);animation:wordin .5s var(--ease) forwards;animation-delay:calc(var(--i)*35ms)}
+  @keyframes wordin{to{opacity:1;transform:none}}
+  .sheet{animation:sheetin 1.1s var(--ease) .35s both}
+  @keyframes sheetin{from{opacity:0;transform:translate(46px,38px) rotate(7deg)}60%{opacity:1}to{opacity:1;transform:rotate(-2.2deg)}}
+  .proof{animation:proofin .7s var(--ease) 1.25s both}
+  @keyframes proofin{from{opacity:0;transform:translateY(16px) rotate(1.4deg)}to{opacity:1;transform:rotate(1.4deg)}}
+  .hp__halo{animation:breathe 14s ease-in-out infinite}
+  @keyframes breathe{0%,100%{opacity:.8;scale:1}50%{opacity:1;scale:1.07}}
+}
+
+.why{background:var(--ink-2);border-top:1px solid var(--line);padding-block:clamp(56px,8vw,110px)}
+.why h2{font-size:clamp(1.9rem,4.6vw,3.2rem)}
+.why__lead{margin-top:14px;color:var(--muted);max-width:60ch}
+.why ol{margin:32px 0 0;padding:0;list-style:none;display:grid;gap:14px;counter-reset:w;max-width:880px}
+.why li{counter-increment:w;position:relative;padding:18px 20px 18px 64px;background:var(--ink);border:1px solid var(--line);border-radius:14px}
+.why li::before{content:counter(w);position:absolute;left:18px;top:16px;width:30px;height:30px;border-radius:50%;background:var(--amber);color:var(--amber-ink);font-weight:700;display:grid;place-items:center;font-size:.95rem}
+.why li strong{color:var(--text)}
+.why li span{display:block;margin-top:4px;color:var(--text-2);font-size:.95rem}
+.why code{font-size:.85em;color:var(--petrol)}
+.why__alt{margin-top:28px;color:var(--text-2);font-size:.95rem;max-width:60ch}
+</style>
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Permian Local SEO, home">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 40a20 20 0 0 1 40 0z" fill="#f2a93b"/><path d="M6 46h52" stroke="#58bfc4" stroke-width="4" stroke-linecap="round"/><path d="M20 54h24" stroke="#58bfc4" stroke-width="4" stroke-linecap="round" opacity=".5"/></svg>
+      Permian Local SEO
+    </a>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <a href="/#what">What we do</a>
+      <a href="/#how">How it works</a>
+      <a href="/sample-report/">Sample audit</a>
+      <a href="/#pricing">Pricing</a>
+    </nav>
+    <a class="btn btn--sm" href="/free-review/">Free review</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav"><span class="sr-only">Menu</span><svg class="m-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="m-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hp" aria-labelledby="hp-title">
+    <div class="hp__pump" aria-hidden="true">
+      <svg viewBox="0 0 400 300" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M40 276h250"/><path d="M110 276 170 120l60 156"/><path d="M140 200h60"/>
+        <path d="M60 132 290 96"/><path d="M60 132c-14 4-24 18-22 40l26-6z" fill="currentColor"/>
+        <path d="M280 98c26-6 52 2 56 28l-34 6z" fill="currentColor"/>
+        <path d="M312 134v142"/><circle cx="170" cy="116" r="12" fill="currentColor"/>
+      </svg>
+    </div>
+
+    <div class="wrap hp__grid">
+      <div class="hp__copy">
+        <!-- Titulares alternativos:
+             B: "Customers can't find you on Google in Odessa or Midland?"
+             C: "Your phone should ring more in Odessa and Midland." (menos problema, mas resultado) -->
+        <p class="hp__eyebrow hp__fade" style="--d:.1s">Local SEO for Odessa &amp; Midland</p>
+        <h1 id="hp-title"><span class="ln">Not showing up on Google</span> <span class="ln">in <em>Odessa</em> or <em>Midland</em>?</span></h1>
+        <p class="hp__sub hp__fade" style="--d:.3s">I check your Google listing and website, then tell you in plain English what to fix first to get more calls.</p>
+        <div class="hp__cta hp__fade" style="--d:.38s">
+          <a class="btn" href="/free-review/">Get your free 1-page review</a>
+          <a class="btn btn--ghost" href="/sample-report/">See a real audit</a>
+        </div>
+        <ul class="hp__trust hp__fade" style="--d:.46s" aria-label="What to expect">
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 10.5 4 4 8-9"/></svg>Free, no obligation</li>
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 10.5 4 4 8-9"/></svg>I reply myself in 2-3 business days</li>
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 10.5 4 4 8-9"/></svg>No sales team</li>
+        </ul>
+      </div>
+
+      <div class="hp__visual">
+        <div class="hp__halo" aria-hidden="true"></div>
+        <figure class="sheet" role="img" aria-label="Mockup of the free 1-page review: one finding that is working and three that need fixing, with a note to start this week.">
+          <div class="sheet__top">
+            <div>
+              <div class="sheet__title">Free 1-page review</div>
+              <div class="sheet__meta">Google listing + website</div>
+            </div>
+            <div class="sheet__score">1 working, 3 to fix</div>
+          </div>
+          <ul class="sheet__list">
+            <li>
+              <svg class="sheet__ico sheet__ico--ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-7"/></svg>
+              <div><div class="sheet__h">Phone number matches everywhere</div><div class="sheet__p">Google, your website and a directory agree.</div></div>
+            </li>
+            <li>
+              <svg class="sheet__ico sheet__ico--warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>
+              <div><div class="sheet__h">Three different addresses are public</div><div class="sheet__p">Fix it yourself in <b>30 min</b>.</div></div>
+            </li>
+            <li>
+              <svg class="sheet__ico sheet__ico--warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>
+              <div><div class="sheet__h">Second city missing from page titles</div><div class="sheet__p">Fix it yourself in <b>10 min</b>.</div></div>
+            </li>
+            <li>
+              <svg class="sheet__ico sheet__ico--warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>
+              <div><div class="sheet__h">Google reviews have no replies</div><div class="sheet__p">Fix it yourself in <b>20 min</b>.</div></div>
+            </li>
+          </ul>
+          <div class="sheet__foot">Start this week: fixes ranked, in plain English.</div>
+          <div class="proof">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5.5v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10v-6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+            <div><strong>Real audit for a Permian Basin plumber</strong><span>Details removed</span></div>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="why" aria-labelledby="why-title">
+    <div class="wrap">
+      <h2 id="why-title">Why this hero</h2>
+      <p class="why__lead">Proposal only. Each decision is tied to a rule in <code>docs/reels-hero.md</code> (R1 to R12, synthesis) or in <code>conocimiento/diseno-web/notas.md</code> ("Hero y CTA", "Copy y confianza", "Conversion para pyme local", "Movil").</p>
+      <ol>
+        <li><strong>The headline names the owner's problem and the place.</strong><span>reels-hero R1 (headline centered on the owner's problem, 1-2 lines, dominant size) and notas "headline says what you do and where, in plain words".</span></li>
+        <li><strong>One-line subtitle with the concrete result, dimmed.</strong><span>reels-hero R2: 1-2 lines, muted color, result in plain language (more calls, listing fixed).</span></li>
+        <li><strong>One amber primary CTA, one outlined secondary, both specific.</strong><span>reels-hero R3 and notas "one main button, secondary ones soft", plus "concrete button text". Buttons are 56 px tall (Fitts), only two options (Hick).</span></li>
+        <li><strong>Trust row uses only true facts, no invented stars or logos.</strong><span>reels-hero R4 (proof in the first screen) adapted honestly; notas "free quote" microcopy: "Free, no obligation", "I reply myself", "No sales team".</span></li>
+        <li><strong>Asymmetric layout: text left (about 55%), one visual right; stacked on mobile.</strong><span>reels-hero R5 (asymmetric, no generic 3-column grid) and R12 (readable at 375 px, checked in a 375 px frame).</span></li>
+        <li><strong>The protagonist is the real product: the 1-page review, built in HTML/CSS.</strong><span>reels-hero R6 and R9 (show the real audit, not stock photos) and notas "a visual protagonist tied to the business story". Findings come from the anonymized sample report.</span></li>
+        <li><strong>Same palette: dark ink with one amber accent, Bricolage display type; amber halo behind the sheet.</strong><span>reels-hero R7 (one accent on a neutral base, expressive headline) and reel 2 (black with an orange halo). The pump jack is a 5% texture, not the hero image. Nav stays minimal with one button: R8, notas "familiar patterns" (Jakob).</span></li>
+        <li><strong>Small purposeful motion, nothing heavy, all off with reduced motion.</strong><span>reels-hero R10 and R11: words rise in, the sheet slides in and settles, a small floating trust card balances it, the halo breathes over 14 s. No new libraries; text sizes use <code>clamp()</code> (notas "Movil") and hover styles stay inside <code>@media (hover:hover)</code> via the shared <code>.btn</code>.</span></li>
+      </ol>
+      <p class="why__alt">Alternative headlines (also in an HTML comment): "Customers can't find you on Google in Odessa or Midland?" and "Your phone should ring more in Odessa and Midland."</p>
+    </div>
+  </section>
+</main>
+
+<script>
+/* Titulares por palabras (copia de index.html). Sin JS o con reduced-motion queda intacto. */
+window.splitHeading=function(h){var n=0,t=h.textContent.replace(/\s+/g," ").trim();
+function walk(el){Array.prototype.slice.call(el.childNodes).forEach(function(k){
+if(k.nodeType===3){var f=document.createDocumentFragment();k.nodeValue.split(/(\s+)/).forEach(function(p){
+if(!p)return;if(/^\s+$/.test(p)){f.appendChild(document.createTextNode(" "));return}
+var s=document.createElement("span");s.className="w";s.setAttribute("aria-hidden","true");s.style.setProperty("--i",n++);s.textContent=p;f.appendChild(s)});
+k.parentNode.replaceChild(f,k)}else if(k.nodeType===1){walk(k)}})}
+h.setAttribute("aria-label",t);walk(h);return h.querySelectorAll(".w")};
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches){var h1=document.querySelector(".hp h1");if(h1){splitHeading(h1);document.documentElement.classList.add("split");setTimeout(function(){document.documentElement.classList.remove("split")},1200)}}
+/* Cabecera: fondo al hacer scroll y menu movil (minimo; la web real usa main.js) */
+(function(){var h=document.querySelector(".site-header"),b=document.querySelector(".menu-btn"),n=document.getElementById("site-nav");
+function s(){h.classList.toggle("is-solid",window.scrollY>10)}s();window.addEventListener("scroll",s,{passive:true});
+b.addEventListener("click",function(){var o=n.classList.toggle("is-open");b.setAttribute("aria-expanded",o)})})();
+</script>
+</body>
+</html>
