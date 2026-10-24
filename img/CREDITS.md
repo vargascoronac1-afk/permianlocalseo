@@ -41,3 +41,16 @@ These are mood photos (pipes, a rooftop-style AC unit, shingles, a dental office
 | File | Page | Author | License |
 |---|---|---|---|
 | fuentes/truck-7873720.jpg (original), recortes/camioneta-640.webp, recortes/camioneta-1132.webp (background removed with rembg) | https://www.pexels.com/photo/yellow-truck-parked-on-the-road-7873720/ | Andrew LaBonne | Pexels License (free for commercial use) |
+
+## Service cards (demo taller, 2026-10-24)
+
+Unsplash License (free for commercial use, no attribution required; credited anyway), none from Unsplash+/Getty. Originals in `/img/fuentes/` (1600 px JPG), cropped 3:2 and converted to WebP at 960 and 480 px in `/img/servicios/`. Used as card backgrounds behind a dark gradient (empty alt).
+
+| File prefix | Photo page | Author | License |
+|---|---|---|---|
+| frenos | https://unsplash.com/photos/ii4XEyJEm_I | Toby Hall | Unsplash License |
+| diagnostico | https://unsplash.com/photos/iFQpqbLMOFU | Kate Ibragimova | Unsplash License |
+| aire | https://unsplash.com/photos/JJBxXvgnh5s | Olav Tvedt | Unsplash License |
+| alineacion | https://unsplash.com/photos/O_ufcLVTAYw | Tekton | Unsplash License |
+| aceite | https://unsplash.com/photos/dDWVq_XEhus | Xavier von Erlach | Unsplash License |
+| inspeccion | https://unsplash.com/photos/erWc6mrOq_I | Dextar Studio | Unsplash License |

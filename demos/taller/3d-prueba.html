@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>LOOP 338 - prueba 3D</title>
+<style>
+  :root{--bg:#0b0706;--ink:#f3e9df;--red:#c1272d}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif}
+  .stage{position:fixed;inset:0;background:
+    radial-gradient(60% 55% at 50% 58%,rgba(193,39,45,.38),rgba(193,39,45,0) 70%),
+    radial-gradient(90% 70% at 50% 120%,#2a110c,transparent 70%),var(--bg)}
+  h1{position:absolute;left:0;right:0;top:50%;transform:translateY(-58%);margin:0;text-align:center;
+    font:900 clamp(70px,17.5vw,300px)/.85 "Arial Black",Impact,system-ui,sans-serif;letter-spacing:-.04em;
+    color:rgba(243,233,223,.9);white-space:nowrap;user-select:none;pointer-events:none}
+  canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  #fallback{display:none;position:absolute;left:50%;top:60%;width:min(80vw,720px);transform:translate(-50%,-50%)}
+  .no-webgl #fallback{display:block}.no-webgl canvas{display:none}
+  .hud{position:absolute;left:16px;right:16px;bottom:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:13px;opacity:.85}
+  button{background:var(--red);color:#fff;border:0;border-radius:999px;padding:8px 16px;font:600 13px system-ui;cursor:pointer}
+  .hint{position:absolute;top:14px;left:0;right:0;text-align:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.6}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <h1 aria-hidden="true">LOOP 338</h1>
+  <canvas id="c" aria-label="Camioneta 3D que gira al hacer scroll" role="img"></canvas>
+  <img id="fallback" src="/img/recortes/camioneta-1132.webp" alt="Camioneta del taller">
+  <div class="hint">Haz scroll: gira y se desmonta</div>
+  <div class="hud">
+    <button id="toggle" type="button">Pausar</button>
+    <span id="fps">FPS: --</span>
+    <span id="info"></span>
+  </div>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"/js/vendor/three/three.module.js"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from '/js/vendor/three/loaders/GLTFLoader.js';
+
+const stage = document.getElementById('stage');
+const canvas = document.getElementById('c');
+const fpsEl = document.getElementById('fps');
+const infoEl = document.getElementById('info');
+const btn = document.getElementById('toggle');
+const params = new URLSearchParams(location.search);
+const MODEL = params.get('model') === 'q' ? '/demos/taller/3d/pickup-quaternius.glb' : '/demos/taller/3d/kenney/truck.glb';
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+} catch (e) { renderer = null; }
+if (!renderer) { document.documentElement.classList.add('no-webgl'); stage.classList.add('no-webgl'); btn.hidden = true; fpsEl.textContent = 'WebGL no disponible: imagen estática'; throw new Error('no webgl'); }
+
+renderer.setClearColor(0x000000, 0);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+const sun = new THREE.DirectionalLight(0xffd2a0, 3.2); sun.position.set(4, 6, 5); scene.add(sun);
+const rim = new THREE.DirectionalLight(0xc1272d, 1.6); rim.position.set(-5, 2, -4); scene.add(rim);
+scene.add(new THREE.HemisphereLight(0xffe6cc, 0x1a0c08, 1.1));
+
+// Sombra de contacto: disco con gradiente radial (canvas 2D)
+function shadowTexture() {
+  const s = 256, c = document.createElement('canvas'); c.width = c.height = s;
+  const g = c.getContext('2d'), grd = g.createRadialGradient(s/2, s/2, 0, s/2, s/2, s/2);
+  grd.addColorStop(0, 'rgba(0,0,0,.85)'); grd.addColorStop(.5, 'rgba(0,0,0,.45)'); grd.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = grd; g.fillRect(0, 0, s, s);
+  return new THREE.CanvasTexture(c);
+}
+const shadow = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: shadowTexture(), transparent: true, depthWrite: false }));
+shadow.rotation.x = -Math.PI / 2; scene.add(shadow);
+
+const pivot = new THREE.Group(); scene.add(pivot);
+let parts = [], baseDist = 9, size = 4, loadedBytes = 0;
+
+new GLTFLoader().load(MODEL, (gltf) => {
+  const root = gltf.scene; pivot.add(root);
+  root.updateMatrixWorld(true);
+  let box = new THREE.Box3().setFromObject(root);
+  const sz = box.getSize(new THREE.Vector3()), ctr = box.getCenter(new THREE.Vector3());
+  const k = 4 / Math.max(sz.x, sz.z); root.scale.setScalar(k);
+  root.position.set(-ctr.x * k, -box.min.y * k, -ctr.z * k);
+  root.updateMatrixWorld(true);
+  box = new THREE.Box3().setFromObject(root);
+  const c0 = box.getCenter(new THREE.Vector3()); size = box.getSize(new THREE.Vector3()).length();
+  const meshes = []; root.traverse(o => { if (o.isMesh) meshes.push(o); });
+  meshes.forEach((m, i) => {
+    const mb = new THREE.Box3().setFromObject(m), mc = mb.getCenter(new THREE.Vector3());
+    // dirección en mundo respecto al centro del modelo; si está en el centro, sube
+    let d = mc.clone().sub(c0); d.y *= 0.6;
+    if (d.length() < size * 0.08) d.set(0, 1, 0);
+    d.normalize();
+    // pasar dirección a espacio local del padre
+    const dirLocal = d.clone().transformDirection(new THREE.Matrix4().copy(m.parent.matrixWorld).invert());
+    const worldScale = new THREE.Vector3().setFromMatrixScale(m.parent.matrixWorld).x;
+    parts.push({ m, home: m.position.clone(), dir: dirLocal, ws: worldScale, delay: (i / Math.max(1, meshes.length)) * 0.35, name: m.name });
+  });
+  const mats = new Set(); meshes.forEach(m => mats.add(m.material));
+  infoEl.textContent = `Modelo: ${MODEL.split('/').pop()} | mallas: ${meshes.length} (${meshes.map(m => m.name).join(', ')})`;
+  window.__parts = parts.map(p => p.name);
+  resize(); ready = true; frame(performance.now());
+}, undefined, (e) => { infoEl.textContent = 'Error cargando modelo'; console.error(e); });
+
+let ready = false, acum = 0, smooth = 0, running = !reduced, lastT = 0;
+const ROT_PER_PX = 0.004, EXPL_PERIOD = 2600;
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+const ease = t => t * t * (3 - 2 * t);
+
+function addScroll(d) { acum += Math.abs(d); if (reduced) return; }
+addEventListener('wheel', e => { e.preventDefault(); if (running) acum += Math.abs(e.deltaY) + Math.abs(e.deltaX); }, { passive: false });
+let ty = null;
+addEventListener('touchstart', e => { ty = e.touches[0].clientY; }, { passive: true });
+addEventListener('touchmove', e => { e.preventDefault(); if (ty !== null && running) { const y = e.touches[0].clientY; acum += Math.abs(y - ty) * 2; ty = y; } }, { passive: false });
+addEventListener('keydown', e => { if (running && ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' '].includes(e.key)) acum += 120; });
+window.__setAcum = v => { acum = v; };
+window.__state = () => ({ acum, smooth, rotY: pivot.rotation.y, running });
+
+function resize() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false); camera.aspect = w / h;
+  baseDist = w / h < 0.9 ? 14.5 : 7.2; camera.updateProjectionMatrix();
+}
+addEventListener('resize', () => { resize(); if (!running && ready) draw(); });
+
+function draw() {
+  pivot.rotation.y = smooth * ROT_PER_PX + 0.6;
+  const phase = 0.5 - 0.5 * Math.cos(2 * Math.PI * smooth / EXPL_PERIOD);
+  const reach = size * 0.17;
+  for (const p of parts) {
+    const t = ease(clamp((phase - p.delay) / (1 - p.delay * 1.4), 0, 1));
+    p.m.position.copy(p.home).addScaledVector(p.dir, (t * reach) / p.ws);
+  }
+  const zoom = 1 - 0.18 * Math.sin(Math.min(1, smooth / 2400) * Math.PI / 2);
+  const dist = baseDist * zoom;
+  camera.position.set(0, dist * 0.28, dist); camera.lookAt(0, 0.7, 0);
+  shadow.scale.setScalar(5.2 + phase * 0.8); shadow.material.opacity = 1 - phase * 0.35;
+  renderer.render(scene, camera);
+}
+
+window.__bench=n=>{const gl=renderer.getContext(),px=new Uint8Array(4);let t=performance.now();for(let i=0;i<n;i++){smooth=i*7;draw();gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,px);}return {fps:n*1000/(performance.now()-t),w:canvas.width,h:canvas.height,calls:renderer.info.render.calls,tris:renderer.info.render.triangles};};
+let frames = 0, tFps = performance.now();
+function frame(now) {
+  if (running) requestAnimationFrame(frame);
+  smooth += (acum - smooth) * 0.08; // inercia (lerp), acum nunca decrece
+  draw();
+  frames++;
+  if (now - tFps >= 1000) { const f = Math.round(frames * 1000 / (now - tFps)); fpsEl.textContent = 'FPS: ' + f; window.__fps = f; frames = 0; tFps = now; }
+}
+btn.addEventListener('click', () => {
+  running = !running; btn.textContent = running ? 'Pausar' : 'Reanudar';
+  if (running) { frames = 0; tFps = performance.now(); requestAnimationFrame(frame); }
+});
+if (reduced) { btn.textContent = 'Reanudar'; fpsEl.textContent = 'FPS: animación desactivada (reduced-motion)'; btn.disabled = true; }
+</script>
+</body>
+</html>
