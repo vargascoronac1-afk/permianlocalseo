@@ -37,7 +37,7 @@
 
   /* ---------- fondo del body por seccion ---------- */
   (function () {
-    var map = { 'bg': 'var(--bg)', 'bg-2': 'var(--bg-2)', 'data': 'var(--bg-data)', 'bg-3': 'var(--bg-3)' };
+    var map = { 'bg': 'var(--bg)', 'bg-2': 'var(--bg-2)', 'bg-3': 'var(--bg-3)', 'bone': 'var(--bone)', 'bone-2': 'var(--bone-2)', 'red': 'var(--red)' };
     var secs = $$('main > section');
     if (!('IntersectionObserver' in window)) return;
     var lastK = null, lastFx = 0, fxT = 0;
@@ -57,6 +57,7 @@
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     secs.forEach(function (s) { io.observe(s); });
+/* cabecera: clara u oscura segun la seccion bajo ella (franja superior) */    var hio = new IntersectionObserver(function (es) {      es.forEach(function (e) {        if (!e.isIntersecting || !header) return;        header.classList.toggle('on-light', e.target.classList.contains('is-light'));      });    }, { rootMargin: '-2% 0px -94% 0px' });    secs.forEach(function (s) { hio.observe(s); });
   })();
 
   /* ---------- iframes perezosos: uno a la vez ---------- */
