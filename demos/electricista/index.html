@@ -670,8 +670,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
 <script>
 /* language (EN/ES) */
 (function(){
-  var KEY='ppe-lang', btn=document.getElementById('lang'), lang='en';
-  try{var s=localStorage.getItem(KEY); if(s==='en'||s==='es') lang=s; else lang=/^es/i.test(navigator.language||'')?'es':'en';}catch(e){lang=/^es/i.test(navigator.language||'')?'es':'en';}
+  var KEY='ppe-lang2', btn=document.getElementById('lang'), lang='en';
+  try{var s=localStorage.getItem(KEY); if(s==='en'||s==='es') lang=s; else lang='en';}catch(e){lang='en';} /* ingles por defecto (Carlos 2026-10-24) */
   var T={
     title:{en:'Permian Pro Electric | Electricians in Odessa & Midland, TX (Demo)',es:'Permian Pro Electric | Electricistas en Odessa y Midland, TX (Demo)'},
     desc:{en:'Demo site: licensed electricians in Odessa and Midland, Texas. 24/7 emergency service, panels, EV chargers, lighting. Fictional business. Built by Permian Local.',es:'Sitio de demostración: electricistas con licencia en Odessa y Midland, Texas. Emergencias 24/7, paneles, cargadores EV, iluminación. Negocio ficticio. Hecho por Permian Local.'},

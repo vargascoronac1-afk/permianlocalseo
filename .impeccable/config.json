@@ -128,6 +128,15 @@
         ],
         "createdAt": "2026-10-24T08:24:06.211Z",
         "reason": "Serif itálica solo para una palabra del titular (cursiva insertada, recurso de los reels); decisión de dirección"
+      },
+      {
+        "rule": "buried-raster",
+        "value": "*",
+        "files": [
+          "demos/taller/index.html"
+        ],
+        "createdAt": "2026-10-24T14:13:37.693Z",
+        "reason": "La foto del motor (#truckMotor) empieza a opacidad 0 a propósito: aparece con el scroll al final de la secuencia de la camioneta (pedido de Carlos 2026-10-24)"
       }
     ]
   }

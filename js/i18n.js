@@ -174,7 +174,7 @@
  "v8_e_extras": "( 02 ) Extras",
  "v8_x_h": "Tu camioneta, tu plato, tu producto. En 3D.",
  "v8_x_p": "Hecho con 4 fotos del vehículo real. Extra: <strong>$350</strong>.",
- "v8_x_credit": "Modelo generado con Higgsfield a partir de nuestro propio vídeo de referencia.",
+ "v8_x_credit": "Modelo 3D: Chevrolet Silverado de Ddiaz Design (Sketchfab, CC BY), recoloreado.",
  "v8_x_alt": "Una camioneta, de las que convertimos en modelo 3D",
  "v8_a_3d": "Camioneta en 3D que gira al hacer scroll",
  "v8_e_get": "( 03 ) Lo que recibes",
@@ -192,7 +192,7 @@
  "v8_h5t": "Carga en menos de 2 s",
  "v8_h5b": "Páginas ligeras que cargan en menos de 2 segundos en el teléfono."
 };
-  var KEY = 'pl-lang', orig = new Map();
+  var KEY = 'pl-lang2', orig = new Map();
   function store(el, name, getter) { var m = orig.get(el); if (!m) { m = {}; orig.set(el, m); } if (!(name in m)) m[name] = getter(); return m[name]; }
   if (typeof ES_B === "object") { for (var kb in ES_B) { if (!ES[kb]) ES[kb] = ES_B[kb]; } }
   function apply(lang) {
@@ -210,7 +210,7 @@
   function initial() {
     var s = null; try { s = localStorage.getItem(KEY); } catch (e) {}
     if (s === 'es' || s === 'en') return s;
-    return ((navigator.language || 'en') + '').toLowerCase().indexOf('es') === 0 ? 'es' : 'en';
+    return 'en'; // Carlos (2026-10-24): ingles por defecto siempre; el visitante elige ES con el boton
   }
   window.plSetLang = apply;
   document.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('.lang button'); if (b) apply(b.getAttribute('data-lang')); });

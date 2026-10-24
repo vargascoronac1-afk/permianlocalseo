@@ -95,6 +95,9 @@ p{margin:0}
 /* truck: video frame sequence on canvas, driven by accumulated scroll; engine "idles" at the last frame */
 .truck{position:relative;transform-origin:50% 50%}
 .truck canvas{position:relative;display:block;width:100%;height:auto;transform-origin:50% 50%;will-change:transform}
+.truck__motor{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none;transform-origin:50% 50%;
+  -webkit-mask-image:radial-gradient(ellipse 62% 66% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 66% at 50% 50%,#000 55%,transparent 100%)}
+.truck.is-static canvas{visibility:hidden}.truck.is-static .truck__motor{opacity:1}
 .truck__glow{position:absolute;left:50%;top:48%;width:70%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;opacity:0;
   background:radial-gradient(closest-side,rgba(224,54,26,.55),rgba(224,54,26,.18) 55%,transparent 75%)}
 .hero__ui{position:relative;z-index:3;padding:18px 20px 0;max-width:1180px;width:100%;margin:0 auto;text-align:center}
@@ -274,6 +277,7 @@ footer a{color:#fff}
   <div class="hero__photo" id="heroPhoto">
    <div class="truck" id="truck">
     <div class="truck__glow" id="truckGlow" aria-hidden="true"></div>
+    <img class="truck__motor" id="truckMotor" src="img/motor-1100.webp" srcset="img/motor-600.webp 600w, img/motor-1100.webp 1100w" sizes="(max-width:699px) 100vw, 1100px" alt="Engine bay of the pickup: polished supercharged engine" data-alt-en="Engine bay of the pickup: polished supercharged engine" data-alt-es="Compartimento del motor de la camioneta: motor pulido con supercargador" decoding="async">
     <canvas id="truckCv" width="1100" height="619" role="img"
          aria-label="Yellow pickup truck, camera circling it and the hood opening on the engine" data-alt-en="Yellow pickup truck, camera circling it and the hood opening on the engine" data-alt-es="Camioneta pickup amarilla: la cámara la rodea y se abre el capó hasta ver el motor"></canvas>
    </div>
@@ -485,8 +489,8 @@ footer a{color:#fff}
 <script>
 /* language (EN/ES) */
 (function(){
-  var KEY='l338-lang', btn=document.getElementById('lang'), lang='en';
-  try{var s=localStorage.getItem(KEY); if(s==='en'||s==='es') lang=s; else lang=/^es/i.test(navigator.language||'')?'es':'en';}catch(e){lang=/^es/i.test(navigator.language||'')?'es':'en';}
+  var KEY='l338-lang2', btn=document.getElementById('lang'), lang='en';
+  try{var s=localStorage.getItem(KEY); if(s==='en'||s==='es') lang=s; else lang='en';}catch(e){lang='en';} /* ingles por defecto (Carlos 2026-10-24) */
   var T={
     title:{en:'Loop 338 Auto Repair | Odessa, TX (demo)',es:'Loop 338 Auto Repair | Odessa, TX (demo)'},
     desc:{en:'Demo website: Loop 338 Auto Repair, a fictional shop in Odessa, TX. Brakes, diagnostics, A/C, alignment, oil change and state inspection. Built by Permian Local.',es:'Sitio de demostración: Loop 338 Auto Repair, un taller ficticio en Odessa, TX. Frenos, diagnóstico, A/C, alineación, cambio de aceite e inspección estatal. Hecho por Permian Local.'},
@@ -568,17 +572,18 @@ footer a{color:#fff}
     document.addEventListener('mouseleave',function(){cur.classList.remove('on');});
   }
 
-  /* truck: 60-frame video sequence (clean frames 0005-0064 of the 88 extracted) (orbit + hood opening) painted on a canvas by ACCUMULATED scroll
-     (acc += min(|dy|,400), lerped; never rewinds). Frame 0 -> last over 1.4 viewport heights (hero pinned 2.2), then the
-     engine "idles": tiny fast shake (+-1.5px, +-0.15deg, ~12 Hz) and a pulsing red glow.
-     Reduced motion: last frame, static. <700px: 600px series. Frame time is probed while shaking. */
+  /* truck: 60-frame video sequence (clean frames 0005-0064) painted on a canvas by ACCUMULATED scroll
+     (acc += min(|dy|,400), lerped; never rewinds). Frame 0 -> last over 1.4 viewport heights (hero pinned 2.2).
+     Then, over the next ~0.8 viewport heights (~35% of the pin), the truck fades/scales (1->1.06) while a sharp engine-bay
+     photo fades in (zoom 1.08->1) and the red halo rises and stays. Reduced motion: no pin, engine photo only. <700px: 600px assets. */
   (function(){
-    var cv=document.getElementById('truckCv'),truck=document.getElementById('truck'),glow=document.getElementById('truckGlow'),hero=document.querySelector('.hero');
+    var cv=document.getElementById('truckCv'),truck=document.getElementById('truck'),glow=document.getElementById('truckGlow'),mo=document.getElementById('truckMotor'),hero=document.querySelector('.hero');
     if(!cv||!truck||!hero||!cv.getContext) return;
     var ctx=cv.getContext('2d'),N=60,FIRST=5,dir=matchMedia('(max-width:699px)').matches?'video/motor600/':'video/motor/';
-    var imgs=new Array(N),ok=new Array(N),acc=0,cur=0,lastY=window.scrollY||0,vis=true,running=false,shaking=false,t0=0,shown=-1,last=0,win=[];
-    var API=window.__truckFx={acc:0,cur:0,frame:0,frames:N,loaded:0,shake:false,avg:0,off:false};
-    function seqLen(){return 1.4*Math.max(innerHeight,500);} /* acc distance first->last frame; hero is pinned for 2.2 screens, so ~36% of the pin is the engine idling */
+    var imgs=new Array(N),ok=new Array(N),acc=0,cur=0,lastY=window.scrollY||0,vis=true,running=false,shown=-1,last=0;
+    var API=window.__truckFx={acc:0,cur:0,frame:0,fade:0,frames:N,loaded:0};
+    function seqLen(){return 1.4*Math.max(innerHeight,500);}
+    function fadeLen(){return .8*Math.max(innerHeight,500);}
     function name(i){return dir+('000'+(i+FIRST)).slice(-4)+'.webp';}
     function load(i,cb){
       if(imgs[i]) return;
@@ -589,48 +594,44 @@ footer a{color:#fff}
     }
     function frameFor(){var f=Math.min(cur/seqLen(),1);return Math.round(f*(N-1));}
     function draw(force){
-      var f=reduce?N-1:frameFor();
-      while(f>=0&&!ok[f]) f--;                    /* nearest earlier frame already loaded */
+      var f=frameFor();
+      while(f>=0&&!ok[f]) f--;
       if(f<0||(f===shown&&!force)) return;
       var im=imgs[f];
       if(cv.width!==im.naturalWidth){cv.width=im.naturalWidth;cv.height=im.naturalHeight;}
       ctx.clearRect(0,0,cv.width,cv.height);ctx.drawImage(im,0,0);
       shown=f;API.frame=f;
     }
-    /* progressive preload: first 12 right away (frame 0 first), then the rest */
-    if(reduce){load(N-1);}
-    else{
-      var first=0;
-      for(var i=0;i<12;i++) load(i,function(){if(++first===12) setTimeout(rest,0);});
-      function rest(){var k=12;(function step(){var n=0;while(k<N&&n<4){load(k++);n++;}if(k<N) setTimeout(step,40);})();}
-      setTimeout(function(){if(first<12) rest();},3000); /* do not stall on a missing early frame */
+    function ease(t){return t*t*(3-2*t);}
+    function applyFade(){
+      var t=shown===N-1?Math.max(0,Math.min(1,(cur-seqLen())/fadeLen())):0,e=ease(t);
+      API.fade=t;
+      cv.style.opacity=(1-e).toFixed(3);
+      cv.style.transform=e?'scale('+(1+.06*e).toFixed(4)+')':'';
+      mo.style.opacity=e.toFixed(3);
+      mo.style.transform='scale('+(1.08-.08*e).toFixed(4)+')';
+      glow.style.opacity=(e*.7).toFixed(3);
     }
-    if(reduce) return;
+    if(reduce){
+      truck.classList.add('is-static');glow.style.opacity=.55;mo.style.opacity=1;API.fade=1;
+      return; /* no frames needed */
+    }
+    var first=0;
+    for(var i=0;i<12;i++) load(i,function(){if(++first===12) setTimeout(rest,0);});
+    function rest(){var k=12;(function step(){var n=0;while(k<N&&n<4){load(k++);n++;}if(k<N) setTimeout(step,40);})();}
+    setTimeout(function(){if(first<12) rest();},3000);
+    mo.style.transform='scale(1.08)';
     if(window.IntersectionObserver) new IntersectionObserver(function(en){vis=en[0].isIntersecting;if(vis)kick();}).observe(hero);
     addEventListener('scroll',function(){
       var y=window.scrollY||0,d=Math.abs(y-lastY);lastY=y;
       if(d>0){acc+=Math.min(d,400);API.acc=acc;kick();}
     },{passive:true});
-    function avgOf(a){var s=0;for(var i=0;i<a.length;i++)s+=a[i];return a.length?s/a.length:0;}
-    function endAcc(){return seqLen();}
-    function atEnd(){return cur>=endAcc()-.5&&shown===N-1;}
-    function shake(t){
-      var a=Math.min(1,(t-t0)/700),s=t/1000;
-      var dx=1.5*Math.sin(s*Math.PI*2*12)*a,dy=.7*Math.sin(s*Math.PI*2*12.7+1.3)*a;
-      var rot=.15*Math.sin(s*Math.PI*2*11.3+.6)*a;
-      cv.style.transform='translate('+dx.toFixed(2)+'px,'+dy.toFixed(2)+'px) rotate('+rot.toFixed(3)+'deg)';
-      glow.style.opacity=(a*(.45+.35*Math.sin(s*Math.PI*2*.8))).toFixed(3);
-    }
-    function stopShake(){shaking=false;API.shake=false;cv.style.transform='';glow.style.opacity=0;}
     function tick(t){
-      if(last){var dt=t-last;if(dt<250&&shaking){win.push(dt);if(win.length>40)win.shift();if(win.length>=30){API.avg=avgOf(win);if(API.avg>32&&!API.locked){stopShake();API.off=true;}}}}
-      var k=last?1-Math.exp(-Math.min(t-last,100)/150):.08; /* frame-rate independent lerp */
+      var k=last?1-Math.exp(-Math.min(t-last,100)/150):.08;
       last=t;
       cur+=(acc-cur)*k;if(Math.abs(acc-cur)<.3)cur=acc;
-      API.cur=cur;draw(false);
-      if(atEnd()&&!API.off){if(!shaking){shaking=true;API.shake=true;t0=t;win=[];}shake(t);}
-      else if(shaking) stopShake();
-      if(vis&&((Math.abs(acc-cur)>.3)||(shaking&&!API.off)||(atEnd()&&!API.off))) requestAnimationFrame(tick); else {running=false;last=0;}
+      API.cur=cur;draw(false);applyFade();
+      if(vis&&Math.abs(acc-cur)>.3) requestAnimationFrame(tick); else {running=false;last=0;}
     }
     function kick(){if(!running&&vis){running=true;requestAnimationFrame(tick);}}
     draw(false);

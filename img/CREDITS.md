@@ -91,3 +91,8 @@ Unsplash License (free for commercial use, no attribution required; credited any
 | v8/screen-neon-* | Jakub Żerdzicki | https://unsplash.com/photos/computer-screens-displaying-code-with-neon-lighting-WD7S-Lz12Es | Unsplash | Unsplash License |
 | v8/mechanic-closeup-* | Jimmy Nilsson Masth | https://unsplash.com/photos/a-man-working-on-a-car-in-a-garage-jL9zfzTVSwY | Unsplash | Unsplash License |
 | v8/neon-storefront-* | Raymond Yeung (@optiny) | https://unsplash.com/photos/corner-building-with-bright-red-neon-signs-at-night-2g1vx1QX-eI | Unsplash | Unsplash License |
+
+## Taller motor (2026-10-24)
+| Fichero | Autor | URL | Fuente | Licencia |
+|---|---|---|---|---|
+| demos/taller/img/motor-1100.webp, motor-600.webp (recorte 4:3 de la foto original) | Juan Montes | https://www.pexels.com/photo/chrome-ls3-engine-of-restored-1957-chevrolet-cameo-pickup-truck-12385627/ | Pexels | Pexels License |

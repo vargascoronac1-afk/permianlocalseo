@@ -525,10 +525,10 @@ footer a{color:#fff}
 <script src="../../js/vendor/ScrollTrigger.min.js"></script>
 <script src="../../js/vendor/lenis.min.js"></script>
 <script>
-/* idioma ES/EN (español si navigator.language empieza por "es"; la elección se guarda) */
+/* idioma ES/EN: ingles por defecto; la eleccion se guarda */
 (function(){
-  var KEY='tq-lang', btn=document.getElementById('lang'), lang='es';
-  function dflt(){return /^es/i.test(navigator.language||'')?'es':'en';}
+  var KEY='tq-lang2', btn=document.getElementById('lang'), lang='en';
+  function dflt(){return 'en';} /* ingles por defecto (Carlos 2026-10-24) */
   try{var s=localStorage.getItem(KEY); lang=(s==='en'||s==='es')?s:dflt();}catch(e){lang=dflt();}
   var T={
     title:{es:'Taquería El Sol de Odessa · Demo',en:'El Sol de Odessa Taquería · Demo'},

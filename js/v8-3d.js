@@ -1,11 +1,11 @@
-/* Permian Local v8 - camioneta 3D (Three.js r170). Se importa bajo demanda desde v8.js.
+/* Permian Local v8 - Silverado 3D (Three.js r170; modelo Ddiaz Design, Sketchfab, CC BY). Se importa bajo demanda desde v8.js.
    Patron de demos/taller/3d-sketchfab.html: scroll acumulado (nunca retrocede) + lerp. */
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/RoomEnvironment.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
-const MODEL = '/demos/taller/3d/camioneta-higgsfield-opt.glb';
+const MODEL = '/demos/taller/3d/silverado-opt.glb';
 
 export function init(stage, canvas) {
   let renderer;
@@ -37,25 +37,33 @@ export function init(stage, canvas) {
   shadow.rotation.x = -Math.PI / 2; shadow.scale.setScalar(5.2); scene.add(shadow);
 
   const pivot = new THREE.Group(); scene.add(pivot);
-  let baseDist = 7.2, fitR = 2.7, ready = false, visible = false, raf = 0;
+  let baseDist = 9, fitR = 3, cy = 0.8, ready = false, visible = false, raf = 0;
   let acum = 0, smooth = 0, lastY = window.scrollY;
-  const ROT_PER_PX = 0.005;
+  const ROT_PER_PX = 0.005, PAINT = 0xc8102e;
 
   const loader = new GLTFLoader(); loader.setMeshoptDecoder(MeshoptDecoder);
   loader.load(MODEL, (gltf) => {
     const root = gltf.scene; pivot.add(root);
     root.updateMatrixWorld(true);
-    let box = new THREE.Box3().setFromObject(root);
+    const box = new THREE.Box3().setFromObject(root);
     const sz = box.getSize(new THREE.Vector3()), ctr = box.getCenter(new THREE.Vector3());
-    const k = 5 / Math.max(sz.x, sz.z); root.scale.setScalar(k); fitR = Math.hypot(sz.x, sz.z) * k / 2;
+    const k = 5 / Math.max(sz.x, sz.z); root.scale.setScalar(k);
     root.position.set(-ctr.x * k, -box.min.y * k, -ctr.z * k);
+    cy = sz.y * k / 2;
+    /* esfera envolvente centrada en el modelo: entra entera en cualquier angulo del giro */
+    fitR = Math.hypot(sz.x, sz.y, sz.z) * k / 2;
+    shadow.position.y = 0.01; shadow.scale.set(sz.x * k * 1.25, sz.z * k * 1.25, 1);
+    const paint = new Set(), glass = new Set();
     root.traverse((o) => {
       if (!o.isMesh) return;
-      const old = o.material;
-      const mat = new THREE.MeshPhysicalMaterial({ map: old.map, color: 0xffffff, metalness: 0.15, roughness: 0.38, clearcoat: 1, clearcoatRoughness: 0.12, envMapIntensity: 1.9 });
-      if (mat.map) mat.map.colorSpace = THREE.SRGBColorSpace;
-      o.material = mat;
+      (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => {
+        if (m.name === 'Carpaint') paint.add(m); else if (/^Glass/.test(m.name)) glass.add(m);
+        if (m.envMapIntensity !== undefined) m.envMapIntensity = 1.4;
+        for (const t of ['map', 'normalMap', 'roughnessMap', 'metalnessMap']) if (m[t]) m[t].anisotropy = 8;
+      });
     });
+    paint.forEach((m) => { m.map = null; m.color.set(PAINT); m.clearcoat = 1; m.clearcoatRoughness = 0.05; m.envMap = scene.environment; m.envMapIntensity = 0.85; m.needsUpdate = true; });
+    glass.forEach((m) => { m.envMap = scene.environment; m.envMapIntensity = 3.2; m.needsUpdate = true; });
     ready = true; resize(); draw();
     stage.classList.add('is-3d');
     if (visible) start();
@@ -64,8 +72,9 @@ export function init(stage, canvas) {
   function resize() {
     const w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
     renderer.setSize(w, h, false); camera.aspect = w / h;
-    /* distancia que deja entera la camioneta girando (radio fitR) en el ancho del lienzo, con margen de perspectiva */
-    baseDist = Math.min(18, Math.max(7.2, fitR * 1.1 / (0.2867 * Math.max(camera.aspect, 0.5)))); camera.updateProjectionMatrix();
+    /* distancia a la que la esfera (radio fitR) cabe en el menor de los dos semicampos, con 14 % de margen (el zoom acerca como mucho 6 %) */
+    const vh = THREE.MathUtils.degToRad(camera.fov) / 2, hh = Math.atan(Math.tan(vh) * camera.aspect);
+    baseDist = fitR * 1.14 / Math.sin(Math.min(vh, hh)) / 1.031; camera.updateProjectionMatrix();
     if (ready) draw();
   }
   if (window.ResizeObserver) new ResizeObserver(resize).observe(stage); else window.addEventListener('resize', resize);
@@ -77,13 +86,13 @@ export function init(stage, canvas) {
   }, { passive: true });
 
   function draw() {
-    pivot.rotation.y = smooth * ROT_PER_PX + 0.6;
-    const zoom = 1 - 0.1 * Math.sin(Math.min(1, smooth / 2400) * Math.PI / 2);
+    pivot.rotation.y = smooth * ROT_PER_PX + 0.6; /* frente 3/4 izquierdo */
+    const zoom = 1 - 0.06 * Math.sin(Math.min(1, smooth / 2400) * Math.PI / 2);
     const dist = baseDist * zoom;
-    camera.position.set(0, dist * 0.22, dist); camera.lookAt(0, 0.7, 0);
+    camera.position.set(0, cy + dist * 0.25, dist); camera.lookAt(0, cy, 0);
     const ang = 0.9 + smooth / 650;
     sun.position.set(Math.cos(ang) * 6.5, 4.2 + 1.6 * Math.sin(ang * 0.7), Math.sin(ang) * 6.5);
-    sun.intensity = 2.6; sun.target.position.set(0, 0.8, 0);
+    sun.intensity = 2.6; sun.target.position.set(0, cy, 0);
     const sweep = (smooth / 900) % 1, env = Math.sin(sweep * Math.PI);
     glint.position.set(-2.6 + sweep * 5.2, 1.9, 1.6); glint.intensity = 38 * env;
     scene.environmentIntensity = 0.85 + 0.35 * env;
@@ -96,6 +105,9 @@ export function init(stage, canvas) {
   }
   function start() { if (!raf && ready) raf = requestAnimationFrame(frame); }
   function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+
+  /* captura para la imagen de reserva (movil / reduced-motion) */
+  window.__truck3dSnap = (s, z) => { const p = smooth, b = baseDist; smooth = s || 0; baseDist = b * (z || 1); draw(); const u = renderer.domElement.toDataURL('image/png'); smooth = p; baseDist = b; draw(); return u; };
 
   new IntersectionObserver((es) => {
     visible = es[0].isIntersecting;
