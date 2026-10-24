@@ -109,6 +109,21 @@ export function init(stage, canvas) {
   /* captura para la imagen de reserva (movil / reduced-motion) */
   window.__truck3dSnap = (s, z) => { const p = smooth, b = baseDist; smooth = s || 0; baseDist = b * (z || 1); draw(); const u = renderer.domElement.toDataURL('image/png'); smooth = p; baseDist = b; draw(); return u; };
 
+  /* captura de la serie de 36 vistas: angulo directo (grados), luz fija, tamano forzado; no afecta al render normal */
+  window.__truck3dFrame = (deg, W, H) => {
+    const ps = renderer.getPixelRatio(), pr = pivot.rotation.y, cp = camera.position.clone(), sp = sun.position.clone(), gi = glint.intensity, ei = scene.environmentIntensity;
+    renderer.setPixelRatio(1); renderer.setSize(W, H, false); camera.aspect = W / H; camera.updateProjectionMatrix();
+    const vh = THREE.MathUtils.degToRad(camera.fov) / 2, dist = fitR * 1.1 / Math.sin(vh);
+    pivot.rotation.y = THREE.MathUtils.degToRad(deg) + 0.6;
+    camera.position.set(0, cy + dist * 0.25, dist); camera.lookAt(0, cy, 0);
+    sun.position.set(Math.cos(0.9) * 6.5, 4.2 + 1.6 * Math.sin(0.63), Math.sin(0.9) * 6.5); sun.intensity = 2.6; sun.target.position.set(0, cy, 0);
+    glint.intensity = 0; scene.environmentIntensity = 0.95;
+    renderer.render(scene, camera);
+    const u = renderer.domElement.toDataURL('image/png');
+    renderer.setPixelRatio(ps); pivot.rotation.y = pr; glint.intensity = gi; scene.environmentIntensity = ei; sun.position.copy(sp); camera.position.copy(cp); resize();
+    return u;
+  };
+
   new IntersectionObserver((es) => {
     visible = es[0].isIntersecting;
     lastY = window.scrollY;

@@ -83,6 +83,9 @@
   }
   function watchIframes() {
     var fr = $$('iframe[data-lazy]');
+    /* movil o ahorro de datos: en el hero solo carga el telefono central; los laterales se quedan con el poster */
+    var lite = window.matchMedia('(max-width:899px), (pointer:coarse)').matches || (navigator.connection && navigator.connection.saveData);
+    if (lite) fr = fr.filter(function (f) { return !f.closest('.phones') || f.closest('.pf--center, .phone--center, .is-center') || /taller/.test(f.getAttribute('data-lazy')); });
     if (!('IntersectionObserver' in window)) { fr.forEach(function (f) { queue.push(f); }); pump(); return; }
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
@@ -179,6 +182,56 @@
       import('/js/v8-3d.js').then(function (m) { m.init(stage, canvas); }).catch(function (e) { if (window.console) console.warn('3D no disponible', e); });
     }, { rootMargin: '100% 0px 100% 0px' });
     io.observe(sec);
+  })();
+
+  /* ---------- Silverado en movil / reduced-motion: secuencia de 36 vistas en canvas, segun el scroll acumulado ---------- */
+  (function () {
+    var stage = $('#stage3d'), img = stage && $('.stage3d__img', stage), sec = $('#extras');
+    if (!stage || !img || !sec || (!reduce && fine.matches)) return;
+    var N = 36, dir = (window.devicePixelRatio || 1) >= 2 && !(navigator.connection && navigator.connection.saveData) ? '/img/silverado/36/' : '/img/silverado/36s/';
+    function src(i) { return dir + ('000' + i).slice(-4) + '.webp'; }
+    img.src = src(0); img.removeAttribute('loading'); img.width = 900; img.height = 535;
+    if (reduce || !('IntersectionObserver' in window)) return; /* vista fija 0 */
+    var cv = document.createElement('canvas'), cx = cv.getContext('2d');
+    if (!cx) return;
+    cv.className = 'stage3d__seq'; cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', img.alt || '');
+    cv.width = 900; cv.height = 535; stage.appendChild(cv);
+    var frames = [], loaded = 0, shown = -1, visible = false, raf = 0, acc = 0, sm = 0, lastY = window.scrollY, begun = false;
+    function load(i) {
+      if (frames[i]) return;
+      var im = new Image(); im.decoding = 'async';
+      im.onload = function () { loaded++; if (i === 0) { cv.width = im.naturalWidth; cv.height = im.naturalHeight; shown = -1; paint(true); stage.classList.add('is-seq'); } };
+      im.src = src(i); frames[i] = im;
+    }
+    function begin() {
+      if (begun) return; begun = true;
+      load(0);
+      [6, 12, 18, 24, 30].forEach(load);
+      var i = 1; (function rest() { for (var k = 0; k < 3 && i < N; k++, i++) load(i); if (i < N) setTimeout(rest, 120); })();
+    }
+    function best(t) { /* vista cargada mas cercana a t */
+      for (var d = 0; d < N / 2; d++) {
+        var a = (t + d) % N, b = (t - d + N) % N;
+        if (frames[a] && frames[a].complete && frames[a].naturalWidth) return a;
+        if (frames[b] && frames[b].complete && frames[b].naturalWidth) return b;
+      }
+      return -1;
+    }
+    function paint(force) {
+      var f = best(Math.round(sm / 1800 * N) % N); /* 1 vuelta cada ~1800 px */
+      if (f < 0 || (f === shown && !force)) return;
+      shown = f; cx.clearRect(0, 0, cv.width, cv.height); cx.drawImage(frames[f], 0, 0, cv.width, cv.height);
+    }
+    function tick() { sm += (acc - sm) * 0.12; if (Math.abs(acc - sm) < 0.5) sm = acc; paint(); raf = requestAnimationFrame(tick); }
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY, d = Math.abs(y - lastY); lastY = y;
+      if (visible) acc += Math.min(d, 400);
+    }, { passive: true });
+    new IntersectionObserver(function (es) {
+      visible = es[0].isIntersecting; lastY = window.scrollY;
+      if (visible) { begin(); if (!raf) raf = requestAnimationFrame(tick); } else if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    }, { rootMargin: '10% 0px 10% 0px' }).observe(stage);
+    var pre = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { pre.disconnect(); begin(); } }, { rootMargin: '100% 0px 100% 0px' }); pre.observe(sec);
   })();
 
   if (reduce) return; /* reduced-motion: nada de lo que sigue se activa */
