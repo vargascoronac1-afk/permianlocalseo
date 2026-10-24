@@ -1,8 +1,10 @@
 <!doctype html>
 <!--
-  Taquería El Sol de Odessa: demo "look premium" (2026-10-24), misma estructura y efectos que demos/taller.
-  Protagonista del hero: recorte real (rembg isnet-general-use -a -ae 15 -ppm) de una foto de Unsplash (Robby McCullough).
-  Fotos de las tarjetas del menú y créditos: /img/CREDITS.md
+  Taquería El Sol de Odessa: demo v2 "cartel de menú" (2026-10-24). Estructura distinta a demos/taller y demos/electricista:
+  fondo crema fijo, titular en dos bloques con sello, plato recortado que sale del encuadre, menú como tablero con
+  dot leaders + carrusel con snap, franja "Hoy" calculada por JS, FAQ con transición pixelada crema -> teja.
+  Protagonista del hero: recorte real (rembg) de una foto de Unsplash (Robby McCullough). Créditos de fotos: /img/CREDITS.md
+  Solo rutas relativas: se ve abriéndola como fichero local.
 -->
 <html lang="es" class="static">
 <head>
@@ -16,384 +18,400 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap">
 <style>
 :root{
-  --black:#140a06; --teja:#5a1a0e; --rojo:#3a0a05; --light:#f6e8b8; --card:#fff8e6;
-  --ink:#2b1a10; --muted:#5a3a26; --maiz:#f6c23e; --maiz-dark:#e0a61f; --verde:#1f4a28; --glow:#f2a31b;
-  --line:#d8c58a;
+  --crema:#f8eed6; --crema2:#efe0bd; --teja:#9c2f14; --teja-d:#7d2310; --tejaoscuro:#5a1a0e;
+  --maiz:#f6c23e; --verde:#1f4a28; --verde2:#2d6a3a;
+  --ink:#2b1a10; --muted:#5e3b2a; --line:#c9a977;
   --head:"Alfa Slab One",Georgia,"Times New Roman",serif;
   --body:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --hh:64px;
+  --padL:max(clamp(20px,4vw,56px),calc((100vw - 1240px)/2));
 }
 *{box-sizing:border-box}
 html{scroll-padding-top:84px}
 html:not(.lenis){scroll-behavior:smooth}
-body{margin:0;background:var(--teja);color:#fff;font:400 1.0625rem/1.55 var(--body);padding-bottom:44px;overflow-x:hidden}
+body{margin:0;color:var(--ink);font:400 1.0625rem/1.55 var(--body);padding-bottom:44px;
+  background-color:var(--crema);
+  /* grano de papel: ruido sutil en el propio fondo (sin capa superpuesta, coste cero al hacer scroll) */
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .2  0 0 0 0 .1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.10'/></svg>")}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
-h1,h2,h3{font-family:var(--head);font-weight:400;text-transform:uppercase;line-height:1;margin:0;letter-spacing:.005em}
+h1,h2,h3{font-family:var(--head);font-weight:400;line-height:1;margin:0;letter-spacing:.005em}
+h2{color:var(--teja);font-size:clamp(2.3rem,1rem + 5.2vw,4.9rem);text-transform:uppercase;line-height:.98}
 p{margin:0}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-:focus-visible{outline:3px solid var(--maiz);outline-offset:3px}
-.light :focus-visible{outline-color:#8e2415}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:4px}
+.dk :focus-visible{outline-color:var(--maiz)}
+.eyebrow{font:800 .95rem/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--verde2);margin-bottom:12px}
 
-/* section backgrounds: static fallback; GSAP animates body colour when it loads */
-.static .s-teja{background:var(--teja)}
-.static .s-rojo{background:var(--rojo)}
-.static .s-verde{background:var(--verde)}
-.static .s-light{background:var(--light)}
-.static .s-dark{background:var(--black)}
-.s-light{color:var(--ink)}
-
-/* grain */
-.grain{position:fixed;inset:-50%;z-index:60;pointer-events:none;opacity:.07;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-
-/* progress bar */
-.progress{position:fixed;top:0;left:0;right:0;height:4px;z-index:70;background:var(--maiz);transform:scaleX(0);transform-origin:0 50%}
-
-/* buttons: pills */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 28px;border:2px solid transparent;border-radius:999px;cursor:pointer;
-  font:400 1.05rem/1 var(--head);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;transition:background .2s,color .2s,border-color .2s,transform .2s}
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border:3px solid transparent;border-radius:999px;cursor:pointer;
+  font:800 1.05rem/1 var(--body);letter-spacing:.02em;text-decoration:none;transition:background .2s,color .2s,transform .2s,box-shadow .2s}
 .btn svg{width:22px;height:22px;flex:none}
-.btn--main{background:var(--maiz);color:var(--ink)}
-.btn--line{background:transparent;color:#fff;border-color:#fff}
-.btn--soft{background:#fff;color:var(--black)}
-.btn--dark{background:var(--black);color:#fff}
-@media (hover:hover){.btn--main:hover{background:var(--maiz-dark);transform:translateY(-2px)}.btn--line:hover{background:#fff;color:var(--black)}.btn--soft:hover{background:#f1ece4}.btn--dark:hover{background:#2a2420}}
-.btn--main:active{background:var(--maiz-dark)}
+.btn--teja{background:var(--teja);color:#fff;box-shadow:4px 4px 0 var(--ink)}
+.btn--line{background:transparent;color:var(--teja);border-color:var(--teja)}
+.btn--maiz{background:var(--maiz);color:var(--ink);box-shadow:4px 4px 0 rgba(0,0,0,.45)}
+@media (hover:hover){.btn--teja:hover{background:var(--teja-d);transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}.btn--line:hover{background:var(--teja);color:#fff}.btn--maiz:hover{transform:translate(-2px,-2px)}}
+.btn--teja:active{background:var(--teja-d)}
 
-/* header: floating pill */
-.top{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;width:min(1120px,calc(100% - 20px));
-  background:rgba(20,10,6,.84);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);border-radius:999px;color:#fff}
-.top__in{display:flex;align-items:center;gap:8px;min-height:60px;padding:0 6px 0 18px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:400 1.1rem/1 var(--head);text-transform:uppercase;letter-spacing:.02em;margin-right:auto;min-height:48px;white-space:nowrap}
-.logo b{background:var(--maiz);color:var(--ink);width:34px;height:34px;border-radius:50%;display:grid;place-items:center}
-.logo b svg{width:22px;height:22px}
-.logo small{display:none;font:600 .8rem/1 var(--body);letter-spacing:.08em;color:#e6d9bd;text-transform:uppercase}
-.nav{display:none;gap:6px}
-.nav a{white-space:nowrap;color:#fff;text-decoration:none;font-weight:600;padding:12px 12px;min-height:48px;display:inline-flex;align-items:center}
-.nav a:hover{text-decoration:underline;text-underline-offset:6px}
-.lang{min-width:48px;min-height:48px;border:2px solid rgba(255,255,255,.4);border-radius:999px;background:transparent;color:#fff;font:400 .95rem/1 var(--head);letter-spacing:.06em;cursor:pointer}
-@media (hover:hover){.lang:hover{background:rgba(255,255,255,.16)}}
-.top .btn{min-height:48px;padding:0 18px;font-size:.95rem}
+/* cabecera + progreso (línea teja bajo la cabecera) */
+.top{position:sticky;top:0;z-index:50;height:var(--hh);background:var(--crema);border-bottom:3px solid var(--ink)}
+.top__in{display:flex;align-items:center;gap:8px;height:100%;max-width:1320px;margin:0 auto;padding:0 clamp(12px,3vw,32px)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:400 1.2rem/1 var(--head);color:var(--teja);margin-right:auto;min-height:48px;white-space:nowrap}
+.logo svg{width:38px;height:38px;flex:none}
+.nav{display:none;gap:4px;margin-right:12px}
+.nav a{white-space:nowrap;text-decoration:none;font-weight:700;padding:0 14px;min-height:48px;display:inline-flex;align-items:center;border-radius:999px}
+.nav a:hover{background:var(--crema2)}
+.lang{min-width:48px;min-height:48px;padding:0 12px;border:3px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);font:800 .95rem/1 var(--body);letter-spacing:.06em;cursor:pointer}
+@media (hover:hover){.lang:hover{background:var(--crema2)}}
+.top .btn{min-height:48px;padding:0 18px;font-size:1rem;box-shadow:none}
 .top .btn .t-long{display:none}
-@media (min-width:760px){.nav{display:flex}.logo small{display:block}.top .btn{padding:0 22px}.top .btn .t-long{display:inline}}
+.progress{position:absolute;left:0;right:0;bottom:-7px;height:4px;background:var(--teja);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+@media (min-width:860px){.nav{display:flex}.top .btn{padding:0 24px}.top .btn .t-long{display:inline}}
+@media (max-width:420px){.logo{font-size:.88rem;gap:6px}.logo svg{width:30px;height:30px}.top__in{gap:6px;padding:0 10px}.top .btn{padding:0 12px;gap:6px}.lang{min-width:48px}}
 
-/* hero */
-.hero{position:relative;min-height:100svh;padding:84px 0 44px;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;justify-content:center}
-.hero__stage{position:relative;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;--fs:min(17vw,300px,26vh)}
-.hero__halo{position:absolute;left:50%;top:55%;width:min(1100px,150vw);aspect-ratio:1;transform:translate(-50%,-50%);z-index:0;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(246,194,62,.5),rgba(242,130,27,.2) 55%,transparent 75%)}
-.hero__title{position:relative;z-index:1;text-align:center;will-change:transform;margin-bottom:calc(var(--fs) * -.16);max-width:100%}
-.hero__title h1{font-size:var(--fs);line-height:.9;color:#fff;white-space:nowrap;letter-spacing:-.01em;display:inline-block}
-.hero__title h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em}
-.hero__title h1 .w>span{display:inline-block;will-change:transform}
-.hero__title h1 .sp{display:inline-block;width:.22em}
-.hero__title h1 .w:last-child{color:var(--maiz)}
-.hero__photo{position:relative;z-index:2;width:min(720px,96vw,80vh);pointer-events:none;will-change:transform}
-.hero__photo::after{content:"";position:absolute;left:8%;right:8%;bottom:-3%;height:8%;background:radial-gradient(closest-side,rgba(0,0,0,.7),transparent);z-index:-1}
-.hero__photo img{width:100%;height:auto;filter:drop-shadow(0 24px 30px rgba(0,0,0,.5))}
-/* taco scroll effects (accumulated scroll: zoom + glint + tilt). Off unless JS enables .fx */
-.taco{position:relative;transform-origin:50% 60%}
-.fx .taco{will-change:transform}
-.taco__shine{display:none;position:absolute;inset:0;overflow:hidden;pointer-events:none;
-  -webkit-mask-image:url(../../img/recortes/tacos-1132.webp);mask-image:url(../../img/recortes/tacos-1132.webp);
-  -webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
-.fx-shine .taco__shine{display:block}
-.taco__shine i{position:absolute;top:-10%;bottom:-10%;left:0;width:26%;will-change:transform;transform:translate3d(-200%,0,0) skewX(-22deg);
-  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.45) 45%,rgba(255,255,255,.7) 50%,rgba(255,255,255,.45) 55%,rgba(255,255,255,0))}
-.hero__ui{position:relative;z-index:3;padding:18px 20px 0;max-width:1180px;width:100%;margin:0 auto;text-align:center}
-.hero__ui .kick{font:800 .9rem/1.3 var(--body);letter-spacing:.16em;text-transform:uppercase;color:#ffd77a;margin-bottom:10px}
-.hero__ui .lead{font-size:clamp(1.05rem,.95rem + .6vw,1.4rem);max-width:38rem;margin:0 auto 20px;color:#fff6e4;text-shadow:0 2px 14px rgba(0,0,0,.8)}
-.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.cta .btn{padding:0 26px}
-.facts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;list-style:none;padding:0;margin:18px 0 0}
-.facts li{border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:8px 16px;font:600 .92rem/1.2 var(--body);color:#fff6e4}
-@media (max-width:599px){.hero__ui .lead{margin-bottom:16px}.cta .btn{flex:1 1 0;min-width:0;padding:0 14px;font-size:.95rem}.logo{font-size:.95rem;gap:6px}.top__in{padding-left:12px}.top .btn{padding:0 14px}}
+/* papel picado */
+.pp{height:44px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='44' viewBox='0 0 160 44'><path d='M0 3 Q20 9 40 3 T80 3 T120 3 T160 3' fill='none' stroke='%232b1a10' stroke-width='1.6'/><path d='M4 5H36V34L31 39L27 34L22 39L18 34L13 39L9 34L4 39Z' fill='%239c2f14'/><circle cx='20' cy='17' r='4.5' fill='%23f8eed6'/><circle cx='10' cy='11' r='1.8' fill='%23f8eed6'/><circle cx='30' cy='11' r='1.8' fill='%23f8eed6'/><circle cx='20' cy='28' r='2' fill='%23f8eed6'/><path d='M44 5H76V34L71 39L67 34L62 39L58 34L53 39L49 34L44 39Z' fill='%23f6c23e'/><path d='M60 11l5 6l-5 6l-5-6z' fill='%23f8eed6'/><circle cx='50' cy='11' r='1.8' fill='%23f8eed6'/><circle cx='70' cy='11' r='1.8' fill='%23f8eed6'/><circle cx='60' cy='30' r='2' fill='%23f8eed6'/><path d='M84 5H116V34L111 39L107 34L102 39L98 34L93 39L89 34L84 39Z' fill='%232d6a3a'/><circle cx='100' cy='17' r='4.5' fill='%23f8eed6'/><circle cx='90' cy='11' r='1.8' fill='%23f8eed6'/><circle cx='110' cy='11' r='1.8' fill='%23f8eed6'/><circle cx='100' cy='28' r='2' fill='%23f8eed6'/><path d='M124 5H156V34L151 39L147 34L142 39L138 34L133 39L129 34L124 39Z' fill='%23d9602b'/><path d='M140 11l5 6l-5 6l-5-6z' fill='%23f8eed6'/><circle cx='130' cy='11' r='1.8' fill='%23f8eed6'/><circle cx='150' cy='11' r='1.8' fill='%23f8eed6'/><circle cx='140' cy='30' r='2' fill='%23f8eed6'/></svg>") repeat-x 0 0/160px 44px}
 
-/* trust numbers */
-.trust{padding:56px 0 24px}
-.trust ul.nums{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:6px}
-.nums li{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid rgba(255,255,255,.18);padding:12px 0}
-.nums b{font:400 clamp(3.2rem,11vw,6.5rem)/.95 var(--head);color:#fff;min-width:3ch;display:inline-block;white-space:nowrap}
-.nums b i{font-style:normal;color:var(--maiz);font-size:.6em;margin-left:.06em}
-.nums li>div>span{font:400 1.05rem/1.3 var(--head);letter-spacing:.04em;text-transform:uppercase;color:#f1e3c8}
-.nums small{display:block;font:400 .9rem/1.3 var(--body);text-transform:none;letter-spacing:0;color:#e0d1b4;margin-top:4px}
-@media (min-width:760px){.trust ul.nums{grid-template-columns:repeat(3,1fr);gap:28px}.nums li{flex-direction:column;gap:6px;border-bottom:0;border-top:1px solid rgba(255,255,255,.25);padding-top:18px}}
-.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-.pills span{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:10px 18px;font:600 .98rem/1.2 var(--body);color:#f6ead2;min-height:44px;display:inline-flex;align-items:center}
-
-/* sections */
-section{padding:84px 0}
-.eyebrow{font:800 .95rem/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:#ffd77a;margin-bottom:14px}
-.light .eyebrow{color:#8e2415}
-.h2{font-size:clamp(2.4rem,.8rem + 8vw,7.2rem);line-height:.98}
-.sub{color:#f1e3c8;max-width:34rem;margin-top:18px}
-.light .sub{color:var(--muted)}
-
-/* menu marquee + cards */
-.marquee{overflow:hidden;margin:40px 0 8px;border-block:1px solid rgba(255,255,255,.2);padding:14px 0;-webkit-mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent)}
-.marquee__track{display:flex;width:max-content;animation:mq 38s linear infinite}
-.marquee:hover .marquee__track{animation-play-state:paused}
-.marquee__group{display:flex;flex:none;align-items:center}
-.marquee__group span{font:400 clamp(2.2rem,6vw,4.6rem)/1 var(--head);text-transform:uppercase;color:#fff;padding:0 .35em;white-space:nowrap}
-.marquee__group span:nth-child(even){color:transparent;-webkit-text-stroke:2px #fff}
-.marquee__group i{width:.5em;height:.5em;flex:none;background:var(--maiz);border-radius:50%;margin:0 .2em;font-size:clamp(2.2rem,6vw,4.6rem)}
-@keyframes mq{to{transform:translateX(-50%)}}
-.cards{display:grid;gap:14px;margin-top:32px;grid-template-columns:1fr}
-.card{position:relative;isolation:isolate;overflow:hidden;background:#140a06;border:1px solid rgba(255,255,255,.18);border-radius:22px;padding:22px 22px 24px;min-height:270px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;color:#fff}
-.card__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .8s ease}
-.card::before{content:"";position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(to top,rgba(0,0,0,.93) 0,rgba(0,0,0,.72) 45%,rgba(0,0,0,.28) 100%)}
-@media (hover:hover){.card:hover .card__bg{transform:scale(1.06)}}
-.card h3{font-size:1.6rem;text-shadow:0 1px 8px rgba(0,0,0,.7)}
-.card p{color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.7)}
-.card .price{font:400 1.7rem/1 var(--head);color:var(--maiz);font-variant-numeric:tabular-nums}
-.card .price small{font:600 .9rem var(--body);color:#fff}
-.card .badge{align-self:flex-start;background:var(--maiz);color:var(--ink);border-radius:999px;padding:5px 12px;font:800 .75rem/1.1 var(--body);letter-spacing:.08em;text-transform:uppercase}
-.card--feat{border:2px solid var(--maiz);min-height:380px}
-.card--feat h3{font-size:2.2rem}
-.card--feat p{font-size:1.15rem;max-width:36rem}
-@media (min-width:900px){.card--feat{grid-column:span 2;grid-row:span 2;padding:34px 34px 36px}.card--feat h3{font-size:3.3rem}.card--feat p{font-size:1.3rem}.card--feat .price{font-size:2.4rem}}
-@media (min-width:560px){.cards{grid-template-columns:repeat(2,1fr)}}
-@media (min-width:900px){.cards{grid-template-columns:repeat(3,1fr);gap:18px}}
-.note-line{margin-top:22px;color:#e8d9bd;font-size:.95rem}
-.svc__more{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-
-/* why */
-.band__grid{display:grid;gap:30px;align-items:start}
-.band ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
-.band li{padding-left:34px;position:relative}
-.band li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;background:var(--maiz);clip-path:polygon(14% 52%,0 66%,38% 100%,100% 22%,86% 8%,38% 70%)}
-@media (min-width:860px){.band__grid{grid-template-columns:1fr 1fr;gap:60px}}
-.proof{margin-top:28px;padding:18px 22px;background:rgba(20,10,6,.5);border-radius:18px;border:1px solid rgba(255,255,255,.14)}
-.proof strong{font:400 1.2rem/1.1 var(--head);text-transform:uppercase;display:block;margin-bottom:6px}
-.proof span{color:#f1e3c8}
-
-/* faq */
-.faq{margin-top:34px;max-width:860px}
-.faq details{position:relative;border-top:1px solid rgba(255,255,255,.25);padding-inline:18px}
-html:not(.faq-px) .faq details[open]{background:var(--black)}
-.faq summary,.faq .ans{position:relative;z-index:1}
-.faq .px{position:absolute;inset:0;z-index:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(5,1fr);pointer-events:none;overflow:hidden}
-.faq .px b{background:var(--black);opacity:0;margin:-.5px}
-.faq details:last-child{border-bottom:1px solid rgba(255,255,255,.25)}
-.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;padding:12px 0;font:400 clamp(1.15rem,.9rem + 1.3vw,1.7rem)/1.15 var(--head);text-transform:uppercase}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary i{flex:none;width:44px;height:44px;border:2px solid #fff;border-radius:50%;position:relative;transition:transform .3s,background .3s}
-.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:16px;height:2px;background:#fff;transform:translate(-50%,-50%)}
-.faq summary i::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s}
-.faq details[open] summary i{background:var(--maiz);border-color:var(--maiz)}
-.faq details[open] summary i::before,.faq details[open] summary i::after{background:var(--ink)}
-.faq details[open] summary i::after{transform:translate(-50%,-50%) rotate(0)}
-.faq .ans{overflow:hidden}
-.faq .ans p{padding:0 44px 22px 0;color:#f6ead2;max-width:44rem}
-
-/* catering strip */
-.cater{padding:64px 0}
-.cater__in{display:grid;gap:20px;align-items:center}
-.cater h2{font-size:clamp(2rem,1rem + 4.6vw,4.2rem);color:var(--maiz)}
-.cater p{max-width:46rem;color:#f6ead2;margin-top:12px}
-@media (min-width:860px){.cater__in{grid-template-columns:1fr auto}}
-
-/* hours + map */
-.visit__grid{display:grid;gap:24px;margin-top:34px}
-.hours{background:var(--black);color:#fff;padding:28px 26px;border-radius:22px}
-.hours h3{font-size:1.5rem;margin-bottom:14px}
-.hours table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-.hours th,.hours td{text-align:left;padding:11px 0;border-bottom:1px solid #3b3733;font-weight:400}
-.hours th{font:400 .95rem/1.2 var(--head);letter-spacing:.06em;text-transform:uppercase;color:#e6d9bd}
-.hours td{text-align:right}
-.hours tr.off td{color:#ffb199;font-weight:700}
-.hours tr:last-child th,.hours tr:last-child td{border-bottom:0}
-.hours address{font-style:normal;margin:16px 0 20px;color:#f0e6d2}
-.hours .btn{width:100%}
-.hours .btn + .btn{margin-top:10px}
-.map{min-height:320px;background:#d8cba0;border-radius:22px;overflow:hidden}
-.map iframe{width:100%;height:100%;min-height:320px;border:0;display:block}
-@media (min-width:860px){.visit__grid{grid-template-columns:5fr 7fr}.map,.map iframe{min-height:440px}}
-
-/* footer */
-footer{color:#e6d9bd;padding:56px 0 36px;font-size:.95rem}
-footer .logo{margin-bottom:14px}
-footer p+p{margin-top:8px}
-footer a{color:#fff}
-.foot__big{font:400 clamp(3.6rem,16vw,15rem)/.9 var(--head);text-transform:uppercase;color:#fff;margin:0 0 34px;letter-spacing:-.01em}
-.foot__big i{font-style:normal;color:var(--maiz)}
-
-/* demo ribbon */
-.ribbon{position:fixed;left:0;right:0;bottom:0;z-index:80;background:#111;color:#f1ede6;font-size:.82rem;line-height:1.3;text-align:center;padding:9px 16px;min-height:36px;border-top:2px solid var(--maiz)}
-.ribbon a{color:#fff;font-weight:600;text-underline-offset:3px}
-
-/* custom cursor: desktop pointers only */
-.cursor{display:none}
-@media (hover:hover) and (pointer:fine){
-  .cursor{display:block;position:fixed;left:0;top:0;width:36px;height:36px;margin:-18px 0 0 -18px;border:2px solid #fff;border-radius:50%;z-index:90;pointer-events:none;mix-blend-mode:difference;transition:width .25s,height .25s,margin .25s,background .25s;opacity:0}
-  .cursor.on{opacity:1}
-  .cursor.big{width:72px;height:72px;margin:-36px 0 0 -36px;background:#fff}
+/* HERO cartel */
+.hero{position:relative;overflow:hidden;padding:30px 0 52px}
+.hero__in{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-areas:"title title" "copy plate";padding-left:var(--padL);gap:0 20px;--t:clamp(2.8rem,10.4vw,8.6rem)}
+.hero__title{grid-area:title;padding-right:var(--padL);position:relative;z-index:1}
+.hero__title h1{font-size:var(--t);line-height:.94;color:var(--teja);text-transform:uppercase;letter-spacing:-.005em}
+.stamp{display:block;transform-origin:50% 60%}
+.l1{margin-bottom:.04em}
+.l2{display:flex;flex-wrap:wrap;align-items:center;gap:.1em .35em;margin-left:.55em}
+.pill{display:inline-block;background:var(--verde2);color:#fff;font:400 .3em/1 var(--head);padding:max(.5em,10px) max(.85em,18px);border-radius:999px;transform:rotate(-5deg);box-shadow:4px 4px 0 var(--ink);letter-spacing:.03em;white-space:nowrap}
+.hero__copy{grid-area:copy;align-self:center;padding-right:clamp(20px,3vw,40px);position:relative;z-index:3}
+.kick{font:800 .95rem/1.3 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--verde2);margin-bottom:12px}
+.lead{font-size:clamp(1.1rem,1rem + .6vw,1.4rem);max-width:30rem;margin-bottom:22px}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.facts{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.facts li{border:2px solid var(--ink);border-radius:999px;padding:8px 16px;font-weight:700;font-size:.95rem;min-height:40px;display:inline-flex;align-items:center;background:var(--crema)}
+.plate{grid-area:plate;position:relative;justify-self:end;width:min(54vw,820px);margin-right:-5vw;margin-top:0;z-index:2}
+.plate__par,.plate__fx{position:relative}
+.plate__fx{transform-origin:50% 55%}
+.plate__fx img{width:100%;height:auto;filter:drop-shadow(14px 14px 0 var(--tejaoscuro))}
+.fx .plate__fx{will-change:transform}
+.seal{position:absolute;left:1%;top:-3%;z-index:3;width:clamp(104px,12vw,150px);aspect-ratio:1;border-radius:50%;background:var(--maiz);color:var(--ink);display:grid;place-content:center;text-align:center;padding:14px;
+  transform:rotate(12deg);box-shadow:4px 4px 0 var(--ink);border:3px solid var(--ink);line-height:1}
+.seal::before{content:"";position:absolute;inset:6px;border-radius:50%;border:2px dashed var(--ink)}
+.seal small{display:block;font:800 .78rem/1.1 var(--body);letter-spacing:.14em;text-transform:uppercase}
+.seal b{display:block;font:400 clamp(1.7rem,2.6vw,2.4rem)/1 var(--head);margin:.1em 0}
+@media (max-width:759px){
+  .hero{padding-top:22px}
+  .hero__in{grid-template-columns:minmax(0,1fr);grid-template-areas:"title" "plate" "copy";padding-left:20px;--t:clamp(2.6rem,13vw,4.4rem)}
+  .hero__title{padding-right:20px}
+  .plate{width:122vw;margin-right:-24vw;margin-top:10px;margin-bottom:6px}
+  .seal{left:14%;top:-6%}
+  .hero__copy{padding-right:20px}
+  .cta .btn{flex:1 1 0;min-width:0;padding:0 14px}
 }
 
-/* animation gates */
-.js-anim .rv{opacity:0;transform:translateY(40px)}
+/* MENU tablero */
+.menu{padding:48px 0 70px}
+.menu__head{padding:0 var(--padL) 28px}
+.menu__head p.sub{max-width:36rem;margin-top:14px;color:var(--muted)}
+.board{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:36px;padding:0 clamp(20px,4vw,56px) 0 var(--padL);align-items:start}
+.carta{background:var(--crema);border:3px solid var(--ink);border-radius:20px;padding:30px clamp(18px,3vw,38px) 28px;box-shadow:8px 8px 0 var(--ink);position:relative}
+.carta h3.sec{font:400 1.35rem/1 var(--head);color:#fff;background:var(--teja);display:inline-block;padding:.45em .9em .4em;border-radius:6px;transform:rotate(-1.5deg);margin:6px 0 14px;text-transform:uppercase;letter-spacing:.04em}
+.carta ul{list-style:none;margin:0 0 20px;padding:0}
+.dish{padding:10px 0 12px}
+.dish__row{display:flex;align-items:baseline;gap:8px}
+.dish__name{font:800 1.2rem/1.2 var(--body);color:var(--ink)}
+.dish__dots{flex:1 1 24px;min-width:18px;border-bottom:4px dotted rgba(156,47,20,.55);transform:translateY(-.28em)}
+.dish__price{font:400 1.35rem/1 var(--head);color:var(--teja);font-variant-numeric:tabular-nums;white-space:nowrap}
+.dish__price small{font:700 .78rem/1 var(--body);color:var(--muted);margin-left:3px}
+.dish__desc{color:var(--muted);font-size:1rem;margin-top:3px;max-width:30rem}
+.tag{display:inline-block;vertical-align:.12em;margin-left:8px;background:var(--maiz);color:var(--ink);font:800 .75rem/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;border-radius:999px;border:2px solid var(--ink)}
+.carta__note{font-size:.95rem;color:var(--muted);border-top:3px dotted var(--line);padding-top:14px}
+.carta .cta{margin-top:16px}
+.rail{position:sticky;top:calc(var(--hh) + 22px);min-width:0}
+.rail__box{position:relative}
+.reel{display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-radius:20px;padding:0 0 4px}
+.reel::-webkit-scrollbar{display:none}
+.slide{position:relative;flex:0 0 82%;height:min(600px,calc(100svh - 150px));min-height:420px;scroll-snap-align:start;border:3px solid var(--ink);border-radius:20px;overflow:hidden;background:var(--tejaoscuro);isolation:isolate;box-shadow:6px 6px 0 var(--ink);margin:0 6px 6px 0}
+.slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.slide::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(30,10,4,.94) 0,rgba(30,10,4,.55) 32%,rgba(30,10,4,0) 62%)}
+.slide figcaption{position:absolute;left:0;right:0;bottom:0;padding:20px 22px 22px;color:#fff;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.slide figcaption b{font:400 1.7rem/1.05 var(--head);text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.slide figcaption span{font:400 1.5rem/1 var(--head);background:var(--maiz);color:var(--ink);padding:8px 14px;border-radius:10px;white-space:nowrap;border:2px solid var(--ink)}
+.reel__nav{display:flex;gap:10px;margin-top:14px;align-items:center}
+.reel__nav button{width:52px;height:52px;border-radius:50%;border:3px solid var(--ink);background:var(--teja);color:#fff;cursor:pointer;display:grid;place-items:center;box-shadow:3px 3px 0 var(--ink)}
+.reel__nav button svg{width:24px;height:24px}
+@media (hover:hover){.reel__nav button:hover{background:var(--teja-d)}}
+.reel__nav span{font-weight:700;color:var(--muted);font-size:.95rem;margin-left:6px}
+@media (max-width:859px){
+  .board{grid-template-columns:minmax(0,1fr);padding:0 20px;gap:26px}
+  .rail{order:-1;position:static}
+  .slide{flex-basis:80%;height:340px;min-height:0}
+  .menu__head{padding:0 20px 22px}
+}
 
-/* reduced motion: everything off */
+/* HOY */
+.today{background:var(--maiz);border-block:3px solid var(--ink);padding:26px 0}
+.today__in{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+.today__tag{font:400 1.1rem/1 var(--head);background:var(--ink);color:var(--maiz);padding:.6em 1em .5em;border-radius:6px;transform:rotate(-3deg);letter-spacing:.08em}
+.today__state{font:400 clamp(1.6rem,1rem + 2.6vw,2.7rem)/1.1 var(--head);color:var(--ink);display:flex;align-items:center;gap:14px}
+.today__state i{flex:none;width:18px;height:18px;border-radius:50%;background:var(--verde);border:3px solid var(--ink)}
+.today__state.off i{background:var(--teja)}
+.hrs{padding:46px 0 70px}
+.hrs__grid{display:grid;gap:30px;margin-top:26px;align-items:start}
+.hours{border:3px solid var(--ink);border-radius:20px;background:var(--crema);padding:10px 24px;box-shadow:8px 8px 0 var(--ink)}
+.hours table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.hours th,.hours td{padding:13px 0;border-bottom:2px dotted var(--line);font-size:1.05rem}
+.hours tr:last-child th,.hours tr:last-child td{border-bottom:0}
+.hours th{text-align:left;font:800 .9rem/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hours td{text-align:right;font-weight:700}
+.hours tr.off td{color:var(--teja)}
+.hours tr.now{background:var(--maiz);box-shadow:-14px 0 0 var(--maiz),14px 0 0 var(--maiz)}
+.hours tr.now th{color:var(--ink)}
+.hrs__side p{max-width:30rem}
+.hrs__side address{font-style:normal;font-weight:700;margin:16px 0 20px}
+.hrs__side .cta{margin-top:6px}
+@media (min-width:860px){.hrs__grid{grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:56px}}
+
+/* CATERING */
+.cater{position:relative;isolation:isolate;overflow:hidden;background:var(--verde);color:#fff;padding:86px 0}
+.cater__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.cater::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,rgba(21,52,28,.96) 0,rgba(21,52,28,.88) 48%,rgba(21,52,28,.5) 100%)}
+.cater h2{color:#fff;font-size:clamp(2.2rem,.8rem + 5vw,4.4rem)}
+.cater p{max-width:34rem;margin:18px 0 26px;font-size:1.15rem}
+.cater .eyebrow{color:var(--maiz)}
+
+/* CIFRAS */
+.nums{background:var(--teja);color:#fff;padding:44px 0 40px;border-block:3px solid var(--ink)}
+.nums ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:6px}
+.nums li{display:flex;align-items:baseline;gap:18px;padding:12px 0;border-bottom:2px dashed rgba(255,255,255,.45)}
+.nums li:last-child{border-bottom:0}
+.nums b{font:400 clamp(3.4rem,11vw,6rem)/.95 var(--head);color:#ffd95e;min-width:3.2ch;white-space:nowrap;font-variant-numeric:tabular-nums}
+.nums b i{font-style:normal;font-size:.55em;margin-left:.08em}
+.nums li span.lbl{font:800 1.15rem/1.25 var(--body)}
+.nums small{display:block;font:400 .9rem/1.3 var(--body);margin-top:3px;color:#fff}
+@media (min-width:760px){.nums ul{grid-template-columns:repeat(3,1fr);gap:34px}.nums li{flex-direction:column;gap:6px;border-bottom:0;border-left:3px dashed rgba(255,255,255,.45);padding:6px 0 6px 26px}.nums li:first-child{border-left:0;padding-left:0}}
+.rev{padding:60px 0 20px}
+.rev__card{border:3px dashed var(--teja);border-radius:20px;padding:26px 28px;max-width:44rem}
+.rev__card strong{display:block;font:400 1.6rem/1.1 var(--head);color:var(--teja);margin-bottom:8px}
+.rev__card span{color:var(--muted)}
+
+/* FAQ */
+.faqs{padding:64px 0 80px}
+.faq{margin-top:30px;max-width:880px}
+.faq details{position:relative;border-top:3px solid var(--ink);padding-inline:18px;color:var(--ink)}
+.faq details:last-child{border-bottom:3px solid var(--ink)}
+html:not(.faq-px) .faq details[open]{background:var(--teja)}
+.faq summary,.faq .ans{position:relative;z-index:1}
+.faq .px{position:absolute;inset:0;z-index:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(5,1fr);pointer-events:none;overflow:hidden}
+.faq .px b{background:var(--teja);opacity:0;margin:-.5px}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;padding:12px 0;font:400 clamp(1.15rem,1rem + .9vw,1.55rem)/1.2 var(--head);color:var(--teja);transition:color .25s .08s}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{flex:none;width:46px;height:46px;border:3px solid currentColor;border-radius:50%;position:relative}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:16px;height:3px;background:currentColor;transform:translate(-50%,-50%)}
+.faq summary i::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s}
+.faq details[open]:not(.closing) summary{color:#fff}
+.faq details[open] summary i::after{transform:translate(-50%,-50%) rotate(0)}
+.faq .ans{overflow:hidden}
+.faq .ans p{padding:0 50px 22px 0;color:#fff;max-width:44rem}
+
+/* MAPA + pie */
+.visit{padding:20px 0 70px}
+.map{margin-top:26px;min-height:340px;background:var(--crema2);border:3px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:8px 8px 0 var(--ink)}
+.map iframe{width:100%;height:100%;min-height:340px;border:0;display:block}
+@media (min-width:860px){.map,.map iframe{min-height:430px}}
+footer{background:var(--ink);color:#f2e6cc;padding:44px 0 40px;font-size:.98rem}
+footer .logo{color:#fff;margin-bottom:12px}
+footer p+p{margin-top:8px}
+footer a{color:#fff}
+.ribbon{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--ink);color:#f2e6cc;font-size:.82rem;line-height:1.3;text-align:center;padding:9px 16px;min-height:36px;border-top:3px solid var(--maiz)}
+.ribbon a{color:#fff;font-weight:600;text-underline-offset:3px}
+
+/* animación */
+.js-anim .rv{opacity:0;transform:translateY(34px)}
 @media (prefers-reduced-motion:reduce){
   html:not(.lenis){scroll-behavior:auto}
-  .marquee__track{animation:none}
-  .marquee{overflow-x:auto}
-  .grain{display:none}
+  .reel{scroll-behavior:auto}
   *{transition:none!important}
 }
 </style>
 </head>
 <body>
-<div class="progress" id="progress" aria-hidden="true"></div>
-<div class="grain" aria-hidden="true"></div>
-<div class="cursor" id="cursor" aria-hidden="true"></div>
-
 <header class="top">
   <div class="top__in">
-    <a class="logo" href="#top" aria-label="Taquería El Sol de Odessa"><b><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="8" fill="#2b1a10"/><g stroke="#2b1a10" stroke-width="3.4" stroke-linecap="round"><path d="M20 3v5M20 32v5M3 20h5M32 20h5M8 8l3.5 3.5M28.5 28.5L32 32M8 32l3.5-3.5M28.5 11.5L32 8"/></g></svg></b><span>El Sol</span><small>Odessa, TX</small></a>
+    <a class="logo" href="#top" aria-label="Taquería El Sol de Odessa"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="8" fill="#f6c23e" stroke="#2b1a10" stroke-width="2.4"/><g stroke="#9c2f14" stroke-width="3.4" stroke-linecap="round"><path d="M20 3v5M20 32v5M3 20h5M32 20h5M8 8l3.5 3.5M28.5 28.5L32 32M8 32l3.5-3.5M28.5 11.5L32 8"/></g></svg><span>El Sol de Odessa</span></a>
     <nav class="nav" aria-label="Principal">
       <a href="#menu" data-es="Menú" data-en="Menu">Menú</a>
-      <a href="#visit" data-es="Horario y mapa" data-en="Hours &amp; map">Horario y mapa</a>
+      <a href="#hoy" data-es="Horario" data-en="Hours">Horario</a>
       <a href="#catering" data-es="Catering" data-en="Catering">Catering</a>
+      <a href="#mapa" data-es="Mapa" data-en="Map">Mapa</a>
     </nav>
     <button class="lang" id="lang" type="button" aria-label="Switch to English">EN</button>
-    <a class="btn btn--main" href="tel:+14325550174">
+    <a class="btn btn--teja" href="tel:+14325550174">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
       <span data-es="Llamar" data-en="Call">Llamar</span><span class="t-long">&nbsp;(432) 555-0174</span>
     </a>
+    <div class="progress" id="progress" aria-hidden="true"></div>
   </div>
 </header>
 
 <main id="top">
-<div class="hero s-teja" data-bg="#5a1a0e">
-  <div class="hero__stage">
-  <div class="hero__halo" aria-hidden="true"></div>
-  <div class="hero__title" id="heroTitle">
-    <h1 id="h1" aria-label="El Sol">EL SOL</h1>
-  </div>
-  <div class="hero__photo" id="heroPhoto">
-   <div class="taco" id="taco">
-    <img src="../../img/recortes/tacos-1132.webp" srcset="../../img/recortes/tacos-640.webp 640w, ../../img/recortes/tacos-1132.webp 1132w" sizes="(min-width:900px) 800px, 96vw"
-         width="1132" height="681" fetchpriority="high"
-         alt="Tres tacos de asada y pastor en un plato" data-alt-es="Tres tacos de asada y pastor en un plato" data-alt-en="Three asada and pastor tacos on a plate">
-    <div class="taco__shine" aria-hidden="true"><i id="shine"></i></div>
-   </div>
-  </div>
-  </div>
-  <div class="hero__ui">
-    <p class="kick rv" data-es="Taquería de Odessa · Tacos de trompo al carbón" data-en="Odessa taquería · Charcoal trompo tacos">Taquería de Odessa · Tacos de trompo al carbón</p>
-    <p class="lead rv" data-es="Tortilla recién hecha, cebolla, cilantro y salsa de la casa. Pasa, o pide por teléfono y te esperamos con la bolsa lista." data-en="Fresh tortillas, onion, cilantro and house salsa. Come in, or call ahead and we will have your bag ready.">Tortilla recién hecha, cebolla, cilantro y salsa de la casa. Pasa, o pide por teléfono y te esperamos con la bolsa lista.</p>
-    <div class="cta rv">
-      <a class="btn btn--main" href="tel:+14325550174">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
-        <span data-es="Llamar" data-en="Call">Llamar</span>
-      </a>
-      <a class="btn btn--line" href="#menu"><span data-es="Ver el menú" data-en="See the menu">Ver el menú</span></a>
+<section class="hero" aria-label="Taquería El Sol de Odessa">
+  <div class="hero__in">
+    <div class="hero__title">
+      <h1 id="h1">
+        <span class="stamp l1" data-es="Tacos de" data-en="Trompo">Tacos de</span>
+        <span class="l2"><span class="stamp" data-es="Trompo" data-en="Tacos">Trompo</span><span class="stamp pill" data-es="al carbón" data-en="over charcoal">al carbón</span></span>
+      </h1>
     </div>
-    <ul class="facts rv"><li data-es="Mar–Dom 7 am–10 pm" data-en="Tue–Sun 7 am–10 pm">Mar–Dom 7 am–10 pm</li><li data-es="Cerrado lunes" data-en="Closed Mondays">Cerrado lunes</li></ul>
-  </div>
-</div>
-
-<div class="trust s-teja" data-bg="#5a1a0e">
-  <div class="wrap">
-    <ul class="nums">
-      <li class="rv"><b><span data-count="12">12</span><i>+</i></b><div><span data-es="Años en el barrio" data-en="Years in the neighborhood">Años en el barrio</span><small data-es="Cifra de demostración, no real." data-en="Demo figure, not a real claim.">Cifra de demostración, no real.</small></div></li>
-      <li class="rv"><b><span data-count="3">3</span><i></i></b><div><span data-es="Salsas de la casa" data-en="House salsas">Salsas de la casa</span><small data-es="Cifra de demostración, no real." data-en="Demo figure, not a real claim.">Cifra de demostración, no real.</small></div></li>
-      <li class="rv"><b><span data-count="15">15</span><i>min</i></b><div><span data-es="Pedido por teléfono listo" data-en="Phone order ready">Pedido por teléfono listo</span><small data-es="Cifra de demostración, no real." data-en="Demo figure, not a real claim.">Cifra de demostración, no real.</small></div></li>
-    </ul>
-    <div class="pills rv">
-      <span data-es="Negocio familiar" data-en="Family owned">Negocio familiar</span>
-      <span data-es="Tortilla recién hecha" data-en="Fresh tortillas">Tortilla recién hecha</span>
-      <span data-es="Trompo al carbón" data-en="Charcoal trompo">Trompo al carbón</span>
+    <div class="plate" id="plate">
+      <div class="plate__par" id="platePar">
+        <div class="plate__fx" id="plateFx">
+          <img src="../../img/recortes/tacos-1132.webp" srcset="../../img/recortes/tacos-640.webp 640w, ../../img/recortes/tacos-1132.webp 1132w" sizes="(min-width:760px) 54vw, 122vw"
+               width="1132" height="681" fetchpriority="high"
+               alt="Plato de tacos de trompo con cebolla y cilantro" data-alt-es="Plato de tacos de trompo con cebolla y cilantro" data-alt-en="Plate of trompo tacos with onion and cilantro">
+        </div>
+        <div class="seal" id="seal"><small data-es="Desde" data-en="From">Desde</small><b>$2.75</b><small data-es="por taco" data-en="per taco">por taco</small></div>
+      </div>
+    </div>
+    <div class="hero__copy">
+      <p class="kick rv" data-es="Taquería de Odessa · Mar–Dom 7 am–10 pm" data-en="Odessa taquería · Tue–Sun 7 am–10 pm">Taquería de Odessa · Mar–Dom 7 am–10 pm</p>
+      <p class="lead rv" data-es="Tortilla recién hecha, cebolla, cilantro y salsa de la casa. Pasa, o pide por teléfono y te esperamos con la bolsa lista." data-en="Fresh tortillas, onion, cilantro and house salsa. Come in, or call ahead and we will have your bag ready.">Tortilla recién hecha, cebolla, cilantro y salsa de la casa. Pasa, o pide por teléfono y te esperamos con la bolsa lista.</p>
+      <div class="cta rv">
+        <a class="btn btn--teja" href="tel:+14325550174">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          <span data-es="Llamar" data-en="Call">Llamar</span>
+        </a>
+        <a class="btn btn--line" href="#menu"><span data-es="Ver menú" data-en="See menu">Ver menú</span></a>
+      </div>
+      <ul class="facts rv"><li data-es="Cerrado lunes" data-en="Closed Mondays">Cerrado lunes</li><li data-es="Tortilla hecha al momento" data-en="Tortillas made to order">Tortilla hecha al momento</li></ul>
     </div>
   </div>
-</div>
+</section>
 
-<section class="menu s-rojo" id="menu" data-bg="#3a0a05">
-  <div class="wrap">
+<div class="pp" aria-hidden="true"></div>
+
+<section class="menu" id="menu">
+  <div class="menu__head">
     <p class="eyebrow rv" data-es="Lo que hacemos bien" data-en="What we do well">Lo que hacemos bien</p>
-    <h2 class="h2 rv" data-es="El menú" data-en="The menu">El menú</h2>
+    <h2 class="rv" data-es="El menú" data-en="The menu">El menú</h2>
+    <p class="sub rv" data-es="Corto a propósito. Precios de ejemplo para esta demo." data-en="Short on purpose. Sample prices for this demo.">Corto a propósito. Precios de ejemplo para esta demo.</p>
   </div>
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee__track">
-      <div class="marquee__group"><span data-es="Tacos de trompo" data-en="Trompo tacos">Tacos de trompo</span><i></i><span data-es="Asada" data-en="Asada">Asada</span><i></i><span data-es="Barbacoa" data-en="Barbacoa">Barbacoa</span><i></i><span>Menudo</span><i></i><span data-es="Tortas" data-en="Tortas">Tortas</span><i></i><span data-es="Aguas frescas" data-en="Aguas frescas">Aguas frescas</span><i></i></div>
-      <div class="marquee__group"><span data-es="Tacos de trompo" data-en="Trompo tacos">Tacos de trompo</span><i></i><span data-es="Asada" data-en="Asada">Asada</span><i></i><span data-es="Barbacoa" data-en="Barbacoa">Barbacoa</span><i></i><span>Menudo</span><i></i><span data-es="Tortas" data-en="Tortas">Tortas</span><i></i><span data-es="Aguas frescas" data-en="Aguas frescas">Aguas frescas</span><i></i></div>
-    </div>
-  </div>
-  <div class="wrap">
-    <p class="sub rv" data-es="Corto a propósito: lo que hacemos bien. Precios de ejemplo para esta demo." data-en="Short on purpose: what we do well. Sample prices for this demo.">Corto a propósito: lo que hacemos bien. Precios de ejemplo para esta demo.</p>
-    <div class="cards">
-      <article class="card card--feat rv">
-        <img class="card__bg" src="../../img/menu/trompo-480.webp" srcset="../../img/menu/trompo-480.webp 480w, ../../img/menu/trompo-960.webp 960w" sizes="(min-width:900px) 66vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <span class="badge" data-es="La estrella" data-en="The star">La estrella</span>
-        <h3 data-es="Tacos de trompo" data-en="Trompo tacos">Tacos de trompo</h3>
-        <p data-es="Cerdo al pastor del trompo, con piña y cebolla." data-en="Pork al pastor off the spit, with pineapple and onion.">Cerdo al pastor del trompo, con piña y cebolla.</p>
-        <p class="price">$2.75 <small data-es="c/u" data-en="each">c/u</small></p>
-      </article>
-      <article class="card rv">
-        <img class="card__bg" src="../../img/menu/asada-480.webp" srcset="../../img/menu/asada-480.webp 480w, ../../img/menu/asada-960.webp 960w" sizes="(min-width:900px) 33vw, (min-width:560px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <h3 data-es="Tacos de asada" data-en="Asada tacos">Tacos de asada</h3>
-        <p data-es="Res a la parrilla, picada al momento." data-en="Grilled beef, chopped to order.">Res a la parrilla, picada al momento.</p>
-        <p class="price">$3.25 <small data-es="c/u" data-en="each">c/u</small></p>
-      </article>
-      <article class="card rv">
-        <img class="card__bg" src="../../img/menu/barbacoa-480.webp" srcset="../../img/menu/barbacoa-480.webp 480w, ../../img/menu/barbacoa-960.webp 960w" sizes="(min-width:900px) 33vw, (min-width:560px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <h3 data-es="Tacos de barbacoa" data-en="Barbacoa tacos">Tacos de barbacoa</h3>
-        <p data-es="Cocida lenta, suave, con su consomé aparte." data-en="Slow-cooked and tender, with consommé on the side.">Cocida lenta, suave, con su consomé aparte.</p>
-        <p class="price">$3.50 <small data-es="c/u" data-en="each">c/u</small></p>
-      </article>
-      <article class="card rv">
-        <img class="card__bg" src="../../img/menu/menudo-480.webp" srcset="../../img/menu/menudo-480.webp 480w, ../../img/menu/menudo-960.webp 960w" sizes="(min-width:900px) 33vw, (min-width:560px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <span class="badge" data-es="Sáb y Dom" data-en="Sat &amp; Sun">Sáb y Dom</span>
-        <h3>Menudo</h3>
-        <p data-es="Caldo rojo, con orégano, limón y tortillas calientes." data-en="Red broth with oregano, lime and warm tortillas.">Caldo rojo, con orégano, limón y tortillas calientes.</p>
-        <p class="price">$11.50</p>
-      </article>
-      <article class="card rv">
-        <img class="card__bg" src="../../img/menu/tortas-480.webp" srcset="../../img/menu/tortas-480.webp 480w, ../../img/menu/tortas-960.webp 960w" sizes="(min-width:900px) 33vw, (min-width:560px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <h3 data-es="Tortas" data-en="Tortas">Tortas</h3>
-        <p data-es="Telera tostada, frijoles, aguacate y tu carne favorita." data-en="Toasted telera roll, beans, avocado and your choice of meat.">Telera tostada, frijoles, aguacate y tu carne favorita.</p>
-        <p class="price">$9.50</p>
-      </article>
-      <article class="card rv">
-        <img class="card__bg" src="../../img/menu/aguas-480.webp" srcset="../../img/menu/aguas-480.webp 480w, ../../img/menu/aguas-960.webp 960w" sizes="(min-width:900px) 33vw, (min-width:560px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <h3 data-es="Aguas frescas" data-en="Aguas frescas">Aguas frescas</h3>
-        <p data-es="Horchata, jamaica y limón. Vaso grande." data-en="Horchata, hibiscus and lime. Large cup.">Horchata, jamaica y limón. Vaso grande.</p>
-        <p class="price">$3.50</p>
-      </article>
-    </div>
-    <p class="note-line rv" data-es="Precios de ejemplo para esta demo. Pregunta por alergias o por menos picante." data-en="Sample prices for this demo. Ask about allergies or milder salsa.">Precios de ejemplo para esta demo. Pregunta por alergias o por menos picante.</p>
-    <div class="svc__more rv">
-      <a class="btn btn--main" href="tel:+14325550174"><span data-es="Pide por teléfono" data-en="Order by phone">Pide por teléfono</span></a>
-      <a class="btn btn--line" href="#visit"><span data-es="Cómo llegar" data-en="Get directions">Cómo llegar</span></a>
-    </div>
-  </div>
-</section>
-
-<section class="band s-rojo" id="about" data-bg="#3a0a05">
-  <div class="wrap band__grid">
-    <div>
-      <p class="eyebrow rv" data-es="Por qué venir" data-en="Why come by">Por qué venir</p>
-      <h2 class="h2 rv" style="font-size:clamp(2.2rem,.8rem + 5.4vw,4.8rem)" data-es="Sabor de casa, sin esperas largas" data-en="Home flavor, no long waits">Sabor de casa, sin esperas largas</h2>
-    </div>
-    <div>
-      <ul class="rv">
-        <li data-es="Trompo al carbón y tortilla hecha en el momento." data-en="Charcoal trompo and tortillas made to order.">Trompo al carbón y tortilla hecha en el momento.</li>
-        <li data-es="Abrimos a las 7 am: desayuno de tacos antes del trabajo." data-en="Open at 7 am: taco breakfast before work.">Abrimos a las 7 am: desayuno de tacos antes del trabajo.</li>
-        <li data-es="Pide por teléfono y recoge sin hacer fila." data-en="Order by phone and pick up without the line.">Pide por teléfono y recoge sin hacer fila.</li>
+  <div class="board">
+    <div class="carta rv">
+      <h3 class="sec" data-es="Tacos" data-en="Tacos">Tacos</h3>
+      <ul>
+        <li class="dish"><div class="dish__row"><span class="dish__name"><span data-es="Tacos de trompo" data-en="Trompo tacos">Tacos de trompo</span><span class="tag" data-es="La estrella" data-en="The star">La estrella</span></span><i class="dish__dots" aria-hidden="true"></i><span class="dish__price">$2.75<small data-es="c/u" data-en="each">c/u</small></span></div><p class="dish__desc" data-es="Cerdo al pastor del trompo, con piña y cebolla." data-en="Pork al pastor off the spit, with pineapple and onion.">Cerdo al pastor del trompo, con piña y cebolla.</p></li>
+        <li class="dish"><div class="dish__row"><span class="dish__name" data-es="Tacos de asada" data-en="Asada tacos">Tacos de asada</span><i class="dish__dots" aria-hidden="true"></i><span class="dish__price">$3.25<small data-es="c/u" data-en="each">c/u</small></span></div><p class="dish__desc" data-es="Res a la parrilla, picada al momento." data-en="Grilled beef, chopped to order.">Res a la parrilla, picada al momento.</p></li>
+        <li class="dish"><div class="dish__row"><span class="dish__name" data-es="Tacos de barbacoa" data-en="Barbacoa tacos">Tacos de barbacoa</span><i class="dish__dots" aria-hidden="true"></i><span class="dish__price">$3.50<small data-es="c/u" data-en="each">c/u</small></span></div><p class="dish__desc" data-es="Cocida lenta, suave, con su consomé aparte." data-en="Slow-cooked and tender, with consommé on the side.">Cocida lenta, suave, con su consomé aparte.</p></li>
       </ul>
-      <div class="proof rv"><strong data-es="Reseñas próximamente" data-en="Reviews coming soon">Reseñas próximamente</strong><span data-es="Aquí irán reseñas reales de clientes cuando el negocio esté en línea." data-en="Real customer reviews will go here once the business is live.">Aquí irán reseñas reales de clientes cuando el negocio esté en línea.</span></div>
+      <h3 class="sec" data-es="Platos" data-en="Plates">Platos</h3>
+      <ul>
+        <li class="dish"><div class="dish__row"><span class="dish__name"><span>Menudo</span><span class="tag" data-es="Sáb y Dom" data-en="Sat &amp; Sun">Sáb y Dom</span></span><i class="dish__dots" aria-hidden="true"></i><span class="dish__price">$11.50</span></div><p class="dish__desc" data-es="Caldo rojo, con orégano, limón y tortillas calientes." data-en="Red broth with oregano, lime and warm tortillas.">Caldo rojo, con orégano, limón y tortillas calientes.</p></li>
+        <li class="dish"><div class="dish__row"><span class="dish__name" data-es="Tortas" data-en="Tortas">Tortas</span><i class="dish__dots" aria-hidden="true"></i><span class="dish__price">$9.50</span></div><p class="dish__desc" data-es="Telera tostada, frijoles, aguacate y tu carne favorita." data-en="Toasted telera roll, beans, avocado and your choice of meat.">Telera tostada, frijoles, aguacate y tu carne favorita.</p></li>
+      </ul>
+      <h3 class="sec" data-es="Bebidas" data-en="Drinks">Bebidas</h3>
+      <ul>
+        <li class="dish"><div class="dish__row"><span class="dish__name" data-es="Aguas frescas" data-en="Aguas frescas">Aguas frescas</span><i class="dish__dots" aria-hidden="true"></i><span class="dish__price">$3.50</span></div><p class="dish__desc" data-es="Horchata, jamaica y limón. Vaso grande." data-en="Horchata, hibiscus and lime. Large cup.">Horchata, jamaica y limón. Vaso grande.</p></li>
+      </ul>
+      <p class="carta__note" data-es="Precios de ejemplo para esta demo. Pregunta por alergias o por menos picante." data-en="Sample prices for this demo. Ask about allergies or milder salsa.">Precios de ejemplo para esta demo. Pregunta por alergias o por menos picante.</p>
+      <div class="cta">
+        <a class="btn btn--teja" href="tel:+14325550174"><span data-es="Pide por teléfono" data-en="Order by phone">Pide por teléfono</span></a>
+        <a class="btn btn--line" href="#mapa"><span data-es="Cómo llegar" data-en="Get directions">Cómo llegar</span></a>
+      </div>
+    </div>
+    <div class="rail rv">
+      <div class="rail__box">
+        <div class="reel" id="reel" tabindex="0" role="region" aria-label="Fotos del menú" data-aria-es="Fotos del menú" data-aria-en="Menu photos">
+          <figure class="slide"><img src="../../img/menu/trompo-480.webp" srcset="../../img/menu/trompo-480.webp 480w, ../../img/menu/trompo-960.webp 960w" sizes="(min-width:860px) 36vw, 80vw" width="960" height="640" alt="Tacos de trompo con piña" data-alt-es="Tacos de trompo con piña" data-alt-en="Trompo tacos with pineapple"><figcaption><b data-es="Tacos de trompo" data-en="Trompo tacos">Tacos de trompo</b><span>$2.75</span></figcaption></figure>
+          <figure class="slide"><img src="../../img/menu/asada-480.webp" srcset="../../img/menu/asada-480.webp 480w, ../../img/menu/asada-960.webp 960w" sizes="(min-width:860px) 36vw, 80vw" width="960" height="640" loading="lazy" decoding="async" alt="Tacos de asada" data-alt-es="Tacos de asada" data-alt-en="Asada tacos"><figcaption><b data-es="Tacos de asada" data-en="Asada tacos">Tacos de asada</b><span>$3.25</span></figcaption></figure>
+          <figure class="slide"><img src="../../img/menu/barbacoa-480.webp" srcset="../../img/menu/barbacoa-480.webp 480w, ../../img/menu/barbacoa-960.webp 960w" sizes="(min-width:860px) 36vw, 80vw" width="960" height="640" loading="lazy" decoding="async" alt="Tacos de barbacoa" data-alt-es="Tacos de barbacoa" data-alt-en="Barbacoa tacos"><figcaption><b data-es="Tacos de barbacoa" data-en="Barbacoa tacos">Tacos de barbacoa</b><span>$3.50</span></figcaption></figure>
+          <figure class="slide"><img src="../../img/menu/menudo-480.webp" srcset="../../img/menu/menudo-480.webp 480w, ../../img/menu/menudo-960.webp 960w" sizes="(min-width:860px) 36vw, 80vw" width="960" height="640" loading="lazy" decoding="async" alt="Tazón de menudo rojo" data-alt-es="Tazón de menudo rojo" data-alt-en="Bowl of red menudo"><figcaption><b>Menudo</b><span>$11.50</span></figcaption></figure>
+          <figure class="slide"><img src="../../img/menu/tortas-480.webp" srcset="../../img/menu/tortas-480.webp 480w, ../../img/menu/tortas-960.webp 960w" sizes="(min-width:860px) 36vw, 80vw" width="960" height="640" loading="lazy" decoding="async" alt="Torta en telera tostada" data-alt-es="Torta en telera tostada" data-alt-en="Torta on a toasted telera roll"><figcaption><b data-es="Tortas" data-en="Tortas">Tortas</b><span>$9.50</span></figcaption></figure>
+          <figure class="slide"><img src="../../img/menu/aguas-480.webp" srcset="../../img/menu/aguas-480.webp 480w, ../../img/menu/aguas-960.webp 960w" sizes="(min-width:860px) 36vw, 80vw" width="960" height="640" loading="lazy" decoding="async" alt="Vasos de aguas frescas" data-alt-es="Vasos de aguas frescas" data-alt-en="Cups of aguas frescas"><figcaption><b data-es="Aguas frescas" data-en="Aguas frescas">Aguas frescas</b><span>$3.50</span></figcaption></figure>
+        </div>
+        <div class="reel__nav">
+          <button type="button" id="prev" aria-label="Foto anterior" data-aria-es="Foto anterior" data-aria-en="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" id="next" aria-label="Foto siguiente" data-aria-es="Foto siguiente" data-aria-en="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+          <span id="count" aria-live="polite">1 / 6</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="faqs s-rojo" id="faq" data-bg="#3a0a05" style="padding-top:20px">
+<section class="today dk" id="hoy" aria-label="Hoy">
+  <div class="wrap today__in">
+    <span class="today__tag" data-es="HOY" data-en="TODAY">HOY</span>
+    <p class="today__state" id="todayState" role="status"><i aria-hidden="true"></i><span id="todayText">…</span></p>
+  </div>
+</section>
+
+<section class="hrs">
+  <div class="wrap">
+    <p class="eyebrow rv" data-es="Pasa a vernos" data-en="Come on in">Pasa a vernos</p>
+    <h2 class="rv" data-es="Horario" data-en="Hours">Horario</h2>
+    <div class="hrs__grid">
+      <div class="hours rv">
+        <table>
+          <caption class="sr" data-es="Horario semanal" data-en="Weekly hours">Horario semanal</caption>
+          <tbody id="hrsBody">
+          <tr class="off" data-d="1"><th scope="row" data-es="Lunes" data-en="Monday">Lunes</th><td data-es="Cerrado" data-en="Closed">Cerrado</td></tr>
+          <tr data-d="2"><th scope="row" data-es="Martes" data-en="Tuesday">Martes</th><td>7 am – 10 pm</td></tr>
+          <tr data-d="3"><th scope="row" data-es="Miércoles" data-en="Wednesday">Miércoles</th><td>7 am – 10 pm</td></tr>
+          <tr data-d="4"><th scope="row" data-es="Jueves" data-en="Thursday">Jueves</th><td>7 am – 10 pm</td></tr>
+          <tr data-d="5"><th scope="row" data-es="Viernes" data-en="Friday">Viernes</th><td>7 am – 10 pm</td></tr>
+          <tr data-d="6"><th scope="row" data-es="Sábado" data-en="Saturday">Sábado</th><td>7 am – 10 pm</td></tr>
+          <tr data-d="0"><th scope="row" data-es="Domingo" data-en="Sunday">Domingo</th><td>7 am – 10 pm</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="hrs__side rv">
+        <p data-es="Abrimos a las 7 am: desayuno de tacos antes del trabajo. Pide por teléfono y recoge sin hacer fila." data-en="We open at 7 am: taco breakfast before work. Order by phone and pick up without the line.">Abrimos a las 7 am: desayuno de tacos antes del trabajo. Pide por teléfono y recoge sin hacer fila.</p>
+        <address>E 8th St, Odessa, TX</address>
+        <div class="cta">
+          <a class="btn btn--teja" href="tel:+14325550174"><span data-es="Llama: (432) 555-0174" data-en="Call: (432) 555-0174">Llama: (432) 555-0174</span></a>
+          <a class="btn btn--line" href="#mapa"><span data-es="Cómo llegar" data-en="Get directions">Cómo llegar</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pp" aria-hidden="true"></div>
+
+<section class="cater dk" id="catering">
+  <img class="cater__bg" src="../../img/menu/trompo-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="">
+  <div class="wrap">
+    <p class="eyebrow rv" data-es="Para tu evento" data-en="For your event">Para tu evento</p>
+    <h2 class="rv" data-es="Catering y eventos" data-en="Catering &amp; events">Catering y eventos</h2>
+    <p class="rv" data-es="Cumpleaños, quinceañeras, equipos de trabajo y reuniones en la iglesia. Trompo en sitio o charolas listas. Llámanos con unos días de aviso." data-en="Birthdays, quinceañeras, work crews and church gatherings. Trompo on site or ready-to-serve trays. Call us a few days ahead.">Cumpleaños, quinceañeras, equipos de trabajo y reuniones en la iglesia. Trompo en sitio o charolas listas. Llámanos con unos días de aviso.</p>
+    <a class="btn btn--maiz rv" href="tel:+14325550174">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+      <span data-es="Llama para cotizar" data-en="Call for a quote">Llama para cotizar</span>
+    </a>
+  </div>
+</section>
+
+<section class="nums dk" aria-label="Cifras">
+  <div class="wrap">
+    <ul>
+      <li class="rv"><b><span data-count="12">12</span><i>+</i></b><div><span class="lbl" data-es="Años en el barrio" data-en="Years in the neighborhood">Años en el barrio</span><small data-es="Cifra de demostración, no real." data-en="Demo figure, not a real claim.">Cifra de demostración, no real.</small></div></li>
+      <li class="rv"><b><span data-count="3">3</span><i></i></b><div><span class="lbl" data-es="Salsas de la casa" data-en="House salsas">Salsas de la casa</span><small data-es="Cifra de demostración, no real." data-en="Demo figure, not a real claim.">Cifra de demostración, no real.</small></div></li>
+      <li class="rv"><b><span data-count="15">15</span><i>min</i></b><div><span class="lbl" data-es="Pedido por teléfono listo" data-en="Phone order ready">Pedido por teléfono listo</span><small data-es="Cifra de demostración, no real." data-en="Demo figure, not a real claim.">Cifra de demostración, no real.</small></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="rev">
+  <div class="wrap">
+    <div class="rev__card rv"><strong data-es="Reseñas próximamente" data-en="Reviews coming soon">Reseñas próximamente</strong><span data-es="Aquí irán reseñas reales de clientes cuando el negocio esté en línea." data-en="Real customer reviews will go here once the business is live.">Aquí irán reseñas reales de clientes cuando el negocio esté en línea.</span></div>
+  </div>
+</section>
+
+<section class="faqs" id="faq">
   <div class="wrap">
     <p class="eyebrow rv" data-es="Respuestas rápidas" data-en="Quick answers">Respuestas rápidas</p>
-    <h2 class="h2 rv" style="font-size:clamp(2.2rem,.8rem + 5.4vw,4.8rem)" data-es="Antes de venir" data-en="Before you come">Antes de venir</h2>
-    <div class="faq rv" id="faq-list">
+    <h2 class="rv" data-es="Antes de venir" data-en="Before you come">Antes de venir</h2>
+    <div class="faq rv">
       <details>
         <summary><span data-es="¿Aceptan tarjeta?" data-en="Do you take cards?">¿Aceptan tarjeta?</span><i aria-hidden="true"></i></summary>
         <div class="ans"><p data-es="Sí, tarjeta de crédito y débito, y también efectivo. (Dato de ejemplo para esta demo.)" data-en="Yes, credit and debit cards, and cash too. (Sample answer for this demo.)">Sí, tarjeta de crédito y débito, y también efectivo. (Dato de ejemplo para esta demo.)</p></div>
@@ -414,52 +432,24 @@ footer a{color:#fff}
   </div>
 </section>
 
-<section class="cater s-verde" id="catering" data-bg="#1f4a28">
-  <div class="wrap cater__in">
-    <div>
-      <h2 class="rv" data-es="Catering y eventos" data-en="Catering &amp; events">Catering y eventos</h2>
-      <p class="rv" data-es="Cumpleaños, quinceañeras, equipos de trabajo y reuniones en la iglesia. Trompo en sitio o charolas listas. Llámanos con unos días de aviso." data-en="Birthdays, quinceañeras, work crews and church gatherings. Trompo on site or ready-to-serve trays. Call us a few days ahead.">Cumpleaños, quinceañeras, equipos de trabajo y reuniones en la iglesia. Trompo en sitio o charolas listas. Llámanos con unos días de aviso.</p>
-    </div>
-    <a class="btn btn--main rv" href="tel:+14325550174">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
-      <span data-es="Llama para cotizar" data-en="Call for a quote">Llama para cotizar</span>
-    </a>
-  </div>
-</section>
+<div class="pp" aria-hidden="true"></div>
 
-<section id="visit" class="light s-light" data-bg="#f6e8b8">
+<section class="visit" id="mapa">
   <div class="wrap">
-    <p class="eyebrow rv" data-es="Pasa a vernos" data-en="Come on in">Pasa a vernos</p>
-    <h2 class="h2 rv" style="font-size:clamp(2.2rem,.8rem + 6.6vw,6.2rem)" data-es="Horario y ubicación" data-en="Hours &amp; location">Horario y ubicación</h2>
-    <div class="visit__grid">
-      <div class="hours rv">
-        <h3 data-es="Horario" data-en="Hours">Horario</h3>
-        <table>
-          <tr class="off"><th scope="row" data-es="Lunes" data-en="Monday">Lunes</th><td data-es="Cerrado" data-en="Closed">Cerrado</td></tr>
-          <tr><th scope="row" data-es="Martes" data-en="Tuesday">Martes</th><td data-es="7 am – 10 pm" data-en="7 am – 10 pm">7 am – 10 pm</td></tr>
-          <tr><th scope="row" data-es="Miércoles" data-en="Wednesday">Miércoles</th><td data-es="7 am – 10 pm" data-en="7 am – 10 pm">7 am – 10 pm</td></tr>
-          <tr><th scope="row" data-es="Jueves" data-en="Thursday">Jueves</th><td data-es="7 am – 10 pm" data-en="7 am – 10 pm">7 am – 10 pm</td></tr>
-          <tr><th scope="row" data-es="Viernes" data-en="Friday">Viernes</th><td data-es="7 am – 10 pm" data-en="7 am – 10 pm">7 am – 10 pm</td></tr>
-          <tr><th scope="row" data-es="Sábado" data-en="Saturday">Sábado</th><td data-es="7 am – 10 pm" data-en="7 am – 10 pm">7 am – 10 pm</td></tr>
-          <tr><th scope="row" data-es="Domingo" data-en="Sunday">Domingo</th><td data-es="7 am – 10 pm" data-en="7 am – 10 pm">7 am – 10 pm</td></tr>
-        </table>
-        <address>E 8th St, Odessa, TX</address>
-        <a class="btn btn--main" href="tel:+14325550174"><span data-es="Llama: (432) 555-0174" data-en="Call: (432) 555-0174">Llama: (432) 555-0174</span></a>
-        <a class="btn btn--soft" href="https://www.google.com/maps/search/?api=1&amp;query=taquer%C3%ADa+E+8th+St+Odessa+TX" target="_blank" rel="noopener"><span data-es="Cómo llegar" data-en="Get directions">Cómo llegar</span></a>
-      </div>
-      <div class="map rv">
-        <iframe title="Mapa de Odessa, TX" data-title-es="Mapa de Odessa, TX" data-title-en="Map of Odessa, TX" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps?q=Odessa,+TX&amp;output=embed"></iframe>
-      </div>
+    <p class="eyebrow rv" data-es="Cómo llegar" data-en="Find us">Cómo llegar</p>
+    <h2 class="rv" data-es="Estamos en Odessa" data-en="We are in Odessa">Estamos en Odessa</h2>
+    <p class="rv" style="margin-top:12px;font-weight:700">E 8th St, Odessa, TX · <a href="https://www.google.com/maps/search/?api=1&amp;query=taquer%C3%ADa+E+8th+St+Odessa+TX" target="_blank" rel="noopener" data-es="Abrir en Google Maps" data-en="Open in Google Maps">Abrir en Google Maps</a></p>
+    <div class="map rv">
+      <iframe title="Mapa de Odessa, TX" data-title-es="Mapa de Odessa, TX" data-title-en="Map of Odessa, TX" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Odessa,+TX&amp;output=embed"></iframe>
     </div>
   </div>
 </section>
 </main>
 
-<footer class="s-dark" data-bg="#140a06">
+<footer class="dk">
   <div class="wrap">
-    <p class="foot__big" aria-hidden="true">El <i>Sol</i></p>
-    <a class="logo" href="#top"><b><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="8" fill="#2b1a10"/><g stroke="#2b1a10" stroke-width="3.4" stroke-linecap="round"><path d="M20 3v5M20 32v5M3 20h5M32 20h5M8 8l3.5 3.5M28.5 28.5L32 32M8 32l3.5-3.5M28.5 11.5L32 8"/></g></svg></b><span>El Sol de Odessa</span></a>
+    <a class="logo" href="#top"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="8" fill="#f6c23e" stroke="#f8eed6" stroke-width="2.4"/><g stroke="#f6c23e" stroke-width="3.4" stroke-linecap="round"><path d="M20 3v5M20 32v5M3 20h5M32 20h5M8 8l3.5 3.5M28.5 28.5L32 32M8 32l3.5-3.5M28.5 11.5L32 8"/></g></svg><span>El Sol de Odessa</span></a>
     <p>E 8th St, Odessa, TX · <a href="tel:+14325550174">(432) 555-0174</a></p>
     <p data-es="Mar–Dom 7 am–10 pm · Cerrado lunes · horario completo arriba" data-en="Tue–Sun 7 am–10 pm · Closed Mondays · full hours above">Mar–Dom 7 am–10 pm · Cerrado lunes · horario completo arriba</p>
     <p data-es="Sitio de demostración. Taquería El Sol de Odessa es un negocio ficticio; el nombre, el teléfono y la dirección son inventados. Las fotos son de archivo." data-en="Demo website. Taquería El Sol de Odessa is a fictional business; the name, phone number and address are made up. Photos are stock.">Sitio de demostración. Taquería El Sol de Odessa es un negocio ficticio; el nombre, el teléfono y la dirección son inventados. Las fotos son de archivo.</p>
@@ -474,7 +464,7 @@ footer a{color:#fff}
 <script src="../../js/vendor/ScrollTrigger.min.js"></script>
 <script src="../../js/vendor/lenis.min.js"></script>
 <script>
-/* language (ES/EN) */
+/* idioma ES/EN (español si navigator.language empieza por "es"; la elección se guarda) */
 (function(){
   var KEY='tq-lang', btn=document.getElementById('lang'), lang='es';
   function dflt(){return /^es/i.test(navigator.language||'')?'es':'en';}
@@ -485,40 +475,81 @@ footer a{color:#fff}
     toggle:{es:['EN','Switch to English'],en:['ES','Cambiar a español']}
   };
   function apply(l){
-    lang=l; document.documentElement.lang=l;
+    lang=l; window.__tqLang=l; document.documentElement.lang=l;
     document.querySelectorAll('[data-es]').forEach(function(el){var v=el.getAttribute('data-'+l); if(v!==null) el.textContent=v;});
     document.querySelectorAll('[data-alt-es]').forEach(function(el){el.setAttribute('alt',el.getAttribute('data-alt-'+l));});
     document.querySelectorAll('[data-title-es]').forEach(function(el){el.setAttribute('title',el.getAttribute('data-title-'+l));});
+    document.querySelectorAll('[data-aria-es]').forEach(function(el){el.setAttribute('aria-label',el.getAttribute('data-aria-'+l));});
     document.title=T.title[l];
     var m=document.querySelector('meta[name=description]'); if(m) m.setAttribute('content',T.desc[l]);
     btn.textContent=T.toggle[l][0]; btn.setAttribute('aria-label',T.toggle[l][1]);
+    document.dispatchEvent(new CustomEvent('tqlang',{detail:l}));
   }
   btn.addEventListener('click',function(){var n=lang==='es'?'en':'es'; try{localStorage.setItem(KEY,n);}catch(e){} apply(n);});
-  apply(lang);
+  window.__tqLang=lang;
+  window.__tqApply=apply;
 })();
 
-/* scroll progress (works without GSAP) */
+/* franja "Hoy": hora de Odessa (America/Chicago), resalta la fila del día */
+(function(){
+  var box=document.getElementById('todayState'),txt=document.getElementById('todayText'),rows=document.querySelectorAll('#hrsBody tr');
+  var OPEN=7,CLOSE=22,MAP={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+  function now(){
+    try{
+      var p=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',weekday:'short',hour:'numeric',minute:'numeric',hourCycle:'h23'}).formatToParts(new Date()),o={};
+      p.forEach(function(x){o[x.type]=x.value;});
+      return {d:MAP[o.weekday],h:(+o.hour)+(+o.minute)/60};
+    }catch(e){var n=new Date();return {d:n.getDay(),h:n.getHours()+n.getMinutes()/60};}
+  }
+  var S={
+    es:{open:'Abierto hasta las 10 pm',mon:'Cerrado los lunes · Abrimos el martes a las 7 am',early:'Cerrado ahora · Abrimos a las 7 am',lateTue:'Cerrado ahora · Abrimos el martes a las 7 am',late:'Cerrado ahora · Abrimos mañana a las 7 am'},
+    en:{open:'Open until 10 pm',mon:'Closed Mondays · We open Tuesday at 7 am',early:'Closed now · We open at 7 am',lateTue:'Closed now · We open Tuesday at 7 am',late:'Closed now · We open tomorrow at 7 am'}
+  };
+  function status(d,h){
+    if(d===1) return {k:'mon',open:false};
+    if(h>=OPEN&&h<CLOSE) return {k:'open',open:true};
+    if(h<OPEN) return {k:'early',open:false};
+    return {k:d===0?'lateTue':'late',open:false};
+  }
+  function render(){
+    var n=now(),l=window.__tqLang||'es',s=status(n.d,n.h);
+    txt.textContent=S[l][s.k]; box.classList.toggle('off',!s.open);
+    rows.forEach(function(r){r.classList.toggle('now',+r.getAttribute('data-d')===n.d);});
+  }
+  window.__tqToday={status:function(d,h,l){return S[l||'es'][status(d,h).k];}};
+  document.addEventListener('tqlang',render);
+  window.__tqApply(window.__tqLang); /* aplica idioma y pinta la franja */
+  setInterval(render,60000);
+})();
+
+/* progreso (funciona sin GSAP) */
 (function(){
   var bar=document.getElementById('progress'),tick=false;
   function upd(){tick=false;var h=document.documentElement.scrollHeight-innerHeight;bar.style.transform='scaleX('+(h>0?Math.min(1,scrollY/h):0)+')';}
   addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});upd();
 })();
 
-/* motion */
+/* carrusel: botones + contador (el snap es CSS) */
+(function(){
+  var reel=document.getElementById('reel'),slides=reel.querySelectorAll('.slide'),cnt=document.getElementById('count');
+  function step(){var s=slides[1];return s?s.offsetLeft-slides[0].offsetLeft:reel.clientWidth;}
+  function idx(){return Math.max(0,Math.min(slides.length-1,Math.round(reel.scrollLeft/step())));}
+  function upd(){cnt.textContent=(idx()+1)+' / '+slides.length;}
+  document.getElementById('prev').addEventListener('click',function(){reel.scrollBy({left:-step(),behavior:'smooth'});});
+  document.getElementById('next').addEventListener('click',function(){reel.scrollBy({left:step(),behavior:'smooth'});});
+  reel.addEventListener('scroll',upd,{passive:true});
+  reel.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'){e.preventDefault();reel.scrollBy({left:step(),behavior:'smooth'});}
+    if(e.key==='ArrowLeft'){e.preventDefault();reel.scrollBy({left:-step(),behavior:'smooth'});}
+  });
+})();
+
+/* movimiento */
 (function(){
   var root=document.documentElement;
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var h1=document.getElementById('h1');
 
-  /* h1 words into spans (no SplitText) */
-  var words=h1.textContent.trim().split(/\s+/);
-  h1.textContent='';
-  words.forEach(function(w,i){
-    if(i){var sp=document.createElement('span');sp.className='sp';h1.appendChild(sp);}
-    var o=document.createElement('span');o.className='w';var inn=document.createElement('span');inn.textContent=w;o.appendChild(inn);h1.appendChild(o);
-  });
-
-  /* FAQ accordion: details + animated height + 8x5 pixel-block wipe (section colour -> black on open, back on close) */
+  /* FAQ: details + altura animada + barrido pixelado 8x5 (crema -> teja al abrir, teja -> crema al cerrar) */
   var dets=document.querySelectorAll('.faq details');
   var PXC=8,PXR=5,PXT=.35;
   if(!reduce&&window.gsap) root.classList.add('faq-px');
@@ -530,13 +561,14 @@ footer a{color:#fff}
       d.insertBefore(px,d.firstChild);
     }
     sum.addEventListener('click',function(e){
-      if(reduce||!window.gsap) return;
+      if(reduce||!window.gsap) return; /* apertura nativa, color instantáneo por CSS */
       e.preventDefault(); if(busy) return; busy=true;
       var step=PXT-.06;
       if(d.open){
+        d.classList.add('closing');
         gsap.to(p,{opacity:0,duration:.12});
         blocks.forEach(function(b){gsap.to(b,{opacity:0,duration:.05,delay:.1+(1-b._d)*step,overwrite:true});});
-        gsap.to(ans,{height:0,duration:PXT,delay:.1,ease:'power2.inOut',onComplete:function(){d.open=false;ans.style.height='';gsap.set(p,{clearProps:'opacity'});busy=false;}});
+        gsap.to(ans,{height:0,duration:PXT,delay:.1,ease:'power2.inOut',onComplete:function(){d.open=false;d.classList.remove('closing');ans.style.height='';gsap.set(p,{clearProps:'opacity'});busy=false;}});
       }else{
         d.open=true; gsap.set(p,{opacity:0});
         blocks.forEach(function(b){gsap.to(b,{opacity:1,duration:.05,delay:b._d*step,overwrite:true});});
@@ -546,41 +578,29 @@ footer a{color:#fff}
     });
   });
 
-  /* custom cursor */
-  if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
-    var cur=document.getElementById('cursor'),x=0,y=0,cx=0,cy=0,run=false;
-    addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;cur.classList.add('on');if(!run){run=true;loop();}});
-    function loop(){cx+=(x-cx)*.22;cy+=(y-cy)*.22;cur.style.transform='translate('+cx+'px,'+cy+'px)';requestAnimationFrame(loop);}
-    document.addEventListener('mouseover',function(e){cur.classList.toggle('big',!!e.target.closest('a,button,summary,select'));});
-    document.addEventListener('mouseleave',function(){cur.classList.remove('on');});
-  }
-
-  /* taco: effects driven by ACCUMULATED scroll distance (never rewinds on scroll up).
-     zoom 1 -> 1.12, glint masked to the plate silhouette (cyclic), subtle rotateY oscillation.
-     Frame time is probed; the glint is switched off if the average frame takes > 32 ms. */
+  /* plato: giro y zoom por scroll ACUMULADO (no retrocede al subir) + sonda de rendimiento
+     (si el fotograma medio pasa de 32 ms se apaga el giro y queda solo el zoom suave) */
   (function(){
-    var taco=document.getElementById('taco'),shine=document.getElementById('shine'),hero=document.querySelector('.hero');
-    if(reduce||!taco||!shine||!hero) return;
+    var fx=document.getElementById('plateFx'),hero=document.querySelector('.hero');
+    if(reduce||!fx||!hero) return;
     root.classList.add('fx');
-    var acc=0,cur=0,lastY=window.scrollY||0,W=taco.offsetWidth||800,vis=true,running=false,shineOn=false,last=0,win=[];
-    var API=window.__truckFx={acc:0,cur:0,shine:false,avg:0,probed:false};
-    addEventListener('resize',function(){W=taco.offsetWidth||W;});
+    var acc=0,cur=0,lastY=window.scrollY||0,vis=true,running=false,spinOn=true,last=0,win=[];
+    var API=window.__plateFx={acc:0,cur:0,spin:true,avg:0,probed:false};
     if(window.IntersectionObserver) new IntersectionObserver(function(en){vis=en[0].isIntersecting;if(vis)kick();}).observe(hero);
     addEventListener('scroll',function(){
       var y=window.scrollY||0,d=Math.abs(y-lastY);lastY=y;
       if(d>0){acc+=Math.min(d,400);API.acc=acc;kick();}
     },{passive:true});
     function render(){
-      var z=Math.min(cur/900,1);z=1-(1-z)*(1-z);
-      taco.style.transform='perspective(900px) rotateY('+(6*Math.sin(cur/260)).toFixed(2)+'deg) scale('+(1+.12*z).toFixed(4)+')';
-      if(shineOn){var ph=(cur/700)%1;shine.style.transform='translate3d('+((ph*1.8-.4)*W).toFixed(1)+'px,0,0) skewX(-22deg)';}
+      var z=Math.min(cur/1000,1);z=1-(1-z)*(1-z);
+      var rot=spinOn?4*Math.sin(cur/330):0;
+      fx.style.transform='rotate('+rot.toFixed(2)+'deg) scale('+(1+.07*z).toFixed(4)+')';
       API.cur=cur;
     }
     function avgOf(a){var s=0;for(var i=0;i<a.length;i++)s+=a[i];return a.length?s/a.length:0;}
-    function setShine(on){shineOn=on;API.shine=on;root.classList.toggle('fx-shine',on);}
-    API.force=function(on){API.locked=true;setShine(on);render();};
+    API.force=function(on){API.locked=true;spinOn=on;API.spin=on;render();};
     function tick(t){
-      if(last){var dt=t-last;if(dt<250){win.push(dt);if(win.length>30)win.shift();if(win.length>=20){API.avg=avgOf(win);if(shineOn&&!API.locked&&API.avg>32)setShine(false);}}}
+      if(last){var dt=t-last;if(dt<250){win.push(dt);if(win.length>30)win.shift();if(win.length>=20){API.avg=avgOf(win);if(spinOn&&!API.locked&&API.avg>32){spinOn=false;API.spin=false;}}}}
       last=t;
       cur+=(acc-cur)*.08;if(Math.abs(acc-cur)<.3)cur=acc;
       render();
@@ -591,7 +611,7 @@ footer a{color:#fff}
       var n=0,pl=0,ds=[];
       (function f(t){if(pl){var dt=t-pl;if(dt<250)ds.push(dt);}pl=t;
         if(++n<42) requestAnimationFrame(f);
-        else{var a=avgOf(ds);API.avg=a;API.probed=true;if(ds.length>=20&&a<=32){setShine(true);render();}}
+        else{var a=avgOf(ds);API.avg=a;API.probed=true;if(ds.length>=20&&a>32&&!API.locked){spinOn=false;API.spin=false;render();}}
       })(performance.now());
     }
     if(document.readyState==='complete') setTimeout(probe,300); else addEventListener('load',function(){setTimeout(probe,300);});
@@ -605,7 +625,7 @@ footer a{color:#fff}
   root.classList.remove('static'); root.classList.add('js-anim');
   gsap.registerPlugin(ScrollTrigger);
 
-  /* smooth scroll */
+  /* scroll suave */
   if(window.Lenis){
     var lenis=new Lenis({lerp:.1});
     lenis.on('scroll',ScrollTrigger.update);
@@ -616,32 +636,22 @@ footer a{color:#fff}
     });
   }
 
-  /* title: words rise in */
-  gsap.from('#h1 .w>span',{yPercent:110,duration:1.1,ease:'power4.out',stagger:.14,delay:.15});
-  gsap.from('#heroPhoto',{opacity:0,scale:.92,duration:1.3,ease:'power3.out',delay:.35});
-  gsap.from('.hero__halo',{opacity:0,duration:1.6,ease:'power2.out'});
+  /* titular: entrada tipo sello (escala 1.2 -> 1 con rebote corto) */
+  gsap.from('#h1 .stamp',{scale:1.2,opacity:0,duration:.5,ease:'back.out(2.4)',stagger:.2,delay:.1});
+  gsap.from('#seal',{scale:0,rotation:-50,duration:.6,ease:'back.out(2)',delay:.75});
+  gsap.from('#plate',{x:140,opacity:0,duration:1.1,ease:'power3.out',delay:.3});
 
-  /* hero parallax: photo slower than text */
-  var st={trigger:'.hero',start:'top top',end:'bottom top',scrub:true};
-  gsap.to('#heroTitle',{yPercent:-28,ease:'none',scrollTrigger:st});
-  gsap.to('#heroPhoto',{y:60,ease:'none',scrollTrigger:st});
-  gsap.to('.hero__halo',{y:30,ease:'none',scrollTrigger:st});
+  /* paralaje del plato */
+  gsap.to('#platePar',{y:46,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
 
-  /* background colour per section */
-  document.querySelectorAll('[data-bg]').forEach(function(sec){
-    ScrollTrigger.create({trigger:sec,start:'top 55%',end:'bottom 55%',
-      onToggle:function(self){if(self.isActive)gsap.to(document.body,{backgroundColor:sec.getAttribute('data-bg'),duration:.7,ease:'power2.out',overwrite:true});}});
-  });
-  gsap.set(document.body,{backgroundColor:'#5a1a0e'});
+  /* revelados suaves */
+  gsap.to('.hero .rv',{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.14,delay:.8});
+  ScrollTrigger.batch('.rv:not(.hero .rv)',{start:'top 90%',once:true,onEnter:function(b){gsap.to(b,{opacity:1,y:0,duration:.8,ease:'power3.out',stagger:.1,overwrite:true});}});
 
-  /* reveals */
-  gsap.to('.hero .rv',{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.15,delay:.9});
-  ScrollTrigger.batch('.rv:not(.hero .rv)',{start:'top 88%',once:true,onEnter:function(b){gsap.to(b,{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.1,overwrite:true});}});
-
-  /* counters */
+  /* contadores */
   document.querySelectorAll('[data-count]').forEach(function(n){
     var end=+n.getAttribute('data-count'),o={v:0};
-    ScrollTrigger.create({trigger:n,start:'top 90%',once:true,onEnter:function(){gsap.to(o,{v:end,duration:1.6,ease:'power2.out',onUpdate:function(){n.textContent=Math.round(o.v);}});}});
+    ScrollTrigger.create({trigger:n,start:'top 92%',once:true,onEnter:function(){gsap.to(o,{v:end,duration:1.4,ease:'power2.out',onUpdate:function(){n.textContent=Math.round(o.v);}});}});
   });
   addEventListener('load',function(){ScrollTrigger.refresh();});
 })();

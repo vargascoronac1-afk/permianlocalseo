@@ -29,6 +29,15 @@
         ],
         "createdAt": "2026-10-24T06:35:44.408Z",
         "reason": "Carlos aprobó el marquee de servicios en el modelo del taller (2026-10-24): pausa en hover y apagado con prefers-reduced-motion"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "demos/taqueria/index.html"
+        ],
+        "createdAt": "2026-10-24T07:00:44.032Z",
+        "reason": "Dirección del director aprobada por Carlos: cartel de menú sobre crema con grano de papel, deliberado para la taquería"
       }
     ]
   }

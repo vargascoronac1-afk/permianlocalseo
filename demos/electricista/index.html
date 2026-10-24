@@ -1,10 +1,14 @@
 <!doctype html>
 <!--
-  Permian Pro Electric: demo "look premium" (2026-10-24), mismo modelo aprobado que demos/taller.
-  Estructura y efectos del taller: titular gigante + protagonista recortado, fondo por seccion (ScrollTrigger),
-  marquee + tarjetas con foto, FAQ con transicion pixelada 8x5, Lenis, cursor propio, reduced-motion.
-  Paleta propia: navy muy oscuro + amarillo electrico. Foto del hero: recorte real (rembg isnet-general-use -a)
-  de una foto de Pexels (Kindel Media, ver /img/CREDITS.md).
+  Permian Pro Electric: demo v2 (2026-10-24). ESTRUCTURA PROPIA, distinta de demos/taller.
+  Taller = titular gigante centrado + protagonista debajo + fondo que cambia por seccion.
+  Aqui = hero de pantalla partida (navy | amarillo con rejilla blueprint), barra de emergencias fija
+  (abajo en movil, lateral en escritorio), servicios como indice numerado con panel de foto sticky,
+  zona de servicio en ruta con puntos + mapa, 3 pasos con linea conectada, FAQ pixelada 8x5,
+  bloques navy / blanco / amarillo con cortes diagonales (clip-path). Fondo fijo por seccion, no cambia al scroll.
+  Tecnica reutilizada del taller: scroll acumulado, sonda de rendimiento, reduced-motion, EN/ES con localStorage.
+  Foto del hero: recorte real (rembg) de una foto de Pexels (Kindel Media, ver /img/CREDITS.md).
+  Rutas solo relativas (../../img, ../../js/vendor): se ve igual abierto como fichero local.
 -->
 <html lang="en" class="static">
 <head>
@@ -19,257 +23,299 @@
 <style>
 :root{
   --black:#03060e; --navy:#0a1330; --night:#08194f; --light:#e8ecf5; --card:#f8f9fd;
-  --ink:#0a1330; --muted:#3d4766; --yellow:#ffd400; --yellow-dark:#e6bd00; --glow:#2f6bff;
-  --line:#c4cbe0;
+  --ink:#0a1330; --muted:#3d4766; --soft:#c9d2ee; --yellow:#ffd400; --yellow-dark:#e6bd00;
   --head:"Barlow Condensed","Arial Narrow","Roboto Condensed",Impact,sans-serif;
   --body:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --cut:44px; --side:0px; --dock:104px; --hdr:64px;
 }
+@media (min-width:900px){:root{--cut:84px;--side:56px;--dock:40px}}
 *{box-sizing:border-box}
-html{scroll-padding-top:84px}
+html{scroll-padding-top:76px}
 html:not(.lenis){scroll-behavior:smooth}
-body{margin:0;background:var(--navy);color:#fff;font:400 1.0625rem/1.55 var(--body);padding-bottom:44px;overflow-x:hidden}
+body{margin:0;background:var(--navy);color:#fff;font:400 1.0625rem/1.55 var(--body);padding-bottom:var(--dock);padding-right:var(--side);overflow-x:hidden}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 h1,h2,h3{font-family:var(--head);font-weight:800;text-transform:uppercase;line-height:.95;margin:0;letter-spacing:.005em}
 p{margin:0}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 :focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
-.light :focus-visible{outline-color:#0b3fd0}
+.on-light :focus-visible{outline-color:var(--navy)}
 
-/* section backgrounds: static fallback; GSAP animates body colour when it loads */
-.static .s-dark{background:var(--navy)}
-.static .s-night{background:var(--night)}
-.static .s-light{background:var(--light)}
-.static .s-black{background:var(--black)}
-.s-light{color:var(--ink)}
+/* lateral scroll progress (left edge) */
+.progress{position:fixed;left:0;top:0;bottom:var(--dock);width:6px;z-index:70;background:rgba(10,19,48,.35);pointer-events:none}
+.progress i{position:absolute;inset:0;background:var(--yellow);box-shadow:0 0 0 1px var(--navy);transform:scaleY(0);transform-origin:50% 0}
 
-/* grain */
-.grain{position:fixed;inset:-50%;z-index:60;pointer-events:none;opacity:.07;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-
-/* progress bar */
-.progress{position:fixed;top:0;left:0;right:0;height:4px;z-index:70;background:var(--yellow);transform:scaleX(0);transform-origin:0 50%}
-
-/* buttons: pills */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 30px;border:2px solid transparent;border-radius:999px;cursor:pointer;
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 28px;border:3px solid transparent;border-radius:4px;cursor:pointer;
   font:800 1.3rem/1 var(--head);text-transform:uppercase;letter-spacing:.05em;text-decoration:none;transition:background .2s,color .2s,border-color .2s,transform .2s}
+.btn{white-space:nowrap}
 .btn svg{width:22px;height:22px;flex:none}
-.top .btn,.cta .btn{white-space:nowrap}
-.btn{text-align:center}
-.btn--main{background:var(--yellow);color:var(--black)}
+.btn--main{background:var(--yellow);color:var(--navy)}
 .btn--line{background:transparent;color:#fff;border-color:#fff}
-.btn--soft{background:#fff;color:var(--black)}
 .btn--dark{background:var(--navy);color:#fff}
-@media (hover:hover){.btn--main:hover{background:var(--yellow-dark);transform:translateY(-2px)}.btn--line:hover{background:#fff;color:var(--black)}.btn--soft:hover{background:#e6ebf8}.btn--dark:hover{background:#1b2a63}}
+@media (hover:hover){.btn--main:hover{background:#fff;transform:translateY(-2px)}.btn--line:hover{background:#fff;color:var(--navy)}.btn--dark:hover{background:var(--night);transform:translateY(-2px)}}
 .btn--main:active{background:var(--yellow-dark)}
 
-/* header: floating pill */
-.top{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;width:min(1120px,calc(100% - 20px));
-  background:rgba(10,19,48,.84);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);border-radius:999px;color:#fff}
-.top__in{display:flex;align-items:center;gap:8px;min-height:60px;padding:0 6px 0 14px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.3rem/1 var(--head);text-transform:uppercase;letter-spacing:.03em;margin-right:auto;min-height:48px;white-space:nowrap}
-.logo b{display:grid;place-items:center;width:34px;height:34px;background:var(--yellow);color:var(--black);border-radius:50%}
-.logo b svg{width:19px;height:19px}
-.logo small{display:none;font:600 .8rem/1 var(--body);letter-spacing:.08em;color:#c5d0ee;text-transform:uppercase}
-.nav{display:none;gap:10px}
-.nav a{white-space:nowrap;color:#fff;text-decoration:none;font-weight:600;padding:12px 12px;min-height:48px;display:inline-flex;align-items:center}
-.nav a:hover{text-decoration:underline;text-underline-offset:6px}
-.lang{min-width:48px;min-height:48px;border:2px solid rgba(255,255,255,.4);border-radius:999px;background:transparent;color:#fff;font:800 1.05rem/1 var(--head);letter-spacing:.06em;cursor:pointer}
+/* header */
+.top{position:fixed;top:0;left:0;right:var(--side);z-index:50;height:var(--hdr);background:rgba(10,19,48,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:3px solid var(--yellow);color:#fff}
+.top__in{display:flex;align-items:center;gap:8px;height:100%;padding:0 12px 0 20px;max-width:1400px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.35rem/1 var(--head);text-transform:uppercase;letter-spacing:.03em;margin-right:auto;min-height:48px;white-space:nowrap}
+.logo b{display:grid;place-items:center;width:34px;height:34px;background:var(--yellow);color:var(--navy);border-radius:4px;flex:none}
+.logo b svg{width:20px;height:20px}
+.logo small{display:none;font:600 .8rem/1 var(--body);letter-spacing:.08em;color:var(--soft);text-transform:uppercase}
+.nav{display:none;gap:6px}
+.nav a{white-space:nowrap;color:#fff;text-decoration:none;font-weight:600;padding:12px;min-height:48px;display:inline-flex;align-items:center}
+@media (hover:hover){.nav a:hover{text-decoration:underline;text-underline-offset:6px;text-decoration-color:var(--yellow)}}
+.lang{min-width:48px;min-height:48px;padding:8px 12px;border:2px solid rgba(255,255,255,.5);border-radius:4px;background:transparent;color:#fff;font:800 1.05rem/1 var(--head);letter-spacing:.06em;cursor:pointer}
 @media (hover:hover){.lang:hover{background:rgba(255,255,255,.16)}}
-.top .btn{min-height:48px;padding:0 18px;font-size:1.15rem}
+.top .btn{min-height:48px;padding:0 16px;font-size:1.15rem}
 .top .btn .t-long{display:none}
-@media (min-width:860px){.logo small{display:block}.top .btn{padding:0 24px}.top .btn .t-long{display:inline}}
-@media (min-width:1060px){.nav{display:flex}}
-@media (max-width:479px){.top .logo span{display:none}}
+@media (max-width:480px){.logo span{font-size:1.05rem}.logo b{display:none}.top__in{padding-left:14px;gap:6px}.top .btn{padding:0 12px;font-size:1.05rem}.top .btn svg{display:none}}
+@media (min-width:760px){.nav{display:flex}.top .btn{padding:0 22px}}
+@media (min-width:1260px){.logo small{display:block}.top .btn .t-long{display:inline}}
 
-/* hero */
-.hero{position:relative;min-height:100svh;padding:84px 0 44px;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;justify-content:center}
-.hero__stage{position:relative;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;--fs:min(18.5vw,330px,27vh)}
-.hero__halo{position:absolute;left:50%;top:58%;width:min(1000px,150vw);aspect-ratio:1;transform:translate(-50%,-50%);z-index:0;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(47,107,255,.6),rgba(47,107,255,.2) 55%,transparent 75%)}
-.hero__title{position:relative;z-index:1;text-align:center;will-change:transform;margin-bottom:calc(var(--fs) * -.14);max-width:100%}
-.hero__title h1{font-size:var(--fs);line-height:.82;color:#fff;white-space:nowrap;letter-spacing:-.01em;display:inline-block}
-.hero__title h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.04em}
-.hero__title h1 .w>span{display:inline-block;will-change:transform}
-.hero__title h1 .w:last-child{color:var(--yellow)}
-.hero__title h1 .sp{display:inline-block;width:.22em}
-.hero__photo{position:relative;z-index:2;width:min(92vw,clamp(300px,calc((100svh - 400px) * 1.23),700px));pointer-events:none;will-change:transform}
-.hero__photo::after{content:"";position:absolute;left:8%;right:8%;bottom:-3%;height:8%;background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent);z-index:-1}
-.hero__photo img{width:100%;height:auto;filter:drop-shadow(0 20px 28px rgba(0,0,0,.5))}
-/* hero person scroll effects (accumulated scroll: zoom + light glint + tilt). Off unless JS enables .fx */
-.pro{position:relative;transform-origin:50% 60%}
-.fx .pro{will-change:transform}
-.pro__shine{display:none;position:absolute;inset:0;overflow:hidden;pointer-events:none;
-  -webkit-mask-image:url(../../img/recortes/electricista-1132.webp);mask-image:url(../../img/recortes/electricista-1132.webp);
-  -webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
-.fx-shine .pro__shine{display:block}
-.pro__shine i{position:absolute;top:-10%;bottom:-10%;left:0;width:26%;will-change:transform;transform:translate3d(-200%,0,0) skewX(-22deg);
-  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.5) 45%,rgba(255,255,255,.75) 50%,rgba(255,255,255,.5) 55%,rgba(255,255,255,0))}
-.hero__ui{position:relative;z-index:3;padding:18px 20px 0;max-width:1180px;width:100%;margin:0 auto;text-align:center}
-.hero__ui .lead{font-size:clamp(1.05rem,.95rem + .6vw,1.4rem);max-width:36rem;margin:0 auto 20px;color:#f1f4fc;text-shadow:0 2px 14px rgba(0,0,0,.8)}
-.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.cta .btn{padding:0 26px}
-@media (max-width:599px){.hero__stage{--fs:25vw}.hero__title h1{white-space:normal}.hero__ui .lead{margin-bottom:16px}.cta .btn{flex:1 1 0;min-width:0;padding:0 10px;font-size:1.05rem;letter-spacing:.03em}.logo{font-size:1.1rem;gap:6px}.top__in{padding-left:10px}.top .btn{padding:0 14px}}
+/* dock: emergency bar + demo ribbon */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:80}
+.sos{display:flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:0 16px;background:var(--yellow);color:var(--navy);text-decoration:none;border-top:3px solid var(--navy);font:800 1.3rem/1.1 var(--head);text-transform:uppercase;letter-spacing:.04em;text-align:center}
+.sos svg{width:26px;height:26px;flex:none}
+.sos__n{display:none}
+.sos:focus-visible{outline:3px solid var(--navy);outline-offset:-8px}
+.sos svg{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.25)}}
+@media (hover:hover){.sos:hover{background:#fff}}
+.ribbon{background:#05091c;color:#f1f3fa;font-size:.8rem;line-height:1.3;text-align:center;padding:8px 14px;min-height:36px;display:flex;align-items:center;justify-content:center}
+.ribbon a{color:#fff;font-weight:600;text-underline-offset:3px}
+@media (min-width:900px){
+  .sos{position:fixed;right:0;top:0;bottom:var(--dock);width:var(--side);min-height:0;padding:16px 0;border-top:0;border-left:3px solid var(--navy);flex-direction:row-reverse;gap:16px;
+    writing-mode:vertical-rl;transform:rotate(180deg);font-size:1.45rem;letter-spacing:.08em;white-space:nowrap}
+  .sos svg{transform:rotate(180deg)}
+  .sos__n{display:inline}
+  .ribbon{padding:6px 14px 6px}
+}
 
-/* trust numbers */
-.trust{padding:56px 0 24px}
-.trust ul.nums{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:6px}
-.nums li{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid rgba(255,255,255,.2);padding:12px 0}
-.nums b{font:800 clamp(4rem,14vw,8.5rem)/.9 var(--head);color:#fff;letter-spacing:-.01em;min-width:3.2ch;display:inline-block;white-space:nowrap}
-.nums b i{font-style:normal;color:var(--yellow);font-size:.6em;margin-left:.06em}
-.nums li>div>span{font:600 1.1rem/1.3 var(--head);letter-spacing:.06em;text-transform:uppercase;color:#dce3f7}
-.nums small{display:block;font:400 .9rem/1.3 var(--body);text-transform:none;letter-spacing:0;color:#c3cde8;margin-top:4px}
-@media (min-width:760px){.trust ul.nums{grid-template-columns:repeat(3,1fr);gap:28px}.nums li{flex-direction:column;gap:6px;border-bottom:0;border-top:1px solid rgba(255,255,255,.28);padding-top:18px}}
-.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-.pills span{border:1px solid rgba(255,255,255,.38);border-radius:999px;padding:10px 18px;font:600 .98rem/1.2 var(--body);color:#eef2fc;min-height:44px;display:inline-flex;align-items:center}
+/* generic section blocks with diagonal cuts */
+.sec{position:relative;margin-top:calc(var(--cut) * -1);padding:calc(var(--cut) + 60px) 0 calc(var(--cut) + 60px)}
+.cutA{clip-path:polygon(0 var(--cut),100% 0,100% 100%,0 100%)}
+.cutB{clip-path:polygon(0 0,100% var(--cut),100% 100%,0 100%)}
+.s-white{background:#fff;color:var(--ink)}
+.s-yellow{background:var(--yellow);color:var(--navy)}
+.s-navy{background:var(--navy);color:#fff}
+.s-black{background:var(--black);color:#fff}
+.eyebrow{display:flex;align-items:center;gap:12px;font:800 1rem/1 var(--head);letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);margin-bottom:14px}
+.eyebrow::before{content:"";width:34px;height:4px;background:currentColor}
+.s-white .eyebrow{color:var(--navy)}
+.s-white .eyebrow::before{background:var(--yellow);box-shadow:0 0 0 1px var(--navy)}
+.s-yellow .eyebrow{color:var(--navy)}
+.h2{font-size:clamp(2.7rem,1rem + 6.4vw,6rem);line-height:.9}
+.sub{max-width:36rem;margin-top:16px;color:var(--soft)}
+.s-white .sub{color:var(--muted)}
+.s-yellow .sub{color:var(--navy)}
 
-/* sections */
-section{padding:84px 0}
-.eyebrow{font:800 1rem/1 var(--head);letter-spacing:.16em;text-transform:uppercase;color:#ffe066;margin-bottom:14px}
-.light .eyebrow{color:#6b4f00}
-.h2{font-size:clamp(3.1rem,1rem + 10.5vw,9.5rem);line-height:.88}
-.sub{color:#dfe6f8;max-width:34rem;margin-top:18px}
-.light .sub{color:var(--muted)}
+/* hero: split screen */
+.hero{position:relative;display:grid;grid-template-columns:1fr;background:var(--navy);isolation:isolate}
+.hero__txt{order:2;container-type:inline-size;padding:30px 20px calc(var(--cut) + 36px);display:flex;flex-direction:column;justify-content:center}
+.hero__yel{order:1;position:relative;overflow:hidden;background:var(--yellow);min-height:min(54svh,440px);padding-top:var(--hdr)}
+.hero__bg{position:absolute;left:0;right:0;top:-16%;bottom:-16%;pointer-events:none;will-change:transform;
+  background-image:
+    linear-gradient(rgba(10,19,48,.32) 2px,transparent 2px),linear-gradient(90deg,rgba(10,19,48,.32) 2px,transparent 2px),
+    linear-gradient(rgba(10,19,48,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(10,19,48,.14) 1px,transparent 1px);
+  background-size:160px 160px,160px 160px,32px 32px,32px 32px}
+.hero__bg::after{content:"";position:absolute;inset:0;background:radial-gradient(closest-side at 50% 62%,rgba(255,212,0,0) 30%,rgba(255,212,0,.75) 100%)}
+.scan{display:none;position:absolute;left:0;right:0;top:0;height:24%;pointer-events:none;mix-blend-mode:soft-light;will-change:transform;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.85) 50%,rgba(255,255,255,0))}
+.fx-scan .scan{display:block}
+.hero__pro{position:absolute;left:50%;bottom:0;width:min(104%,520px);transform:translateX(-50%);z-index:2}
+.pro{transform-origin:50% 100%;will-change:transform}
+.pro img{width:100%;height:auto;filter:drop-shadow(0 18px 24px rgba(10,19,48,.35))}
+.tag24{position:absolute;z-index:3;left:5%;top:calc(var(--hdr) + 22px);transform:rotate(-9deg);display:flex;align-items:center;gap:8px;background:var(--navy);color:var(--yellow);padding:12px 18px 10px 16px;
+  font:800 clamp(2.6rem,12vw,4.2rem)/1 var(--head);letter-spacing:.02em;box-shadow:6px 6px 0 rgba(10,19,48,.25)}
+.tag24 svg{width:.7em;height:.7em;flex:none}
+.hero h1{font-size:clamp(2.4rem,11cqi,6.6rem);line-height:.92;letter-spacing:-.005em;color:#fff}
+.hero h1 .ln{display:block;overflow:hidden;padding:.02em 0 .06em}
+.hero h1 .ln>span{display:block;will-change:transform}
+.hero h1 .ln:last-child{color:var(--yellow)}
+.hero .lead{margin:22px 0 24px;max-width:30rem;font-size:clamp(1.05rem,.95rem + .5vw,1.3rem);color:#e8ecfa}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.cta .btn{padding:0 24px}
+@media (max-width:599px){.cta .btn{flex:1 1 100%}}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;list-style:none;padding:0}
+.pills li{border:2px solid rgba(255,255,255,.35);border-radius:4px;padding:8px 14px;font:600 .95rem/1.2 var(--body);color:#fff;min-height:44px;display:inline-flex;align-items:center}
+@media (min-width:900px){
+  .hero{grid-template-columns:55fr 45fr;min-height:100svh}
+  .hero__txt{order:1;padding:calc(var(--hdr) + 40px) 36px calc(var(--cut) + 40px) clamp(24px,5vw,72px)}
+  .hero__yel{order:2;min-height:0;padding-top:0}
+  .hero__pro{width:min(112%,640px)}
+  .tag24{top:calc(var(--hdr) + 40px);left:8%;font-size:clamp(3.6rem,6.4vw,6rem)}
+}
 
-/* services marquee + cards */
-.marquee{overflow:hidden;margin:40px 0 8px;border-block:1px solid rgba(255,255,255,.22);padding:14px 0;-webkit-mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent)}
-.marquee__track{display:flex;width:max-content;animation:mq 38s linear infinite}
-.marquee:hover .marquee__track{animation-play-state:paused}
-.marquee__group{display:flex;flex:none;align-items:center}
-.marquee__group span{font:800 clamp(2.6rem,7vw,5.5rem)/1 var(--head);text-transform:uppercase;letter-spacing:.01em;color:#fff;padding:0 .35em;white-space:nowrap}
-.marquee__group span:nth-child(even){color:transparent;-webkit-text-stroke:2px #fff}
-.marquee__group i{width:.5em;height:.5em;flex:none;background:var(--yellow);border-radius:50%;margin:0 .2em;font-size:clamp(2.6rem,7vw,5.5rem)}
-@keyframes mq{to{transform:translateX(-50%)}}
-.cards{display:grid;gap:14px;margin-top:32px;grid-template-columns:1fr}
-.card{position:relative;isolation:isolate;overflow:hidden;background:#050a18;border:1px solid rgba(255,255,255,.2);border-radius:22px;padding:22px 22px 24px;min-height:250px;display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:10px;align-items:center;align-content:end;color:#fff}
-.card__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .8s ease}
-.card::before{content:"";position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(to top,rgba(2,5,14,.95) 0,rgba(2,5,14,.8) 48%,rgba(2,5,14,.4) 100%),linear-gradient(to right,rgba(2,5,14,.62),rgba(2,5,14,0) 38%,rgba(2,5,14,0) 62%,rgba(2,5,14,.62))}
-@media (hover:hover){.card:hover .card__bg{transform:scale(1.06)}}
-.card svg{width:38px;height:38px;color:var(--yellow);stroke-width:3}
-.card h3{font-size:1.9rem;margin:0;text-shadow:0 1px 8px rgba(0,0,0,.7)}
-.card p{color:#fff;grid-column:1/-1;text-shadow:0 1px 8px rgba(0,0,0,.7)}
-.card--feat{border:2px solid var(--yellow);min-height:340px}
-.card--feat::before{background:linear-gradient(to top,rgba(3,8,28,.96) 0,rgba(3,8,28,.8) 48%,rgba(3,8,28,.38) 100%),linear-gradient(to right,rgba(2,5,14,.62),rgba(2,5,14,0) 38%,rgba(2,5,14,0) 62%,rgba(2,5,14,.62))}
-.card--feat h3{font-size:2.4rem}
-.card--feat p{font-size:1.15rem;max-width:36rem}
-.badge{grid-column:1/-1;justify-self:start;background:var(--yellow);color:var(--black);font:800 1rem/1 var(--head);letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:999px}
-@media (min-width:900px){.card--feat{grid-column:span 2;grid-row:span 2;align-content:end;padding:34px 34px 36px}.card--feat h3{font-size:3.4rem}.card--feat svg{width:56px;height:56px}.card--feat p{font-size:1.3rem}}
-@media (min-width:560px){.cards{grid-template-columns:repeat(2,1fr)}}
-@media (min-width:900px){.cards{grid-template-columns:repeat(3,1fr);gap:18px}}
-.svc__more{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+/* services: numbered technical index */
+.svc{min-height:100vh}
+.svc-list{list-style:none;margin:34px 0 0;padding:0;display:grid;gap:14px}
+.svc-row{position:relative;isolation:isolate;overflow:hidden;border-radius:6px;min-height:250px;display:grid;grid-template-columns:auto 1fr;align-content:end;align-items:end;gap:6px 14px;padding:20px;color:#fff;background:var(--navy)}
+.svc-row__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.svc-row::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(10,19,48,.97) 0,rgba(10,19,48,.9) 52%,rgba(10,19,48,.35) 100%)}
+.svc-row--sos{background:var(--yellow);color:var(--navy);min-height:320px;border:3px solid var(--navy)}
+.svc-row--sos::before{background:linear-gradient(to top,#ffd400 0,#ffd400 60%,rgba(255,212,0,.45) 100%)}
+.svc-row .num{font:800 2.4rem/1 var(--head);color:var(--yellow);letter-spacing:.02em}
+.svc-row--sos .num{color:var(--navy)}
+.svc-row h3{font-size:1.9rem;line-height:1}
+.svc-row h3 a{text-decoration:none}
+.svc-row p{grid-column:1/-1;color:#fff}
+.svc-row--sos p{color:var(--navy)}
+.svc-row .badge{grid-column:1/-1;justify-self:start;background:var(--navy);color:var(--yellow);font:800 .95rem/1 var(--head);letter-spacing:.14em;text-transform:uppercase;padding:9px 14px 8px}
+.svc-row .arrow{display:none}
+.svc-panel{display:none}
+@media (min-width:900px){
+  .svc__grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:56px;align-items:start}
+  .svc-list{gap:0;margin-top:30px;border-bottom:3px solid var(--navy)}
+  .svc-row{border-radius:0;min-height:0;overflow:visible;background:transparent;color:var(--navy);grid-template-columns:84px 1fr 44px;align-items:center;align-content:center;gap:2px 8px;padding:22px 18px;border:0;border-top:3px solid var(--navy);transition:background .25s,color .25s}
+  .svc-row__bg,.svc-row::before,.svc-row--sos::before{display:none}
+  .svc-row .num{font-size:3.3rem;color:transparent;-webkit-text-stroke:2px var(--navy);transition:color .25s}
+  .svc-row .num{grid-column:1;grid-row:1/span 3;align-self:center}
+  .svc-row h3{font-size:clamp(1.9rem,1rem + 1.6vw,2.6rem);grid-column:2;grid-row:2}
+  .svc-row p{grid-column:2;grid-row:3;color:var(--muted);max-width:30rem;transition:color .25s}
+  .svc-row .badge{grid-column:2;grid-row:1;justify-self:start;align-self:start;margin-bottom:6px}
+  .svc-row .arrow{display:block;grid-column:3;grid-row:1/span 3;align-self:center;width:36px;height:36px;justify-self:end;transition:transform .25s}
+  .svc-row--sos{background:var(--yellow);border:0;border-top:3px solid var(--navy);min-height:0}
+  .svc-row--sos p{color:var(--navy)}
+  .svc-row--sos .num{-webkit-text-stroke-color:var(--navy)}
+  .svc-row.is-on{background:var(--navy);color:#fff}
+  .svc-row.is-on .num{color:var(--yellow);-webkit-text-stroke-color:var(--yellow)}
+  .svc-row.is-on p{color:#dfe5f7}
+  .svc-row.is-on .arrow{transform:translateX(6px);color:var(--yellow)}
+  .svc-row--sos.is-on{background:var(--yellow);color:var(--navy);box-shadow:inset 10px 0 0 var(--navy)}
+  .svc-row--sos.is-on .num{color:var(--navy);-webkit-text-stroke-color:var(--navy)}
+  .svc-row--sos.is-on p{color:var(--navy)}
+  .svc-row--sos.is-on .arrow{color:var(--navy)}
+  .svc-panel{display:block;position:sticky;top:calc(var(--hdr) + 22px);height:calc(100vh - var(--hdr) - var(--dock) - 52px);min-height:400px;max-height:720px;background:var(--navy);border:3px solid var(--navy);box-shadow:12px 12px 0 var(--yellow);overflow:hidden;margin:0 12px 12px 0}
+  .pic{position:absolute;inset:0;opacity:0;transition:opacity .6s ease;pointer-events:none}
+  .pic.on{opacity:1}
+  .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 8s linear}
+  .pic.on img{transform:scale(1.12)}
+  .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,19,48,.95) 0,rgba(10,19,48,.55) 28%,rgba(10,19,48,0) 55%)}
+  .pic p{position:absolute;z-index:2;left:24px;right:24px;bottom:20px;display:flex;align-items:baseline;gap:14px;color:#fff;font:800 2.2rem/1 var(--head);text-transform:uppercase}
+  .pic p b{color:var(--yellow);font-size:1.4rem;letter-spacing:.1em}
+}
 
-/* about / why us */
-.why{display:grid;gap:14px;margin-top:34px}
-.why li{list-style:none;position:relative;padding:26px 24px 26px 24px;border:1px solid rgba(255,255,255,.2);border-radius:22px;background:rgba(3,6,14,.4)}
-.why b{display:block;font:800 clamp(3rem,6vw,4.5rem)/.9 var(--head);color:var(--yellow);margin-bottom:10px}
-.why strong{display:block;font:800 1.7rem/1 var(--head);text-transform:uppercase;margin-bottom:8px}
-.why span{color:#e3e9f8}
-@media (min-width:860px){.why{grid-template-columns:repeat(3,1fr);gap:20px}}
-ul.why{margin-bottom:0;padding:0}
-.proof{margin-top:28px;padding:18px 22px;background:rgba(3,6,14,.55);border-radius:18px;border:1px solid rgba(255,255,255,.16);max-width:46rem}
-.proof strong{font:800 1.4rem/1.1 var(--head);text-transform:uppercase;display:block;margin-bottom:4px}
-.proof span{color:#e3e9f8}
+/* service area */
+.area__grid{display:grid;gap:34px;margin-top:30px}
+.route{list-style:none;margin:0;padding:0 0 0 40px;position:relative;display:grid;gap:4px;align-self:start}
+.route::before{content:"";position:absolute;left:10px;top:20px;bottom:20px;width:4px;background:var(--navy)}
+.route li{position:relative;font:800 clamp(1.9rem,1.3rem + 2vw,2.8rem)/1.1 var(--head);text-transform:uppercase;padding:8px 0}
+.route li::before{content:"";position:absolute;left:-40px;top:50%;width:24px;height:24px;margin-top:-12px;background:var(--yellow);border:4px solid var(--navy);border-radius:50%}
+.route li:first-child::before{background:var(--navy)}
+.route small{display:block;font:600 .95rem/1.2 var(--body);letter-spacing:0;text-transform:none;color:var(--navy);margin-top:2px}
+.area .map{margin:0 12px 12px 0;border:4px solid var(--navy);box-shadow:12px 12px 0 var(--navy);background:#fff;min-height:360px}
+.area .map iframe{display:block;width:100%;height:100%;min-height:352px;border:0}
+.area__cta{margin-top:26px}
+@media (min-width:900px){.area__grid{grid-template-columns:5fr 7fr;gap:56px;align-items:stretch}.area .map{min-height:460px}.area .map iframe{min-height:452px}}
+
+/* process */
+.steps{list-style:none;margin:44px 0 0;padding:0;display:grid;gap:40px;position:relative}
+.steps__line{position:absolute;left:27px;top:28px;bottom:28px;width:4px;background:#cfd6ee}
+.steps__fill{position:absolute;inset:0;background:var(--navy);transform-origin:0 0}
+.step{position:relative;padding-left:84px}
+.step__n{position:absolute;left:0;top:0;width:58px;height:58px;display:grid;place-items:center;background:var(--navy);color:var(--yellow);border:4px solid var(--yellow);box-shadow:0 0 0 3px var(--navy);border-radius:50%;font:800 1.7rem/1 var(--head)}
+.step h3{font-size:2.1rem;margin:6px 0 10px}
+.step p{color:var(--muted);max-width:26rem}
+.fig{margin-top:18px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.fig b{font:800 clamp(3.4rem,2rem + 4vw,5rem)/.9 var(--head);color:var(--navy);background:linear-gradient(transparent 62%,var(--yellow) 62%);padding:4px 12px 0;white-space:nowrap}
+.fig>span{font:800 1.1rem/1.1 var(--head);letter-spacing:.06em;text-transform:uppercase;color:var(--navy)}
+.fig small{flex-basis:100%;font:600 .85rem/1.3 var(--body);color:var(--muted)}
+@media (min-width:900px){
+  .steps{grid-template-columns:repeat(3,1fr);gap:32px;margin-top:56px}
+  .steps__line{left:29px;right:auto;top:27px;bottom:auto;height:4px;width:calc(66.667% + 21px)}
+  .step{padding:84px 0 0}
+  .step__n{left:0}
+}
 
 /* faq */
-.faq{margin-top:34px;max-width:860px}
-.faq details{position:relative;border-top:1px solid rgba(255,255,255,.28);padding-inline:18px}
-html:not(.faq-px) .faq details[open]{background:var(--black)} /* reduced motion / no GSAP: instant colour change */
+.faq{margin-top:34px;max-width:900px}
+.faq details{position:relative;border-top:2px solid rgba(255,255,255,.3);padding-inline:18px}
+html:not(.faq-px) .faq details[open]{background:var(--black)}
 .faq summary,.faq .ans{position:relative;z-index:1}
 .faq .px{position:absolute;inset:0;z-index:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(5,1fr);pointer-events:none;overflow:hidden}
 .faq .px b{background:var(--black);opacity:0;margin:-.5px}
-.faq details:last-child{border-bottom:1px solid rgba(255,255,255,.28)}
-.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;padding:12px 0;font:800 clamp(1.4rem,1rem + 1.6vw,2rem)/1.1 var(--head);text-transform:uppercase;letter-spacing:.01em}
+.faq details:last-child{border-bottom:2px solid rgba(255,255,255,.3)}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;padding:12px 0;font:800 clamp(1.4rem,1rem + 1.6vw,2rem)/1.1 var(--head);text-transform:uppercase;letter-spacing:.01em}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary i{flex:none;width:44px;height:44px;border:2px solid #fff;border-radius:50%;position:relative;transition:transform .3s,background .3s}
-.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:16px;height:2px;background:#fff;transform:translate(-50%,-50%)}
+.faq summary i{flex:none;width:48px;height:48px;border:3px solid #fff;border-radius:4px;position:relative;transition:background .3s,border-color .3s}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:18px;height:3px;background:#fff;transform:translate(-50%,-50%)}
 .faq summary i::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s}
 .faq details[open] summary i{background:var(--yellow);border-color:var(--yellow)}
-.faq details[open] summary i::before,.faq details[open] summary i::after{background:var(--black)}
+.faq details[open] summary i::before,.faq details[open] summary i::after{background:var(--navy)}
 .faq details[open] summary i::after{transform:translate(-50%,-50%) rotate(0)}
 .faq .ans{overflow:hidden}
-.faq .ans p{padding:0 44px 22px 0;color:#eaeefb;max-width:44rem}
+.faq .ans p{padding:0 44px 22px 0;color:#e8ecfa;max-width:44rem}
 
-/* hours + area + map */
-.visit__grid{display:grid;gap:24px;margin-top:34px}
-.hours{background:var(--black);color:#fff;padding:28px 26px;border-radius:22px}
-.hours h3{font-size:1.8rem;margin-bottom:14px}
-.hours table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-.hours th,.hours td{text-align:left;padding:10px 0;border-bottom:1px solid #26305a;font-weight:400}
-.hours th{font:800 1rem/1.2 var(--head);letter-spacing:.1em;text-transform:uppercase;color:#cfd8f2}
-.hours td{text-align:right}
-.hours tr:last-child th,.hours tr:last-child td{border-bottom:0}
-.emerg{margin:18px 0 0;padding:16px 18px;border-radius:16px;background:var(--yellow);color:var(--black);display:grid;gap:2px}
-.emerg strong{font:800 1.9rem/1 var(--head);text-transform:uppercase;letter-spacing:.02em}
-.emerg span{font-weight:600;font-size:.98rem;line-height:1.35}
-.hours address{font-style:normal;margin:16px 0 20px;color:#e3e9f8}
-.hours .btn{width:100%}
-.hours .btn + .btn{margin-top:10px}
-.area h3{font-size:1.8rem;margin-bottom:12px;color:var(--ink)}
-.cities{list-style:none;padding:0;margin:0 0 16px;display:flex;flex-wrap:wrap;gap:8px}
-.cities li{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 18px;min-height:44px;display:inline-flex;align-items:center;font-weight:600;color:var(--ink)}
-.cities li::before{content:"";width:10px;height:10px;background:#d9a800;margin-right:9px;clip-path:polygon(60% 0,0 58%,45% 58%,35% 100%,100% 38%,55% 38%)}
-.map{min-height:300px;background:#c9d1e6;border-radius:22px;overflow:hidden}
-.map iframe{width:100%;height:100%;min-height:300px;border:0;display:block}
-@media (min-width:860px){.visit__grid{grid-template-columns:5fr 7fr}.map,.map iframe{min-height:360px}}
-
-/* form */
-form{margin-top:30px;display:grid;gap:16px;max-width:680px}
+/* quote + hours */
+.quote{overflow:hidden}
+.quote .stripe{position:absolute;left:0;right:0;top:0;height:calc(var(--cut) + 8px);background:var(--yellow);clip-path:polygon(0 var(--cut),100% 0,100% 8px,0 calc(var(--cut) + 8px));pointer-events:none}
+.quote__grid{display:grid;gap:40px;margin-top:34px}
+.qcard{order:1;background:var(--card);color:var(--ink);border-top:8px solid var(--yellow);padding:26px 22px 28px;box-shadow:10px 10px 0 rgba(255,212,0,.9);margin:0 10px 10px 0}
+.qcard h3{font-size:2rem;margin-bottom:6px}
+.qcard .note{color:var(--muted)}
+.info{order:2}
+form{margin-top:18px;display:grid;gap:16px}
 .row{display:grid;gap:16px}
 @media (min-width:600px){.row{grid-template-columns:1fr 1fr}}
 label{display:block;font:800 .95rem/1 var(--head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-input,select,textarea{width:100%;min-height:52px;padding:12px 16px;border:2px solid #6f7a99;background:#fff;color:var(--ink);font:400 1rem/1.4 var(--body);border-radius:14px}
+input,select,textarea{width:100%;min-height:52px;padding:12px 14px;border:2px solid #7f89ab;background:#fff;color:var(--ink);font:400 1rem/1.4 var(--body);border-radius:4px}
 textarea{min-height:110px;resize:vertical}
-input:focus,select:focus,textarea:focus{border-color:#0b3fd0;outline:2px solid #0b3fd0;outline-offset:0}
-.note{font-size:.95rem;color:var(--muted)}
-#send[disabled]{background:#3d4766;cursor:not-allowed}
+input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px solid var(--navy);outline-offset:0}
+.note{font-size:.95rem;color:var(--soft)}
+#send[disabled]{background:#4a5372;cursor:not-allowed}
 #send{justify-self:start}
+.hours h3{font-size:1.9rem;margin-bottom:12px;color:#fff}
+.hours table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.hours th,.hours td{text-align:left;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.22);font-weight:400}
+.hours th{font:800 1rem/1.2 var(--head);letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+.hours td{text-align:right;color:#fff}
+.emerg{margin-top:20px;background:var(--yellow);color:var(--navy);padding:18px 20px;display:grid;gap:4px}
+.emerg strong{font:800 1.9rem/1 var(--head);text-transform:uppercase}
+.emerg .btn{margin-top:10px;justify-self:start}
+.proof{margin-top:22px;padding:16px 20px;border:2px dashed rgba(255,255,255,.45)}
+.proof strong{font:800 1.4rem/1.1 var(--head);text-transform:uppercase;display:block;margin-bottom:4px}
+.proof span{color:var(--soft)}
+@media (min-width:900px){.quote__grid{grid-template-columns:5fr 6fr;gap:64px;align-items:start}.qcard{order:2;padding:34px 34px 38px}.info{order:1}}
 
 /* footer */
-footer{color:#cfd8f2;padding:56px 0 36px;font-size:.95rem}
-footer .logo{margin-bottom:14px}
-footer p+p{margin-top:8px}
-footer a{color:#fff}
-.foot__big{font:800 clamp(3.4rem,16vw,15rem)/.85 var(--head);text-transform:uppercase;color:#fff;opacity:.95;margin:0 0 34px;letter-spacing:-.01em;white-space:nowrap}
+.foot{overflow:hidden;color:var(--soft);padding-bottom:calc(var(--cut) * 0 + 44px);font-size:.95rem}
+.foot .logo{margin-bottom:14px;color:#fff}
+.foot p+p{margin-top:8px}
+.foot a{color:#fff}
+.foot__big{font:800 clamp(3rem,13vw,11rem)/.85 var(--head);text-transform:uppercase;color:#fff;margin:0 0 30px;letter-spacing:-.01em;white-space:nowrap}
 .foot__big i{font-style:normal;color:var(--yellow)}
-
-/* demo ribbon */
-.ribbon{position:fixed;left:0;right:0;bottom:0;z-index:80;background:#0c0f17;color:#eef1f8;font-size:.82rem;line-height:1.3;text-align:center;padding:9px 16px;min-height:36px;border-top:2px solid var(--yellow)}
-.ribbon a{color:#fff;font-weight:600;text-underline-offset:3px}
 
 /* custom cursor: desktop pointers only */
 .cursor{display:none}
 @media (hover:hover) and (pointer:fine){
-  .cursor{display:block;position:fixed;left:0;top:0;width:36px;height:36px;margin:-18px 0 0 -18px;border:2px solid #fff;border-radius:50%;z-index:90;pointer-events:none;mix-blend-mode:difference;transition:width .25s,height .25s,margin .25s,background .25s;opacity:0}
+  .cursor{display:block;position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border:3px solid var(--yellow);border-radius:50%;z-index:90;pointer-events:none;mix-blend-mode:difference;transition:width .25s,height .25s,margin .25s,background .25s;opacity:0}
   .cursor.on{opacity:1}
-  .cursor.big{width:72px;height:72px;margin:-36px 0 0 -36px;background:#fff}
+  .cursor.big{width:68px;height:68px;margin:-34px 0 0 -34px;background:var(--yellow)}
 }
 
 /* animation gates */
-.js-anim .rv{opacity:0;transform:translateY(40px)}
+.js-anim .rv{opacity:0;transform:translateY(36px)}
 
 /* reduced motion: everything off */
 @media (prefers-reduced-motion:reduce){
   html:not(.lenis){scroll-behavior:auto}
-  .marquee__track{animation:none}
-  .marquee{overflow-x:auto}
-  .grain{display:none}
+  .sos svg{animation:none}
+  .cursor{display:none!important}
   *{transition:none!important}
 }
 </style>
 </head>
 <body>
-<div class="progress" id="progress" aria-hidden="true"></div>
-<div class="grain" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><i id="progress"></i></div>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
 
 <header class="top">
   <div class="top__in">
-    <a class="logo" href="#top" aria-label="Permian Pro Electric"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg></b><span>Permian Pro Electric</span><small>Odessa · Midland</small></a>
+    <a class="logo" href="#top" aria-label="Permian Pro Electric"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg></b><span>Permian Pro Electric</span><small data-en="Odessa · Midland" data-es="Odessa · Midland">Odessa · Midland</small></a>
     <nav class="nav" aria-label="Main">
       <a href="#services" data-en="Services" data-es="Servicios">Services</a>
-      <a href="#visit" data-en="Hours &amp; area" data-es="Horario y zona">Hours &amp; area</a>
+      <a href="#area" data-en="Service area" data-es="Zona de servicio">Service area</a>
       <a href="#quote" data-en="Get a quote" data-es="Pedir presupuesto">Get a quote</a>
     </nav>
     <button class="lang" id="lang" type="button" aria-label="Cambiar a español">ES</button>
@@ -281,124 +327,167 @@ footer a{color:#fff}
 </header>
 
 <main id="top">
-<div class="hero s-dark" data-bg="#0a1330">
-  <div class="hero__stage">
-  <div class="hero__halo" aria-hidden="true"></div>
-  <div class="hero__title" id="heroTitle">
-    <h1 id="h1" aria-label="Pro Electric">PRO ELECTRIC</h1>
-  </div>
-  <div class="hero__photo" id="heroPhoto">
-   <div class="pro" id="pro">
-    <img src="../../img/recortes/electricista-1132.webp" srcset="../../img/recortes/electricista-640.webp 640w, ../../img/recortes/electricista-1132.webp 1132w" sizes="(min-width:900px) 700px, 92vw"
-         width="1132" height="920" fetchpriority="high"
-         alt="Smiling electrician in a yellow hard hat and safety vest holding a cordless drill" data-alt-en="Smiling electrician in a yellow hard hat and safety vest holding a cordless drill" data-alt-es="Electricista sonriente con casco amarillo y chaleco de seguridad sosteniendo un taladro inalámbrico">
-    <div class="pro__shine" aria-hidden="true"><i id="shine"></i></div>
-   </div>
-  </div>
-  </div>
-  <div class="hero__ui">
-    <p class="lead rv" data-en="Power out? Panel tripping? Licensed electricians in Odessa &amp; Midland, today." data-es="¿Sin luz? ¿Salta el panel? Electricistas con licencia en Odessa y Midland, hoy.">Power out? Panel tripping? Licensed electricians in Odessa &amp; Midland, today.</p>
+
+<!-- 1. HERO: split screen -->
+<div class="hero">
+  <div class="hero__txt">
+    <h1 id="h1">
+      <span class="ln"><span data-en="No power." data-es="Sin luz.">No power.</span></span>
+      <span class="ln"><span data-en="Panel tripping." data-es="Panel que salta.">Panel tripping.</span></span>
+      <span class="ln"><span data-en="Licensed, today." data-es="Hoy, con licencia.">Licensed, today.</span></span>
+    </h1>
+    <p class="lead rv" data-en="Licensed electricians in Odessa &amp; Midland. Free estimates, a real person answers, any hour." data-es="Electricistas con licencia en Odessa y Midland. Presupuesto gratis, contesta una persona real, a cualquier hora.">Licensed electricians in Odessa &amp; Midland. Free estimates, a real person answers, any hour.</p>
     <div class="cta rv">
       <a class="btn btn--main" href="tel:+14325550162">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
-        <span data-en="Call now" data-es="Llamar">Call now</span>
+        <span data-en="Call 24/7" data-es="Llamar 24/7">Call 24/7</span>
       </a>
       <a class="btn btn--line" href="#quote"><span data-en="Request a quote" data-es="Pedir presupuesto">Request a quote</span></a>
     </div>
-  </div>
-</div>
-
-<div class="trust s-dark" data-bg="#0a1330">
-  <div class="wrap">
-    <ul class="nums">
-      <li class="rv"><b><span data-count="18">18</span><i>+</i></b><div><span data-en="Years licensed" data-es="Años con licencia">Years licensed</span><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div></li>
-      <li class="rv"><b><span data-count="2400">2400</span><i>+</i></b><div><span data-en="Jobs completed" data-es="Trabajos terminados">Jobs completed</span><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div></li>
-      <li class="rv"><b><span data-count="60">60</span><i>min</i></b><div><span data-en="Emergency response goal" data-es="Meta de respuesta en emergencias">Emergency response goal</span><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div></li>
+    <ul class="pills rv">
+      <li data-en="Free estimates" data-es="Presupuesto gratis">Free estimates</li>
+      <li data-en="Open 24/7 for emergencies" data-es="Abierto 24/7 para emergencias">Open 24/7 for emergencies</li>
+      <li data-en="We speak Spanish" data-es="Se habla español">We speak Spanish</li>
     </ul>
-    <div class="pills rv">
-      <span data-en="Free estimates" data-es="Presupuesto gratis">Free estimates</span>
-      <span data-en="Open 24/7 for emergencies" data-es="Abierto 24/7 para emergencias">Open 24/7 for emergencies</span>
-      <span data-en="We speak Spanish" data-es="Se habla español">We speak Spanish</span>
+  </div>
+  <div class="hero__yel" id="yel">
+    <div class="hero__bg" id="heroBg" aria-hidden="true"></div>
+    <div class="scan" id="scan" aria-hidden="true"></div>
+    <div class="tag24" id="tag24" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg>24/7</div>
+    <div class="hero__pro" id="heroPro">
+      <div class="pro" id="pro">
+        <img src="../../img/recortes/electricista-1132.webp" srcset="../../img/recortes/electricista-640.webp 640w, ../../img/recortes/electricista-1132.webp 1132w" sizes="(min-width:900px) 640px, 104vw"
+             width="1132" height="920" fetchpriority="high"
+             alt="Smiling electrician in a yellow hard hat and safety vest holding a cordless drill" data-alt-en="Smiling electrician in a yellow hard hat and safety vest holding a cordless drill" data-alt-es="Electricista sonriente con casco amarillo y chaleco de seguridad sosteniendo un taladro inalámbrico">
+      </div>
     </div>
   </div>
 </div>
 
-<section class="svc s-night" id="services" data-bg="#08194f">
+<!-- 2. SERVICES: numbered technical index -->
+<section class="sec cutA s-white svc on-light" id="services">
   <div class="wrap">
     <p class="eyebrow rv" data-en="What we do" data-es="Qué hacemos">What we do</p>
     <h2 class="h2 rv" data-en="Electrical work, done right" data-es="Trabajo eléctrico bien hecho">Electrical work, done right</h2>
-  </div>
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee__track">
-      <div class="marquee__group"><span data-en="Emergencies 24/7" data-es="Emergencias 24/7">Emergencies 24/7</span><i></i><span data-en="Panels" data-es="Paneles">Panels</span><i></i><span data-en="Wiring" data-es="Instalaciones">Wiring</span><i></i><span data-en="EV chargers" data-es="Cargadores EV">EV chargers</span><i></i><span data-en="Lighting" data-es="Iluminación">Lighting</span><i></i><span data-en="Inspections" data-es="Inspecciones">Inspections</span><i></i></div>
-      <div class="marquee__group"><span data-en="Emergencies 24/7" data-es="Emergencias 24/7">Emergencies 24/7</span><i></i><span data-en="Panels" data-es="Paneles">Panels</span><i></i><span data-en="Wiring" data-es="Instalaciones">Wiring</span><i></i><span data-en="EV chargers" data-es="Cargadores EV">EV chargers</span><i></i><span data-en="Lighting" data-es="Iluminación">Lighting</span><i></i><span data-en="Inspections" data-es="Inspecciones">Inspections</span><i></i></div>
-    </div>
-  </div>
-  <div class="wrap">
     <p class="sub rv" data-en="From a dead outlet to a full commercial build-out. Not on the list? Call us and we will tell you straight if we can do it." data-es="Desde un enchufe muerto hasta una obra comercial completa. ¿No está en la lista? Llámanos y te decimos con franqueza si podemos hacerlo.">From a dead outlet to a full commercial build-out. Not on the list? Call us and we will tell you straight if we can do it.</p>
-    <div class="cards">
-      <article class="card card--feat rv">
-        <img class="card__bg" src="../../img/servicios/emergencias-480.webp" srcset="../../img/servicios/emergencias-480.webp 480w, ../../img/servicios/emergencias-960.webp 960w" sizes="(min-width:900px) 66vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <span class="badge" data-en="Fast response" data-es="Respuesta rápida">Fast response</span>
-        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg>
-        <h3 data-en="24/7 emergency repair" data-es="Emergencias 24/7">24/7 emergency repair</h3>
-        <p data-en="No power, burning smell, sparking outlets or a tripping breaker. Call any hour, we dispatch right away." data-es="Sin luz, olor a quemado, enchufes que chispean o un breaker que salta. Llama a cualquier hora y salimos de inmediato.">No power, burning smell, sparking outlets or a tripping breaker. Call any hour, we dispatch right away.</p>
-      </article>
-      <article class="card rv">
-        <img class="card__bg" src="../../img/servicios/paneles-480.webp" srcset="../../img/servicios/paneles-480.webp 480w, ../../img/servicios/paneles-960.webp 960w" sizes="(min-width:900px) 33vw, (min-width:560px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/></svg>
-        <h3 data-en="Panels &amp; breaker boxes" data-es="Paneles y cuadros eléctricos">Panels &amp; breaker boxes</h3>
-        <p data-en="Upgrades to 200-amp service, replacements, new breakers and fixes for panels that can't keep up." data-es="Ampliación a 200 amperios, reemplazos, breakers nuevos y arreglos para paneles que se quedan cortos.">Upgrades to 200-amp service, replacements, new breakers and fixes for panels that can't keep up.</p>
-      </article>
-      <article class="card rv">
-        <img class="card__bg" style="filter:brightness(.7)" src="../../img/servicios/instalaciones-480.webp" srcset="../../img/servicios/instalaciones-480.webp 480w, ../../img/servicios/instalaciones-960.webp 960w" sizes="(min-width:900px) 33vw, (min-width:560px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
-        <h3 data-en="Residential &amp; commercial wiring" data-es="Instalaciones residenciales y comerciales">Residential &amp; commercial wiring</h3>
-        <p data-en="New circuits, remodels, additions, shops and offices. Clean work that passes inspection the first time." data-es="Circuitos nuevos, reformas, ampliaciones, talleres y oficinas. Trabajo limpio que pasa la inspección a la primera.">New circuits, remodels, additions, shops and offices. Clean work that passes inspection the first time.</p>
-      </article>
-      <article class="card rv">
-        <img class="card__bg" src="../../img/servicios/cargadores-480.webp" srcset="../../img/servicios/cargadores-480.webp 480w, ../../img/servicios/cargadores-960.webp 960w" sizes="(min-width:900px) 33vw, (min-width:560px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v15"/><path d="M3 21h14M9 8l-2 4h4l-2 4"/><path d="M15 9h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8l-2-2"/></svg>
-        <h3 data-en="EV charger installation" data-es="Cargadores de coche eléctrico">EV charger installation</h3>
-        <p data-en="Level 2 home and business chargers, dedicated circuits and load checks for any make of electric vehicle." data-es="Cargadores Nivel 2 para casa y negocio, circuitos dedicados y cálculo de carga para cualquier marca de coche eléctrico.">Level 2 home and business chargers, dedicated circuits and load checks for any make of electric vehicle.</p>
-      </article>
-      <article class="card rv">
-        <img class="card__bg" src="../../img/servicios/iluminacion-480.webp" srcset="../../img/servicios/iluminacion-480.webp 480w, ../../img/servicios/iluminacion-960.webp 960w" sizes="(min-width:900px) 33vw, (min-width:560px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>
-        <h3 data-en="Lighting" data-es="Iluminación">Lighting</h3>
-        <p data-en="Indoor, outdoor, security and parking-lot lighting. LED upgrades that cut your power bill." data-es="Iluminación interior, exterior, de seguridad y de estacionamientos. Mejoras a LED que bajan tu factura.">Indoor, outdoor, security and parking-lot lighting. LED upgrades that cut your power bill.</p>
-      </article>
-      <article class="card rv">
-        <img class="card__bg" src="../../img/servicios/inspecciones-480.webp" srcset="../../img/servicios/inspecciones-480.webp 480w, ../../img/servicios/inspecciones-960.webp 960w" sizes="(min-width:900px) 33vw, (min-width:560px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6l1 2h3v15H5V6h3z"/><path d="m9 14 2 2 4-4"/></svg>
-        <h3 data-en="Safety inspections" data-es="Inspecciones de seguridad">Safety inspections</h3>
-        <p data-en="Buying or selling a home, or just worried about old wiring? We check it and tell you plainly what needs fixing." data-es="¿Compras o vendes casa, o te preocupa el cableado viejo? Lo revisamos y te decimos claro qué hay que arreglar.">Buying or selling a home, or just worried about old wiring? We check it and tell you plainly what needs fixing.</p>
-      </article>
-    </div>
-    <div class="svc__more rv">
-      <a class="btn btn--main" href="tel:+14325550162"><span data-en="Call for a free estimate" data-es="Llama para un presupuesto gratis">Call for a free estimate</span></a>
-      <a class="btn btn--line" href="#quote"><span data-en="Request a quote" data-es="Pedir presupuesto">Request a quote</span></a>
+    <div class="svc__grid">
+      <ol class="svc-list" id="svcList">
+        <li class="svc-row svc-row--sos rv" data-i="0">
+          <img class="svc-row__bg" src="../../img/servicios/emergencias-480.webp" srcset="../../img/servicios/emergencias-480.webp 480w, ../../img/servicios/emergencias-960.webp 960w" sizes="100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
+          <span class="num" aria-hidden="true">01</span>
+          <h3><a href="tel:+14325550162" data-en="24/7 emergency repair" data-es="Emergencias 24/7">24/7 emergency repair</a></h3>
+          <span class="badge" data-en="Fast response" data-es="Respuesta rápida">Fast response</span>
+          <p data-en="No power, burning smell, sparking outlets or a tripping breaker. Call any hour, we dispatch right away." data-es="Sin luz, olor a quemado, enchufes que chispean o un breaker que salta. Llama a cualquier hora y salimos de inmediato.">No power, burning smell, sparking outlets or a tripping breaker. Call any hour, we dispatch right away.</p>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+        </li>
+        <li class="svc-row rv" data-i="1">
+          <img class="svc-row__bg" src="../../img/servicios/paneles-480.webp" srcset="../../img/servicios/paneles-480.webp 480w, ../../img/servicios/paneles-960.webp 960w" sizes="100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
+          <span class="num" aria-hidden="true">02</span>
+          <h3><a href="#quote" data-en="Panels &amp; breaker boxes" data-es="Paneles y cuadros eléctricos">Panels &amp; breaker boxes</a></h3>
+          <p data-en="Upgrades to 200-amp service, replacements, new breakers and fixes for panels that can't keep up." data-es="Ampliación a 200 amperios, reemplazos, breakers nuevos y arreglos para paneles que se quedan cortos.">Upgrades to 200-amp service, replacements, new breakers and fixes for panels that can't keep up.</p>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+        </li>
+        <li class="svc-row rv" data-i="2">
+          <img class="svc-row__bg" src="../../img/servicios/instalaciones-480.webp" srcset="../../img/servicios/instalaciones-480.webp 480w, ../../img/servicios/instalaciones-960.webp 960w" sizes="100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
+          <span class="num" aria-hidden="true">03</span>
+          <h3><a href="#quote" data-en="Residential &amp; commercial wiring" data-es="Instalaciones residenciales y comerciales">Residential &amp; commercial wiring</a></h3>
+          <p data-en="New circuits, remodels, additions, shops and offices. Clean work that passes inspection the first time." data-es="Circuitos nuevos, reformas, ampliaciones, talleres y oficinas. Trabajo limpio que pasa la inspección a la primera.">New circuits, remodels, additions, shops and offices. Clean work that passes inspection the first time.</p>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+        </li>
+        <li class="svc-row rv" data-i="3">
+          <img class="svc-row__bg" src="../../img/servicios/cargadores-480.webp" srcset="../../img/servicios/cargadores-480.webp 480w, ../../img/servicios/cargadores-960.webp 960w" sizes="100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
+          <span class="num" aria-hidden="true">04</span>
+          <h3><a href="#quote" data-en="EV charger installation" data-es="Cargadores de coche eléctrico">EV charger installation</a></h3>
+          <p data-en="Level 2 home and business chargers, dedicated circuits and load checks for any make of electric vehicle." data-es="Cargadores Nivel 2 para casa y negocio, circuitos dedicados y cálculo de carga para cualquier marca de coche eléctrico.">Level 2 home and business chargers, dedicated circuits and load checks for any make of electric vehicle.</p>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+        </li>
+        <li class="svc-row rv" data-i="4">
+          <img class="svc-row__bg" src="../../img/servicios/iluminacion-480.webp" srcset="../../img/servicios/iluminacion-480.webp 480w, ../../img/servicios/iluminacion-960.webp 960w" sizes="100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
+          <span class="num" aria-hidden="true">05</span>
+          <h3><a href="#quote" data-en="Lighting" data-es="Iluminación">Lighting</a></h3>
+          <p data-en="Indoor, outdoor, security and parking-lot lighting. LED upgrades that cut your power bill." data-es="Iluminación interior, exterior, de seguridad y de estacionamientos. Mejoras a LED que bajan tu factura.">Indoor, outdoor, security and parking-lot lighting. LED upgrades that cut your power bill.</p>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+        </li>
+        <li class="svc-row rv" data-i="5">
+          <img class="svc-row__bg" src="../../img/servicios/inspecciones-480.webp" srcset="../../img/servicios/inspecciones-480.webp 480w, ../../img/servicios/inspecciones-960.webp 960w" sizes="100vw" width="960" height="640" loading="lazy" decoding="async" alt="">
+          <span class="num" aria-hidden="true">06</span>
+          <h3><a href="#quote" data-en="Safety inspections" data-es="Inspecciones de seguridad">Safety inspections</a></h3>
+          <p data-en="Buying or selling a home, or just worried about old wiring? We check it and tell you plainly what needs fixing." data-es="¿Compras o vendes casa, o te preocupa el cableado viejo? Lo revisamos y te decimos claro qué hay que arreglar.">Buying or selling a home, or just worried about old wiring? We check it and tell you plainly what needs fixing.</p>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+        </li>
+      </ol>
+      <div class="svc-panel" id="svcPanel">
+        <div class="pic on"><img src="../../img/servicios/emergencias-960.webp" width="960" height="640" decoding="async" alt="Lightning striking over power lines at dusk" data-alt-en="Lightning striking over power lines at dusk" data-alt-es="Un rayo cae sobre cables eléctricos al anochecer"><p><b>01</b><span data-en="24/7 emergency repair" data-es="Emergencias 24/7">24/7 emergency repair</span></p></div>
+        <div class="pic"><img src="../../img/servicios/paneles-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Breaker panel with neatly color-coded wires" data-alt-en="Breaker panel with neatly color-coded wires" data-alt-es="Panel de breakers con cables ordenados por colores"><p><b>02</b><span data-en="Panels &amp; breaker boxes" data-es="Paneles y cuadros eléctricos">Panels &amp; breaker boxes</span></p></div>
+        <div class="pic"><img src="../../img/servicios/instalaciones-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Electrician in a hard hat installing an outlet with a cordless drill" data-alt-en="Electrician in a hard hat installing an outlet with a cordless drill" data-alt-es="Electricista con casco instalando un enchufe con un taladro inalámbrico"><p><b>03</b><span data-en="Residential &amp; commercial wiring" data-es="Instalaciones residenciales y comerciales">Residential &amp; commercial wiring</span></p></div>
+        <div class="pic"><img src="../../img/servicios/cargadores-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Electric car plugged into a charging cable on a street" data-alt-en="Electric car plugged into a charging cable on a street" data-alt-es="Coche eléctrico enchufado a un cable de carga en la calle"><p><b>04</b><span data-en="EV charger installation" data-es="Cargadores de coche eléctrico">EV charger installation</span></p></div>
+        <div class="pic"><img src="../../img/servicios/iluminacion-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Pendant light bulb hanging from a braided cord" data-alt-en="Pendant light bulb hanging from a braided cord" data-alt-es="Bombilla colgante de un cable trenzado"><p><b>05</b><span data-en="Lighting" data-es="Iluminación">Lighting</span></p></div>
+        <div class="pic"><img src="../../img/servicios/inspecciones-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Electrician inspecting a wall-mounted electrical panel" data-alt-en="Electrician inspecting a wall-mounted electrical panel" data-alt-es="Electricista revisando un panel eléctrico en la pared"><p><b>06</b><span data-en="Safety inspections" data-es="Inspecciones de seguridad">Safety inspections</span></p></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="band s-night" id="about" data-bg="#08194f">
+<!-- 3. SERVICE AREA -->
+<section class="sec cutB s-yellow area on-light" id="area">
   <div class="wrap">
-    <p class="eyebrow rv" data-en="Why us" data-es="Por qué nosotros">Why us</p>
-    <h2 class="h2 rv" style="font-size:clamp(2.6rem,1rem + 6vw,5.6rem)" data-en="No surprises on the bill" data-es="Sin sorpresas en la factura">No surprises on the bill</h2>
-    <ul class="why">
-      <li class="rv"><b aria-hidden="true">01</b><strong data-en="Licensed &amp; insured" data-es="Con licencia y seguro">Licensed &amp; insured</strong><span data-en="Licensed electricians, insured jobs, permits pulled when the work needs them." data-es="Electricistas con licencia, trabajos asegurados y permisos cuando la obra los requiere.">Licensed electricians, insured jobs, permits pulled when the work needs them.</span></li>
-      <li class="rv"><b aria-hidden="true">02</b><strong data-en="Upfront pricing" data-es="Precio por adelantado">Upfront pricing</strong><span data-en="You get the price in writing before we start. If the scope changes, we ask first." data-es="Recibes el precio por escrito antes de empezar. Si el trabajo cambia, te preguntamos primero.">You get the price in writing before we start. If the scope changes, we ask first.</span></li>
-      <li class="rv"><b aria-hidden="true">03</b><strong data-en="Same-week scheduling" data-es="Cita en la misma semana">Same-week scheduling</strong><span data-en="Most non-emergency jobs are booked within the week. Emergencies go out right away." data-es="La mayoría de trabajos no urgentes se agendan en la semana. Las emergencias salen enseguida.">Most non-emergency jobs are booked within the week. Emergencies go out right away.</span></li>
-    </ul>
-    <div class="proof rv"><strong data-en="Reviews coming soon" data-es="Reseñas próximamente">Reviews coming soon</strong><span data-en="Real customer reviews will go here once the business is live." data-es="Aquí irán reseñas reales de clientes cuando el negocio esté en línea.">Real customer reviews will go here once the business is live.</span></div>
+    <p class="eyebrow rv" data-en="Hours &amp; service area" data-es="Horario y zona de servicio">Hours &amp; service area</p>
+    <h2 class="h2 rv" data-en="Odessa, Midland and nearby" data-es="Odessa, Midland y alrededores">Odessa, Midland and nearby</h2>
+    <div class="area__grid">
+      <div class="rv">
+        <ul class="route">
+          <li>Odessa<small data-en="Home base" data-es="Base central">Home base</small></li>
+          <li>Midland</li>
+          <li>Gardendale</li>
+          <li>Goldsmith</li>
+          <li>Greenwood</li>
+          <li>Stanton</li>
+        </ul>
+        <p class="sub" data-en="Serving the Permian Basin. Emergencies go out right away, any hour." data-es="Atendemos la cuenca Pérmica. Las emergencias salen enseguida, a cualquier hora.">Serving the Permian Basin. Emergencies go out right away, any hour.</p>
+        <div class="area__cta"><a class="btn btn--dark" href="tel:+14325550162"><span data-en="Call (432) 555-0162" data-es="Llamar (432) 555-0162">Call (432) 555-0162</span></a></div>
+      </div>
+      <div class="map rv">
+        <iframe title="Map of Odessa, TX" data-title-en="Map of Odessa, TX" data-title-es="Mapa de Odessa, TX" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Odessa,+TX&amp;output=embed"></iframe>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="faqs s-night" id="faq" data-bg="#08194f" style="padding-top:20px">
+<!-- 4. HOW WE WORK -->
+<section class="sec cutA s-white proc on-light" id="process">
+  <div class="wrap">
+    <p class="eyebrow rv" data-en="How we work" data-es="Cómo trabajamos">How we work</p>
+    <h2 class="h2 rv" data-en="No surprises on the bill" data-es="Sin sorpresas en la factura">No surprises on the bill</h2>
+    <ol class="steps" id="steps">
+      <li class="steps__line" aria-hidden="true" style="list-style:none"><div class="steps__fill" id="stepsFill"></div></li>
+      <li class="step rv">
+        <span class="step__n" aria-hidden="true">1</span>
+        <h3 data-en="You call" data-es="Tú llamas">You call</h3>
+        <p data-en="A real person answers, any hour. Emergencies go out right away; most other jobs are booked within the week." data-es="Contesta una persona real, a cualquier hora. Las emergencias salen enseguida; la mayoría de trabajos se agendan en la semana.">A real person answers, any hour. Emergencies go out right away; most other jobs are booked within the week.</p>
+        <div class="fig"><b><span data-count="60">60</span></b><span data-en="min emergency goal" data-es="min meta en emergencias">min emergency goal</span><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div>
+      </li>
+      <li class="step rv">
+        <span class="step__n" aria-hidden="true">2</span>
+        <h3 data-en="Written quote" data-es="Presupuesto por escrito">Written quote</h3>
+        <p data-en="You get the price in writing before we start. Estimates are free. If the scope changes, we ask first." data-es="Recibes el precio por escrito antes de empezar. Los presupuestos son gratis. Si el trabajo cambia, te preguntamos primero.">You get the price in writing before we start. Estimates are free. If the scope changes, we ask first.</p>
+        <div class="fig"><b><span data-count="2400">2400</span>+</b><span data-en="jobs completed" data-es="trabajos terminados">jobs completed</span><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div>
+      </li>
+      <li class="step rv">
+        <span class="step__n" aria-hidden="true">3</span>
+        <h3 data-en="Licensed, clean work" data-es="Trabajo con licencia y limpio">Licensed, clean work</h3>
+        <p data-en="Licensed electricians, insured jobs, permits pulled when needed. Clean work that passes inspection the first time." data-es="Electricistas con licencia, trabajos asegurados y permisos cuando hacen falta. Trabajo limpio que pasa la inspección a la primera.">Licensed electricians, insured jobs, permits pulled when needed. Clean work that passes inspection the first time.</p>
+        <div class="fig"><b><span data-count="18">18</span>+</b><span data-en="years licensed" data-es="años con licencia">years licensed</span><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 5. FAQ -->
+<section class="sec cutB s-navy faqs" id="faq">
   <div class="wrap">
     <p class="eyebrow rv" data-en="Quick answers" data-es="Respuestas rápidas">Quick answers</p>
-    <h2 class="h2 rv" style="font-size:clamp(2.6rem,1rem + 6vw,5.6rem)" data-en="Before you call" data-es="Antes de llamar">Before you call</h2>
+    <h2 class="h2 rv" data-en="Before you call" data-es="Antes de llamar">Before you call</h2>
     <div class="faq rv" id="faq-list">
       <details>
         <summary><span data-en="My breaker keeps tripping. Is it an emergency?" data-es="Mi breaker salta una y otra vez. ¿Es una emergencia?">My breaker keeps tripping. Is it an emergency?</span><i aria-hidden="true"></i></summary>
@@ -420,61 +509,52 @@ footer a{color:#fff}
   </div>
 </section>
 
-<section id="visit" class="light s-light" data-bg="#e8ecf5">
+<!-- 6. QUOTE + HOURS -->
+<section class="sec cutA s-navy quote" id="quote">
+  <div class="stripe" aria-hidden="true"></div>
   <div class="wrap">
-    <p class="eyebrow rv" data-en="Hours &amp; service area" data-es="Horario y zona de servicio">Hours &amp; service area</p>
-    <h2 class="h2 rv" style="font-size:clamp(2.8rem,1rem + 8vw,7.5rem)" data-en="Odessa, Midland and nearby" data-es="Odessa, Midland y alrededores">Odessa, Midland and nearby</h2>
-    <div class="visit__grid">
-      <div class="hours rv">
-        <h3 data-en="Office hours" data-es="Horario de oficina">Office hours</h3>
-        <table>
-          <tr><th scope="row" data-en="Monday" data-es="Lunes">Monday</th><td data-en="7:00 am – 5:30 pm" data-es="7:00 am – 5:30 pm">7:00 am – 5:30 pm</td></tr>
-          <tr><th scope="row" data-en="Tuesday" data-es="Martes">Tuesday</th><td data-en="7:00 am – 5:30 pm" data-es="7:00 am – 5:30 pm">7:00 am – 5:30 pm</td></tr>
-          <tr><th scope="row" data-en="Wednesday" data-es="Miércoles">Wednesday</th><td data-en="7:00 am – 5:30 pm" data-es="7:00 am – 5:30 pm">7:00 am – 5:30 pm</td></tr>
-          <tr><th scope="row" data-en="Thursday" data-es="Jueves">Thursday</th><td data-en="7:00 am – 5:30 pm" data-es="7:00 am – 5:30 pm">7:00 am – 5:30 pm</td></tr>
-          <tr><th scope="row" data-en="Friday" data-es="Viernes">Friday</th><td data-en="7:00 am – 5:30 pm" data-es="7:00 am – 5:30 pm">7:00 am – 5:30 pm</td></tr>
-          <tr><th scope="row" data-en="Saturday" data-es="Sábado">Saturday</th><td data-en="8:00 am – 1:00 pm" data-es="8:00 am – 1:00 pm">8:00 am – 1:00 pm</td></tr>
-          <tr><th scope="row" data-en="Sunday" data-es="Domingo">Sunday</th><td data-en="Closed (emergencies only)" data-es="Cerrado (solo emergencias)">Closed (emergencies only)</td></tr>
-        </table>
-        <div class="emerg"><strong data-en="Emergencies 24/7" data-es="Emergencias 24/7">Emergencies 24/7</strong><span data-en="Every day, any hour, holidays included. Call and a real person answers." data-es="Todos los días, a cualquier hora, festivos incluidos. Llama y contesta una persona real.">Every day, any hour, holidays included. Call and a real person answers.</span></div>
-        <address><span data-en="Serving Odessa, Midland and the Permian Basin" data-es="Atendemos Odessa, Midland y la cuenca Pérmica">Serving Odessa, Midland and the Permian Basin</span></address>
-        <a class="btn btn--main" href="tel:+14325550162"><span data-en="Call (432) 555-0162" data-es="Llamar (432) 555-0162">Call (432) 555-0162</span></a>
-      </div>
-      <div class="area rv">
-        <h3 data-en="Where we work" data-es="Dónde trabajamos">Where we work</h3>
-        <ul class="cities"><li>Odessa</li><li>Midland</li><li>Gardendale</li><li>Greenwood</li><li>Stanton</li><li>Andrews</li></ul>
-        <div class="map">
-          <iframe title="Map of Odessa, TX" data-title-en="Map of Odessa, TX" data-title-es="Mapa de Odessa, TX" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=Odessa,+TX&amp;output=embed"></iframe>
+    <p class="eyebrow rv" data-en="Free quote" data-es="Presupuesto gratis">Free quote</p>
+    <h2 class="h2 rv" data-en="Tell us what you need" data-es="Cuéntanos qué necesitas">Tell us what you need</h2>
+    <div class="quote__grid">
+      <div class="info">
+        <div class="hours rv">
+          <h3 data-en="Office hours" data-es="Horario de oficina">Office hours</h3>
+          <table>
+            <tr><th scope="row" data-en="Monday" data-es="Lunes">Monday</th><td>7:00 am – 5:30 pm</td></tr>
+            <tr><th scope="row" data-en="Tuesday" data-es="Martes">Tuesday</th><td>7:00 am – 5:30 pm</td></tr>
+            <tr><th scope="row" data-en="Wednesday" data-es="Miércoles">Wednesday</th><td>7:00 am – 5:30 pm</td></tr>
+            <tr><th scope="row" data-en="Thursday" data-es="Jueves">Thursday</th><td>7:00 am – 5:30 pm</td></tr>
+            <tr><th scope="row" data-en="Friday" data-es="Viernes">Friday</th><td>7:00 am – 5:30 pm</td></tr>
+            <tr><th scope="row" data-en="Saturday" data-es="Sábado">Saturday</th><td>8:00 am – 1:00 pm</td></tr>
+            <tr><th scope="row" data-en="Sunday" data-es="Domingo">Sunday</th><td data-en="Closed (emergencies only)" data-es="Cerrado (solo emergencias)">Closed (emergencies only)</td></tr>
+          </table>
+          <div class="emerg on-light"><strong data-en="Emergencies 24/7" data-es="Emergencias 24/7">Emergencies 24/7</strong><span data-en="Every day, any hour, holidays included. Call and a real person answers." data-es="Todos los días, a cualquier hora, festivos incluidos. Llama y contesta una persona real.">Every day, any hour, holidays included. Call and a real person answers.</span>
+            <a class="btn btn--dark" href="tel:+14325550162"><span data-en="Call (432) 555-0162" data-es="Llamar (432) 555-0162">Call (432) 555-0162</span></a></div>
         </div>
+        <div class="proof rv"><strong data-en="Reviews coming soon" data-es="Reseñas próximamente">Reviews coming soon</strong><span data-en="Real customer reviews will go here once the business is live." data-es="Aquí irán reseñas reales de clientes cuando el negocio esté en línea.">Real customer reviews will go here once the business is live.</span></div>
+      </div>
+      <div class="qcard on-light rv">
+        <h3 data-en="Request a quote" data-es="Pedir presupuesto">Request a quote</h3>
+        <p class="note" data-en="Free, no obligation. We reply the same business day. For emergencies, please call." data-es="Gratis y sin compromiso. Respondemos el mismo día hábil. Para emergencias, llama por teléfono.">Free, no obligation. We reply the same business day. For emergencies, please call.</p>
+        <form id="form" novalidate>
+          <div class="row">
+            <div><label for="f-name" data-en="Name" data-es="Nombre">Name</label><input id="f-name" name="name" type="text" autocomplete="name"></div>
+            <div><label for="f-phone" data-en="Phone" data-es="Teléfono">Phone</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(432) 555-0100"></div>
+          </div>
+          <div><label for="f-city" data-en="City" data-es="Ciudad">City</label>
+            <select id="f-city" name="city">
+              <option>Odessa</option><option>Midland</option><option data-en="Other nearby" data-es="Otra cercana">Other nearby</option>
+            </select></div>
+          <div><label for="f-msg" data-en="What do you need?" data-es="¿Qué necesitas?">What do you need?</label><textarea id="f-msg" name="msg" placeholder="Example: panel upgrade, EV charger, flickering lights" data-en-ph="Example: panel upgrade, EV charger, flickering lights" data-es-ph="Ejemplo: cambio de panel, cargador eléctrico, luces que parpadean"></textarea></div>
+          <button class="btn btn--dark" id="send" type="submit" data-en="Send quote request" data-es="Enviar solicitud">Send quote request</button>
+          <p class="note" data-en="This is a demo form. Nothing is sent." data-es="Este es un formulario de demostración. No se envía nada.">This is a demo form. Nothing is sent.</p>
+        </form>
       </div>
     </div>
   </div>
 </section>
 
-<section class="book light s-light" id="quote" data-bg="#e8ecf5" style="padding-top:20px">
-  <div class="wrap">
-    <p class="eyebrow rv" data-en="Free quote" data-es="Presupuesto gratis">Free quote</p>
-    <h2 class="h2 rv" style="font-size:clamp(2.8rem,1rem + 8vw,7.5rem)" data-en="Tell us what you need" data-es="Cuéntanos qué necesitas">Tell us what you need</h2>
-    <p class="sub rv" data-en="Free, no obligation. We reply the same business day. For emergencies, please call." data-es="Gratis y sin compromiso. Respondemos el mismo día hábil. Para emergencias, llama por teléfono.">Free, no obligation. We reply the same business day. For emergencies, please call.</p>
-    <form id="form" class="rv" novalidate>
-      <div class="row">
-        <div><label for="f-name" data-en="Name" data-es="Nombre">Name</label><input id="f-name" name="name" type="text" autocomplete="name"></div>
-        <div><label for="f-phone" data-en="Phone" data-es="Teléfono">Phone</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(432) 555-0100"></div>
-      </div>
-      <div><label for="f-city" data-en="City" data-es="Ciudad">City</label>
-        <select id="f-city" name="city">
-          <option>Odessa</option><option>Midland</option><option data-en="Other nearby" data-es="Otra cercana">Other nearby</option>
-        </select></div>
-      <div><label for="f-msg" data-en="What do you need?" data-es="¿Qué necesitas?">What do you need?</label><textarea id="f-msg" name="msg" data-en-ph="Example: panel upgrade, EV charger, flickering lights" data-es-ph="Ejemplo: cambio de panel, cargador eléctrico, luces que parpadean"></textarea></div>
-      <button class="btn btn--dark" id="send" type="submit" data-en="Send quote request" data-es="Enviar solicitud">Send quote request</button>
-      <p class="note" data-en="This is a demo form. Nothing is sent." data-es="Este es un formulario de demostración. No se envía nada.">This is a demo form. Nothing is sent.</p>
-    </form>
-  </div>
-</section>
-</main>
-
-<footer class="s-black" data-bg="#03060e">
+<footer class="sec cutB s-black foot">
   <div class="wrap">
     <p class="foot__big" aria-hidden="true">Pro <i>Electric</i></p>
     <a class="logo" href="#top"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg></b><span>Permian Pro Electric</span></a>
@@ -484,9 +564,16 @@ footer a{color:#fff}
     <p data-en="Demo website. Permian Pro Electric is a fictional business; the name, phone number and license are made up. Photos are stock." data-es="Sitio de demostración. Permian Pro Electric es un negocio ficticio; el nombre, el teléfono y la licencia son inventados. Las fotos son de archivo.">Demo website. Permian Pro Electric is a fictional business; the name, phone number and license are made up. Photos are stock.</p>
   </div>
 </footer>
+</main>
 
-<div class="ribbon" role="note">
-  <a href="/" data-en="Demo site by Permian Local · fictional business · permianlocalseo.com" data-es="Sitio de demostración de Permian Local · negocio ficticio · permianlocalseo.com">Demo site by Permian Local · fictional business · permianlocalseo.com</a>
+<div class="dock" id="dock">
+  <a class="sos" href="tel:+14325550162">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg>
+    <span data-en="Electrical emergency · Call now" data-es="Emergencia eléctrica · Llamar ahora">Electrical emergency · Call now</span><span class="sos__n">(432) 555-0162</span>
+  </a>
+  <div class="ribbon" role="note">
+    <a href="/" data-en="Demo site by Permian Local · fictional business · permianlocalseo.com" data-es="Sitio de demostración de Permian Local · negocio ficticio · permianlocalseo.com">Demo site by Permian Local · fictional business · permianlocalseo.com</a>
+  </div>
 </div>
 
 <script src="../../js/vendor/gsap.min.js"></script>
@@ -521,28 +608,44 @@ footer a{color:#fff}
   apply(lang);
 })();
 
-/* scroll progress (works without GSAP) */
+/* lateral scroll progress + dock height (work without GSAP) */
 (function(){
-  var bar=document.getElementById('progress'),tick=false;
-  function upd(){tick=false;var h=document.documentElement.scrollHeight-innerHeight;bar.style.transform='scaleX('+(h>0?Math.min(1,scrollY/h):0)+')';}
+  var bar=document.getElementById('progress'),dock=document.getElementById('dock'),tick=false;
+  function upd(){tick=false;var h=document.documentElement.scrollHeight-innerHeight;bar.style.transform='scaleY('+(h>0?Math.min(1,scrollY/h):0)+')';}
   addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});upd();
+  function setDock(){document.documentElement.style.setProperty('--dock',dock.offsetHeight+'px');}
+  setDock(); addEventListener('resize',setDock);
+  if(window.ResizeObserver) new ResizeObserver(setDock).observe(dock);
+})();
+
+/* services index: row <-> photo panel (hover, focus, or scroll position; works without GSAP) */
+(function(){
+  var rows=[].slice.call(document.querySelectorAll('.svc-row')), pics=[].slice.call(document.querySelectorAll('.svc-panel .pic')), cur=0;
+  var desk=matchMedia('(min-width:900px)');
+  function set(i){
+    if(i===cur) return; cur=i;
+    rows.forEach(function(r,k){r.classList.toggle('is-on',k===i);});
+    pics.forEach(function(p,k){p.classList.toggle('on',k===i);});
+  }
+  rows[0].classList.add('is-on');
+  rows.forEach(function(r,i){
+    r.addEventListener('mouseenter',function(){if(desk.matches) set(i);});
+    r.addEventListener('focusin',function(){if(desk.matches) set(i);});
+  });
+  if(window.IntersectionObserver){
+    var io=new IntersectionObserver(function(en){
+      en.forEach(function(e){ if(e.isIntersecting && desk.matches) set(rows.indexOf(e.target)); });
+    },{rootMargin:'-42% 0px -50% 0px'});
+    rows.forEach(function(r){io.observe(r);});
+  }
 })();
 
 /* motion */
 (function(){
   var root=document.documentElement;
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var h1=document.getElementById('h1');
 
-  /* h1 words into spans (no SplitText) */
-  var words=h1.textContent.trim().split(/\s+/);
-  h1.textContent='';
-  words.forEach(function(w,i){
-    if(i) {var sp=document.createElement('span');sp.className='sp';h1.appendChild(sp);}
-    var o=document.createElement('span');o.className='w';var inn=document.createElement('span');inn.textContent=w;o.appendChild(inn);h1.appendChild(o);
-  });
-
-  /* FAQ accordion: details + animated height + 8x5 pixel-block wipe (section colour -> black on open, black -> section colour on close) */
+  /* FAQ accordion: details + animated height + 8x5 pixel-block wipe (navy -> black on open, black -> navy on close) */
   var dets=document.querySelectorAll('.faq details');
   var PXC=8,PXR=5,PXT=.35;
   if(!reduce&&window.gsap) root.classList.add('faq-px');
@@ -554,14 +657,14 @@ footer a{color:#fff}
       d.insertBefore(px,d.firstChild);
     }
     sum.addEventListener('click',function(e){
-      if(reduce||!window.gsap) return; /* native toggle, instant colour via CSS */
+      if(reduce||!window.gsap) return;
       e.preventDefault(); if(busy) return; busy=true;
       var step=PXT-.06;
-      if(d.open){ /* close: hide text, blocks go black -> section colour from the far corner back to the origin, then collapse */
+      if(d.open){
         gsap.to(p,{opacity:0,duration:.12});
         blocks.forEach(function(b){gsap.to(b,{opacity:0,duration:.05,delay:.1+(1-b._d)*step,overwrite:true});});
         gsap.to(ans,{height:0,duration:PXT,delay:.1,ease:'power2.inOut',onComplete:function(){d.open=false;ans.style.height='';gsap.set(p,{clearProps:'opacity'});busy=false;}});
-      }else{ /* open: blocks fill section colour -> black from the top-left corner, text appears after */
+      }else{
         d.open=true; gsap.set(p,{opacity:0});
         blocks.forEach(function(b){gsap.to(b,{opacity:1,duration:.05,delay:b._d*step,overwrite:true});});
         gsap.fromTo(ans,{height:0},{height:'auto',duration:PXT,ease:'power2.out',onComplete:function(){ans.style.height='';}});
@@ -579,51 +682,50 @@ footer a{color:#fff}
     document.addEventListener('mouseleave',function(){cur.classList.remove('on');});
   }
 
-  /* hero person: effects driven by ACCUMULATED scroll distance (never rewinds on scroll up).
-     zoom 1 -> 1.12, light glint masked to the silhouette (cyclic), subtle rotateY oscillation.
-     Frame time is probed; the glint is switched off if the average frame takes > 32 ms. */
+  /* hero photo: effects driven by ACCUMULATED scroll distance (never rewinds on scroll up).
+     zoom 1 -> 1.1 and a gentle sway; a soft "scanline" glint over the blueprint grid (mix-blend-mode, the costly part).
+     Frame time is probed; the scanline is switched off if the average frame takes > 32 ms. */
   (function(){
-    var pro=document.getElementById('pro'),shine=document.getElementById('shine'),hero=document.querySelector('.hero');
-    if(reduce||!pro||!shine||!hero) return;
+    var pro=document.getElementById('pro'),scan=document.getElementById('scan'),yel=document.getElementById('yel');
+    if(reduce||!pro||!scan||!yel) return;
     root.classList.add('fx');
-    var acc=0,cur=0,lastY=window.scrollY||0,W=pro.offsetWidth||800,vis=true,running=false,shineOn=false,last=0,win=[];
-    var API=window.__heroFx={acc:0,cur:0,shine:false,avg:0,probed:false};
-    addEventListener('resize',function(){W=pro.offsetWidth||W;});
-    if(window.IntersectionObserver) new IntersectionObserver(function(en){vis=en[0].isIntersecting;if(vis)kick();}).observe(hero);
+    var acc=0,cur=0,lastY=window.scrollY||0,H=yel.offsetHeight||600,vis=true,running=false,scanOn=false,last=0,win=[];
+    var API=window.__proFx={acc:0,cur:0,scan:false,avg:0,probed:false};
+    addEventListener('resize',function(){H=yel.offsetHeight||H;});
+    if(window.IntersectionObserver) new IntersectionObserver(function(en){vis=en[0].isIntersecting;if(vis)kick();}).observe(yel);
     addEventListener('scroll',function(){
       var y=window.scrollY||0,d=Math.abs(y-lastY);lastY=y;
       if(d>0){acc+=Math.min(d,400);API.acc=acc;kick();}
     },{passive:true});
     function render(){
       var z=Math.min(cur/900,1);z=1-(1-z)*(1-z);
-      pro.style.transform='perspective(900px) rotateY('+(6*Math.sin(cur/260)).toFixed(2)+'deg) scale('+(1+.12*z).toFixed(4)+')';
-      if(shineOn){var ph=(cur/700)%1;shine.style.transform='translate3d('+((ph*1.8-.4)*W).toFixed(1)+'px,0,0) skewX(-22deg)';}
+      pro.style.transform='translate3d('+(8*Math.sin(cur/280)).toFixed(2)+'px,0,0) scale('+(1+.1*z).toFixed(4)+')';
+      if(scanOn){var ph=(cur/800)%1;scan.style.transform='translate3d(0,'+((ph*1.5-.25)*H).toFixed(1)+'px,0)';}
       API.cur=cur;
     }
     function avgOf(a){var s=0;for(var i=0;i<a.length;i++)s+=a[i];return a.length?s/a.length:0;}
-    function setShine(on){shineOn=on;API.shine=on;root.classList.toggle('fx-shine',on);}
-    API.force=function(on){API.locked=true;setShine(on);render();}; /* test hook */
+    function setScan(on){scanOn=on;API.scan=on;root.classList.toggle('fx-scan',on);}
+    API.force=function(on){API.locked=true;setScan(on);render();}; /* test hook */
     function tick(t){
-      if(last){var dt=t-last;if(dt<250){win.push(dt);if(win.length>30)win.shift();if(win.length>=20){API.avg=avgOf(win);if(shineOn&&!API.locked&&API.avg>32)setShine(false);}}}
+      if(last){var dt=t-last;if(dt<250){win.push(dt);if(win.length>30)win.shift();if(win.length>=20){API.avg=avgOf(win);if(scanOn&&!API.locked&&API.avg>32)setScan(false);}}}
       last=t;
       cur+=(acc-cur)*.08;if(Math.abs(acc-cur)<.3)cur=acc;
       render();
       if(Math.abs(acc-cur)>.3&&vis) requestAnimationFrame(tick); else {running=false;last=0;}
     }
     function kick(){if(!running&&vis){running=true;requestAnimationFrame(tick);}}
-    /* initial probe: 40 frames after load */
     function probe(){
       var n=0,pl=0,ds=[];
       (function f(t){if(pl){var dt=t-pl;if(dt<250)ds.push(dt);}pl=t;
         if(++n<42) requestAnimationFrame(f);
-        else{var a=avgOf(ds);API.avg=a;API.probed=true;if(ds.length>=20&&a<=32){setShine(true);render();}}
+        else{var a=avgOf(ds);API.avg=a;API.probed=true;if(ds.length>=20&&a<=32){setScan(true);render();}}
       })(performance.now());
     }
     if(document.readyState==='complete') setTimeout(probe,300); else addEventListener('load',function(){setTimeout(probe,300);});
     render();
   })();
 
-  if(reduce||!window.gsap||!window.ScrollTrigger){ /* static look, still correct per-section background */
+  if(reduce||!window.gsap||!window.ScrollTrigger){ /* static look */
     document.querySelectorAll('[data-count]').forEach(function(n){n.textContent=n.getAttribute('data-count');});
     return;
   }
@@ -641,32 +743,34 @@ footer a{color:#fff}
     });
   }
 
-  /* title: words rise in */
-  gsap.from('#h1 .w>span',{yPercent:110,duration:1.1,ease:'power4.out',stagger:.14,delay:.15});
-  gsap.from('#heroPhoto',{opacity:0,scale:.92,duration:1.3,ease:'power3.out',delay:.35});
-  gsap.from('.hero__halo',{opacity:0,duration:1.6,ease:'power2.out'});
+  /* headline: whole LINES rise in (not words) */
+  gsap.from('#h1 .ln>span',{yPercent:115,duration:1,ease:'power4.out',stagger:.16,delay:.15});
+  gsap.from('#heroPro',{yPercent:14,opacity:0,duration:1.2,ease:'power3.out',delay:.3});
+  gsap.from('#tag24',{scale:.3,rotation:-40,opacity:0,duration:.8,ease:'back.out(2.2)',delay:.9});
 
-  /* hero parallax: photo slower than text */
+  /* hero parallax: the yellow blueprint block moves at its own speed */
   var st={trigger:'.hero',start:'top top',end:'bottom top',scrub:true};
-  gsap.to('#heroTitle',{yPercent:-28,ease:'none',scrollTrigger:st});
-  gsap.to('#heroPhoto',{y:60,ease:'none',scrollTrigger:st});
-  gsap.to('.hero__halo',{y:30,ease:'none',scrollTrigger:st});
-
-  /* background colour per section */
-  document.querySelectorAll('[data-bg]').forEach(function(sec){
-    ScrollTrigger.create({trigger:sec,start:'top 55%',end:'bottom 55%',
-      onToggle:function(self){if(self.isActive)gsap.to(document.body,{backgroundColor:sec.getAttribute('data-bg'),duration:.7,ease:'power2.out',overwrite:true});}});
-  });
-  gsap.set(document.body,{backgroundColor:'#0a1330'});
+  gsap.to('#heroBg',{yPercent:12,ease:'none',scrollTrigger:st});
+  gsap.to('#heroPro',{y:34,ease:'none',scrollTrigger:st});
+  gsap.to('#tag24',{y:-46,ease:'none',scrollTrigger:st});
 
   /* reveals */
-  gsap.to('.hero .rv',{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.15,delay:.9});
-  ScrollTrigger.batch('.rv:not(.hero .rv)',{start:'top 88%',once:true,onEnter:function(b){gsap.to(b,{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.1,overwrite:true});}});
+  gsap.to('.hero .rv',{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.15,delay:.8});
+  ScrollTrigger.batch('.rv:not(.hero .rv)',{start:'top 90%',once:true,onEnter:function(b){gsap.to(b,{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.1,overwrite:true});}});
+
+  /* connected line of the 3 steps grows with scroll (horizontal on desktop, vertical on mobile) */
+  var mm=gsap.matchMedia();
+  mm.add('(min-width:900px)',function(){
+    gsap.fromTo('#stepsFill',{scaleX:0,scaleY:1},{scaleX:1,ease:'none',scrollTrigger:{trigger:'#steps',start:'top 70%',end:'top 25%',scrub:true}});
+  });
+  mm.add('(max-width:899px)',function(){
+    gsap.fromTo('#stepsFill',{scaleY:0,scaleX:1},{scaleY:1,ease:'none',scrollTrigger:{trigger:'#steps',start:'top 70%',end:'bottom 70%',scrub:true}});
+  });
 
   /* counters */
   document.querySelectorAll('[data-count]').forEach(function(n){
     var end=+n.getAttribute('data-count'),o={v:0};
-    ScrollTrigger.create({trigger:n,start:'top 90%',once:true,onEnter:function(){gsap.to(o,{v:end,duration:1.6,ease:'power2.out',onUpdate:function(){n.textContent=Math.round(o.v);}});}});
+    ScrollTrigger.create({trigger:n,start:'top 92%',once:true,onEnter:function(){gsap.to(o,{v:end,duration:1.6,ease:'power2.out',onUpdate:function(){n.textContent=Math.round(o.v);}});}});
   });
   addEventListener('load',function(){ScrollTrigger.refresh();});
 })();
