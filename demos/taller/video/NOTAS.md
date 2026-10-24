@@ -19,3 +19,8 @@
 - Se usan solo los fotogramas 0005-0064 (60). Descartados: 0001-0004 (primeros planos de la puerta con alfa deshecha) y 0065-0088 (el capó interior y el motor salen fantasmales con rembg). Los descartados se movieron fuera del proyecto (scratchpad).
 - Fotograma de PARADA: 0064 (capó abierto, motor visible, recorte nítido). Peso actual: motor 2,3 MB + motor600 1,2 MB = 3,5 MB.
 - Para recuperar el zoom final al motor habría que regenerar el recorte con otro método (SAM/matting o enmascarar con el fotograma 0064).
+
+### Recortes con ruedas (2026-10-24, vuelta 3)
+- Los 60 fotogramas 0005-0064 se regeneraron desde orbita-motor.mp4 con rembg `birefnet-general` (sin alpha matting) para todo el rango; conserva neumáticos, llantas, parachoques y capó. isnet-general-use (-a) y u2net recortaban las ruedas o ensuciaban el borde.
+- Mapeo: 0005-0040 = fotogramas de vídeo 28,35,...,276 (paso ~7); 0041-0064 = 277..300 consecutivos (0064 = 12,5 s). Encuadre completo 1280x720 -> 1100x619 / 600x338, WebP q80 con alfa, degradado de 48 px en los bordes y leve contraste de alfa.
+- Póster img/posters/taller.webp recapturado a 640 px. Antiguos en el scratchpad (ruedas/old, old600).

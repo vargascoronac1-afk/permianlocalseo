@@ -77,7 +77,7 @@
     busy = true;
     var done = false;
     function fin() { if (done) return; done = true; f.classList.add('is-ready'); busy = false; setTimeout(pump, 150); }
-    f.addEventListener('load', function () { hidePoster(f); fin(); });
+    f.addEventListener('load', function () { hidePoster(f); fin(); }, { once: true });
     setTimeout(fin, 7000);
     f.src = f.getAttribute('data-lazy');
   }
@@ -85,7 +85,7 @@
     var fr = $$('iframe[data-lazy]');
     /* movil o ahorro de datos: en el hero solo carga el telefono central; los laterales se quedan con el poster */
     var lite = window.matchMedia('(max-width:899px), (pointer:coarse)').matches || (navigator.connection && navigator.connection.saveData);
-    if (lite) fr = fr.filter(function (f) { return !f.closest('.phones') || f.closest('.pf--center, .phone--center, .is-center') || /taller/.test(f.getAttribute('data-lazy')); });
+    if (lite) fr = fr.filter(function (f) { return !f.closest('.phones'); }); /* en movil el carrusel carga el telefono activo (max. 2) */
     if (!('IntersectionObserver' in window)) { fr.forEach(function (f) { queue.push(f); }); pump(); return; }
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
@@ -96,6 +96,84 @@
     fr.forEach(function (f) { io.observe(f); });
   }
   if (document.readyState === 'complete') watchIframes(); else window.addEventListener('load', function () { setTimeout(watchIframes, 200); });
+
+  /* ---------- hero: carrusel de telefonos (abanico 3D en escritorio, scroll-snap en movil) ---------- */
+  (function () {
+    var car = $('.pcar'), box = $('.phones');
+    if (!car || !box) return;
+    var mq = window.matchMedia('(max-width:899px), (pointer:coarse)');
+    var slides = $$('.pf', box), dots = $$('.pnav__dot', car), n = slides.length, cur = 1, loaded = [], loadT = 0, rafId = 0; /* rafId: temporizador del scroll */
+    function mob() { return mq.matches; }
+    function frame(i) { return $('iframe[data-lazy]', slides[i]); }
+    function unload(i) {
+      var f = frame(i), p = $('.pf__poster', slides[i]);
+      if (!f || !f.getAttribute('src')) return;
+      f.src = 'about:blank'; f.classList.remove('is-ready');
+      if (p) { p.hidden = false; p.classList.remove('is-gone'); }
+    }
+    function load(i) {
+      var f = frame(i); if (!f) return;
+      var at = loaded.indexOf(i); if (at > -1) loaded.splice(at, 1);
+      loaded.push(i);
+      while (loaded.length > 2) unload(loaded.shift());
+      if (f.getAttribute('src') === 'about:blank') f.removeAttribute('src');
+      if (!f.getAttribute('src')) { queue.push(f); pump(); }
+    }
+    function fit() {
+      var m = mob();
+      $$('.pf', box).concat($$('.pf--fluid')).forEach(function (pf) {
+        var sc = $('.pf__screen', pf), w = sc && sc.clientWidth;
+        if (pf.parentNode === box && !m) { pf.style.removeProperty('--k'); return; }
+        if (w) pf.style.setProperty('--k', (w / 375).toFixed(4));
+      });
+    }
+    function center(i, instant) {
+      if (!mob()) return;
+      var s = slides[i];
+      box.scrollTo({ left: s.offsetLeft - (box.clientWidth - s.offsetWidth) / 2, behavior: (instant || reduce) ? 'auto' : 'smooth' });
+    }
+    function paint() {
+      slides.forEach(function (s, i) {
+        s.classList.toggle('is-active', i === cur);
+        s.setAttribute('data-pos', i === cur ? 'c' : (i === (cur + n - 1) % n ? 'l' : 'r'));
+      });
+      dots.forEach(function (d, i) { if (i === cur) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+      clearTimeout(loadT);
+      if (mob()) loadT = setTimeout(function () { load(cur); }, 180);
+    }
+    function go(i, fromScroll) {
+      i = (i % n + n) % n;
+      var same = i === cur; cur = i; paint();
+      if (!fromScroll && (!same || mob())) center(i);
+    }
+    function nearest() {
+      var mid = box.scrollLeft + box.clientWidth / 2, best = 0, bd = 1e9;
+      slides.forEach(function (s, i) { var d = Math.abs(s.offsetLeft + s.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = i; } });
+      return best;
+    }
+    box.addEventListener('scroll', function () {
+      if (!mob()) return;
+      clearTimeout(rafId);
+      rafId = setTimeout(function () { var i = nearest(); if (i !== cur) go(i, true); }, 70);
+    }, { passive: true });
+    $$('.pnav__arrow', car).forEach(function (b) { b.addEventListener('click', function () { go(cur + Number(b.getAttribute('data-dir'))); }); });
+    dots.forEach(function (d) { d.addEventListener('click', function () { go(Number(d.getAttribute('data-go'))); }); });
+    slides.forEach(function (s, i) {
+      var hit = $('.pf__hit', s);
+      if (hit) hit.addEventListener('click', function (e) { if (i !== cur) { e.preventDefault(); go(i); } });
+    });
+    car.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault(); go(cur + (e.key === 'ArrowRight' ? 1 : -1));
+    });
+    function layout() { fit(); center(cur, true); }
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(box); else window.addEventListener('resize', fit);
+    if (mq.addEventListener) mq.addEventListener('change', function () { layout(); paint(); });
+    paint(); fit();
+    function start() { layout(); if (mob()) load(cur); }
+    if (document.readyState === 'complete') setTimeout(start, 250); else window.addEventListener('load', function () { setTimeout(start, 250); });
+    $$('.pf--fluid').forEach(function (pf) { if (window.ResizeObserver) new ResizeObserver(fit).observe(pf); });
+  })();
 
   /* ---------- marcos de portatil: escala del iframe segun el ancho ---------- */
   $$('.laptop__screen').forEach(function (scr) {

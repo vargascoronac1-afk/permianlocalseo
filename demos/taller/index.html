@@ -90,11 +90,11 @@ p{margin:0}
 .hero__title h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.04em}
 .hero__title h1 .w>span{display:inline-block;will-change:transform}
 .hero__title h1 .sp{display:inline-block;width:.22em}
-.hero__photo{position:relative;z-index:2;width:min(780px,104vw,78vh);margin-bottom:-4%;pointer-events:none;will-change:transform}
+.hero__photo{position:relative;z-index:2;width:min(780px,calc(100vw - 32px),78vh);margin-bottom:-4%;pointer-events:none;will-change:transform}
 .hero__photo::after{content:"";position:absolute;left:8%;right:8%;bottom:-3%;height:8%;background:radial-gradient(closest-side,rgba(0,0,0,.7),transparent);z-index:-1}
 /* truck: video frame sequence on canvas, driven by accumulated scroll; engine "idles" at the last frame */
 .truck{position:relative;transform-origin:50% 50%}
-.truck canvas{position:relative;display:block;width:100%;height:auto;transform-origin:50% 50%;will-change:transform}
+.truck canvas{position:relative;display:block;width:100%;height:auto;aspect-ratio:600/338;object-fit:contain;transform-origin:50% 50%;will-change:transform}
 .truck__motor{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none;transform-origin:50% 50%;
   -webkit-mask-image:radial-gradient(ellipse 62% 66% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 66% at 50% 50%,#000 55%,transparent 100%)}
 .truck.is-static canvas{visibility:hidden}.truck.is-static .truck__motor{opacity:1}
