@@ -20,8 +20,8 @@ export function init(stage, canvas) {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
   const sun = new THREE.DirectionalLight(0xffd2a0, 3.2); sun.position.set(4, 6, 5); scene.add(sun); scene.add(sun.target);
-  const rim = new THREE.DirectionalLight(0xe8402e, 1.1); rim.position.set(-5, 2, -4); scene.add(rim);
-  scene.add(new THREE.HemisphereLight(0xffe6cc, 0x1a0c08, 0.5));
+  const rim = new THREE.DirectionalLight(0x7fb59a, 1.0); rim.position.set(-5, 2, -4); scene.add(rim);
+  scene.add(new THREE.HemisphereLight(0xffe6cc, 0x14201b, 0.5));
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
   const glint = new THREE.PointLight(0xfff1dd, 0, 14, 1.6); scene.add(glint);
