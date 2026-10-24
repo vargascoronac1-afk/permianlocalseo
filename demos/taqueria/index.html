@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Taquería El Sol de Odessa · Demo</title>
+<meta name="description" content="Sitio demo de Permian Local: tacos de trompo al carbón en Odessa, Texas. Negocio ficticio.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#2b1a10; --ink2:#5a3a26; --cream:#fff4dc; --sand:#f8e3b4; --teja:#b8321f; --tejad:#8e2415;
+  --maiz:#f6c23e; --verde:#2f6b3a; --verded:#1f4a28;
+  --disp:"Alfa Slab One",Georgia,"Times New Roman",serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --s1:0 1px 2px rgba(43,26,16,.2),0 1px 1px rgba(43,26,16,.12);
+  --s2:0 6px 12px -4px rgba(43,26,16,.28),0 2px 4px rgba(43,26,16,.14);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{font:400 1.0625rem/1.6 var(--body);color:var(--ink);background:var(--cream);padding-bottom:44px;overflow-x:hidden}
+h1,h2,h3{font-family:var(--disp);font-weight:400;line-height:1.1;letter-spacing:.01em}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.hero :focus-visible,.catering :focus-visible,footer :focus-visible,.ribbon :focus-visible{outline-color:var(--maiz)}
+.wrap{width:min(1100px,100% - 32px);margin-inline:auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:52px;padding:.7rem 1.4rem;border-radius:999px;border:0;font:700 1rem/1.2 var(--body);text-decoration:none;cursor:pointer;background:var(--teja);color:#fff;box-shadow:var(--s2)}
+.btn--soft{background:rgba(255,244,220,.14);color:var(--cream);box-shadow:none;border:2px solid rgba(255,244,220,.6)}
+.btn--sun{background:var(--maiz);color:var(--ink)}
+.btn--ghost{background:transparent;color:var(--ink);box-shadow:none;border:2px solid var(--ink)}
+@media(hover:hover){.btn{transition:transform .15s}.btn:hover{transform:translateY(-2px)}.btn--soft:hover{background:rgba(255,244,220,.26)}}
+.btn svg{width:20px;height:20px;flex:none}
+
+/* cabecera */
+header{background:var(--cream);border-bottom:4px solid var(--teja);position:relative;z-index:5}
+.hwrap{width:min(1100px,100% - 32px);margin-inline:auto;display:grid;grid-template-columns:1fr auto;align-items:center;gap:.5rem .75rem;padding:.6rem 0 .8rem}
+.brand{font:400 1.2rem/1 var(--disp);text-decoration:none;color:var(--tejad);display:flex;align-items:center;gap:.5rem;min-width:0;min-height:48px}
+.brand svg{width:34px;height:34px;flex:none}
+.brand small{display:block;font:700 .7rem/1.2 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);margin-top:3px}
+.lang{min-width:52px;min-height:48px;padding:0 .8rem;border-radius:999px;border:2px solid var(--ink);background:var(--maiz);color:var(--ink);font:800 .95rem var(--body);cursor:pointer}
+.lang{grid-row:1;grid-column:2}.brand{grid-row:1;grid-column:1}.hbtns{grid-row:2;grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.hbtns .btn{min-height:48px;padding:.5rem .6rem;font-size:.95rem}
+.hbtns .btn--ghost{border-color:var(--teja);color:var(--tejad)}
+@media(min-width:760px){
+  header{position:sticky;top:0}
+  .hwrap{grid-template-columns:1fr auto auto;padding:.6rem 0}
+  .brand,.lang,.hbtns{grid-row:1}.brand{grid-column:1}.hbtns{grid-column:2;display:flex}.lang{grid-column:3}
+  .hbtns .btn{padding:.5rem 1.2rem}
+}
+
+/* papel picado */
+.picado{display:block;width:100%;height:46px;color:var(--maiz)}
+
+/* hero */
+.hero{background:var(--tejad);color:var(--cream);position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,244,220,.05) 0 22px,transparent 22px 44px);pointer-events:none}
+.hero .wrap{position:relative;padding:2.4rem 0 3rem;display:grid;gap:1.6rem}
+.kicker{font:800 .8rem/1.3 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--maiz);margin-bottom:.6rem}
+.hero h1{font-size:clamp(2.1rem,1.2rem + 6vw,4.4rem);color:var(--maiz);text-shadow:3px 3px 0 var(--ink);margin-bottom:1rem}
+.hero p.lead{font-size:1.2rem;max-width:34ch;color:var(--cream)}
+@media(max-width:599px){.hero h1{font-size:clamp(1.7rem,8vw,2.2rem);margin-bottom:.7rem}.hero .wrap{padding:1.6rem 0 2rem;gap:1.2rem}.hero p.lead{font-size:1.05rem}}
+.cta{display:flex;flex-wrap:wrap;gap:.75rem}
+.cta .btn{flex:1 1 200px}
+.sun{position:absolute;right:-70px;top:-10px;width:260px;height:260px;pointer-events:none}
+.photo{border-radius:20px;min-height:230px;background:linear-gradient(135deg,var(--maiz) 0 38%,var(--teja) 38% 70%,var(--verde) 70%);box-shadow:var(--s2);display:grid;place-items:center;position:relative;border:4px solid var(--cream)}
+.photo svg{width:68%;max-width:300px;filter:drop-shadow(0 6px 0 rgba(43,26,16,.25))}
+@media(min-width:860px){.hero .wrap{grid-template-columns:1.1fr .9fr;align-items:center;padding:3.6rem 0 4.2rem}.photo{min-height:360px}}
+.facts{display:flex;flex-wrap:wrap;gap:.4rem .5rem;list-style:none;padding:0}
+.facts li{background:var(--maiz);color:var(--ink);border-radius:999px;padding:.4rem .9rem;font-weight:700;font-size:.9rem}
+
+/* secciones */
+section{padding:3.4rem 0}
+.sec-title{font-size:clamp(1.9rem,1.2rem + 3.4vw,3rem);color:var(--tejad)}
+.sec-sub{color:var(--ink2);margin:.5rem 0 1.8rem;max-width:56ch}
+.grid{display:grid;gap:1rem;grid-template-columns:1fr}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
+@media(min-width:980px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--s1);display:flex;flex-direction:column}
+.card .ph{padding:1.1rem 1.3rem 0;display:block;color:var(--ink)}
+.card .ph svg{width:88px;height:88px;display:block}
+.c1{--t:var(--maiz)}.c2{--t:#e9a07b}.c3{--t:#9fc46a}.c4{--t:#ee8f78}.c5{--t:#f1c04f}.c6{--t:#6fbf93}
+.card .body{padding:.6rem 1.3rem 1.3rem;display:grid;gap:.35rem;align-content:start;flex:1}
+.c1{background:var(--sand)}
+.c1 .ph svg{width:132px;height:132px}
+.c1 .body h3{font-size:1.8rem}
+@media(min-width:980px){.c1{grid-column:span 2;grid-row:span 2;justify-content:center}.c1 .ph svg{width:180px;height:180px}.c1 .body{flex:0 0 auto;padding:.6rem 1.8rem 1.8rem}.c1 .body h3{font-size:2.3rem}.c1 .body p{font-size:1.1rem}}
+.card h3{font-size:1.35rem;color:var(--ink)}
+.card p{color:var(--ink2);font-size:.98rem}
+.card p.price{font:800 1.6rem/1 var(--body);font-variant-numeric:tabular-nums;color:var(--tejad)}
+.price small{font:600 .85rem var(--body);color:var(--ink2)}
+.badge{display:inline-block;background:var(--sand);color:var(--ink);border-radius:999px;padding:.3rem .75rem;font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;width:max-content}
+.note{margin-top:1.4rem;font-size:.95rem;color:var(--ink2)}
+
+/* horario + ubicación */
+.where{background:var(--sand);position:relative;color:var(--ink)}
+.where::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(248,227,180,.93),rgba(248,227,180,.93)),url(/img/main-street-dusk-960.webp) center/cover;pointer-events:none}
+.where .wrap{position:relative;display:grid;gap:1.6rem}
+@media(min-width:860px){.where .wrap{grid-template-columns:.9fr 1.1fr;align-items:start}}
+.hours{list-style:none;padding:.4rem 1.2rem;background:var(--cream);border-radius:18px;box-shadow:var(--s1)}
+.hours li{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px dashed rgba(43,26,16,.3);font-variant-numeric:tabular-nums}
+.hours li:last-child{border:0}
+.hours .off{color:var(--tejad);font-weight:800}
+.addr{font-weight:700;margin:1rem 0 .8rem}
+.map{border-radius:18px;overflow:hidden;box-shadow:var(--s2);border:4px solid var(--cream);background:var(--sand)}
+.map iframe{display:block;width:100%;height:340px;border:0}
+
+/* catering */
+.catering{background:var(--verded);color:var(--cream)}
+.catering .cat-in{display:grid;gap:1.2rem;align-items:center;padding:3rem 0}
+.catering h2{font-size:clamp(1.8rem,1.1rem + 3.2vw,2.8rem);color:var(--maiz)}
+.catering p{max-width:50ch}
+@media(min-width:860px){.catering .cat-in{grid-template-columns:1.4fr auto}}
+
+/* pie */
+footer{background:var(--ink);color:var(--cream);padding:2.4rem 0 2rem}
+footer .wrap{display:grid;gap:1.2rem}
+.soc{display:flex;gap:.6rem;list-style:none;padding:0}
+.soc a{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--maiz);color:var(--ink)}
+.soc svg{width:24px;height:24px}
+footer h3{font:800 .8rem var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--maiz);margin-bottom:.4rem}
+footer small{color:#e8d9bd}
+footer a{color:var(--maiz)}footer p a{display:inline-flex;align-items:center;min-height:48px}
+
+/* cinta demo */
+.ribbon{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--ink);color:#f3e6c8;font-size:.78rem;line-height:1.3;text-align:center;padding:.5rem 16px;min-height:48px;display:flex;align-items:center;justify-content:center;border-top:2px solid var(--maiz)}
+.ribbon a{color:var(--maiz);font-weight:700;text-decoration:underline;padding:0 .15rem;display:inline-flex;align-items:center;min-height:44px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="taco" viewBox="0 0 100 100">
+      <path d="M8 72a42 42 0 0 1 84 0z" fill="#f6c23e" stroke="#2b1a10" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M22 66c4-14 14-22 28-22s24 8 28 22z" fill="#2f6b3a" stroke="#2b1a10" stroke-width="3"/>
+      <circle cx="38" cy="58" r="5" fill="#b8321f"/><circle cx="56" cy="54" r="5" fill="#b8321f"/><circle cx="68" cy="62" r="4" fill="#fff4dc"/>
+      <path d="M8 72h84" stroke="#2b1a10" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="cup" viewBox="0 0 100 100">
+      <path d="M28 24h44l-6 62H34z" fill="#fff4dc" stroke="#2b1a10" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M31 46h38l-3 40H34z" fill="#b8321f" opacity=".85"/>
+      <path d="M58 24l12-16" stroke="#2b1a10" stroke-width="5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="bowl" viewBox="0 0 100 100">
+      <path d="M10 48h80a40 38 0 0 1-80 0z" fill="#fff4dc" stroke="#2b1a10" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M18 48c6-8 12-8 18 0s12 8 18 0 12-8 18 0" fill="none" stroke="#b8321f" stroke-width="5" stroke-linecap="round"/>
+      <path d="M36 30c-4-6 4-8 0-14M54 30c-4-6 4-8 0-14M72 30c-4-6 4-8 0-14" fill="none" stroke="#2b1a10" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="torta" viewBox="0 0 100 100">
+      <path d="M10 46a40 26 0 0 1 80 0z" fill="#e9a07b" stroke="#2b1a10" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M10 52h80M14 60h72" stroke="#2f6b3a" stroke-width="7" stroke-linecap="round"/>
+      <path d="M12 68h76v6a8 8 0 0 1-8 8H20a8 8 0 0 1-8-8z" fill="#e9a07b" stroke="#2b1a10" stroke-width="4" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></symbol>
+    <symbol id="pin" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></symbol>
+    <pattern id="flags" width="46" height="46" patternUnits="userSpaceOnUse">
+      <path d="M2 0h40v30l-5-4-5 4-5-4-5 4-5-4-5 4-5-4z" fill="currentColor"/>
+      <circle cx="12" cy="11" r="3" fill="#8e2415" opacity=".55"/><circle cx="32" cy="11" r="3" fill="#8e2415" opacity=".55"/>
+      <path d="M17 18h12" stroke="#8e2415" stroke-width="2" opacity=".55"/>
+    </pattern>
+  </defs>
+</svg>
+
+<header>
+  <div class="hwrap">
+    <a class="brand" href="#top" aria-label="Taquería El Sol de Odessa">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="9" fill="#f6c23e" stroke="#2b1a10" stroke-width="2.5"/><g stroke="#b8321f" stroke-width="3" stroke-linecap="round"><path d="M20 3v5M20 32v5M3 20h5M32 20h5M8 8l3.5 3.5M28.5 28.5L32 32M8 32l3.5-3.5M28.5 11.5L32 8"/></g></svg>
+      <span>El Sol de Odessa<small data-es="Taquería · Desde las 7" data-en="Taquería · Open at 7">Taquería · Desde las 7</small></span>
+    </a>
+    <div class="hbtns">
+      <a class="btn btn--ghost" href="tel:+14325550174"><svg aria-hidden="true"><use href="#phone"/></svg><span data-es="Llama / Call" data-en="Llama / Call">Llama / Call</span></a>
+      <a class="btn" href="tel:+14325550174"><span data-es="Ordena por teléfono" data-en="Order by phone">Ordena por teléfono</span></a>
+    </div>
+    <button class="lang" id="lang" type="button" data-es-label="Switch to English" data-en-label="Cambiar a español" aria-label="Switch to English">EN</button>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero">
+  <svg class="picado" viewBox="0 0 460 46" preserveAspectRatio="none" aria-hidden="true" focusable="false"><rect width="460" height="46" fill="url(#flags)"/></svg>
+  <svg class="sun" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="62" fill="#f6c23e" opacity=".16"/><g stroke="#f6c23e" stroke-width="10" stroke-linecap="round" opacity=".16"><path d="M100 6v26M100 168v26M6 100h26M168 100h26M33 33l18 18M149 149l18 18M33 167l18-18M149 51l18-18"/></g></svg>
+  <div class="wrap">
+    <div>
+      <p class="kicker">Taquería · E 8th St, Odessa, TX</p>
+      <h1 data-es="Tacos de trompo al carbón, todos los días desde las 7." data-en="Charcoal trompo tacos, every day from 7 am.">Tacos de trompo al carbón, todos los días desde las 7.</h1>
+      <p class="lead" data-es="Tortilla recién hecha, cebolla, cilantro y salsa de la casa. Pasa, o pide por teléfono y te esperamos con la bolsa lista." data-en="Fresh tortillas, onion, cilantro and house salsa. Come in, or call ahead and we will have your bag ready.">Tortilla recién hecha, cebolla, cilantro y salsa de la casa. Pasa, o pide por teléfono y te esperamos con la bolsa lista.</p>
+      <div class="cta" style="margin:1.4rem 0 1rem">
+        <a class="btn btn--sun" href="#menu" data-es="Ver el menú" data-en="See the menu">Ver el menú</a>
+        <a class="btn btn--soft" href="https://www.google.com/maps/search/?api=1&amp;query=taquer%C3%ADa+E+8th+St+Odessa+TX" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#pin"/></svg><span data-es="Cómo llegar" data-en="Get directions">Cómo llegar</span></a>
+      </div>
+      <ul class="facts"><li data-es="Mar–Dom 7 am–10 pm" data-en="Tue–Sun 7 am–10 pm">Mar–Dom 7 am–10 pm</li><li data-es="Cerrado lunes" data-en="Closed Mondays">Cerrado lunes</li></ul>
+    </div>
+    <!-- foto real del cliente aquí: trompo girando o plato de tacos (formato 4:3) -->
+    <div class="photo" role="img" aria-label="Ilustración de un taco de trompo" data-es-label="Ilustración de un taco de trompo" data-en-label="Illustration of a trompo taco">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#taco"/></svg>
+    </div>
+  </div>
+</div>
+
+<section class="menu" id="menu">
+  <div class="wrap">
+    <h2 class="sec-title" data-es="El menú" data-en="The menu">El menú</h2>
+    <p class="sec-sub" data-es="Corto a propósito: lo que hacemos bien. Precios de ejemplo." data-en="Short on purpose: what we do well. Sample prices.">Corto a propósito: lo que hacemos bien. Precios de ejemplo.</p>
+    <div class="grid">
+      <!-- foto real del cliente aquí (una por tarjeta) -->
+      <article class="card c1"><div class="ph"><svg viewBox="0 0 100 100" role="img" aria-label="Taco de trompo" data-es-label="Taco de trompo" data-en-label="Trompo taco"><use href="#taco"/></svg></div><div class="body"><span class="badge" data-es="La estrella" data-en="The star">La estrella</span><h3 data-es="Tacos de trompo" data-en="Trompo tacos">Tacos de trompo</h3><p data-es="Cerdo al pastor del trompo, con piña y cebolla." data-en="Pork al pastor off the spit, with pineapple and onion.">Cerdo al pastor del trompo, con piña y cebolla.</p><p class="price">$2.75 <small data-es="c/u" data-en="each">c/u</small></p></div></article>
+      <article class="card c2"><div class="ph"><svg viewBox="0 0 100 100" role="img" aria-label="Taco de asada" data-es-label="Taco de asada" data-en-label="Asada taco"><use href="#taco"/></svg></div><div class="body"><h3 data-es="Tacos de asada" data-en="Asada tacos">Tacos de asada</h3><p data-es="Res a la parrilla, picada al momento." data-en="Grilled beef, chopped to order.">Res a la parrilla, picada al momento.</p><p class="price">$3.25 <small data-es="c/u" data-en="each">c/u</small></p></div></article>
+      <article class="card c3"><div class="ph"><svg viewBox="0 0 100 100" role="img" aria-label="Taco de barbacoa" data-es-label="Taco de barbacoa" data-en-label="Barbacoa taco"><use href="#taco"/></svg></div><div class="body"><h3 data-es="Tacos de barbacoa" data-en="Barbacoa tacos">Tacos de barbacoa</h3><p data-es="Cocida lenta, suave, con su consomé aparte." data-en="Slow-cooked and tender, with consommé on the side.">Cocida lenta, suave, con su consomé aparte.</p><p class="price">$3.50 <small data-es="c/u" data-en="each">c/u</small></p></div></article>
+      <article class="card c4"><div class="ph"><svg viewBox="0 0 100 100" role="img" aria-label="Tazón de menudo" data-es-label="Tazón de menudo" data-en-label="Bowl of menudo"><use href="#bowl"/></svg></div><div class="body"><span class="badge" data-es="Sáb y Dom" data-en="Sat &amp; Sun">Sáb y Dom</span><h3>Menudo</h3><p data-es="Caldo rojo, con orégano, limón y tortillas calientes." data-en="Red broth with oregano, lime and warm tortillas.">Caldo rojo, con orégano, limón y tortillas calientes.</p><p class="price">$11.50</p></div></article>
+      <article class="card c5"><div class="ph"><svg viewBox="0 0 100 100" role="img" aria-label="Torta" data-es-label="Torta" data-en-label="Torta sandwich"><use href="#torta"/></svg></div><div class="body"><h3>Tortas</h3><p data-es="Telera tostada, frijoles, aguacate y tu carne favorita." data-en="Toasted telera roll, beans, avocado and your choice of meat.">Telera tostada, frijoles, aguacate y tu carne favorita.</p><p class="price">$9.50</p></div></article>
+      <article class="card c6"><div class="ph"><svg viewBox="0 0 100 100" role="img" aria-label="Vaso de agua fresca" data-es-label="Vaso de agua fresca" data-en-label="Glass of agua fresca"><use href="#cup"/></svg></div><div class="body"><h3>Aguas frescas</h3><p data-es="Horchata, jamaica y limón. Vaso grande." data-en="Horchata, hibiscus and lime. Large cup.">Horchata, jamaica y limón. Vaso grande.</p><p class="price">$3.50</p></div></article>
+    </div>
+    <p class="note" data-es="Precios de ejemplo para esta demo. Pregunta por alergias o por menos picante." data-en="Sample prices for this demo. Ask about allergies or milder salsa.">Precios de ejemplo para esta demo. Pregunta por alergias o por menos picante.</p>
+  </div>
+</section>
+
+<section class="where" id="donde">
+  <div class="wrap">
+    <div>
+      <h2 class="sec-title" data-es="Horario y ubicación" data-en="Hours &amp; location">Horario y ubicación</h2>
+      <p class="addr">E 8th St, Odessa, TX</p>
+      <ul class="hours">
+        <li><span data-es="Lunes" data-en="Monday">Lunes</span><span class="off" data-es="Cerrado" data-en="Closed">Cerrado</span></li>
+        <li><span data-es="Martes a viernes" data-en="Tuesday to Friday">Martes a viernes</span><span>7 am – 10 pm</span></li>
+        <li><span data-es="Sábado y domingo" data-en="Saturday &amp; Sunday">Sábado y domingo</span><span>7 am – 10 pm</span></li>
+      </ul>
+      <div class="cta" style="margin-top:1.2rem">
+        <a class="btn" href="tel:+14325550174"><svg aria-hidden="true"><use href="#phone"/></svg><span data-es="Llama: (432) 555-0174" data-en="Call: (432) 555-0174">Llama: (432) 555-0174</span></a>
+        <a class="btn btn--ghost" href="https://www.google.com/maps/search/?api=1&amp;query=taquer%C3%ADa+E+8th+St+Odessa+TX" target="_blank" rel="noopener" data-es="Cómo llegar" data-en="Get directions">Cómo llegar</a>
+      </div>
+    </div>
+    <div class="map">
+      <iframe src="https://www.google.com/maps?q=Odessa,+TX&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de Odessa, TX" data-es-title="Mapa de Odessa, TX" data-en-title="Map of Odessa, TX"></iframe>
+    </div>
+  </div>
+</section>
+
+<div class="catering" id="catering">
+  <svg class="picado" viewBox="0 0 460 46" preserveAspectRatio="none" aria-hidden="true" focusable="false"><rect width="460" height="46" fill="url(#flags)"/></svg>
+  <div class="wrap cat-in">
+    <div>
+      <h2 data-es="Pedidos para eventos y catering" data-en="Event &amp; catering orders">Pedidos para eventos y catering</h2>
+      <p style="margin-top:.6rem" data-es="Cumpleaños, quinceañeras, equipos de trabajo y reuniones en la iglesia. Trompo en sitio o charolas listas. Llámanos con unos días de aviso." data-en="Birthdays, quinceañeras, work crews and church gatherings. Trompo on site or ready-to-serve trays. Call us a few days ahead.">Cumpleaños, quinceañeras, equipos de trabajo y reuniones en la iglesia. Trompo en sitio o charolas listas. Llámanos con unos días de aviso.</p>
+    </div>
+    <a class="btn btn--sun" href="tel:+14325550174"><svg aria-hidden="true"><use href="#phone"/></svg><span data-es="Llama para cotizar" data-en="Call for a quote">Llama para cotizar</span></a>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <h3 data-es="Síguenos" data-en="Follow us">Síguenos</h3>
+      <ul class="soc">
+        <li><a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5H16l.5-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.3 0-3.9 1.4-3.9 4v2.2H8v3h2.5V21z"/></svg></a></li>
+        <li><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16.8" cy="7.2" r="1.2" fill="currentColor"/></svg></a></li>
+        <li><a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.5 3a4.6 4.6 0 0 0 3.5 3.9v3a7.6 7.6 0 0 1-3.5-1v6.1a5.9 5.9 0 1 1-5.9-5.9c.3 0 .6 0 .9.1v3.1a2.8 2.8 0 1 0 1.9 2.7V3z"/></svg></a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 data-es="Contacto" data-en="Contact">Contacto</h3>
+      <p><a href="tel:+14325550174">(432) 555-0174</a> · E 8th St, Odessa, TX</p>
+      <p data-es="Mar–Dom 7 am–10 pm · Cerrado lunes" data-en="Tue–Sun 7 am–10 pm · Closed Mondays">Mar–Dom 7 am–10 pm · Cerrado lunes</p>
+    </div>
+    <small data-es="© Taquería El Sol de Odessa (negocio ficticio). Sitio demo creado por Permian Local." data-en="© Taquería El Sol de Odessa (fictional business). Demo site made by Permian Local.">© Taquería El Sol de Odessa (negocio ficticio). Sitio demo creado por Permian Local.</small>
+  </div>
+</footer>
+
+<div class="ribbon" role="note"><span><span data-es="Sitio demo de Permian Local · negocio ficticio · " data-en="Permian Local demo site · fictional business · ">Sitio demo de Permian Local · negocio ficticio · </span><a href="/">permianlocalseo.com</a></span></div>
+
+<script>
+(function(){
+  var btn=document.getElementById('lang'),KEY='tq-lang';
+  function get(){try{return localStorage.getItem(KEY)}catch(e){return null}}
+  function set(v){try{localStorage.setItem(KEY,v)}catch(e){}}
+  function apply(l){
+    document.documentElement.lang=l;
+    document.querySelectorAll('[data-es]').forEach(function(e){e.innerHTML=e.getAttribute('data-'+l)});
+    document.querySelectorAll('[data-es-label]').forEach(function(e){e.setAttribute('aria-label',e.getAttribute('data-'+l+'-label'))});
+    document.querySelectorAll('[data-es-title]').forEach(function(e){e.setAttribute('title',e.getAttribute('data-'+l+'-title'))});
+    btn.textContent=l==='es'?'EN':'ES';
+    document.title=l==='es'?'Taquería El Sol de Odessa · Demo':'El Sol de Odessa Taquería · Demo';
+  }
+  var s=get(),cur=(s==='es'||s==='en')?s:((navigator.language||'').toLowerCase().indexOf('es')===0?'es':'en');
+  apply(cur);
+  btn.addEventListener('click',function(){cur=cur==='es'?'en':'es';set(cur);apply(cur)});
+})();
+</script>
+</body>
+</html>

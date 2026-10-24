@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loop 338 Auto Repair | Odessa, TX (demo)</title>
+<meta name="description" content="Demo website: Loop 338 Auto Repair, a fictional shop in Odessa, TX. Brakes, diagnostics, A/C, alignment, oil change and state inspection. Built by Permian Local.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&display=swap">
+<style>
+:root{
+  --bg:#efece7; --bg2:#e4e0d9; --card:#fbfaf8; --ink:#1d1b19; --muted:#55504a;
+  --red:#c0321b; --red-dark:#a02914; --dark:#211e1b; --line:#d3cec5;
+  --head:"Barlow Condensed","Arial Narrow","Roboto Condensed",Impact,sans-serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --cut:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.55 var(--body);padding-bottom:44px;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--head);font-weight:800;text-transform:uppercase;line-height:1;margin:0;letter-spacing:.01em}
+p{margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+:focus-visible{outline:3px solid #0b57d0;outline-offset:2px}
+
+/* buttons: one action colour (red), secondary = soft */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 26px;border:0;cursor:pointer;
+  font:800 1.3rem/1 var(--head);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;
+  clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,var(--cut) 100%,0 calc(100% - var(--cut)))}
+.btn svg{width:22px;height:22px;flex:none}
+.btn--main{background:var(--red);color:#fff}
+.btn--soft{background:rgba(255,255,255,.92);color:var(--dark)}
+.btn--ghost{background:var(--bg2);color:var(--dark)}
+@media (hover:hover){.btn--main:hover{background:var(--red-dark)}.btn--soft:hover{background:#fff}.btn--ghost:hover{background:#d8d3ca}}
+.btn--main:active{background:var(--red-dark)}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:var(--dark);color:#fff}
+.top__in{display:flex;align-items:center;gap:12px;min-height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.45rem/1 var(--head);text-transform:uppercase;letter-spacing:.03em;margin-right:auto}
+.logo b{background:var(--red);color:#fff;padding:5px 8px 4px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.logo small{display:none;font:600 .8rem/1 var(--body);letter-spacing:.08em;color:#d6d0c8;text-transform:uppercase}
+.nav{display:none;gap:22px}
+.nav a{color:#fff;text-decoration:none;font-weight:600;padding:12px 4px}
+.nav a:hover{text-decoration:underline;text-underline-offset:6px}
+.lang{min-width:48px;min-height:48px;border:2px solid #8c857b;background:transparent;color:#fff;font:800 1.05rem/1 var(--head);letter-spacing:.06em;cursor:pointer}
+@media (hover:hover){.lang:hover{background:#3a3631}}
+.top .btn{min-height:48px;padding:0 16px;font-size:1.15rem}
+.top .btn .t-long{display:none}
+@media (min-width:760px){.nav{display:flex}.logo small{display:block}.top .btn{padding:0 22px}.top .btn .t-long{display:inline}}
+
+/* hero */
+.hero{position:relative;color:#fff;background:#2a2622;min-height:min(78vh,640px);display:flex;align-items:flex-end;isolation:isolate}
+.hero__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;z-index:-2}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,17,14,.45) 0%,rgba(20,17,14,.78) 70%,rgba(20,17,14,.9) 100%)}
+.hero__in{padding:72px 20px 40px;width:100%}
+.tag{display:inline-block;background:#fff;color:var(--dark);font:800 .95rem/1 var(--head);letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;margin-bottom:18px}
+.hero h1{font-size:clamp(2.9rem,1.4rem + 7.5vw,4.6rem);max-width:17ch}
+.hero h1 em{font-style:normal;color:#ffb199}
+.hero p.lead{font-size:clamp(1.1rem,1rem + .5vw,1.35rem);max-width:34rem;margin:18px 0 26px;color:#f3efe9}
+@media (max-width:599px){.hero h1{font-size:clamp(1.7rem,8.2vw,2.2rem);max-width:none}.hero__in{padding:32px 20px 28px}.hero h1+p.lead,.hero p.lead{font-size:1.05rem;margin:12px 0 18px}.tag{margin-bottom:12px}}
+.cta{display:flex;flex-direction:column;gap:12px;max-width:420px}
+.hero .micro{margin-top:16px;font-size:.95rem;color:#e9e3da}
+@media (min-width:600px){.cta{flex-direction:row;max-width:none}.hero__in{padding-bottom:64px}}
+
+/* trust strip */
+.trust{background:var(--dark);color:#fff}
+.trust ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr}
+.trust li{display:flex;align-items:center;gap:14px;padding:18px 0;border-bottom:1px solid #3b3733;font:800 1.5rem/1.1 var(--head);text-transform:uppercase;letter-spacing:.03em}
+.trust li:last-child{border-bottom:0}
+.trust li svg{width:34px;height:34px;flex:none;color:#ff8a6b}
+.trust li span{display:block;font:400 .95rem/1.35 var(--body);text-transform:none;letter-spacing:0;color:#d6d0c8;margin-top:4px}
+@media (min-width:760px){.trust ul{grid-template-columns:repeat(3,1fr);gap:28px}.trust li{border:0;padding:26px 0}}
+
+/* sections */
+section{padding:64px 0}
+.eyebrow{font:800 1rem/1 var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--red-dark);margin-bottom:12px}
+.h2{font-size:clamp(2.3rem,1.5rem + 3.6vw,3.8rem)}
+.sub{color:var(--muted);max-width:34rem;margin-top:14px}
+
+/* services */
+.svc{background:var(--bg)}
+.cards{display:grid;gap:14px;margin-top:32px;grid-template-columns:1fr}
+.card{background:var(--card);padding:22px 20px 24px;position:relative;border-top:5px solid var(--red);display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:10px;align-items:center;align-content:start}
+.card svg{width:38px;height:38px;color:var(--red);stroke-width:3.5}
+.card h3{font-size:1.8rem;margin:0}
+.card p{color:var(--muted);grid-column:1/-1}
+.card--feat{background:var(--dark);border-top-color:var(--red)}
+.card--feat svg{color:#ff8a6b}
+.card--feat h3{color:#fff;font-size:2.3rem}
+.card--feat p{color:#e9e3da;font-size:1.15rem;max-width:36rem}
+@media (min-width:900px){.card--feat{grid-column:span 2;grid-row:span 2;align-content:center;padding:32px 30px 34px}.card--feat h3{font-size:2.9rem}.card--feat svg{width:52px;height:52px}.card--feat p{font-size:1.25rem}}
+@media (min-width:560px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:900px){.cards{grid-template-columns:repeat(3,1fr);gap:18px}}
+.svc__more{margin-top:26px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.svc__more p{font-weight:600}
+
+/* about / photo band */
+.band{background:var(--bg2)}
+.band__grid{display:grid;gap:28px;align-items:center}
+.band img{width:100%;object-fit:cover;aspect-ratio:3/2}
+.band ul{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+.band li{padding-left:34px;position:relative}
+.band li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;background:var(--red);clip-path:polygon(14% 52%,0 66%,38% 100%,100% 22%,86% 8%,38% 70%)}
+@media (min-width:860px){.band__grid{grid-template-columns:1fr 1fr;gap:56px}}
+.proof{margin-top:28px;padding:18px 20px;background:var(--card);border-left:5px solid var(--red)}
+.proof strong{font:800 1.4rem/1.1 var(--head);text-transform:uppercase;display:block;margin-bottom:4px}
+.proof span{color:var(--muted)}
+
+/* hours + map */
+.visit__grid{display:grid;gap:24px;margin-top:30px}
+.hours{background:var(--dark);color:#fff;padding:26px 24px}
+.hours h3{font-size:1.6rem;margin-bottom:14px}
+.hours table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.hours th,.hours td{text-align:left;padding:11px 0;border-bottom:1px solid #3b3733;font-weight:400}
+.hours th{font:800 1rem/1.2 var(--head);letter-spacing:.1em;text-transform:uppercase;color:#d6d0c8}
+.hours td{text-align:right}
+.hours tr:last-child th,.hours tr:last-child td{border-bottom:0}
+.hours address{font-style:normal;margin:16px 0 20px;color:#e9e3da}
+.hours .btn{width:100%}
+.hours .btn + .btn{margin-top:10px}
+.map{min-height:320px;background:var(--bg2)}
+.map iframe{width:100%;height:100%;min-height:320px;border:0;display:block}
+@media (min-width:860px){.visit__grid{grid-template-columns:5fr 7fr}.map,.map iframe{min-height:420px}}
+
+/* form */
+.book{background:var(--bg2)}
+form{margin-top:30px;display:grid;gap:16px;max-width:680px}
+.row{display:grid;gap:16px}
+@media (min-width:600px){.row{grid-template-columns:1fr 1fr}}
+label{display:block;font:800 .95rem/1 var(--head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+input,select,textarea{width:100%;min-height:52px;padding:12px 14px;border:2px solid #b9b3a8;background:#fff;color:var(--ink);font:400 1rem/1.4 var(--body);border-radius:0}
+textarea{min-height:110px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--red);outline:2px solid var(--red);outline-offset:0}
+.note{font-size:.95rem;color:var(--muted)}
+#send[disabled]{background:#4a453f;cursor:not-allowed}
+
+/* footer */
+footer{background:var(--dark);color:#d6d0c8;padding:40px 0 32px;font-size:.95rem}
+footer .logo{margin-bottom:14px}
+footer p+p{margin-top:8px}
+footer a{color:#fff}
+
+/* demo ribbon */
+.ribbon{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#111;color:#f1ede6;font-size:.82rem;line-height:1.3;text-align:center;padding:9px 16px;min-height:36px;border-top:2px solid var(--red)}
+.ribbon a{color:#fff;font-weight:600;text-underline-offset:3px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top__in">
+    <a class="logo" href="#top" aria-label="Loop 338 Auto Repair"><b>338</b><span>Loop 338 Auto</span><small data-en="Odessa, TX" data-es="Odessa, TX">Odessa, TX</small></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#services" data-en="Services" data-es="Servicios">Services</a>
+      <a href="#visit" data-en="Hours &amp; map" data-es="Horario y mapa">Hours &amp; map</a>
+      <a href="#book" data-en="Book a visit" data-es="Pedir cita">Book a visit</a>
+    </nav>
+    <button class="lang" id="lang" type="button" aria-label="Cambiar a español">ES</button>
+    <a class="btn btn--main" href="tel:+14325550138">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+      <span data-en="Call now" data-es="Llamar">Call now</span><span class="t-long">&nbsp;(432) 555-0138</span>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero">
+  <img class="hero__img" src="/img/mechanic-under-car-960.webp"
+       srcset="/img/mechanic-under-car-480.webp 480w, /img/mechanic-under-car-960.webp 960w, /img/mechanic-under-car-1600.webp 1600w"
+       sizes="100vw" width="1600" height="1067" fetchpriority="high"
+       alt="Mechanic working under a lifted car in a repair bay" data-alt-en="Mechanic working under a lifted car in a repair bay" data-alt-es="Mecánico trabajando bajo un auto elevado en el taller">
+  <div class="wrap hero__in">
+    <span class="tag" data-en="Odessa, Texas · Family owned" data-es="Odessa, Texas · Negocio familiar">Odessa, Texas · Family owned</span>
+    <h1 data-en="Car trouble in Odessa? Honest repairs, same-day when we can." data-es="¿Problemas con el carro en Odessa? Reparaciones honestas, el mismo día cuando se puede.">Car trouble in Odessa? Honest repairs, same-day when we can.</h1>
+    <p class="lead" data-en="Brakes, A/C, check-engine lights and more. We tell you what it needs, what it costs, and what can wait, before we touch a wrench." data-es="Frenos, A/C, luz de check engine y más. Le decimos qué necesita, cuánto cuesta y qué puede esperar, antes de tocar una herramienta.">Brakes, A/C, check-engine lights and more. We tell you what it needs, what it costs, and what can wait, before we touch a wrench.</p>
+    <div class="cta">
+      <a class="btn btn--main" href="tel:+14325550138">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <span data-en="Call (432) 555-0138" data-es="Llamar (432) 555-0138">Call (432) 555-0138</span>
+      </a>
+      <a class="btn btn--soft" href="https://www.google.com/maps/search/?api=1&amp;query=W+University+Blvd+Odessa+TX" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+        <span data-en="Get directions" data-es="Cómo llegar">Get directions</span>
+      </a>
+    </div>
+    <p class="micro" data-en="Mon–Fri 7:30–6 · Sat 8–1 · Free estimates" data-es="Lun–Vie 7:30–6 · Sáb 8–1 · Presupuesto gratis">Mon–Fri 7:30–6 · Sat 8–1 · Free estimates</p>
+  </div>
+</div>
+
+<div class="trust">
+  <div class="wrap">
+    <ul>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>
+        <div><b data-en="Family owned" data-es="Negocio familiar">Family owned</b><span data-en="You talk to the people who fix your car." data-es="Habla con las personas que arreglan su carro.">You talk to the people who fix your car.</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+        <div><b data-en="ASE-style certified techs" data-es="Técnicos certificados estilo ASE">ASE-style certified techs</b><span data-en="Trained, tested, and up to date." data-es="Capacitados, evaluados y al día.">Trained, tested, and up to date.</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>
+        <div><b data-en="Upfront quotes" data-es="Presupuesto por adelantado">Upfront quotes</b><span data-en="No surprise charges. We call before extra work." data-es="Sin cargos sorpresa. Llamamos antes de cualquier trabajo extra.">No surprise charges. We call before extra work.</span></div></li>
+    </ul>
+  </div>
+</div>
+
+<section class="svc" id="services">
+  <div class="wrap">
+    <p class="eyebrow" data-en="What we fix" data-es="Lo que arreglamos">What we fix</p>
+    <h2 class="h2" data-en="Six jobs, done right" data-es="Seis trabajos, bien hechos">Six jobs, done right</h2>
+    <p class="sub" data-en="Not on the list? Call us. If we can do it, we will say so. If we can't, we will point you to someone who can." data-es="¿No está en la lista? Llámenos. Si podemos hacerlo, se lo decimos. Si no, le indicamos quién puede.">Not on the list? Call us. If we can do it, we will say so. If we can't, we will point you to someone who can.</p>
+    <div class="cards">
+      <article class="card card--feat">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><circle cx="24" cy="24" r="19"/><circle cx="24" cy="24" r="6"/><circle cx="24" cy="10" r="1.6" fill="currentColor"/><circle cx="24" cy="38" r="1.6" fill="currentColor"/><circle cx="10" cy="24" r="1.6" fill="currentColor"/><circle cx="38" cy="24" r="1.6" fill="currentColor"/></svg>
+        <h3 data-en="Brakes" data-es="Frenos">Brakes</h3>
+        <p data-en="Squealing, grinding or a soft pedal. Pads, rotors, fluid and a safety check." data-es="Chillidos, ruido de metal o pedal blando. Pastillas, discos, líquido y revisión de seguridad.">Squealing, grinding or a soft pedal. Pads, rotors, fluid and a safety check.</p>
+      </article>
+      <article class="card">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 18h6l3-5h14l3 5h4v5h2v7h-4M10 30H6V18"/><path d="M12 30h8M28 30h8"/><path d="M14 36h20"/><path d="M16 24l4 3 4-6 4 5"/></svg>
+        <h3 data-en="Diagnostics" data-es="Diagnóstico">Diagnostics</h3>
+        <p data-en="Check-engine light on? We read the codes and find the real cause, not just clear the light." data-es="¿Luz de check engine encendida? Leemos los códigos y buscamos la causa real, no solo apagamos la luz.">Check-engine light on? We read the codes and find the real cause, not just clear the light.</p>
+      </article>
+      <article class="card">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 4v40M7 14l34 20M41 14L7 34"/><path d="M19 8l5 4 5-4M19 40l5-4 5 4"/></svg>
+        <h3 data-en="A/C repair" data-es="Aire acondicionado">A/C repair</h3>
+        <p data-en="West Texas heat is no joke. Leaks, low charge, weak airflow: we get the cold back." data-es="El calor de West Texas no es broma. Fugas, poca carga, poco aire: devolvemos el frío.">West Texas heat is no joke. Leaks, low charge, weak airflow: we get the cold back.</p>
+      </article>
+      <article class="card">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="24" r="12"/><circle cx="24" cy="24" r="3"/><path d="M4 12l5-5M4 12l5 5M44 12l-5-5M44 12l-5 5M4 38l5-5M4 38l5 5M44 38l-5-5M44 38l-5 5" opacity="0"/><path d="M4 24h5M39 24h5M24 4v5M24 39v5"/></svg>
+        <h3 data-en="Alignment" data-es="Alineación">Alignment</h3>
+        <p data-en="Pulling to one side or uneven tire wear? A proper alignment saves tires and fuel." data-es="¿Se jala a un lado o las llantas se desgastan disparejo? Una buena alineación ahorra llantas y gasolina.">Pulling to one side or uneven tire wear? A proper alignment saves tires and fuel.</p>
+      </article>
+      <article class="card">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 5C17 15 11 21 11 29a13 13 0 0 0 26 0c0-8-6-14-13-24z"/><path d="M18 30a6 6 0 0 0 6 6"/></svg>
+        <h3 data-en="Oil change" data-es="Cambio de aceite">Oil change</h3>
+        <p data-en="Quick, clean, and with a look at fluids, filters and belts while it's on the lift." data-es="Rápido, limpio y con revisión de líquidos, filtros y bandas mientras está en el elevador.">Quick, clean, and with a look at fluids, filters and belts while it's on the lift.</p>
+      </article>
+      <article class="card">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="6" width="30" height="37" rx="2"/><path d="M18 4h12v6H18z"/><path d="M16 24l5 5 11-11"/></svg>
+        <h3 data-en="State inspection" data-es="Inspección estatal">State inspection</h3>
+        <p data-en="Texas vehicle inspection while you wait, so you can renew your registration." data-es="Inspección vehicular de Texas mientras espera, para renovar su registro.">Texas vehicle inspection while you wait, so you can renew your registration.</p>
+      </article>
+    </div>
+    <div class="svc__more">
+      <a class="btn btn--main" href="tel:+14325550138"><span data-en="Call for a free estimate" data-es="Llame para un presupuesto gratis">Call for a free estimate</span></a>
+      <a class="btn btn--ghost" href="#book"><span data-en="Request an appointment" data-es="Pedir una cita">Request an appointment</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="about">
+  <div class="wrap band__grid">
+    <img src="/img/wrenches-tools-960.webp" srcset="/img/wrenches-tools-480.webp 480w, /img/wrenches-tools-960.webp 960w" sizes="(min-width:860px) 520px, 100vw" width="960" height="1440" loading="lazy" style="aspect-ratio:4/3;object-position:50% 50%"
+         alt="Wrenches and hand tools laid out on a workshop bench" data-alt-en="Wrenches and hand tools laid out on a workshop bench" data-alt-es="Llaves y herramientas de mano sobre una mesa de taller">
+    <div>
+      <p class="eyebrow" data-en="Why drivers stay with us" data-es="Por qué nos eligen">Why drivers stay with us</p>
+      <h2 class="h2" data-en="A shop you can ask questions" data-es="Un taller al que se le puede preguntar">A shop you can ask questions</h2>
+      <ul>
+        <li data-en="We show you the worn part and explain it in plain English." data-es="Le mostramos la pieza gastada y se la explicamos en palabras sencillas.">We show you the worn part and explain it in plain English.</li>
+        <li data-en="Written quote first. Nothing extra without your OK." data-es="Primero el presupuesto por escrito. Nada extra sin su permiso.">Written quote first. Nothing extra without your OK.</li>
+        <li data-en="Same-day on most brakes, oil changes and inspections." data-es="El mismo día en la mayoría de frenos, aceite e inspecciones.">Same-day on most brakes, oil changes and inspections.</li>
+      </ul>
+      <div class="proof"><strong data-en="Reviews coming soon" data-es="Reseñas próximamente">Reviews coming soon</strong><span data-en="Real customer reviews will go here once the shop is live." data-es="Aquí irán reseñas reales de clientes cuando el taller esté en línea.">Real customer reviews will go here once the shop is live.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="visit">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Come on in" data-es="Visítenos">Come on in</p>
+    <h2 class="h2" data-en="Hours &amp; location" data-es="Horario y ubicación">Hours &amp; location</h2>
+    <div class="visit__grid">
+      <div class="hours">
+        <h3 data-en="Shop hours" data-es="Horario del taller">Shop hours</h3>
+        <table>
+          <tr><th scope="row" data-en="Mon–Fri" data-es="Lun–Vie">Mon–Fri</th><td data-en="7:30 am – 6:00 pm" data-es="7:30 am – 6:00 pm">7:30 am – 6:00 pm</td></tr>
+          <tr><th scope="row" data-en="Saturday" data-es="Sábado">Saturday</th><td data-en="8:00 am – 1:00 pm" data-es="8:00 am – 1:00 pm">8:00 am – 1:00 pm</td></tr>
+          <tr><th scope="row" data-en="Sunday" data-es="Domingo">Sunday</th><td data-en="Closed" data-es="Cerrado">Closed</td></tr>
+        </table>
+        <address>W University Blvd, Odessa, TX<br><span data-en="Serving Odessa and Midland" data-es="Atendemos Odessa y Midland">Serving Odessa and Midland</span></address>
+        <a class="btn btn--main" href="tel:+14325550138"><span data-en="Call (432) 555-0138" data-es="Llamar (432) 555-0138">Call (432) 555-0138</span></a>
+        <a class="btn btn--soft" href="https://www.google.com/maps/search/?api=1&amp;query=W+University+Blvd+Odessa+TX" target="_blank" rel="noopener"><span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a>
+      </div>
+      <div class="map">
+        <iframe title="Map of Odessa, TX" data-title-en="Map of Odessa, TX" data-title-es="Mapa de Odessa, TX" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=W+University+Blvd,+Odessa,+TX&amp;output=embed"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="book" id="book">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Prefer to write?" data-es="¿Prefiere escribir?">Prefer to write?</p>
+    <h2 class="h2" data-en="Request an appointment" data-es="Pida una cita">Request an appointment</h2>
+    <p class="sub" data-en="Tell us what is going on. We will call you back to confirm a time. Fastest way is still to call." data-es="Cuéntenos qué pasa. Le devolvemos la llamada para confirmar la hora. Lo más rápido sigue siendo llamar.">Tell us what is going on. We will call you back to confirm a time. Fastest way is still to call.</p>
+    <form id="form" novalidate>
+      <div class="row">
+        <div><label for="f-name" data-en="Your name" data-es="Su nombre">Your name</label><input id="f-name" name="name" type="text" autocomplete="name"></div>
+        <div><label for="f-phone" data-en="Phone" data-es="Teléfono">Phone</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(432) 555-0100"></div>
+      </div>
+      <div class="row">
+        <div><label for="f-svc" data-en="Service" data-es="Servicio">Service</label>
+          <select id="f-svc" name="service">
+            <option data-en="Brakes" data-es="Frenos">Brakes</option>
+            <option data-en="Diagnostics / check-engine light" data-es="Diagnóstico / luz de check engine">Diagnostics / check-engine light</option>
+            <option data-en="A/C repair" data-es="Aire acondicionado">A/C repair</option>
+            <option data-en="Alignment" data-es="Alineación">Alignment</option>
+            <option data-en="Oil change" data-es="Cambio de aceite">Oil change</option>
+            <option data-en="State inspection" data-es="Inspección estatal">State inspection</option>
+            <option data-en="Other / not sure" data-es="Otro / no estoy seguro">Other / not sure</option>
+          </select></div>
+        <div><label for="f-day" data-en="Preferred day" data-es="Día preferido">Preferred day</label><input id="f-day" name="day" type="date"></div>
+      </div>
+      <div><label for="f-msg" data-en="What is the car doing?" data-es="¿Qué le pasa al carro?">What is the car doing?</label><textarea id="f-msg" name="msg"></textarea></div>
+      <button class="btn btn--main" id="send" type="submit" data-en="Request appointment" data-es="Pedir cita">Request appointment</button>
+      <p class="note" data-en="This is a demo form. It does not send anything." data-es="Este es un formulario de demostración. No envía nada.">This is a demo form. It does not send anything.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#top"><b>338</b><span>Loop 338 Auto</span></a>
+    <p>W University Blvd, Odessa, TX · <a href="tel:+14325550138">(432) 555-0138</a></p>
+    <p data-en="Mon–Fri 7:30–6 · Sat 8–1 · Closed Sunday" data-es="Lun–Vie 7:30–6 · Sáb 8–1 · Domingo cerrado">Mon–Fri 7:30–6 · Sat 8–1 · Closed Sunday</p>
+    <p data-en="Demo website. Loop 338 Auto Repair is a fictional business; the name, phone number and address are made up. Photos are stock." data-es="Sitio de demostración. Loop 338 Auto Repair es un negocio ficticio; el nombre, el teléfono y la dirección son inventados. Las fotos son de archivo.">Demo website. Loop 338 Auto Repair is a fictional business; the name, phone number and address are made up. Photos are stock.</p>
+  </div>
+</footer>
+
+<div class="ribbon" role="note">
+  <a href="/" data-en="Demo site by Permian Local · fictional business · permianlocalseo.com" data-es="Sitio de demostración de Permian Local · negocio ficticio · permianlocalseo.com">Demo site by Permian Local · fictional business · permianlocalseo.com</a>
+</div>
+
+<script>
+(function(){
+  var KEY='l338-lang', btn=document.getElementById('lang'), lang='en';
+  try{var s=localStorage.getItem(KEY); if(s==='en'||s==='es') lang=s; else lang=/^es/i.test(navigator.language||'')?'es':'en';}catch(e){lang=/^es/i.test(navigator.language||'')?'es':'en';}
+  var T={
+    title:{en:'Loop 338 Auto Repair | Odessa, TX (demo)',es:'Loop 338 Auto Repair | Odessa, TX (demo)'},
+    desc:{en:'Demo website: Loop 338 Auto Repair, a fictional shop in Odessa, TX. Brakes, diagnostics, A/C, alignment, oil change and state inspection. Built by Permian Local.',es:'Sitio de demostración: Loop 338 Auto Repair, un taller ficticio en Odessa, TX. Frenos, diagnóstico, A/C, alineación, cambio de aceite e inspección estatal. Hecho por Permian Local.'},
+    toggle:{en:['ES','Cambiar a español'],es:['EN','Switch to English']},
+    demo:{en:'Demo: form disabled',es:'Demo: formulario desactivado'}
+  };
+  function apply(l){
+    lang=l; document.documentElement.lang=l;
+    document.querySelectorAll('[data-en]').forEach(function(el){var v=el.getAttribute('data-'+l); if(v!==null) el.textContent=v;});
+    document.querySelectorAll('[data-alt-en]').forEach(function(el){el.setAttribute('alt',el.getAttribute('data-alt-'+l));});
+    document.querySelectorAll('[data-title-en]').forEach(function(el){el.setAttribute('title',el.getAttribute('data-title-'+l));});
+    document.title=T.title[l];
+    var m=document.querySelector('meta[name=description]'); if(m) m.setAttribute('content',T.desc[l]);
+    btn.textContent=T.toggle[l][0]; btn.setAttribute('aria-label',T.toggle[l][1]);
+    var send=document.getElementById('send'); if(send.disabled) send.textContent=T.demo[l];
+  }
+  btn.addEventListener('click',function(){var n=lang==='en'?'es':'en'; try{localStorage.setItem(KEY,n);}catch(e){} apply(n);});
+  document.getElementById('form').addEventListener('submit',function(e){
+    e.preventDefault(); var b=document.getElementById('send'); b.disabled=true; b.textContent=T.demo[lang];
+  });
+  apply(lang);
+})();
+</script>
+</body>
+</html>

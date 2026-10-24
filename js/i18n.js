@@ -1,0 +1,169 @@
+/* Permian Local - diccionario EN/ES. El ingles es el texto base del HTML; aqui solo esta el espanol.
+   Atributos: data-i18n (texto), data-i18n-html (HTML), data-i18n-ph (placeholder), data-i18n-aria, data-i18n-title, data-i18n-alt. */
+(function () {
+  var ES = {
+ "nav_cta": "Maqueta gratis",
+ "a_menu": "Menú",
+ "serving": "Atendemos Odessa · Midland",
+ "f_sample": "Reseña de Google de ejemplo",
+ "f_privacy": "Privacidad",
+ "credits_s": "Créditos de la foto",
+ "credits_p": "La foto es ilustrativa y no muestra a nuestros clientes.",
+ "demo": "Demo",
+ "w_open": "Abrir demo",
+ "w_demo": "Web demo",
+ "p_rec": "Recomendado",
+ "p1a": "1 página, pensada para el móvil",
+ "p1b": "Botón para llamar con un toque",
+ "p1c": "Google Maps y horario",
+ "p1d": "Tus fotos reales",
+ "p1e": "Inglés y español",
+ "p1f": "Hosting incluido 1 año",
+ "p1g": "En línea en 7 días",
+ "p_btn": "Quiero mi maqueta gratis",
+ "p1": "Starter",
+ "p1s": "pago único",
+ "p1t": "1 página, lista en 7 días",
+ "p2a": "Todo lo de Starter",
+ "p2b": "Hasta 5 páginas",
+ "p2c": "Páginas de servicios",
+ "p2d": "Galería de fotos",
+ "p2e": "Formulario de contacto",
+ "p2f": "Revisión de tu ficha de Google Business Profile",
+ "p2g": "En línea en 10 días",
+ "p2": "Business",
+ "p2s": "pago único",
+ "p2t": "Hasta 5 páginas, lista en 10 días",
+ "p3a": "Cambios pequeños en tu web",
+ "p3b": "Copias de seguridad",
+ "p3c": "Ayuda con dominio y correo",
+ "p3d": "Una revisión cada trimestre",
+ "p_btn2": "Empieza con una maqueta gratis",
+ "p3": "Plan Care",
+ "p3s": "/mes",
+ "p3t": "Mantenemos tu web al día",
+ "f_business": "Nombre del negocio",
+ "o_choose": "Elige uno",
+ "o_auto": "Taller mecánico",
+ "o_elec": "Electricista",
+ "o_hvac": "Aire acondicionado (HVAC)",
+ "o_roof": "Techos",
+ "o_food": "Restaurante o taquería",
+ "o_hair": "Barbería o salón",
+ "o_other": "Otro",
+ "f_sector": "Tipo de negocio",
+ "o_choosec": "Elige una ciudad",
+ "o_other2": "Otra",
+ "f_city": "Ciudad",
+ "f_phone": "Teléfono",
+ "h_phone": "Para escribirte o llamarte sobre tu maqueta.",
+ "f_email": "Correo <span class=\"opt\">(opcional)</span>",
+ "ph_web": "ejemplo.com",
+ "f_web": "Tu web actual <span class=\"opt\">(opcional)</span>",
+ "f_lang": "Idioma preferido",
+ "o_en": "Inglés",
+ "o_es": "Español",
+ "o_either": "Cualquiera",
+ "f_notes": "Notas <span class=\"opt\">(opcional)</span>",
+ "hero_h1": "Tus clientes te buscan en Google. <em>¿Te encuentran?</em>",
+ "hero_sub": "Páginas web para negocios de Odessa y Midland. Listas en 7 días, a precio fijo, en inglés y español.",
+ "hero_cta": "Pide tu maqueta gratis de portada",
+ "hero_cta2": "Ver nuestros trabajos",
+ "hero_trust": "Qué esperar",
+ "tr1": "Precio fijo, sin sorpresas",
+ "tr2": "En línea en 7 días",
+ "tr3": "Inglés y español",
+ "a_home": "Permian Local, inicio",
+ "brand_sub": "Páginas web para Odessa y Midland",
+ "a_nav": "Principal",
+ "nav_work": "Trabajos",
+ "nav_pricing": "Precios",
+ "nav_how": "Cómo funciona",
+ "a_lang": "Idioma",
+ "hero_alt": "Un pump jack a contraluz bajo un atardecer rojo intenso sobre campo abierto",
+ "t_hero": "Web demo: taller mecánico",
+ "work_h": "Mira cómo podría verse tu web.",
+ "work_lead": "Tres webs demo, hechas para tres tipos de negocio local. Ábrelas en tu propio teléfono.",
+ "t_taller": "Web demo: taller mecánico",
+ "w_taller": "Taller mecánico",
+ "wa_taller": "Abrir demo: Taller mecánico",
+ "t_electricista": "Web demo: electricista",
+ "w_electricista": "Electricista",
+ "wa_electricista": "Abrir demo: Electricista",
+ "t_taqueria": "Web demo: taquería",
+ "w_taqueria": "Taquería",
+ "wa_taqueria": "Abrir demo: Taquería",
+ "work_note": "Webs demo creadas por nosotros para negocios ficticios. La tuya usa tus fotos, horario y teléfono reales.",
+ "price_h": "Precios fijos, a la vista.",
+ "price_lead": "Elige un tamaño. Sin presupuestos que esperar ni facturas sorpresa.",
+ "price_note": "Precios en USD. Dominio no incluido (~15 USD/año).",
+ "how_h": "Tres pasos. En línea en siete días.",
+ "s1t": "Cuéntanos de tu negocio",
+ "s1b": "Un formulario de 2 minutos: nombre, tipo de negocio y teléfono.",
+ "s2t": "Maqueta gratis de tu portada en 48 horas",
+ "s2b": "Diseñamos tu nueva portada y te la enviamos. Verla no cuesta nada.",
+ "s3t": "Apruebas, pagas y en 7 días está en línea",
+ "s3b": "¿Te gusta? Apruébala y paga. Starter sale en 7 días, Business en 10.",
+ "mock_h": "Pide tu maqueta gratis de portada.",
+ "mock_lead": "Cuéntanos de tu negocio. En 48 horas ves tu nueva portada. Gratis y sin compromiso.",
+ "about_h": "Hecho en Odessa, para Odessa y Midland.",
+ "contact_h": "¿Prefieres escribir?",
+ "a_facts": "Datos de contacto",
+ "f_tag": "Páginas web para Odessa y Midland, Texas.",
+ "f_contact": "Contacto",
+ "f_more": "Más",
+ "skip": "Saltar al contenido",
+ "m1": "Gratis y sin compromiso",
+ "m2": "Lista en 48 horas",
+ "m3": "En inglés o en español",
+ "f_send": "Envíame mi maqueta gratis",
+ "f_fine": "Gratis y sin compromiso. El formulario llega a nuestro correo a través del servicio FormSubmit; consulta la <a href=\"/privacy.html\">página de privacidad</a>.",
+ "about_p1": "<strong>Soy Carlos. Vivo en Odessa, Texas</strong>, y hago páginas web para negocios locales de Odessa y Midland. Hablas conmigo, no con un equipo de ventas.",
+ "about_p2": "Cada web viene en inglés y en español. En Odessa, cerca del 63 % de los residentes es hispano o latino y el 44 % de las personas de 5 años o más habla en casa un idioma distinto del inglés. Fuente: <a href=\"https://www.census.gov/quickfacts/fact/table/odessacitytexas,midlandcitytexas/PST045224\" rel=\"noopener\" target=\"_blank\">U.S. Census Bureau, QuickFacts</a>.",
+ "c_serving": "Atendemos",
+ "c_cities": "Odessa · Midland",
+ "th_eyebrow": "Solicitud recibida",
+ "th_h": "Gracias, tu solicitud está en camino.",
+ "th_lead": "Te enviaremos la maqueta gratis de tu portada en 48 horas.",
+ "th_next": "Qué pasa ahora",
+ "th1": "Leemos lo que nos cuentas y miramos tu ficha de Google y tu web actual, solo con información pública.",
+ "th2": "Diseñamos la maqueta de tu nueva portada.",
+ "th3": "Te la enviamos. Si te gusta, la aprobamos juntos y tu web sale en línea en 7 días (Starter) o 10 (Business). Si no, no pasa nada más.",
+ "th_hint": "¿No ha llegado nada en 2 días laborables? Revisa la carpeta de spam o escribe a <a href=\"mailto:hello@permianlocalseo.com\">hello@permianlocalseo.com</a>.",
+ "th_work": "Ver nuestros trabajos",
+ "th_home": "Volver al inicio",
+ "nf_h": "Esa página no está aquí.",
+ "nf_p": "El enlace puede ser antiguo o tener un error. La página de inicio lo tiene todo: trabajos, precios y cómo pedir tu maqueta gratis.",
+ "nf_btn": "Ir al inicio"
+};
+  var KEY = 'pl-lang', orig = new Map();
+  function store(el, name, getter) { var m = orig.get(el); if (!m) { m = {}; orig.set(el, m); } if (!(name in m)) m[name] = getter(); return m[name]; }
+  function apply(lang) {
+    var es = lang === 'es';
+    document.documentElement.lang = es ? 'es' : 'en';
+    function each(sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
+    each('[data-i18n]', function (el) { var en = store(el, 't', function () { return el.textContent; }); el.textContent = es && ES[el.getAttribute('data-i18n')] != null ? ES[el.getAttribute('data-i18n')] : en; });
+    each('[data-i18n-html]', function (el) { var en = store(el, 'h', function () { return el.innerHTML; }); el.innerHTML = es && ES[el.getAttribute('data-i18n-html')] != null ? ES[el.getAttribute('data-i18n-html')] : en; });
+    [['ph', 'placeholder'], ['aria', 'aria-label'], ['title', 'title'], ['alt', 'alt']].forEach(function (p) {
+      each('[data-i18n-' + p[0] + ']', function (el) { var en = store(el, p[1], function () { return el.getAttribute(p[1]); }); var k = el.getAttribute('data-i18n-' + p[0]); el.setAttribute(p[1], es && ES[k] != null ? ES[k] : en); });
+    });
+    each('.lang button', function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false'); });
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+  }
+  function initial() {
+    var s = null; try { s = localStorage.getItem(KEY); } catch (e) {}
+    if (s === 'es' || s === 'en') return s;
+    return ((navigator.language || 'en') + '').toLowerCase().indexOf('es') === 0 ? 'es' : 'en';
+  }
+  window.plSetLang = apply;
+  document.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('.lang button'); if (b) apply(b.getAttribute('data-lang')); });
+  var l = initial(); if (l === 'es') apply('es');
+
+  /* Demos en marcos de telefono: se comprueba que existan antes de cargarlas; si no, el marco muestra "Demo" */
+  Array.prototype.forEach.call(document.querySelectorAll('iframe[data-src]'), function (f) {
+    var u = f.getAttribute('data-src');
+    function show() { f.addEventListener('load', function () { f.classList.add('is-ready'); }); f.src = u; }
+    if (!window.fetch) { show(); return; }
+    fetch(u, { method: 'HEAD' }).then(function (r) { if (r.ok) show(); }).catch(function () {});
+  });
+})();
