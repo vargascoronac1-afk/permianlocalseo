@@ -35,3 +35,9 @@ Same Unsplash License, none from Unsplash+/Getty. Converted to WebP at 640 and 1
 | sector-oilfield | https://unsplash.com/photos/dcdIVHpFDus | Jason Mitrione |
 
 These are mood photos (pipes, a rooftop-style AC unit, shingles, a dental office, a salon, an engine, a library, a fuel tanker truck), not workers: no faces in the foreground. The attorney image is a library, not a law office.
+
+## Demo taller (hero recortado)
+
+| File | Page | Author | License |
+|---|---|---|---|
+| fuentes/truck-7873720.jpg (original), recortes/camioneta-640.webp, recortes/camioneta-1132.webp (background removed with rembg) | https://www.pexels.com/photo/yellow-truck-parked-on-the-road-7873720/ | Andrew LaBonne | Pexels License (free for commercial use) |

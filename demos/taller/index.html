@@ -1,5 +1,15 @@
 <!doctype html>
-<html lang="en">
+<!--
+  Loop 338 Auto Repair: demo "look premium" (2026-10-24).
+  Referencias abiertas en Brave (solo lectura, 1 min cada una; godly.website redirige a recent.design y
+  land-book.com no tenia webs de automocion en su portada, asi que tome dos oscuras con titular gigante):
+  - https://land-book.com/websites/101580-business-money-management-built-into-durable-durable-money
+    -> fondo negro calido + UN acento calido, un unico objeto protagonista centrado, titular serif enorme, boton pastilla.
+  - https://land-book.com/websites/100497-pliability-1-mobility-stretching-recovery-app
+    -> foto a pantalla completa oscurecida, titular centrado grande, menu en pastilla, CTA pastilla de color vivo.
+  Foto del hero: recorte real (rembg isnet-general-use -a) de una camioneta de Pexels (Andrew LaBonne, ver /img/CREDITS.md).
+-->
+<html lang="en" class="static">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,111 +21,156 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&display=swap">
 <style>
 :root{
-  --bg:#efece7; --bg2:#e4e0d9; --card:#fbfaf8; --ink:#1d1b19; --muted:#55504a;
-  --red:#c0321b; --red-dark:#a02914; --dark:#211e1b; --line:#d3cec5;
+  --black:#0d0a08; --red-deep:#3f0f09; --light:#e9e5df; --card:#fbfaf8;
+  --ink:#1d1b19; --muted:#55504a; --red:#c0321b; --red-dark:#a02914; --glow:#e0361a;
+  --line:#d3cec5;
   --head:"Barlow Condensed","Arial Narrow","Roboto Condensed",Impact,sans-serif;
   --body:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  --cut:14px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:76px}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.55 var(--body);padding-bottom:44px;overflow-x:hidden}
+html{scroll-padding-top:84px}
+html:not(.lenis){scroll-behavior:smooth}
+body{margin:0;background:var(--black);color:#fff;font:400 1.0625rem/1.55 var(--body);padding-bottom:44px;overflow-x:hidden}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
-h1,h2,h3{font-family:var(--head);font-weight:800;text-transform:uppercase;line-height:1;margin:0;letter-spacing:.01em}
+h1,h2,h3{font-family:var(--head);font-weight:800;text-transform:uppercase;line-height:.95;margin:0;letter-spacing:.005em}
 p{margin:0}
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-:focus-visible{outline:3px solid #0b57d0;outline-offset:2px}
+:focus-visible{outline:3px solid #ffbf47;outline-offset:3px}
+.light :focus-visible{outline-color:#0b57d0}
 
-/* buttons: one action colour (red), secondary = soft */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 26px;border:0;cursor:pointer;
-  font:800 1.3rem/1 var(--head);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;
-  clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,var(--cut) 100%,0 calc(100% - var(--cut)))}
+/* section backgrounds: static fallback; GSAP animates body colour when it loads */
+.static .s-dark{background:var(--black)}
+.static .s-red{background:var(--red-deep)}
+.static .s-light{background:var(--light)}
+.s-light{color:var(--ink)}
+
+/* grain */
+.grain{position:fixed;inset:-50%;z-index:60;pointer-events:none;opacity:.07;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+/* progress bar */
+.progress{position:fixed;top:0;left:0;right:0;height:4px;z-index:70;background:var(--glow);transform:scaleX(0);transform-origin:0 50%}
+
+/* buttons: pills */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 30px;border:2px solid transparent;border-radius:999px;cursor:pointer;
+  font:800 1.3rem/1 var(--head);text-transform:uppercase;letter-spacing:.05em;text-decoration:none;transition:background .2s,color .2s,border-color .2s,transform .2s}
 .btn svg{width:22px;height:22px;flex:none}
 .btn--main{background:var(--red);color:#fff}
-.btn--soft{background:rgba(255,255,255,.92);color:var(--dark)}
-.btn--ghost{background:var(--bg2);color:var(--dark)}
-@media (hover:hover){.btn--main:hover{background:var(--red-dark)}.btn--soft:hover{background:#fff}.btn--ghost:hover{background:#d8d3ca}}
+.btn--line{background:transparent;color:#fff;border-color:#fff}
+.btn--soft{background:#fff;color:var(--black)}
+.btn--dark{background:var(--black);color:#fff}
+@media (hover:hover){.btn--main:hover{background:var(--red-dark);transform:translateY(-2px)}.btn--line:hover{background:#fff;color:var(--black)}.btn--soft:hover{background:#f1ece4}.btn--dark:hover{background:#2a2420}}
 .btn--main:active{background:var(--red-dark)}
 
-/* header */
-.top{position:sticky;top:0;z-index:20;background:var(--dark);color:#fff}
-.top__in{display:flex;align-items:center;gap:12px;min-height:64px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.45rem/1 var(--head);text-transform:uppercase;letter-spacing:.03em;margin-right:auto}
-.logo b{background:var(--red);color:#fff;padding:5px 8px 4px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+/* header: floating pill */
+.top{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;width:min(1120px,calc(100% - 20px));
+  background:rgba(13,10,8,.82);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);border-radius:999px;color:#fff}
+.top__in{display:flex;align-items:center;gap:8px;min-height:60px;padding:0 6px 0 18px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.4rem/1 var(--head);text-transform:uppercase;letter-spacing:.03em;margin-right:auto;min-height:48px;white-space:nowrap}
+.logo b{background:var(--red);color:#fff;padding:5px 9px 4px;border-radius:999px}
 .logo small{display:none;font:600 .8rem/1 var(--body);letter-spacing:.08em;color:#d6d0c8;text-transform:uppercase}
-.nav{display:none;gap:22px}
-.nav a{color:#fff;text-decoration:none;font-weight:600;padding:12px 4px}
+.nav{display:none;gap:10px}
+.nav a{color:#fff;text-decoration:none;font-weight:600;padding:12px 12px;min-height:48px;display:inline-flex;align-items:center}
 .nav a:hover{text-decoration:underline;text-underline-offset:6px}
-.lang{min-width:48px;min-height:48px;border:2px solid #8c857b;background:transparent;color:#fff;font:800 1.05rem/1 var(--head);letter-spacing:.06em;cursor:pointer}
-@media (hover:hover){.lang:hover{background:#3a3631}}
-.top .btn{min-height:48px;padding:0 16px;font-size:1.15rem}
+.lang{min-width:48px;min-height:48px;border:2px solid rgba(255,255,255,.4);border-radius:999px;background:transparent;color:#fff;font:800 1.05rem/1 var(--head);letter-spacing:.06em;cursor:pointer}
+@media (hover:hover){.lang:hover{background:rgba(255,255,255,.16)}}
+.top .btn{min-height:48px;padding:0 18px;font-size:1.15rem}
 .top .btn .t-long{display:none}
-@media (min-width:760px){.nav{display:flex}.logo small{display:block}.top .btn{padding:0 22px}.top .btn .t-long{display:inline}}
+@media (min-width:760px){.nav{display:flex}.logo small{display:block}.top .btn{padding:0 24px}.top .btn .t-long{display:inline}}
 
 /* hero */
-.hero{position:relative;color:#fff;background:#2a2622;min-height:min(78vh,640px);display:flex;align-items:flex-end;isolation:isolate}
-.hero__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;z-index:-2}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,17,14,.45) 0%,rgba(20,17,14,.78) 70%,rgba(20,17,14,.9) 100%)}
-.hero__in{padding:72px 20px 40px;width:100%}
-.tag{display:inline-block;background:#fff;color:var(--dark);font:800 .95rem/1 var(--head);letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;margin-bottom:18px}
-.hero h1{font-size:clamp(2.9rem,1.4rem + 7.5vw,4.6rem);max-width:17ch}
-.hero h1 em{font-style:normal;color:#ffb199}
-.hero p.lead{font-size:clamp(1.1rem,1rem + .5vw,1.35rem);max-width:34rem;margin:18px 0 26px;color:#f3efe9}
-@media (max-width:599px){.hero h1{font-size:clamp(1.7rem,8.2vw,2.2rem);max-width:none}.hero__in{padding:32px 20px 28px}.hero h1+p.lead,.hero p.lead{font-size:1.05rem;margin:12px 0 18px}.tag{margin-bottom:12px}}
-.cta{display:flex;flex-direction:column;gap:12px;max-width:420px}
-.hero .micro{margin-top:16px;font-size:.95rem;color:#e9e3da}
-@media (min-width:600px){.cta{flex-direction:row;max-width:none}.hero__in{padding-bottom:64px}}
+.hero{position:relative;min-height:100svh;padding:84px 0 44px;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;justify-content:center}
+.hero__stage{position:relative;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;--fs:min(26.5vw,420px,30vh)}
+.hero__halo{position:absolute;left:50%;top:50%;width:min(1100px,150vw);aspect-ratio:1;transform:translate(-50%,-50%);z-index:0;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(224,54,26,.62),rgba(224,54,26,.22) 55%,transparent 75%)}
+.hero__title{position:relative;z-index:1;text-align:center;will-change:transform;margin-bottom:calc(var(--fs) * -.2);max-width:100%}
+.hero__title h1{font-size:var(--fs);line-height:.82;color:#fff;white-space:nowrap;letter-spacing:-.01em;display:inline-block}
+.hero__title h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.04em}
+.hero__title h1 .w>span{display:inline-block;will-change:transform}
+.hero__title h1 .sp{display:inline-block;width:.22em}
+.hero__photo{position:relative;z-index:2;width:min(860px,104vw,75vh);pointer-events:none;will-change:transform}
+.hero__photo::after{content:"";position:absolute;left:8%;right:8%;bottom:-3%;height:8%;background:radial-gradient(closest-side,rgba(0,0,0,.7),transparent);z-index:-1}
+.hero__photo img{width:100%;height:auto;filter:drop-shadow(0 24px 30px rgba(0,0,0,.5))}
+.hero__ui{position:relative;z-index:3;padding:18px 20px 0;max-width:1180px;width:100%;margin:0 auto;text-align:center}
+.hero__ui .lead{font-size:clamp(1.05rem,.95rem + .6vw,1.4rem);max-width:36rem;margin:0 auto 20px;color:#f6f1ea;text-shadow:0 2px 14px rgba(0,0,0,.8)}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta .btn{padding:0 26px}
+@media (max-width:599px){.hero__ui .lead{margin-bottom:16px}.cta .btn{flex:1 1 0;min-width:0;padding:0 14px;font-size:1.2rem}.logo{font-size:1.15rem;gap:6px}.top__in{padding-left:12px}.top .btn{padding:0 14px}}
 
-/* trust strip */
-.trust{background:var(--dark);color:#fff}
-.trust ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr}
-.trust li{display:flex;align-items:center;gap:14px;padding:18px 0;border-bottom:1px solid #3b3733;font:800 1.5rem/1.1 var(--head);text-transform:uppercase;letter-spacing:.03em}
-.trust li:last-child{border-bottom:0}
-.trust li svg{width:34px;height:34px;flex:none;color:#ff8a6b}
-.trust li span{display:block;font:400 .95rem/1.35 var(--body);text-transform:none;letter-spacing:0;color:#d6d0c8;margin-top:4px}
-@media (min-width:760px){.trust ul{grid-template-columns:repeat(3,1fr);gap:28px}.trust li{border:0;padding:26px 0}}
+/* trust numbers */
+.trust{padding:56px 0 24px}
+.trust ul.nums{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:6px}
+.nums li{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid rgba(255,255,255,.18);padding:12px 0}
+.nums b{font:800 clamp(4rem,14vw,8.5rem)/.9 var(--head);color:#fff;letter-spacing:-.01em;min-width:3.2ch;display:inline-block;white-space:nowrap}
+.nums b i{font-style:normal;color:var(--glow);font-size:.6em;margin-left:.06em}
+.nums li>div>span{font:600 1.1rem/1.3 var(--head);letter-spacing:.06em;text-transform:uppercase;color:#e0d9cf}
+.nums small{display:block;font:400 .9rem/1.3 var(--body);text-transform:none;letter-spacing:0;color:#cfc7bd;margin-top:4px}
+@media (min-width:760px){.trust ul.nums{grid-template-columns:repeat(3,1fr);gap:28px}.nums li{flex-direction:column;gap:6px;border-bottom:0;border-top:1px solid rgba(255,255,255,.25);padding-top:18px}}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.pills span{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:10px 18px;font:600 .98rem/1.2 var(--body);color:#f0e9df;min-height:44px;display:inline-flex;align-items:center}
 
 /* sections */
-section{padding:64px 0}
-.eyebrow{font:800 1rem/1 var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--red-dark);margin-bottom:12px}
-.h2{font-size:clamp(2.3rem,1.5rem + 3.6vw,3.8rem)}
-.sub{color:var(--muted);max-width:34rem;margin-top:14px}
+section{padding:84px 0}
+.eyebrow{font:800 1rem/1 var(--head);letter-spacing:.16em;text-transform:uppercase;color:#ffb199;margin-bottom:14px}
+.light .eyebrow{color:var(--red-dark)}
+.h2{font-size:clamp(3.1rem,1rem + 10.5vw,9.5rem);line-height:.88}
+.sub{color:#e6ded3;max-width:34rem;margin-top:18px}
+.light .sub{color:var(--muted)}
 
-/* services */
-.svc{background:var(--bg)}
+/* services marquee + cards */
+.marquee{overflow:hidden;margin:40px 0 8px;border-block:1px solid rgba(255,255,255,.2);padding:14px 0;-webkit-mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent)}
+.marquee__track{display:flex;width:max-content;animation:mq 34s linear infinite}
+.marquee:hover .marquee__track{animation-play-state:paused}
+.marquee__group{display:flex;flex:none;align-items:center}
+.marquee__group span{font:800 clamp(2.6rem,7vw,5.5rem)/1 var(--head);text-transform:uppercase;letter-spacing:.01em;color:#fff;padding:0 .35em;white-space:nowrap}
+.marquee__group span:nth-child(even){color:transparent;-webkit-text-stroke:2px #fff}
+.marquee__group i{width:.5em;height:.5em;flex:none;background:var(--glow);border-radius:50%;margin:0 .2em;font-size:clamp(2.6rem,7vw,5.5rem)}
+@keyframes mq{to{transform:translateX(-50%)}}
 .cards{display:grid;gap:14px;margin-top:32px;grid-template-columns:1fr}
-.card{background:var(--card);padding:22px 20px 24px;position:relative;border-top:5px solid var(--red);display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:10px;align-items:center;align-content:start}
-.card svg{width:38px;height:38px;color:var(--red);stroke-width:3.5}
-.card h3{font-size:1.8rem;margin:0}
-.card p{color:var(--muted);grid-column:1/-1}
-.card--feat{background:var(--dark);border-top-color:var(--red)}
-.card--feat svg{color:#ff8a6b}
-.card--feat h3{color:#fff;font-size:2.3rem}
-.card--feat p{color:#e9e3da;font-size:1.15rem;max-width:36rem}
-@media (min-width:900px){.card--feat{grid-column:span 2;grid-row:span 2;align-content:center;padding:32px 30px 34px}.card--feat h3{font-size:2.9rem}.card--feat svg{width:52px;height:52px}.card--feat p{font-size:1.25rem}}
+.card{background:rgba(13,10,8,.55);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:22px 22px 24px;display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:10px;align-items:center;align-content:start}
+.card svg{width:38px;height:38px;color:#ff9a7e;stroke-width:3}
+.card h3{font-size:1.9rem;margin:0}
+.card p{color:#ece4d9;grid-column:1/-1}
+.card--feat{background:var(--red);border-color:#e45a40}
+.card--feat svg{color:#fff}
+.card--feat h3{font-size:2.4rem}
+.card--feat p{color:#fff;font-size:1.15rem;max-width:36rem}
+@media (min-width:900px){.card--feat{grid-column:span 2;grid-row:span 2;align-content:center;padding:34px 34px 36px}.card--feat h3{font-size:3.4rem}.card--feat svg{width:56px;height:56px}.card--feat p{font-size:1.3rem}}
 @media (min-width:560px){.cards{grid-template-columns:repeat(2,1fr)}}
 @media (min-width:900px){.cards{grid-template-columns:repeat(3,1fr);gap:18px}}
-.svc__more{margin-top:26px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-.svc__more p{font-weight:600}
+.svc__more{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 
-/* about / photo band */
-.band{background:var(--bg2)}
-.band__grid{display:grid;gap:28px;align-items:center}
-.band img{width:100%;object-fit:cover;aspect-ratio:3/2}
-.band ul{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+/* about */
+.band__grid{display:grid;gap:30px;align-items:center}
+.band img{width:100%;object-fit:cover;aspect-ratio:3/2;border-radius:22px}
+.band ul{margin:22px 0 0;padding:0;list-style:none;display:grid;gap:10px}
 .band li{padding-left:34px;position:relative}
-.band li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;background:var(--red);clip-path:polygon(14% 52%,0 66%,38% 100%,100% 22%,86% 8%,38% 70%)}
-@media (min-width:860px){.band__grid{grid-template-columns:1fr 1fr;gap:56px}}
-.proof{margin-top:28px;padding:18px 20px;background:var(--card);border-left:5px solid var(--red)}
+.band li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;background:var(--glow);clip-path:polygon(14% 52%,0 66%,38% 100%,100% 22%,86% 8%,38% 70%)}
+@media (min-width:860px){.band__grid{grid-template-columns:1fr 1fr;gap:60px}}
+.proof{margin-top:28px;padding:18px 22px;background:rgba(13,10,8,.55);border-radius:18px;border:1px solid rgba(255,255,255,.14)}
 .proof strong{font:800 1.4rem/1.1 var(--head);text-transform:uppercase;display:block;margin-bottom:4px}
-.proof span{color:var(--muted)}
+.proof span{color:#e6ded3}
+
+/* faq */
+.faq{margin-top:34px;max-width:860px}
+.faq details{border-top:1px solid rgba(255,255,255,.25)}
+.faq details:last-child{border-bottom:1px solid rgba(255,255,255,.25)}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;padding:12px 0;font:800 clamp(1.4rem,1rem + 1.6vw,2rem)/1.1 var(--head);text-transform:uppercase;letter-spacing:.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{flex:none;width:44px;height:44px;border:2px solid #fff;border-radius:50%;position:relative;transition:transform .3s,background .3s}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:16px;height:2px;background:#fff;transform:translate(-50%,-50%)}
+.faq summary i::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s}
+.faq details[open] summary i{background:var(--red);border-color:var(--red)}
+.faq details[open] summary i::after{transform:translate(-50%,-50%) rotate(0)}
+.faq .ans{overflow:hidden}
+.faq .ans p{padding:0 60px 22px 0;color:#ece4d9;max-width:44rem}
 
 /* hours + map */
-.visit__grid{display:grid;gap:24px;margin-top:30px}
-.hours{background:var(--dark);color:#fff;padding:26px 24px}
-.hours h3{font-size:1.6rem;margin-bottom:14px}
+.visit__grid{display:grid;gap:24px;margin-top:34px}
+.hours{background:var(--black);color:#fff;padding:28px 26px;border-radius:22px}
+.hours h3{font-size:1.8rem;margin-bottom:14px}
 .hours table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 .hours th,.hours td{text-align:left;padding:11px 0;border-bottom:1px solid #3b3733;font-weight:400}
 .hours th{font:800 1rem/1.2 var(--head);letter-spacing:.1em;text-transform:uppercase;color:#d6d0c8}
@@ -124,37 +179,62 @@ section{padding:64px 0}
 .hours address{font-style:normal;margin:16px 0 20px;color:#e9e3da}
 .hours .btn{width:100%}
 .hours .btn + .btn{margin-top:10px}
-.map{min-height:320px;background:var(--bg2)}
+.map{min-height:320px;background:#d8d3ca;border-radius:22px;overflow:hidden}
 .map iframe{width:100%;height:100%;min-height:320px;border:0;display:block}
-@media (min-width:860px){.visit__grid{grid-template-columns:5fr 7fr}.map,.map iframe{min-height:420px}}
+@media (min-width:860px){.visit__grid{grid-template-columns:5fr 7fr}.map,.map iframe{min-height:440px}}
 
 /* form */
-.book{background:var(--bg2)}
 form{margin-top:30px;display:grid;gap:16px;max-width:680px}
 .row{display:grid;gap:16px}
 @media (min-width:600px){.row{grid-template-columns:1fr 1fr}}
 label{display:block;font:800 .95rem/1 var(--head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-input,select,textarea{width:100%;min-height:52px;padding:12px 14px;border:2px solid #b9b3a8;background:#fff;color:var(--ink);font:400 1rem/1.4 var(--body);border-radius:0}
+input,select,textarea{width:100%;min-height:52px;padding:12px 16px;border:2px solid #9e988d;background:#fff;color:var(--ink);font:400 1rem/1.4 var(--body);border-radius:14px}
 textarea{min-height:110px;resize:vertical}
 input:focus,select:focus,textarea:focus{border-color:var(--red);outline:2px solid var(--red);outline-offset:0}
 .note{font-size:.95rem;color:var(--muted)}
 #send[disabled]{background:#4a453f;cursor:not-allowed}
+#send{justify-self:start}
 
 /* footer */
-footer{background:var(--dark);color:#d6d0c8;padding:40px 0 32px;font-size:.95rem}
+footer{color:#d6d0c8;padding:56px 0 36px;font-size:.95rem}
 footer .logo{margin-bottom:14px}
 footer p+p{margin-top:8px}
 footer a{color:#fff}
+.foot__big{font:800 clamp(4rem,19vw,17rem)/.85 var(--head);text-transform:uppercase;color:#fff;opacity:.95;margin:0 0 34px;letter-spacing:-.01em}
+.foot__big i{font-style:normal;color:var(--glow)}
 
 /* demo ribbon */
-.ribbon{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#111;color:#f1ede6;font-size:.82rem;line-height:1.3;text-align:center;padding:9px 16px;min-height:36px;border-top:2px solid var(--red)}
+.ribbon{position:fixed;left:0;right:0;bottom:0;z-index:80;background:#111;color:#f1ede6;font-size:.82rem;line-height:1.3;text-align:center;padding:9px 16px;min-height:36px;border-top:2px solid var(--red)}
 .ribbon a{color:#fff;font-weight:600;text-underline-offset:3px}
+
+/* custom cursor: desktop pointers only */
+.cursor{display:none}
+@media (hover:hover) and (pointer:fine){
+  .cursor{display:block;position:fixed;left:0;top:0;width:36px;height:36px;margin:-18px 0 0 -18px;border:2px solid #fff;border-radius:50%;z-index:90;pointer-events:none;mix-blend-mode:difference;transition:width .25s,height .25s,margin .25s,background .25s;opacity:0}
+  .cursor.on{opacity:1}
+  .cursor.big{width:72px;height:72px;margin:-36px 0 0 -36px;background:#fff}
+}
+
+/* animation gates */
+.js-anim .rv{opacity:0;transform:translateY(40px)}
+
+/* reduced motion: everything off */
+@media (prefers-reduced-motion:reduce){
+  html:not(.lenis){scroll-behavior:auto}
+  .marquee__track{animation:none}
+  .marquee{overflow-x:auto}
+  .grain{display:none}
+  *{transition:none!important}
+}
 </style>
 </head>
 <body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
 
 <header class="top">
-  <div class="wrap top__in">
+  <div class="top__in">
     <a class="logo" href="#top" aria-label="Loop 338 Auto Repair"><b>338</b><span>Loop 338 Auto</span><small data-en="Odessa, TX" data-es="Odessa, TX">Odessa, TX</small></a>
     <nav class="nav" aria-label="Main">
       <a href="#services" data-en="Services" data-es="Servicios">Services</a>
@@ -170,109 +250,146 @@ footer a{color:#fff}
 </header>
 
 <main id="top">
-<div class="hero">
-  <img class="hero__img" src="/img/mechanic-under-car-960.webp"
-       srcset="/img/mechanic-under-car-480.webp 480w, /img/mechanic-under-car-960.webp 960w, /img/mechanic-under-car-1600.webp 1600w"
-       sizes="100vw" width="1600" height="1067" fetchpriority="high"
-       alt="Mechanic working under a lifted car in a repair bay" data-alt-en="Mechanic working under a lifted car in a repair bay" data-alt-es="Mecánico trabajando bajo un auto elevado en el taller">
-  <div class="wrap hero__in">
-    <span class="tag" data-en="Odessa, Texas · Family owned" data-es="Odessa, Texas · Negocio familiar">Odessa, Texas · Family owned</span>
-    <h1 data-en="Car trouble in Odessa? Honest repairs, same-day when we can." data-es="¿Problemas con el carro en Odessa? Reparaciones honestas, el mismo día cuando se puede.">Car trouble in Odessa? Honest repairs, same-day when we can.</h1>
-    <p class="lead" data-en="Brakes, A/C, check-engine lights and more. We tell you what it needs, what it costs, and what can wait, before we touch a wrench." data-es="Frenos, A/C, luz de check engine y más. Le decimos qué necesita, cuánto cuesta y qué puede esperar, antes de tocar una herramienta.">Brakes, A/C, check-engine lights and more. We tell you what it needs, what it costs, and what can wait, before we touch a wrench.</p>
-    <div class="cta">
+<div class="hero s-dark" data-bg="#0d0a08">
+  <div class="hero__stage">
+  <div class="hero__halo" aria-hidden="true"></div>
+  <div class="hero__title" id="heroTitle">
+    <h1 id="h1" aria-label="Loop 338">LOOP 338</h1>
+  </div>
+  <!-- aqui va la foto recortada de la camioneta/mecanico del cliente (PNG/WebP sin fondo, ancho ~1600 px) -->
+  <div class="hero__photo" id="heroPhoto">
+    <img src="/img/recortes/camioneta-1132.webp" srcset="/img/recortes/camioneta-640.webp 640w, /img/recortes/camioneta-1132.webp 1132w" sizes="(min-width:900px) 1000px, 112vw"
+         width="1132" height="443" fetchpriority="high"
+         alt="Yellow pickup truck in side view" data-alt-en="Yellow pickup truck in side view" data-alt-es="Camioneta pickup amarilla de perfil">
+  </div>
+  </div>
+  <div class="hero__ui">
+    <p class="lead rv" data-en="Car trouble in Odessa? Honest repairs, same-day when we can." data-es="¿Problemas con el carro en Odessa? Reparaciones honestas, el mismo día cuando se puede.">Car trouble in Odessa? Honest repairs, same-day when we can.</p>
+    <div class="cta rv">
       <a class="btn btn--main" href="tel:+14325550138">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
-        <span data-en="Call (432) 555-0138" data-es="Llamar (432) 555-0138">Call (432) 555-0138</span>
+        <span data-en="Call now" data-es="Llamar">Call now</span>
       </a>
-      <a class="btn btn--soft" href="https://www.google.com/maps/search/?api=1&amp;query=W+University+Blvd+Odessa+TX" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-        <span data-en="Get directions" data-es="Cómo llegar">Get directions</span>
-      </a>
+      <a class="btn btn--line" href="#book"><span data-en="Book a visit" data-es="Pedir cita">Book a visit</span></a>
     </div>
-    <p class="micro" data-en="Mon–Fri 7:30–6 · Sat 8–1 · Free estimates" data-es="Lun–Vie 7:30–6 · Sáb 8–1 · Presupuesto gratis">Mon–Fri 7:30–6 · Sat 8–1 · Free estimates</p>
   </div>
 </div>
 
-<div class="trust">
+<div class="trust s-dark" data-bg="#0d0a08">
   <div class="wrap">
-    <ul>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>
-        <div><b data-en="Family owned" data-es="Negocio familiar">Family owned</b><span data-en="You talk to the people who fix your car." data-es="Habla con las personas que arreglan su carro.">You talk to the people who fix your car.</span></div></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
-        <div><b data-en="ASE-style certified techs" data-es="Técnicos certificados estilo ASE">ASE-style certified techs</b><span data-en="Trained, tested, and up to date." data-es="Capacitados, evaluados y al día.">Trained, tested, and up to date.</span></div></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>
-        <div><b data-en="Upfront quotes" data-es="Presupuesto por adelantado">Upfront quotes</b><span data-en="No surprise charges. We call before extra work." data-es="Sin cargos sorpresa. Llamamos antes de cualquier trabajo extra.">No surprise charges. We call before extra work.</span></div></li>
+    <ul class="nums">
+      <li class="rv"><b><span data-count="15">15</span><i>+</i></b><div><span data-en="Years in the trade" data-es="Años en el oficio">Years in the trade</span><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div></li>
+      <li class="rv"><b><span data-count="120">120</span><i>+</i></b><div><span data-en="Cars a month" data-es="Carros al mes">Cars a month</span><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div></li>
+      <li class="rv"><b><span data-count="12">12</span><i>mo</i></b><div><span data-en="Repair warranty" data-es="Garantía de reparación">Repair warranty</span><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div></li>
     </ul>
+    <div class="pills rv">
+      <span data-en="Family owned" data-es="Negocio familiar">Family owned</span>
+      <span data-en="ASE-style certified techs" data-es="Técnicos certificados estilo ASE">ASE-style certified techs</span>
+      <span data-en="Upfront quotes" data-es="Presupuesto por adelantado">Upfront quotes</span>
+    </div>
   </div>
 </div>
 
-<section class="svc" id="services">
+<section class="svc s-red" id="services" data-bg="#3f0f09">
   <div class="wrap">
-    <p class="eyebrow" data-en="What we fix" data-es="Lo que arreglamos">What we fix</p>
-    <h2 class="h2" data-en="Six jobs, done right" data-es="Seis trabajos, bien hechos">Six jobs, done right</h2>
-    <p class="sub" data-en="Not on the list? Call us. If we can do it, we will say so. If we can't, we will point you to someone who can." data-es="¿No está en la lista? Llámenos. Si podemos hacerlo, se lo decimos. Si no, le indicamos quién puede.">Not on the list? Call us. If we can do it, we will say so. If we can't, we will point you to someone who can.</p>
+    <p class="eyebrow rv" data-en="What we fix" data-es="Lo que arreglamos">What we fix</p>
+    <h2 class="h2 rv" data-en="Six jobs, done right" data-es="Seis trabajos, bien hechos">Six jobs, done right</h2>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <div class="marquee__group"><span data-en="Brakes" data-es="Frenos">Brakes</span><i></i><span data-en="Diagnostics" data-es="Diagnóstico">Diagnostics</span><i></i><span data-en="A/C repair" data-es="Aire acondicionado">A/C repair</span><i></i><span data-en="Alignment" data-es="Alineación">Alignment</span><i></i><span data-en="Oil change" data-es="Cambio de aceite">Oil change</span><i></i><span data-en="State inspection" data-es="Inspección estatal">State inspection</span><i></i></div>
+      <div class="marquee__group"><span data-en="Brakes" data-es="Frenos">Brakes</span><i></i><span data-en="Diagnostics" data-es="Diagnóstico">Diagnostics</span><i></i><span data-en="A/C repair" data-es="Aire acondicionado">A/C repair</span><i></i><span data-en="Alignment" data-es="Alineación">Alignment</span><i></i><span data-en="Oil change" data-es="Cambio de aceite">Oil change</span><i></i><span data-en="State inspection" data-es="Inspección estatal">State inspection</span><i></i></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="sub rv" data-en="Not on the list? Call us. If we can do it, we will say so. If we can't, we will point you to someone who can." data-es="¿No está en la lista? Llámenos. Si podemos hacerlo, se lo decimos. Si no, le indicamos quién puede.">Not on the list? Call us. If we can do it, we will say so. If we can't, we will point you to someone who can.</p>
     <div class="cards">
-      <article class="card card--feat">
+      <article class="card card--feat rv">
         <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><circle cx="24" cy="24" r="19"/><circle cx="24" cy="24" r="6"/><circle cx="24" cy="10" r="1.6" fill="currentColor"/><circle cx="24" cy="38" r="1.6" fill="currentColor"/><circle cx="10" cy="24" r="1.6" fill="currentColor"/><circle cx="38" cy="24" r="1.6" fill="currentColor"/></svg>
         <h3 data-en="Brakes" data-es="Frenos">Brakes</h3>
         <p data-en="Squealing, grinding or a soft pedal. Pads, rotors, fluid and a safety check." data-es="Chillidos, ruido de metal o pedal blando. Pastillas, discos, líquido y revisión de seguridad.">Squealing, grinding or a soft pedal. Pads, rotors, fluid and a safety check.</p>
       </article>
-      <article class="card">
+      <article class="card rv">
         <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 18h6l3-5h14l3 5h4v5h2v7h-4M10 30H6V18"/><path d="M12 30h8M28 30h8"/><path d="M14 36h20"/><path d="M16 24l4 3 4-6 4 5"/></svg>
         <h3 data-en="Diagnostics" data-es="Diagnóstico">Diagnostics</h3>
         <p data-en="Check-engine light on? We read the codes and find the real cause, not just clear the light." data-es="¿Luz de check engine encendida? Leemos los códigos y buscamos la causa real, no solo apagamos la luz.">Check-engine light on? We read the codes and find the real cause, not just clear the light.</p>
       </article>
-      <article class="card">
+      <article class="card rv">
         <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 4v40M7 14l34 20M41 14L7 34"/><path d="M19 8l5 4 5-4M19 40l5-4 5 4"/></svg>
         <h3 data-en="A/C repair" data-es="Aire acondicionado">A/C repair</h3>
         <p data-en="West Texas heat is no joke. Leaks, low charge, weak airflow: we get the cold back." data-es="El calor de West Texas no es broma. Fugas, poca carga, poco aire: devolvemos el frío.">West Texas heat is no joke. Leaks, low charge, weak airflow: we get the cold back.</p>
       </article>
-      <article class="card">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="24" r="12"/><circle cx="24" cy="24" r="3"/><path d="M4 12l5-5M4 12l5 5M44 12l-5-5M44 12l-5 5M4 38l5-5M4 38l5 5M44 38l-5-5M44 38l-5 5" opacity="0"/><path d="M4 24h5M39 24h5M24 4v5M24 39v5"/></svg>
+      <article class="card rv">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="24" r="12"/><circle cx="24" cy="24" r="3"/><path d="M4 24h5M39 24h5M24 4v5M24 39v5"/></svg>
         <h3 data-en="Alignment" data-es="Alineación">Alignment</h3>
         <p data-en="Pulling to one side or uneven tire wear? A proper alignment saves tires and fuel." data-es="¿Se jala a un lado o las llantas se desgastan disparejo? Una buena alineación ahorra llantas y gasolina.">Pulling to one side or uneven tire wear? A proper alignment saves tires and fuel.</p>
       </article>
-      <article class="card">
+      <article class="card rv">
         <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 5C17 15 11 21 11 29a13 13 0 0 0 26 0c0-8-6-14-13-24z"/><path d="M18 30a6 6 0 0 0 6 6"/></svg>
         <h3 data-en="Oil change" data-es="Cambio de aceite">Oil change</h3>
         <p data-en="Quick, clean, and with a look at fluids, filters and belts while it's on the lift." data-es="Rápido, limpio y con revisión de líquidos, filtros y bandas mientras está en el elevador.">Quick, clean, and with a look at fluids, filters and belts while it's on the lift.</p>
       </article>
-      <article class="card">
+      <article class="card rv">
         <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="6" width="30" height="37" rx="2"/><path d="M18 4h12v6H18z"/><path d="M16 24l5 5 11-11"/></svg>
         <h3 data-en="State inspection" data-es="Inspección estatal">State inspection</h3>
         <p data-en="Texas vehicle inspection while you wait, so you can renew your registration." data-es="Inspección vehicular de Texas mientras espera, para renovar su registro.">Texas vehicle inspection while you wait, so you can renew your registration.</p>
       </article>
     </div>
-    <div class="svc__more">
+    <div class="svc__more rv">
       <a class="btn btn--main" href="tel:+14325550138"><span data-en="Call for a free estimate" data-es="Llame para un presupuesto gratis">Call for a free estimate</span></a>
-      <a class="btn btn--ghost" href="#book"><span data-en="Request an appointment" data-es="Pedir una cita">Request an appointment</span></a>
+      <a class="btn btn--line" href="#book"><span data-en="Request an appointment" data-es="Pedir una cita">Request an appointment</span></a>
     </div>
   </div>
 </section>
 
-<section class="band" id="about">
+<section class="band s-red" id="about" data-bg="#3f0f09">
   <div class="wrap band__grid">
-    <img src="/img/wrenches-tools-960.webp" srcset="/img/wrenches-tools-480.webp 480w, /img/wrenches-tools-960.webp 960w" sizes="(min-width:860px) 520px, 100vw" width="960" height="1440" loading="lazy" style="aspect-ratio:4/3;object-position:50% 50%"
+    <img class="rv" src="/img/wrenches-tools-960.webp" srcset="/img/wrenches-tools-480.webp 480w, /img/wrenches-tools-960.webp 960w" sizes="(min-width:860px) 520px, 100vw" width="960" height="1440" loading="lazy" style="aspect-ratio:4/3;object-position:50% 50%"
          alt="Wrenches and hand tools laid out on a workshop bench" data-alt-en="Wrenches and hand tools laid out on a workshop bench" data-alt-es="Llaves y herramientas de mano sobre una mesa de taller">
     <div>
-      <p class="eyebrow" data-en="Why drivers stay with us" data-es="Por qué nos eligen">Why drivers stay with us</p>
-      <h2 class="h2" data-en="A shop you can ask questions" data-es="Un taller al que se le puede preguntar">A shop you can ask questions</h2>
-      <ul>
+      <p class="eyebrow rv" data-en="Why drivers stay with us" data-es="Por qué nos eligen">Why drivers stay with us</p>
+      <h2 class="h2 rv" style="font-size:clamp(2.6rem,1rem + 6vw,5.6rem)" data-en="A shop you can ask questions" data-es="Un taller al que se le puede preguntar">A shop you can ask questions</h2>
+      <ul class="rv">
         <li data-en="We show you the worn part and explain it in plain English." data-es="Le mostramos la pieza gastada y se la explicamos en palabras sencillas.">We show you the worn part and explain it in plain English.</li>
         <li data-en="Written quote first. Nothing extra without your OK." data-es="Primero el presupuesto por escrito. Nada extra sin su permiso.">Written quote first. Nothing extra without your OK.</li>
         <li data-en="Same-day on most brakes, oil changes and inspections." data-es="El mismo día en la mayoría de frenos, aceite e inspecciones.">Same-day on most brakes, oil changes and inspections.</li>
       </ul>
-      <div class="proof"><strong data-en="Reviews coming soon" data-es="Reseñas próximamente">Reviews coming soon</strong><span data-en="Real customer reviews will go here once the shop is live." data-es="Aquí irán reseñas reales de clientes cuando el taller esté en línea.">Real customer reviews will go here once the shop is live.</span></div>
+      <div class="proof rv"><strong data-en="Reviews coming soon" data-es="Reseñas próximamente">Reviews coming soon</strong><span data-en="Real customer reviews will go here once the shop is live." data-es="Aquí irán reseñas reales de clientes cuando el taller esté en línea.">Real customer reviews will go here once the shop is live.</span></div>
     </div>
   </div>
 </section>
 
-<section id="visit">
+<section class="faqs s-red" id="faq" data-bg="#3f0f09" style="padding-top:20px">
   <div class="wrap">
-    <p class="eyebrow" data-en="Come on in" data-es="Visítenos">Come on in</p>
-    <h2 class="h2" data-en="Hours &amp; location" data-es="Horario y ubicación">Hours &amp; location</h2>
+    <p class="eyebrow rv" data-en="Quick answers" data-es="Respuestas rápidas">Quick answers</p>
+    <h2 class="h2 rv" style="font-size:clamp(2.6rem,1rem + 6vw,5.6rem)" data-en="Before you call" data-es="Antes de llamar">Before you call</h2>
+    <div class="faq rv" id="faq-list">
+      <details>
+        <summary><span data-en="Do I get a quote first?" data-es="¿Me dan un presupuesto primero?">Do I get a quote first?</span><i aria-hidden="true"></i></summary>
+        <div class="ans"><p data-en="Yes. Written quote first, and nothing extra without your OK. Estimates are free." data-es="Sí. Primero el presupuesto por escrito y nada extra sin su permiso. Los presupuestos son gratis.">Yes. Written quote first, and nothing extra without your OK. Estimates are free.</p></div>
+      </details>
+      <details>
+        <summary><span data-en="Can you do it the same day?" data-es="¿Lo pueden hacer el mismo día?">Can you do it the same day?</span><i aria-hidden="true"></i></summary>
+        <div class="ans"><p data-en="Same-day on most brakes, oil changes and inspections. Call and we will tell you what fits." data-es="El mismo día en la mayoría de frenos, aceite e inspecciones. Llame y le decimos qué se puede.">Same-day on most brakes, oil changes and inspections. Call and we will tell you what fits.</p></div>
+      </details>
+      <details>
+        <summary><span data-en="My check-engine light is on. Now what?" data-es="Mi luz de check engine está encendida. ¿Y ahora?">My check-engine light is on. Now what?</span><i aria-hidden="true"></i></summary>
+        <div class="ans"><p data-en="We read the codes and find the real cause, not just clear the light. Then you decide what to fix." data-es="Leemos los códigos y buscamos la causa real, no solo apagamos la luz. Luego usted decide qué arreglar.">We read the codes and find the real cause, not just clear the light. Then you decide what to fix.</p></div>
+      </details>
+      <details>
+        <summary><span data-en="What if you can't fix it?" data-es="¿Y si ustedes no pueden arreglarlo?">What if you can't fix it?</span><i aria-hidden="true"></i></summary>
+        <div class="ans"><p data-en="If we can do it, we will say so. If we can't, we will point you to someone who can." data-es="Si podemos hacerlo, se lo decimos. Si no, le indicamos quién puede.">If we can do it, we will say so. If we can't, we will point you to someone who can.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section id="visit" class="light s-light" data-bg="#e9e5df">
+  <div class="wrap">
+    <p class="eyebrow rv" data-en="Come on in" data-es="Visítenos">Come on in</p>
+    <h2 class="h2 rv" style="font-size:clamp(2.8rem,1rem + 8vw,7.5rem)" data-en="Hours &amp; location" data-es="Horario y ubicación">Hours &amp; location</h2>
     <div class="visit__grid">
-      <div class="hours">
+      <div class="hours rv">
         <h3 data-en="Shop hours" data-es="Horario del taller">Shop hours</h3>
         <table>
           <tr><th scope="row" data-en="Mon–Fri" data-es="Lun–Vie">Mon–Fri</th><td data-en="7:30 am – 6:00 pm" data-es="7:30 am – 6:00 pm">7:30 am – 6:00 pm</td></tr>
@@ -283,7 +400,7 @@ footer a{color:#fff}
         <a class="btn btn--main" href="tel:+14325550138"><span data-en="Call (432) 555-0138" data-es="Llamar (432) 555-0138">Call (432) 555-0138</span></a>
         <a class="btn btn--soft" href="https://www.google.com/maps/search/?api=1&amp;query=W+University+Blvd+Odessa+TX" target="_blank" rel="noopener"><span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a>
       </div>
-      <div class="map">
+      <div class="map rv">
         <iframe title="Map of Odessa, TX" data-title-en="Map of Odessa, TX" data-title-es="Mapa de Odessa, TX" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
           src="https://www.google.com/maps?q=W+University+Blvd,+Odessa,+TX&amp;output=embed"></iframe>
       </div>
@@ -291,12 +408,12 @@ footer a{color:#fff}
   </div>
 </section>
 
-<section class="book" id="book">
+<section class="book light s-light" id="book" data-bg="#e9e5df" style="padding-top:20px">
   <div class="wrap">
-    <p class="eyebrow" data-en="Prefer to write?" data-es="¿Prefiere escribir?">Prefer to write?</p>
-    <h2 class="h2" data-en="Request an appointment" data-es="Pida una cita">Request an appointment</h2>
-    <p class="sub" data-en="Tell us what is going on. We will call you back to confirm a time. Fastest way is still to call." data-es="Cuéntenos qué pasa. Le devolvemos la llamada para confirmar la hora. Lo más rápido sigue siendo llamar.">Tell us what is going on. We will call you back to confirm a time. Fastest way is still to call.</p>
-    <form id="form" novalidate>
+    <p class="eyebrow rv" data-en="Prefer to write?" data-es="¿Prefiere escribir?">Prefer to write?</p>
+    <h2 class="h2 rv" style="font-size:clamp(2.8rem,1rem + 8vw,7.5rem)" data-en="Request an appointment" data-es="Pida una cita">Request an appointment</h2>
+    <p class="sub rv" data-en="Tell us what is going on. We will call you back to confirm a time. Fastest way is still to call." data-es="Cuéntenos qué pasa. Le devolvemos la llamada para confirmar la hora. Lo más rápido sigue siendo llamar.">Tell us what is going on. We will call you back to confirm a time. Fastest way is still to call.</p>
+    <form id="form" class="rv" novalidate>
       <div class="row">
         <div><label for="f-name" data-en="Your name" data-es="Su nombre">Your name</label><input id="f-name" name="name" type="text" autocomplete="name"></div>
         <div><label for="f-phone" data-en="Phone" data-es="Teléfono">Phone</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(432) 555-0100"></div>
@@ -315,15 +432,16 @@ footer a{color:#fff}
         <div><label for="f-day" data-en="Preferred day" data-es="Día preferido">Preferred day</label><input id="f-day" name="day" type="date"></div>
       </div>
       <div><label for="f-msg" data-en="What is the car doing?" data-es="¿Qué le pasa al carro?">What is the car doing?</label><textarea id="f-msg" name="msg"></textarea></div>
-      <button class="btn btn--main" id="send" type="submit" data-en="Request appointment" data-es="Pedir cita">Request appointment</button>
+      <button class="btn btn--dark" id="send" type="submit" data-en="Request appointment" data-es="Pedir cita">Request appointment</button>
       <p class="note" data-en="This is a demo form. It does not send anything." data-es="Este es un formulario de demostración. No envía nada.">This is a demo form. It does not send anything.</p>
     </form>
   </div>
 </section>
 </main>
 
-<footer>
+<footer class="s-dark" data-bg="#0d0a08">
   <div class="wrap">
+    <p class="foot__big" aria-hidden="true">Loop <i>338</i></p>
     <a class="logo" href="#top"><b>338</b><span>Loop 338 Auto</span></a>
     <p>W University Blvd, Odessa, TX · <a href="tel:+14325550138">(432) 555-0138</a></p>
     <p data-en="Mon–Fri 7:30–6 · Sat 8–1 · Closed Sunday" data-es="Lun–Vie 7:30–6 · Sáb 8–1 · Domingo cerrado">Mon–Fri 7:30–6 · Sat 8–1 · Closed Sunday</p>
@@ -335,7 +453,11 @@ footer a{color:#fff}
   <a href="/" data-en="Demo site by Permian Local · fictional business · permianlocalseo.com" data-es="Sitio de demostración de Permian Local · negocio ficticio · permianlocalseo.com">Demo site by Permian Local · fictional business · permianlocalseo.com</a>
 </div>
 
+<script src="/js/vendor/gsap.min.js"></script>
+<script src="/js/vendor/ScrollTrigger.min.js"></script>
+<script src="/js/vendor/lenis.min.js"></script>
 <script>
+/* language (EN/ES) */
 (function(){
   var KEY='l338-lang', btn=document.getElementById('lang'), lang='en';
   try{var s=localStorage.getItem(KEY); if(s==='en'||s==='es') lang=s; else lang=/^es/i.test(navigator.language||'')?'es':'en';}catch(e){lang=/^es/i.test(navigator.language||'')?'es':'en';}
@@ -360,6 +482,99 @@ footer a{color:#fff}
     e.preventDefault(); var b=document.getElementById('send'); b.disabled=true; b.textContent=T.demo[lang];
   });
   apply(lang);
+})();
+
+/* scroll progress (works without GSAP) */
+(function(){
+  var bar=document.getElementById('progress'),tick=false;
+  function upd(){tick=false;var h=document.documentElement.scrollHeight-innerHeight;bar.style.transform='scaleX('+(h>0?Math.min(1,scrollY/h):0)+')';}
+  addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});upd();
+})();
+
+/* motion */
+(function(){
+  var root=document.documentElement;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var h1=document.getElementById('h1');
+
+  /* h1 words into spans (no SplitText) */
+  var words=h1.textContent.trim().split(/\s+/);
+  h1.textContent='';
+  words.forEach(function(w,i){
+    if(i) {var sp=document.createElement('span');sp.className='sp';h1.appendChild(sp);}
+    var o=document.createElement('span');o.className='w';var inn=document.createElement('span');inn.textContent=w;o.appendChild(inn);h1.appendChild(o);
+  });
+
+  /* FAQ accordion (details + animated height) */
+  var dets=document.querySelectorAll('.faq details');
+  dets.forEach(function(d){
+    var sum=d.querySelector('summary'), ans=d.querySelector('.ans');
+    sum.addEventListener('click',function(e){
+      if(reduce||!window.gsap) return; /* native toggle */
+      e.preventDefault();
+      if(d.open){
+        gsap.to(ans,{height:0,duration:.35,ease:'power2.inOut',onComplete:function(){d.open=false;ans.style.height='';}});
+      }else{
+        d.open=true; gsap.fromTo(ans,{height:0},{height:'auto',duration:.4,ease:'power2.out',onComplete:function(){ans.style.height='';}});
+      }
+    });
+  });
+
+  /* custom cursor */
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
+    var cur=document.getElementById('cursor'),x=0,y=0,cx=0,cy=0,run=false;
+    addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;cur.classList.add('on');if(!run){run=true;loop();}});
+    function loop(){cx+=(x-cx)*.22;cy+=(y-cy)*.22;cur.style.transform='translate('+cx+'px,'+cy+'px)';requestAnimationFrame(loop);}
+    document.addEventListener('mouseover',function(e){cur.classList.toggle('big',!!e.target.closest('a,button,summary,select'));});
+    document.addEventListener('mouseleave',function(){cur.classList.remove('on');});
+  }
+
+  if(reduce||!window.gsap||!window.ScrollTrigger){ /* static look, still correct per-section background */
+    document.querySelectorAll('[data-count]').forEach(function(n){n.textContent=n.getAttribute('data-count');});
+    return;
+  }
+  root.classList.remove('static'); root.classList.add('js-anim');
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* smooth scroll */
+  if(window.Lenis){
+    var lenis=new Lenis({lerp:.1});
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(function(t){lenis.raf(t*1000);});
+    gsap.ticker.lagSmoothing(0);
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){var t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();lenis.scrollTo(a.getAttribute('href')==='#top'?0:t,{offset:-70});}});
+    });
+  }
+
+  /* title: words rise in */
+  gsap.from('#h1 .w>span',{yPercent:110,duration:1.1,ease:'power4.out',stagger:.14,delay:.15});
+  gsap.from('#heroPhoto',{opacity:0,scale:.92,duration:1.3,ease:'power3.out',delay:.35});
+  gsap.from('.hero__halo',{opacity:0,duration:1.6,ease:'power2.out'});
+
+  /* hero parallax: photo slower than text */
+  var st={trigger:'.hero',start:'top top',end:'bottom top',scrub:true};
+  gsap.to('#heroTitle',{yPercent:-28,ease:'none',scrollTrigger:st});
+  gsap.to('#heroPhoto',{y:60,ease:'none',scrollTrigger:st});
+  gsap.to('.hero__halo',{y:30,ease:'none',scrollTrigger:st});
+
+  /* background colour per section */
+  document.querySelectorAll('[data-bg]').forEach(function(sec){
+    ScrollTrigger.create({trigger:sec,start:'top 55%',end:'bottom 55%',
+      onToggle:function(self){if(self.isActive)gsap.to(document.body,{backgroundColor:sec.getAttribute('data-bg'),duration:.7,ease:'power2.out',overwrite:true});}});
+  });
+  gsap.set(document.body,{backgroundColor:'#0d0a08'});
+
+  /* reveals */
+  gsap.to('.hero .rv',{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.15,delay:.9});
+  ScrollTrigger.batch('.rv:not(.hero .rv)',{start:'top 88%',once:true,onEnter:function(b){gsap.to(b,{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.1,overwrite:true});}});
+
+  /* counters */
+  document.querySelectorAll('[data-count]').forEach(function(n){
+    var end=+n.getAttribute('data-count'),o={v:0};
+    ScrollTrigger.create({trigger:n,start:'top 90%',once:true,onEnter:function(){gsap.to(o,{v:end,duration:1.6,ease:'power2.out',onUpdate:function(){n.textContent=Math.round(o.v);}});}});
+  });
+  addEventListener('load',function(){ScrollTrigger.refresh();});
 })();
 </script>
 </body>
