@@ -137,6 +137,15 @@
         ],
         "createdAt": "2026-10-24T14:13:37.693Z",
         "reason": "La foto del motor (#truckMotor) empieza a opacidad 0 a propósito: aparece con el scroll al final de la secuencia de la camioneta (pedido de Carlos 2026-10-24)"
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "css/v8.css"
+        ],
+        "createdAt": "2026-10-24T14:45:22.470Z",
+        "reason": "La palabra PERMIAN en contorno del hero se rellena con el scroll mediante background-clip:text; es decorativa y aria-hidden, recurso tomado de los reels (lote 5, idea 5)"
       }
     ]
   }
