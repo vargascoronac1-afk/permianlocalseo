@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "marquee",
+        "value": "*",
+        "files": [
+          "demos/taller/index.html"
+        ],
+        "createdAt": "2026-10-24T05:57:38.003Z",
+        "reason": "Carlos aprobó el marquee de servicios en la dirección de la demo (2026-10-24): se pausa en hover y se apaga con prefers-reduced-motion"
+      },
+      {
+        "rule": "marquee",
+        "value": "*",
+        "files": [
+          "demos/electricista/index.html"
+        ],
+        "createdAt": "2026-10-24T06:35:43.981Z",
+        "reason": "Carlos aprobó el marquee de servicios en el modelo del taller (2026-10-24): pausa en hover y apagado con prefers-reduced-motion"
+      },
+      {
+        "rule": "marquee",
+        "value": "*",
+        "files": [
+          "demos/taqueria/index.html"
+        ],
+        "createdAt": "2026-10-24T06:35:44.408Z",
+        "reason": "Carlos aprobó el marquee de servicios en el modelo del taller (2026-10-24): pausa en hover y apagado con prefers-reduced-motion"
+      }
+    ]
+  }
+}

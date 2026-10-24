@@ -54,3 +54,31 @@ Unsplash License (free for commercial use, no attribution required; credited any
 | alineacion | https://unsplash.com/photos/O_ufcLVTAYw | Tekton | Unsplash License |
 | aceite | https://unsplash.com/photos/dDWVq_XEhus | Xavier von Erlach | Unsplash License |
 | inspeccion | https://unsplash.com/photos/erWc6mrOq_I | Dextar Studio | Unsplash License |
+
+## Demo electricista (hero recortado + tarjetas, 2026-10-24)
+
+Pexels License (free for commercial use, no attribution required; credited anyway). Originals (1600 px JPG) in `/img/fuentes/electricista-*.jpg`.
+
+| File | Page | Author | License |
+|---|---|---|---|
+| recortes/electricista-640.webp, recortes/electricista-1132.webp (hero cutout, background removed with rembg isnet-general-use; bottom and right edges faded in the alpha) | https://www.pexels.com/photo/handywoman-holding-a-drill-8487400/ | Kindel Media | Pexels License |
+| servicios/emergencias-* | https://www.pexels.com/photo/lightning-over-electricity-power-lines-5707737/ | Matheus Rocha | Pexels License |
+| servicios/paneles-* | https://www.pexels.com/photo/electrical-circuit-breaker-panel-with-color-coded-wiring-28950842/ | ranjeet . | Pexels License |
+| servicios/instalaciones-* | https://www.pexels.com/photo/man-drilling-in-a-wall-in-an-apartment-4981802/ | Antoni Shkraba | Pexels License |
+| servicios/cargadores-* | https://www.pexels.com/photo/electric-car-while-charging-24376862/ | Elmir Jafarov | Pexels License |
+| servicios/iluminacion-* | https://www.pexels.com/photo/light-bulb-hanging-on-rope-in-studio-4379890/ | Keegan Checks | Pexels License |
+| servicios/inspecciones-* | https://www.pexels.com/photo/electrician-inspecting-residential-fuse-box-area-32497160/ | Kathleen Austin Kuhn | Pexels License |
+
+## Demo taquería (2026-10-24)
+
+Unsplash License (free for commercial use, no attribution required; credited anyway), none from Unsplash+/Getty. Originals (1600 px JPG) in `/img/fuentes/`. Menu cards: cropped 3:2, WebP 960 and 480 px in `/img/menu/` (decorative backgrounds behind a dark gradient, empty alt). Hero: background removed with rembg (`isnet-general-use`, alpha matting), cropped to the silhouette, WebP 640 and 1132 px in `/img/recortes/` (`tacos-640.webp`, `tacos-1132.webp`). Photos are illustrative stock; the restaurant is fictional.
+
+| File | Page | Author | License |
+|---|---|---|---|
+| fuentes/tacos-plato.jpg, recortes/tacos-640.webp, recortes/tacos-1132.webp (hero cut-out) | https://unsplash.com/photos/oDC_9Uq1los | Robby McCullough | Unsplash License |
+| menu/trompo-* (tacos al pastor) | https://unsplash.com/photos/Zggo6DP_P88 | Federico Ramirez | Unsplash License |
+| menu/asada-* | https://unsplash.com/photos/wIqpmuOloVA | Xavier crook | Unsplash License |
+| menu/barbacoa-* | https://unsplash.com/photos/z_PfaGzeN9E | Jeswin Thomas | Unsplash License |
+| menu/menudo-* | https://unsplash.com/photos/Wk-Kq_35Ago | Daniel Alejandro Jaime Ayala | Unsplash License |
+| menu/tortas-* (a stacked sandwich on a roll, stand-in for a torta) | https://unsplash.com/photos/pHeX8H9WQpY | Monika Grabkowska | Unsplash License |
+| menu/aguas-* (hibiscus drink, stand-in for agua de jamaica) | https://unsplash.com/photos/kOoMCheZesE | Eiliv Aceron | Unsplash License |
