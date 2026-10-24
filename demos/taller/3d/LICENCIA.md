@@ -15,3 +15,6 @@
 
 ## camioneta-higgsfield.glb (2026-10-24)
 Generado con Higgsfield "Multi-Image to 3D" (CLI, 30 créditos) a partir de 4 fotogramas del vídeo de órbita (Seedance 2.0) de la foto Pexels de Andrew LaBonne. Condiciones de uso comercial del plan Plus de Higgsfield: VERIFICAR.
+
+## camioneta-higgsfield-opt.glb (2026-10-24)
+Versión optimizada de camioneta-higgsfield.glb con gltf-transform (`optimize --compress meshopt --texture-size 1024 --palette false`): 16,0 MB → 3,8 MB. Requiere MeshoptDecoder en el cargador. Es la que usan `3d-higgsfield.html` y la web principal v8.

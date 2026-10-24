@@ -43,6 +43,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from '/js/vendor/three/loaders/GLTFLoader.js';
 import { RoomEnvironment } from '/js/vendor/three/RoomEnvironment.js';
+import { MeshoptDecoder } from '/js/vendor/three/libs/meshopt_decoder.module.js';
 
 const stage = document.getElementById('stage');
 const canvas = document.getElementById('c');
@@ -50,7 +51,7 @@ const fpsEl = document.getElementById('fps');
 const infoEl = document.getElementById('info');
 const btn = document.getElementById('toggle');
 const params = new URLSearchParams(location.search);
-const MODEL = '/demos/taller/3d/camioneta-higgsfield.glb';
+const MODEL = '/demos/taller/3d/camioneta-higgsfield-opt.glb';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 let renderer;
@@ -86,7 +87,8 @@ shadow.rotation.x = -Math.PI / 2; scene.add(shadow);
 const pivot = new THREE.Group(); scene.add(pivot);
 let baseDist = 9, size = 4, loadedBytes = 0;
 
-new GLTFLoader().load(MODEL, (gltf) => {
+const loader = new GLTFLoader(); loader.setMeshoptDecoder(MeshoptDecoder);
+loader.load(MODEL, (gltf) => {
   const root = gltf.scene; pivot.add(root);
   root.updateMatrixWorld(true);
   let box = new THREE.Box3().setFromObject(root);

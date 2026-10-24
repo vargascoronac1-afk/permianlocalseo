@@ -47,6 +47,69 @@
         ],
         "createdAt": "2026-10-24T07:35:27.760Z",
         "reason": "Pulso luminoso de los hotspots sobre la foto del panel: señal de interacción deliberada, aprobada por el director"
+      },
+      {
+        "rule": "radial-halo",
+        "value": "*",
+        "files": [
+          "demos/taller/3d-prueba.html"
+        ],
+        "createdAt": "2026-10-24T07:55:56.551Z",
+        "reason": "Halo rojo detrás del protagonista: dirección aprobada por Carlos a partir de los reels de referencia (2026-10-24)"
+      },
+      {
+        "rule": "radial-halo",
+        "value": "*",
+        "files": [
+          "demos/taller/3d-ia.html"
+        ],
+        "createdAt": "2026-10-24T07:55:57.088Z",
+        "reason": "Halo rojo detrás del protagonista: dirección aprobada por Carlos a partir de los reels de referencia (2026-10-24)"
+      },
+      {
+        "rule": "radial-halo",
+        "value": "*",
+        "files": [
+          "demos/taller/3d-trellis.html"
+        ],
+        "createdAt": "2026-10-24T07:55:57.617Z",
+        "reason": "Halo rojo detrás del protagonista: dirección aprobada por Carlos a partir de los reels de referencia (2026-10-24)"
+      },
+      {
+        "rule": "radial-halo",
+        "value": "*",
+        "files": [
+          "demos/taller/3d-sketchfab.html"
+        ],
+        "createdAt": "2026-10-24T07:55:58.172Z",
+        "reason": "Halo rojo detrás del protagonista: dirección aprobada por Carlos a partir de los reels de referencia (2026-10-24)"
+      },
+      {
+        "rule": "radial-halo",
+        "value": "*",
+        "files": [
+          "demos/taller/3d-higgsfield.html"
+        ],
+        "createdAt": "2026-10-24T07:55:58.763Z",
+        "reason": "Halo rojo detrás del protagonista: dirección aprobada por Carlos a partir de los reels de referencia (2026-10-24)"
+      },
+      {
+        "rule": "radial-halo",
+        "value": "*",
+        "files": [
+          "demos/taller/3d-video.html"
+        ],
+        "createdAt": "2026-10-24T07:55:59.284Z",
+        "reason": "Halo rojo detrás del protagonista: dirección aprobada por Carlos a partir de los reels de referencia (2026-10-24)"
+      },
+      {
+        "rule": "radial-halo",
+        "value": "*",
+        "files": [
+          "demos/taller/index.html"
+        ],
+        "createdAt": "2026-10-24T07:55:59.805Z",
+        "reason": "Halo rojo detrás del protagonista: dirección aprobada por Carlos a partir de los reels de referencia (2026-10-24)"
       }
     ]
   }
