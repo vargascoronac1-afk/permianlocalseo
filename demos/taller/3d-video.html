@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>LOOP 338 - Vídeo scroll</title>
+<style>
+  :root{--bg:#0b0706;--ink:#f3e9df;--red:#c1272d}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif}
+  .stage{position:fixed;inset:0;background:
+    radial-gradient(60% 55% at 50% 58%,rgba(193,39,45,.38),rgba(193,39,45,0) 70%),
+    radial-gradient(90% 70% at 50% 120%,#2a110c,transparent 70%),var(--bg)}
+  h1{position:absolute;left:0;right:0;top:50%;transform:translateY(-58%);margin:0;text-align:center;
+    font:900 clamp(70px,17.5vw,300px)/.85 "Arial Black",Impact,system-ui,sans-serif;letter-spacing:-.04em;
+    color:rgba(243,233,223,.9);white-space:nowrap;user-select:none;pointer-events:none}
+  canvas{position:absolute;inset:0;width:100%;height:100%;display:block;mix-blend-mode:lighten}
+  #bar{position:absolute;left:0;top:0;height:2px;width:0;background:var(--red);transition:opacity .4s}
+  .hud{position:absolute;left:16px;right:16px;bottom:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:13px;opacity:.85}
+  button{background:var(--red);color:#fff;border:0;border-radius:999px;padding:8px 16px;font:600 13px system-ui;cursor:pointer}
+  button:disabled{opacity:.5;cursor:default}
+  .credit{position:absolute;right:16px;bottom:48px;font-size:11px;opacity:.55;max-width:70vw;text-align:right}
+  .hint{position:absolute;top:14px;left:0;right:0;text-align:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.6}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <h1 aria-hidden="true">LOOP 338</h1>
+  <canvas id="c" aria-label="Pickup amarilla que gira 360 grados al hacer scroll" role="img"></canvas>
+  <div id="bar"></div>
+  <div class="hint">Haz scroll: gira y brilla</div>
+  <div class="credit">Vídeo generado con IA (Higgsfield)</div>
+  <div class="hud">
+    <button id="toggle" type="button">Pausar</button>
+    <span id="fps">FPS: --</span>
+    <span id="info">Cargando fotogramas...</span>
+  </div>
+</div>
+<script>
+(() => {
+const N = 48, PX_PER_FRAME = 40;
+const canvas = document.getElementById('c'), ctx = canvas.getContext('2d');
+const btn = document.getElementById('toggle'), fpsEl = document.getElementById('fps'), infoEl = document.getElementById('info'), bar = document.getElementById('bar');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const dir = innerWidth < 700 ? 'video/f600/' : 'video/f/';
+const imgs = new Array(N).fill(null);
+let loaded = 0, acum = 0, smooth = 0, running = !reduced, W = 0, H = 0, dpr = 1;
+
+function load(i) {
+  const im = new Image();
+  im.onload = () => {
+    imgs[i] = im; loaded++;
+    bar.style.width = (loaded / N * 100) + '%';
+    if (loaded === N) { bar.style.opacity = 0; infoEl.textContent = N + ' fotogramas (' + (dir.includes('600') ? '600' : '1200') + ' px)'; }
+    if (!running) draw();
+  };
+  im.onerror = () => { infoEl.textContent = 'Error cargando fotograma ' + (i + 1); };
+  im.src = dir + String(i + 1).padStart(4, '0') + '.webp';
+}
+load(0); for (let i = 1; i < N; i++) load(i);
+
+function nearest(i) { // fotograma cargado más cercano (hacia atrás)
+  for (let k = 0; k < N; k++) { const im = imgs[((i - k) % N + N) % N]; if (im) return im; }
+  return null;
+}
+function resize() {
+  dpr = Math.min(devicePixelRatio || 1, 2);
+  W = canvas.clientWidth; H = canvas.clientHeight;
+  canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+}
+addEventListener('resize', () => { resize(); if (!running) draw(); });
+
+function place(im, zoom) {
+  const w = W * 0.86 * zoom, h = w * im.naturalHeight / im.naturalWidth;
+  ctx.drawImage(im, (W - w) / 2, H * 0.58 - h / 2, w, h);
+  return { w, h };
+}
+function draw() {
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, W, H);
+  const f = smooth / PX_PER_FRAME, i = Math.floor(f), t = f - i;
+  const a = nearest(i % N);
+  if (!a) return;
+  const cyc = (1 - Math.cos(smooth / 2000 * Math.PI * 2)) / 2;
+  const zoom = 1 + 0.08 * cyc;
+  const box = place(a, zoom);
+  // difuminado de bordes del fotograma (destination-out)
+  const bx = (W - box.w) / 2, by = H * 0.58 - box.h / 2, fx = box.w * 0.07, fy = box.h * 0.12;
+  ctx.globalCompositeOperation = 'destination-out';
+  const edge = (x0, y0, x1, y1, rx, ry, rw, rh) => { const g = ctx.createLinearGradient(x0, y0, x1, y1); g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; ctx.fillRect(rx, ry, rw, rh); };
+  edge(bx, 0, bx + fx, 0, bx - 2, by - 2, fx + 2, box.h + 4);
+  edge(bx + box.w, 0, bx + box.w - fx, 0, bx + box.w - fx, by - 2, fx + 2, box.h + 4);
+  edge(0, by, 0, by + fy, bx - 2, by - 2, box.w + 4, fy + 2);
+  edge(0, by + box.h, 0, by + box.h - fy, bx - 2, by + box.h - fy, box.w + 4, fy + 2);
+  ctx.globalCompositeOperation = 'source-over';
+  // brillo diagonal suave que se desplaza con el acumulador
+  const sweep = (smooth / 900) % 1, env = Math.sin(sweep * Math.PI);
+  const x = -0.4 * W + sweep * 1.8 * W, bw = W * 0.22;
+  const g = ctx.createLinearGradient(x - bw, 0, x + bw, H * 0.35);
+  g.addColorStop(0, 'rgba(255,241,221,0)'); g.addColorStop(.5, 'rgba(255,241,221,' + (0.16 * env).toFixed(3) + ')'); g.addColorStop(1, 'rgba(255,241,221,0)');
+  ctx.save();
+  ctx.beginPath(); ctx.rect((W - box.w) / 2, H * 0.58 - box.h / 2, box.w, box.h); ctx.clip();
+  ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.restore();
+  window.__state = { acum, smooth, frame: i % N };
+}
+
+addEventListener('wheel', e => { e.preventDefault(); if (running) acum += Math.abs(e.deltaY) + Math.abs(e.deltaX); }, { passive: false });
+let ty = null;
+addEventListener('touchstart', e => { ty = e.touches[0].clientY; }, { passive: true });
+addEventListener('touchmove', e => { e.preventDefault(); if (ty !== null && running) { const y = e.touches[0].clientY; acum += Math.abs(y - ty) * 2; ty = y; } }, { passive: false });
+addEventListener('keydown', e => { if (running && ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' '].includes(e.key)) acum += 120; });
+window.__setAcum = v => { acum = v; };
+
+let frames = 0, tFps = performance.now();
+function loop(now) {
+  if (running) requestAnimationFrame(loop);
+  smooth += (acum - smooth) * 0.1; // inercia; acum nunca decrece
+  draw();
+  frames++;
+  if (now - tFps >= 1000) { fpsEl.textContent = 'FPS: ' + Math.round(frames * 1000 / (now - tFps)); frames = 0; tFps = now; }
+}
+btn.addEventListener('click', () => {
+  running = !running; btn.textContent = running ? 'Pausar' : 'Reanudar';
+  if (running) { frames = 0; tFps = performance.now(); requestAnimationFrame(loop); }
+});
+resize();
+if (reduced) { btn.textContent = 'Reanudar'; btn.disabled = true; fpsEl.textContent = 'FPS: animación desactivada (reduced-motion)'; }
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
