@@ -12,3 +12,6 @@
 - NO se ha leido el texto completo de la seccion III (uso comercial: registro, atribucion, derechos sobre la salida). Revisar antes de publicar.
 - Intentos fallidos: Hunyuan3D-2 (tencent) genero solo malla gris sin textura (el Space indica "Texture Generation (Unavailable)"); TRELLIS (trellis-community) dio "ZeroGPU quota exceeded". Licencias de esos dos no consultadas.
 - Pagina de demo: `demos/taller/3d-ia.html`; usa `js/vendor/three/RoomEnvironment.js` (three r170, MIT, de cdn.jsdelivr.net/npm/three@0.170.0).
+
+## camioneta-higgsfield.glb (2026-10-24)
+Generado con Higgsfield "Multi-Image to 3D" (CLI, 30 créditos) a partir de 4 fotogramas del vídeo de órbita (Seedance 2.0) de la foto Pexels de Andrew LaBonne. Condiciones de uso comercial del plan Plus de Higgsfield: VERIFICAR.

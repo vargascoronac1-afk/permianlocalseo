@@ -1,0 +1,53 @@
+[
+  {
+    "created_at": "2026-10-24T07:43:37.460013Z",
+    "display_name": "Multi-Image to 3D",
+    "id": "a9c1e91c-c8b1-4cb3-9ed5-9f0ceb70af84",
+    "job_type": "multi_image_to_3d",
+    "min_result_url": null,
+    "params": {
+      "enable_animation": false,
+      "enable_pbr": true,
+      "enable_rigging": false,
+      "folder_id": null,
+      "medias": [
+        {
+          "data": {
+            "id": "3f78762c-d7ad-455f-b8ab-3aaf33a3177b",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3KnjpHu9aBtXda15YUpWyYjUffs/3f78762c-d7ad-455f-b8ab-3aaf33a3177b.png"
+          },
+          "role": "image"
+        },
+        {
+          "data": {
+            "id": "5ce07d96-9bb1-478d-8f68-1d0496be39f3",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3KnjpHu9aBtXda15YUpWyYjUffs/5ce07d96-9bb1-478d-8f68-1d0496be39f3.png"
+          },
+          "role": "image"
+        },
+        {
+          "data": {
+            "id": "b14fd4af-04ac-4c32-a6f0-68db3370f978",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3KnjpHu9aBtXda15YUpWyYjUffs/b14fd4af-04ac-4c32-a6f0-68db3370f978.png"
+          },
+          "role": "image"
+        },
+        {
+          "data": {
+            "id": "e001f01a-22b6-4dbb-8489-28dc47df0582",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3KnjpHu9aBtXda15YUpWyYjUffs/e001f01a-22b6-4dbb-8489-28dc47df0582.png"
+          },
+          "role": "image"
+        }
+      ],
+      "should_texture": true,
+      "symmetry_mode": "auto"
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KnjpHu9aBtXda15YUpWyYjUffs/hf_20261024_074337_a9c1e91c-c8b1-4cb3-9ed5-9f0ceb70af84.glb",
+    "status": "completed"
+  }
+]
