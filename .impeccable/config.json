@@ -110,6 +110,24 @@
         ],
         "createdAt": "2026-10-24T07:55:59.805Z",
         "reason": "Halo rojo detrás del protagonista: dirección aprobada por Carlos a partir de los reels de referencia (2026-10-24)"
+      },
+      {
+        "rule": "overused-font",
+        "value": "Instrument Sans",
+        "files": [
+          "css/v8.css"
+        ],
+        "createdAt": "2026-10-24T08:24:06.211Z",
+        "reason": "Sans de cuerpo heredada de v7 (self-hosted); el carácter lo pone Bricolage Grotesque en titulares"
+      },
+      {
+        "rule": "overused-font",
+        "value": "Instrument Serif",
+        "files": [
+          "css/v8.css"
+        ],
+        "createdAt": "2026-10-24T08:24:06.211Z",
+        "reason": "Serif itálica solo para una palabra del titular (cursiva insertada, recurso de los reels); decisión de dirección"
       }
     ]
   }

@@ -1,0 +1,149 @@
+/* Permian Local v8 - parte B (precios, proceso, por que nosotros, maqueta, contacto, pie). Prefijo b-. */
+@property --b-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+
+/* ---------- Franja ---------- */
+.b-strip { background: var(--amber); color: var(--amber-ink); padding: clamp(48px, 9vw, 112px) 0; overflow-x: clip; }
+.b-strip__eyebrow { margin: 0 0 18px; font: 600 .78rem/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--amber-ink); }
+.b-strip__text { margin: 0; max-width: 18ch; font: 700 clamp(2.2rem, 7vw, 6rem)/.98 var(--display); letter-spacing: -.03em; color: var(--amber-ink); text-wrap: balance; }
+
+/* ---------- Precios ---------- */
+.b-pricing { position: relative; padding: clamp(72px, 12vw, 160px) 0; overflow-x: clip; }
+.b-pricing__title { margin: 16px 0 clamp(36px, 6vw, 72px); max-width: 14ch; color: var(--text); }
+.b-plans { display: grid; gap: clamp(16px, 2.4vw, 28px); grid-template-columns: 1fr; }
+.b-plan { position: relative; display: flex; flex-direction: column; gap: 22px; padding: clamp(24px, 3.2vw, 44px); border-radius: 28px; isolation: isolate; color: var(--text); }
+.b-plan__head { display: grid; gap: 6px; }
+.b-plan__name { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font: 600 1.15rem/1.2 var(--display); letter-spacing: .02em; color: var(--text-2); }
+.b-plan__badge { display: inline-block; padding: 6px 12px; border-radius: 999px; background: var(--amber); color: var(--amber-ink); font: 700 .72rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }
+.b-plan__price { margin: 0; display: flex; align-items: baseline; gap: 10px; }
+.b-plan__num { font: 700 clamp(3.2rem, 7vw, 5.5rem)/1 var(--display); letter-spacing: -.04em; color: var(--text); font-variant-numeric: tabular-nums; }
+.b-plan__price small, .b-care__price small { font: 500 1rem/1 var(--sans); color: var(--text-2); }
+.b-plan__tag { margin: 0; color: var(--text-2); font: 500 1rem/1.4 var(--sans); }
+.b-plan__list, .b-care__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.b-plan__list li, .b-care__list li { position: relative; padding-left: 30px; color: var(--text); font: 500 1rem/1.4 var(--sans); }
+.b-plan__list li::before, .b-care__list li::before { content: ""; position: absolute; left: 0; top: .22em; width: 18px; height: 18px; background: var(--amber);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat; }
+.b-plan__cta { margin-top: auto; justify-content: center; text-align: center; min-height: 52px; }
+
+.b-plan--main { background: rgba(255, 255, 255, .08); box-shadow: 0 30px 120px -40px rgba(242, 169, 59, .45); }
+.b-plan--main::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; padding: 2px; pointer-events: none;
+  background: conic-gradient(from var(--b-angle), var(--amber), transparent 28%, var(--cyan) 52%, transparent 78%, var(--amber));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: b-spin 9s linear infinite; }
+.b-plan__halo { position: absolute; z-index: -2; left: 50%; top: 50%; width: 130%; aspect-ratio: 1; transform: translate(-50%, -50%); pointer-events: none;
+  background: radial-gradient(closest-side, rgba(242, 169, 59, .28), transparent 70%); filter: blur(10px); }
+@keyframes b-spin { to { --b-angle: 360deg; } }
+
+.b-care { margin-top: clamp(16px, 2.4vw, 28px); display: grid; gap: 20px; align-items: center; padding: clamp(22px, 3vw, 36px); border-radius: 24px; }
+.b-care__head { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+.b-care__name { margin: 0; font: 600 1.15rem/1.2 var(--display); color: var(--text-2); }
+.b-care__price { margin: 0; display: flex; align-items: baseline; gap: 6px; }
+.b-care__price .b-plan__num { font-size: clamp(2.4rem, 5vw, 3.4rem); }
+.b-care__list { grid-template-columns: 1fr; gap: 8px; }
+.b-care__cta { justify-content: center; min-height: 52px; }
+
+.b-extras { margin-top: clamp(56px, 9vw, 120px); }
+.b-extras__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.b-extras__title { margin: 0; font: 700 clamp(1.8rem, 4vw, 3rem)/1 var(--display); letter-spacing: -.02em; color: var(--text); }
+.b-extras__lead { margin: 0; color: var(--text-2); }
+.b-extras__list { list-style: none; margin: 0; padding: 0; counter-reset: none; }
+.b-extra { display: flex; align-items: baseline; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.b-extra__n { flex: none; font: 500 .85rem/1 var(--sans); letter-spacing: .12em; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.b-extra__name { min-width: 0; font: 500 clamp(1rem, 2vw, 1.3rem)/1.3 var(--sans); color: var(--text); overflow-wrap: anywhere; }
+.b-extra__name small { color: var(--text-2); font-size: .8em; }
+.b-extra__dots { flex: 1 1 24px; min-width: 24px; align-self: end; margin-bottom: .45em; border-bottom: 2px dotted var(--text-3); opacity: .6; }
+.b-extra__price { flex: none; font: 700 clamp(1.1rem, 2.4vw, 1.6rem)/1 var(--display); color: var(--amber); font-variant-numeric: tabular-nums; }
+.b-note { margin: 28px 0 0; color: var(--text-2); font-size: .95rem; }
+
+/* ---------- Proceso ---------- */
+.b-process { position: relative; padding: clamp(64px, 11vw, 140px) 0; overflow-x: clip; }
+.b-process__title { margin: 14px 0 clamp(28px, 5vw, 64px); font: 700 clamp(1.8rem, 4vw, 3rem)/1.05 var(--display); letter-spacing: -.02em; color: var(--text); max-width: 20ch; }
+.b-steps { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.b-step { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: clamp(16px, 4vw, 64px); padding: clamp(20px, 3.5vw, 44px) 0; border-bottom: 1px solid var(--line); }
+.b-step__n { font: 800 clamp(4rem, 14vw, 11rem)/.9 var(--display); letter-spacing: -.04em; color: var(--bg-3); -webkit-text-stroke: 2px var(--amber); font-variant-numeric: tabular-nums; transition: color .5s var(--ease); }
+.b-step.is-active .b-step__n { color: var(--amber); }
+.b-step__txt h3 { margin: 0 0 8px; font: 700 clamp(1.3rem, 3vw, 2.2rem)/1.1 var(--display); letter-spacing: -.01em; color: var(--text); }
+.b-step__txt p { margin: 0; max-width: 46ch; color: var(--text-2); font: 400 clamp(1rem, 1.6vw, 1.15rem)/1.5 var(--sans); }
+
+/* ---------- Por que nosotros ---------- */
+.b-why { padding: clamp(64px, 11vw, 140px) 0; overflow-x: clip; }
+.b-why__grid { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+.b-why__photo { position: relative; margin: 0; border-radius: 28px; overflow: hidden; border: 1px solid var(--line); }
+.b-why__photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+.b-why__card { position: absolute; left: clamp(12px, 2vw, 24px); right: clamp(12px, 2vw, 24px); bottom: clamp(12px, 2vw, 24px); padding: 16px 20px; border-radius: 18px; color: var(--text); font: 600 1.05rem/1.35 var(--sans); background: rgba(5, 7, 12, .72); }
+.b-why__txt h2 { margin: 14px 0 22px; font: 700 clamp(1.9rem, 4.4vw, 3.4rem)/1.02 var(--display); letter-spacing: -.025em; color: var(--text); }
+.b-why__txt p { color: var(--text-2); font: 400 1.05rem/1.65 var(--sans); max-width: 58ch; }
+.b-why__txt p strong { color: var(--text); }
+.b-why__txt a { color: var(--cyan); text-underline-offset: 3px; }
+.b-why__me { max-width: 240px; margin: 0 0 20px; }
+.b-why__me img { width: 100%; height: auto; border-radius: 16px; }
+
+/* ---------- Maqueta / formulario ---------- */
+.b-mock { position: relative; padding: clamp(72px, 11vw, 150px) 0; overflow: clip; isolation: isolate; background: var(--bg); }
+.b-mock__bg { position: absolute; inset: 0; z-index: -2; background: linear-gradient(180deg, rgba(5, 7, 12, .86), rgba(5, 7, 12, .93)), url("/img/desert-road-winding-1600.webp") center / cover no-repeat; }
+.b-mock__halo { position: absolute; z-index: -1; right: -10%; top: -10%; width: min(70vw, 900px); aspect-ratio: 1; pointer-events: none; background: radial-gradient(closest-side, rgba(79, 214, 224, .2), transparent 70%); }
+.b-mock__grid { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 5vw, 72px); align-items: start; }
+.b-mock__title { margin: 14px 0 20px; font: 700 clamp(2.2rem, 6vw, 4.8rem)/.98 var(--display); letter-spacing: -.03em; color: var(--text); }
+.b-mock__lead { margin: 0 0 24px; max-width: 46ch; color: var(--text-2); font: 400 1.1rem/1.6 var(--sans); }
+.b-mock__perks { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.b-mock__perks li { position: relative; padding-left: 32px; color: var(--text); font: 600 1.05rem/1.4 var(--sans); }
+.b-mock__perks li::before { content: ""; position: absolute; left: 0; top: .15em; width: 20px; height: 20px; background: var(--cyan);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat; }
+
+.b-form { display: grid; gap: 18px; padding: clamp(20px, 3.4vw, 44px); border-radius: 28px; background: rgba(11, 16, 25, .72); color-scheme: dark; min-width: 0; }
+.b-field { display: grid; gap: 8px; min-width: 0; }
+.b-field label { font: 600 .95rem/1.3 var(--sans); color: var(--text); }
+.b-field .opt { color: var(--text-2); font-weight: 400; }
+.b-field input, .b-field select, .b-field textarea { width: 100%; min-height: 48px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(190, 205, 225, .32); background: rgba(255, 255, 255, .06); color: var(--text); font: 400 16px/1.4 var(--sans); box-sizing: border-box; }
+.b-field textarea { min-height: 112px; resize: vertical; }
+.b-field select option { background: var(--bg-2); color: var(--text); }
+.b-field input::placeholder { color: var(--text-3); }
+.b-field input:focus-visible, .b-field select:focus-visible, .b-field textarea:focus-visible, .b-form button:focus-visible, .b-contact__mail:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
+.b-hint { margin: 0; color: var(--text-2); font: 400 .9rem/1.5 var(--sans); }
+.b-hint a { color: var(--cyan); }
+.b-btn-lg { width: 100%; min-height: 60px; justify-content: center; font-size: 1.1rem; background: var(--amber); color: var(--amber-ink); border: 0; cursor: pointer; }
+
+/* ---------- Contacto ---------- */
+.b-contact { padding: clamp(64px, 10vw, 128px) 0; overflow-x: clip; }
+.b-contact h2 { margin: 14px 0 18px; font: 700 clamp(1.6rem, 3.4vw, 2.6rem)/1.05 var(--display); color: var(--text); }
+.b-contact__mail { display: inline-block; min-height: 48px; font: 700 clamp(1.5rem, 6.4vw, 5.2rem)/1.05 var(--display); letter-spacing: -.03em; color: var(--text); text-decoration: none; border-bottom: 3px solid var(--amber); overflow-wrap: anywhere; transition: color .3s var(--ease); }
+.b-contact__mail:hover { color: var(--amber); }
+.b-facts { list-style: none; margin: 32px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px 40px; }
+.b-facts li { display: grid; gap: 4px; color: var(--text); }
+.b-facts strong { font: 600 .78rem/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--text-2); }
+
+/* ---------- Pie ---------- */
+.b-foot { position: relative; padding: clamp(48px, 7vw, 88px) 0 0; border-top: 1px solid var(--line); overflow-x: clip; color: var(--text-2); }
+.b-foot__cols { display: grid; grid-template-columns: 1fr; gap: 32px; }
+.b-foot h2 { margin: 0 0 12px; font: 700 1rem/1.2 var(--display); letter-spacing: .04em; color: var(--text); }
+.b-foot p, .b-foot address { margin: 0; font-style: normal; font: 400 1rem/1.8 var(--sans); color: var(--text-2); }
+.b-foot a { color: var(--text); text-underline-offset: 3px; }
+.b-foot a:hover { color: var(--amber); }
+.b-credits { margin-top: 36px; font-size: .9rem; color: var(--text-2); }
+.b-credits summary { cursor: pointer; min-height: 48px; display: flex; align-items: center; color: var(--text); }
+.b-credits ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 6px; }
+.b-credits a { color: var(--text); }
+.b-credits__note { margin-top: 10px; }
+.b-legal { margin: 28px 0 0; font-size: .9rem; color: var(--text-2); }
+.b-mark { margin-top: clamp(8px, 2vw, 24px); font: 800 15vw/.8 var(--display); letter-spacing: .18em; white-space: nowrap; text-align: center; color: var(--bg-3); user-select: none; pointer-events: none; overflow: clip; padding-bottom: .06em; }
+
+/* ---------- Escritorio ---------- */
+@media (min-width: 860px) {
+  .b-plans { grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .b-care { grid-template-columns: auto 1fr auto; gap: 32px; }
+  .b-care__list { grid-template-columns: 1fr 1fr; gap: 8px 24px; }
+  .b-why__grid { grid-template-columns: 1.05fr .95fr; }
+  .b-mock__grid { grid-template-columns: .9fr 1.1fr; }
+  .b-foot__cols { grid-template-columns: 1.2fr 1.2fr 1fr; }
+}
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .b-plan--main::before { animation: none; }
+  .b-step__n, .b-contact__mail { transition: none; }
+}
+
+/* el atributo hidden debe ganar a cualquier display de las reglas b-* */
+[hidden]{display:none}

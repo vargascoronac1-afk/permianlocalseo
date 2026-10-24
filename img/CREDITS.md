@@ -82,3 +82,12 @@ Unsplash License (free for commercial use, no attribution required; credited any
 | menu/menudo-* | https://unsplash.com/photos/Wk-Kq_35Ago | Daniel Alejandro Jaime Ayala | Unsplash License |
 | menu/tortas-* (a stacked sandwich on a roll, stand-in for a torta) | https://unsplash.com/photos/pHeX8H9WQpY | Monika Grabkowska | Unsplash License |
 | menu/aguas-* (hibiscus drink, stand-in for agua de jamaica) | https://unsplash.com/photos/kOoMCheZesE | Eiliv Aceron | Unsplash License |
+
+## v8 (2026-10-24)
+
+| Slug | Autor | Página de la foto | Plataforma | Licencia |
+|---|---|---|---|---|
+| v8/highway-night-* | Akin Cakiner (@akin) | https://unsplash.com/photos/a-long-exposure-photo-of-a-highway-at-night-ewPvwRx7ub8 | Unsplash | Unsplash License |
+| v8/screen-neon-* | Jakub Żerdzicki | https://unsplash.com/photos/computer-screens-displaying-code-with-neon-lighting-WD7S-Lz12Es | Unsplash | Unsplash License |
+| v8/mechanic-closeup-* | Jimmy Nilsson Masth | https://unsplash.com/photos/a-man-working-on-a-car-in-a-garage-jL9zfzTVSwY | Unsplash | Unsplash License |
+| v8/neon-storefront-* | Raymond Yeung (@optiny) | https://unsplash.com/photos/corner-building-with-bright-red-neon-signs-at-night-2g1vx1QX-eI | Unsplash | Unsplash License |
