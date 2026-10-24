@@ -32,7 +32,7 @@
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
   animation: b-spin 9s linear infinite; }
 .b-plan__halo { position: absolute; z-index: -2; left: 50%; top: 50%; width: 130%; aspect-ratio: 1; transform: translate(-50%, -50%); pointer-events: none;
-  background: radial-gradient(closest-side, rgba(227,176,75,.14), transparent 70%); filter: blur(10px); }
+  background: radial-gradient(closest-side, rgba(227,176,75,.14), transparent 70%); }
 @keyframes b-spin { to { --b-angle: 360deg; } }
 
 .b-care { margin-top: clamp(16px, 2.4vw, 28px); display: grid; gap: 20px; align-items: center; padding: clamp(22px, 3vw, 36px); border-radius: 24px; }
@@ -81,7 +81,7 @@
 
 /* ---------- Maqueta / formulario ---------- */
 .b-mock { position: relative; padding: clamp(72px, 11vw, 150px) 0; overflow: clip; isolation: isolate; background: var(--bg-2); }
-.b-mock__bg { position: absolute; inset: 0; z-index: -2; background: linear-gradient(180deg, rgba(20,32,27, .86), rgba(20,32,27, .93)), linear-gradient(rgba(20, 32, 27, .6), rgba(20, 32, 27, .6)), url("/img/desert-road-winding-1600.webp") center / cover no-repeat; background-blend-mode: normal, multiply, normal; }
+.b-mock__bg { position: absolute; inset: 0; z-index: -2; background: var(--bg-2) url("/img/desert-road-winding-mock-1600.webp") center / cover no-repeat; }
 .b-mock__halo { position: absolute; z-index: -1; right: -10%; top: -10%; width: min(70vw, 900px); aspect-ratio: 1; pointer-events: none; background: radial-gradient(closest-side, rgba(227,176,75,.14), transparent 70%); }
 .b-mock__grid { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 5vw, 72px); align-items: start; }
 .b-mock__title { margin: 14px 0 20px; font: 700 clamp(2.2rem, 6vw, 4.8rem)/.98 var(--display); letter-spacing: -.03em; color: var(--text); }
@@ -147,3 +147,13 @@
 
 /* el atributo hidden debe ganar a cualquier display de las reglas b-* */
 [hidden]{display:none}
+
+/* sin precios: rotulo y cartel */
+.b-plan__price { flex-direction: column; align-items: flex-start; gap: 8px; }
+.b-plan__fixed { font: 700 clamp(2rem, 4.5vw, 3rem)/1 var(--display); letter-spacing: -.03em; color: var(--text); }
+.b-care__line { margin: 0; color: var(--text-2); font: 500 1rem/1.4 var(--sans); }
+.b-extra__price { font-size: clamp(.95rem, 1.8vw, 1.15rem); text-transform: uppercase; letter-spacing: .1em; }
+.b-quote { margin-top: clamp(16px, 2.4vw, 28px); display: grid; gap: 14px; justify-items: start; padding: clamp(28px, 4vw, 52px); border-radius: 28px; background: #f1e6cf; border: 2px solid var(--red); color: var(--text); }
+.b-quote__title { margin: 0; font: 700 clamp(1.9rem, 4.5vw, 3.2rem)/1.05 var(--display); letter-spacing: -.02em; color: var(--text); }
+.b-quote__text { margin: 0; max-width: 56ch; color: var(--text); font: 500 1.05rem/1.55 var(--sans); }
+.b-quote__btn { margin-top: 6px; background: var(--red); color: var(--red-ink); min-height: 52px; justify-content: center; text-align: center; }

@@ -10,10 +10,10 @@ const MODEL = '/demos/taller/3d/silverado-opt.glb';
 export function init(stage, canvas) {
   let renderer;
   try {
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: (window.devicePixelRatio || 1) < 1.5, alpha: true, powerPreference: 'high-performance' });
   } catch (e) { return; }
   renderer.setClearColor(0x000000, 0);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
 
@@ -59,14 +59,14 @@ export function init(stage, canvas) {
       (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => {
         if (m.name === 'Carpaint') paint.add(m); else if (/^Glass/.test(m.name)) glass.add(m);
         if (m.envMapIntensity !== undefined) m.envMapIntensity = 1.4;
-        for (const t of ['map', 'normalMap', 'roughnessMap', 'metalnessMap']) if (m[t]) m[t].anisotropy = 8;
+        for (const t of ['map', 'normalMap', 'roughnessMap', 'metalnessMap']) if (m[t]) m[t].anisotropy = 4;
       });
     });
     paint.forEach((m) => { m.map = null; m.color.set(PAINT); m.clearcoat = 1; m.clearcoatRoughness = 0.05; m.envMap = scene.environment; m.envMapIntensity = 0.85; m.needsUpdate = true; });
     glass.forEach((m) => { m.envMap = scene.environment; m.envMapIntensity = 3.2; m.needsUpdate = true; });
-    ready = true; resize(); draw();
-    stage.classList.add('is-3d');
-    if (visible) start();
+    /* compilar los shaders en paralelo (sin bloquear el hilo) antes del primer dibujo */
+    const go = () => { ready = true; resize(); draw(); stage.classList.add('is-3d'); if (visible) start(); };
+    if (renderer.compileAsync) renderer.compileAsync(scene, camera).then(go, go); else go();
   }, undefined, () => { /* si falla, se queda la imagen */ });
 
   function resize() {
@@ -82,7 +82,7 @@ export function init(stage, canvas) {
   /* Scroll acumulado: solo suma, y solo mientras la escena esta cerca de la pantalla */
   window.addEventListener('scroll', () => {
     const y = window.scrollY, d = Math.abs(y - lastY); lastY = y;
-    if (visible) acum += Math.min(d, 400);
+    if (visible) { acum += Math.min(d, 400); start(); }
   }, { passive: true });
 
   function draw() {
@@ -98,8 +98,10 @@ export function init(stage, canvas) {
     scene.environmentIntensity = 0.85 + 0.35 * env;
     renderer.render(scene, camera);
   }
+  /* render bajo demanda: el bucle se detiene cuando el giro ya alcanzo al scroll y se reanuda con el siguiente scroll */
   function frame() {
     smooth += (acum - smooth) * 0.08;
+    if (Math.abs(acum - smooth) < 0.05) { smooth = acum; draw(); raf = 0; return; }
     draw();
     raf = requestAnimationFrame(frame);
   }

@@ -23,102 +23,149 @@
     window.matchMedia('(min-width:900px)').addEventListener('change', function () { set(false); });
   })();
 
-  /* ---------- cabecera, barra de progreso ---------- */
-  var header = $('.site-header'), bar = $('.progress'), ticking = false;
+  /* ---------- cabecera, barra de progreso (alto del documento en cache: nada de leer layout en cada scroll) ---------- */
+  var header = $('.site-header'), bar = $('.progress'), ticking = false, maxScroll = 0, solid = false;
+  function measure() { maxScroll = doc.scrollHeight - window.innerHeight; }
   function onScroll() {
     ticking = false;
-    var y = window.scrollY, max = doc.scrollHeight - window.innerHeight;
-    if (header) header.classList.toggle('is-solid', y > 40);
-    if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0) + ')';
+    var y = window.scrollY, s = y > 40;
+    if (header && s !== solid) { solid = s; header.classList.toggle('is-solid', s); }
+    if (bar) bar.style.transform = 'scaleX(' + (maxScroll > 0 ? Math.min(1, y / maxScroll) : 0) + ')';
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-  window.addEventListener('resize', onScroll);
-  onScroll();
+  window.addEventListener('resize', function () { measure(); onScroll(); });
+  window.addEventListener('load', function () { measure(); onScroll(); });
+  if (window.ResizeObserver) new ResizeObserver(measure).observe(doc);
+  measure(); onScroll();
 
   /* ---------- fondo del body por seccion ---------- */
   (function () {
     var map = { 'bg': 'var(--bg)', 'bg-2': 'var(--bg-2)', 'bg-3': 'var(--bg-3)', 'bone': 'var(--bone)', 'bone-2': 'var(--bone-2)', 'red': 'var(--red)' };
     var secs = $$('main > section');
     if (!('IntersectionObserver' in window)) return;
-    var lastK = null, lastFx = 0, fxT = 0;
-    function shift() {
-      var now = Date.now();
-      if (reduce || !fine.matches || now - lastFx < 600) return;
-      lastFx = now; doc.classList.add('is-shift');
-      clearTimeout(fxT); fxT = setTimeout(function () { doc.classList.remove('is-shift'); }, 220);
-    }
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         if (!e.isIntersecting) return;
         var k = e.target.getAttribute('data-bg') || 'bg';
         document.body.style.setProperty('--page-bg', map[k] || k);
-        if (lastK !== null && k !== lastK) shift();
-        lastK = k;
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     secs.forEach(function (s) { io.observe(s); });
 /* cabecera: clara u oscura segun la seccion bajo ella (franja superior) */    var hio = new IntersectionObserver(function (es) {      es.forEach(function (e) {        if (!e.isIntersecting || !header) return;        header.classList.toggle('on-light', e.target.classList.contains('is-light'));      });    }, { rootMargin: '-2% 0px -94% 0px' });    secs.forEach(function (s) { hio.observe(s); });
   })();
 
-  /* ---------- iframes perezosos: uno a la vez ---------- */
-  var queue = [], busy = false;
-  /* poster del telefono: se desvanece (400 ms) cuando el iframe carga y luego queda hidden */
+  /* ---------- iframes: politica estricta. Solo tienen src los que se ven (hero 1, trabajos 1, comparador 2, hotspots 1);
+     el resto vuelve a su poster. Las cargas van en cola, de una en una. ---------- */
+  var queue = [], busy = false, curLoad = null, lastScrollT = 0;
+  /* las demos son del mismo origen (mismo hilo): nada de montar ni desmontar una durante el gesto de scroll, se espera a que pare */
+  window.addEventListener('scroll', function () { lastScrollT = performance.now(); }, { passive: true });
+  function scrolling() { return performance.now() - lastScrollT < 250; }
+  function isLive(f) { var s = f.getAttribute('src'); return !!s && s !== 'about:blank'; }
+  function posterOf(f) { return f.parentNode && f.parentNode.querySelector('.pf__poster'); }
+  /* poster: se desvanece (400 ms) cuando el iframe carga y luego queda hidden */
   function hidePoster(f) {
-    var p = f.parentNode && f.parentNode.querySelector('.pf__poster');
+    var p = posterOf(f);
     if (!p || p.hidden) return;
     if (reduce) { p.hidden = true; return; }
     p.classList.add('is-gone');
-    setTimeout(function () { p.hidden = true; }, 420);
+    setTimeout(function () { if (f.dataset.on === '1') p.hidden = true; }, 420);
   }
+  function showPoster(f) { var p = posterOf(f); if (p) { p.hidden = false; p.classList.remove('is-gone'); } }
   function pump() {
     if (busy || !queue.length) return;
+    if (scrolling()) { setTimeout(pump, 120); return; }
     var f = queue.shift();
-    if (f.getAttribute('src')) { pump(); return; }
+    if (f.dataset.on !== '1' || isLive(f)) { pump(); return; }
     busy = true;
     var done = false;
-    function fin() { if (done) return; done = true; f.classList.add('is-ready'); busy = false; setTimeout(pump, 150); }
-    f.addEventListener('load', function () { hidePoster(f); fin(); }, { once: true });
+    function fin() { if (done) return; done = true; if (curLoad && curLoad.f === f) curLoad = null; if (f.dataset.on === '1') f.classList.add('is-ready'); busy = false; setTimeout(pump, 150); }
+    curLoad = { f: f, fin: fin };
+    f.addEventListener('load', function () { if (f.dataset.on === '1') hidePoster(f); fin(); }, { once: true });
     setTimeout(fin, 7000);
     f.src = f.getAttribute('data-lazy');
   }
-  function watchIframes() {
-    var fr = $$('iframe[data-lazy]');
-    /* movil o ahorro de datos: en el hero solo carga el telefono central; los laterales se quedan con el poster */
-    var lite = window.matchMedia('(max-width:899px), (pointer:coarse)').matches || (navigator.connection && navigator.connection.saveData);
-    if (lite) fr = fr.filter(function (f) { return !f.closest('.phones'); }); /* en movil el carrusel carga el telefono activo (max. 2) */
-    if (!('IntersectionObserver' in window)) { fr.forEach(function (f) { queue.push(f); }); pump(); return; }
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        io.unobserve(e.target); queue.push(e.target); pump();
-      });
-    }, { rootMargin: '0px 0px -25% 0px' });
-    fr.forEach(function (f) { io.observe(f); });
+  function loadFrame(f) {
+    if (!f) return;
+    f.dataset.on = '1';
+    if (isLive(f) || queue.indexOf(f) > -1) return;
+    queue.push(f); pump();
   }
-  if (document.readyState === 'complete') watchIframes(); else window.addEventListener('load', function () { setTimeout(watchIframes, 200); });
+  function unloadFrame(f) {
+    if (!f) return;
+    f.dataset.on = '0';
+    var q = queue.indexOf(f); if (q > -1) queue.splice(q, 1);
+    if (!isLive(f)) return;
+    if (curLoad && curLoad.f === f) curLoad.fin();
+    (function blank() {
+      if (f.dataset.on !== '0' || !isLive(f)) return;
+      if (scrolling()) { setTimeout(blank, 150); return; }
+      f.classList.remove('is-ready'); showPoster(f);
+      f.src = 'about:blank';
+      f.addEventListener('load', function () { if (f.getAttribute('src') === 'about:blank') f.removeAttribute('src'); }, { once: true });
+    })();
+  }
+  /* observa un elemento con margen: on() al acercarse, off() al alejarse; sin IntersectionObserver, on() de una vez */
+  function near(el, margin, on, off) {
+    if (!el) return;
+    if (!('IntersectionObserver' in window)) { on(); return; }
+    new IntersectionObserver(function (es) { if (es[es.length - 1].isIntersecting) on(); else off(); }, { rootMargin: margin + ' 0px ' + margin + ' 0px' }).observe(el);
+  }
+  function framesOf(root) { return $$('iframe[data-lazy]', root); }
+
+  /* comparador y hotspots: cargan al acercarse (menos de ~1 pantalla) y descargan al alejarse */
+  [$('#compare'), $('#features')].forEach(function (sec) {
+    var fr = framesOf(sec);
+    if (!sec || !fr.length) return;
+    function start() { near(sec, '35%', function () { fr.forEach(loadFrame); }, function () { fr.forEach(unloadFrame); }); }
+    if (document.readyState === 'complete') setTimeout(start, 200); else window.addEventListener('load', function () { setTimeout(start, 200); });
+  });
+
+  /* trabajos: solo el panel activo del stack (el ultimo que ha entrado) tiene su iframe vivo: portatil >=900, telefono <900 */
+  (function () {
+    var panels = $$('.stack .panel');
+    if (!panels.length) return;
+    var wide = window.matchMedia('(min-width:900px)'), seen = [];
+    function pick(p) { return $(wide.matches ? '.laptop__screen iframe' : '.panel__phone iframe', p); }
+    function apply() {
+      var top = -1;
+      panels.forEach(function (p, i) { if (seen[i]) top = i; });
+      panels.forEach(function (p, i) {
+        var keep = i === top ? pick(p) : null;
+        framesOf(p).forEach(function (f) { if (f === keep) loadFrame(f); else unloadFrame(f); });
+      });
+    }
+    function start() {
+      if (!('IntersectionObserver' in window)) { seen[0] = true; apply(); return; }
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { seen[panels.indexOf(e.target)] = e.isIntersecting; });
+        apply();
+      }, { rootMargin: '0px 0px -10% 0px' });
+      panels.forEach(function (p) { io.observe(p); });
+      if (wide.addEventListener) wide.addEventListener('change', apply);
+    }
+    if (document.readyState === 'complete') setTimeout(start, 200); else window.addEventListener('load', function () { setTimeout(start, 200); });
+  })();
+
+  /* animaciones infinitas (marquee, vaiven de telefonos, puntos, borde conico) en pausa fuera de pantalla */
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.classList.toggle('is-off', !e.isIntersecting); }); }, { rootMargin: '10% 0px 10% 0px' });
+    $$('.marquee, .hero, .hs, .b-plan--main').forEach(function (el) { io.observe(el); });
+  })();
 
   /* ---------- hero: carrusel de telefonos (abanico 3D; deslizar, flechas, puntos, teclado) ---------- */
   (function () {
     var car = $('.pcar'), box = $('.phones');
     if (!car || !box) return;
     var mq = window.matchMedia('(max-width:899px), (pointer:coarse)');
-    var slides = $$('.pf', box), dots = $$('.pnav__dot', car), n = slides.length, cur = 1, loaded = [], loadT = 0;
+    var slides = $$('.pf', box), dots = $$('.pnav__dot', car), n = slides.length, cur = 1, loadT = 0, ready = false, heroOn = true;
     function mob() { return mq.matches; }
     function frame(i) { return $('iframe[data-lazy]', slides[i]); }
-    function unload(i) {
-      var f = frame(i), p = $('.pf__poster', slides[i]);
-      if (!f || !f.getAttribute('src')) return;
-      f.src = 'about:blank'; f.classList.remove('is-ready');
-      if (p) { p.hidden = false; p.classList.remove('is-gone'); }
-    }
+    /* en el hero vive como mucho 1 iframe: el del telefono central; al rotar, sale el viejo y entra el nuevo */
     function load(i) {
-      var f = frame(i); if (!f) return;
-      var at = loaded.indexOf(i); if (at > -1) loaded.splice(at, 1);
-      loaded.push(i);
-      while (loaded.length > 2) unload(loaded.shift());
-      if (f.getAttribute('src') === 'about:blank') f.removeAttribute('src');
-      if (!f.getAttribute('src')) { queue.push(f); pump(); }
+      slides.forEach(function (s, k) { var f = frame(k); if (k === i && ready && heroOn) loadFrame(f); else unloadFrame(f); });
     }
+    near(box, '100%', function () { heroOn = true; load(cur); }, function () { heroOn = false; load(cur); });
     /* marcos fluidos de #work: escala por ancho y alto del iframe segun la pantalla (tope 62vh) */
     function fit() {
       $$('.pf--fluid').forEach(function (pf) {
@@ -136,7 +183,8 @@
       });
       dots.forEach(function (d, i) { if (i === cur) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
       clearTimeout(loadT);
-      if (mob()) loadT = setTimeout(function () { load(cur); }, 180);
+      slides.forEach(function (s2, k) { if (k !== cur) unloadFrame(frame(k)); });
+      if (ready) loadT = setTimeout(function () { load(cur); }, 180);
     }
     function go(i) { cur = (i % n + n) % n; paint(); }
     function openDemo(i) { var h = $('.pf__hit', slides[i]); if (h) window.open(h.getAttribute('href'), '_blank', 'noopener'); }
@@ -177,7 +225,7 @@
     window.addEventListener('resize', fit);
     if (mq.addEventListener) mq.addEventListener('change', paint);
     paint(); fit();
-    function start() { fit(); if (mob()) load(cur); }
+    function start() { fit(); ready = true; load(cur); }
     if (document.readyState === 'complete') setTimeout(start, 250); else window.addEventListener('load', function () { setTimeout(start, 250); });
   })();
 
@@ -306,10 +354,10 @@
       if (f < 0 || (f === shown && !force)) return;
       shown = f; cx.clearRect(0, 0, cv.width, cv.height); cx.drawImage(frames[f], 0, 0, cv.width, cv.height);
     }
-    function tick() { sm += (acc - sm) * 0.12; if (Math.abs(acc - sm) < 0.5) sm = acc; paint(); raf = requestAnimationFrame(tick); }
+    function tick() { sm += (acc - sm) * 0.12; if (Math.abs(acc - sm) < 0.5) sm = acc; paint(); raf = sm === acc ? 0 : requestAnimationFrame(tick); }
     window.addEventListener('scroll', function () {
       var y = window.scrollY, d = Math.abs(y - lastY); lastY = y;
-      if (visible) acc += Math.min(d, 400);
+      if (visible) { acc += Math.min(d, 400); if (!raf) raf = requestAnimationFrame(tick); }
     }, { passive: true });
     new IntersectionObserver(function (es) {
       visible = es[0].isIntersecting; lastY = window.scrollY;
@@ -398,30 +446,34 @@
     var dot = $('.cursor-dot'), ring = $('.cursor-ring'), phones = $('.phones'), hero = $('.hero');
     if (!dot || !ring) return;
     doc.classList.add('has-cursor');
-    var mx = 0, my = 0, rx = 0, ry = 0, px = 0, py = 0, tx = 0, ty = 0, raf = 0;
+    var mx = 0, my = 0, rx = 0, ry = 0, px = 0, py = 0, tx = 0, ty = 0, raf = 0, heroOn = false, isHot = false, isTxt = false;
+    /* el bucle solo corre mientras algo se mueve; las variables del parallax solo se escriben con el hero a la vista */
     function loop() {
       rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
       px += (tx - px) * 0.06; py += (ty - py) * 0.06;
-      ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0)';
-      if (phones) { phones.style.setProperty('--mx', px.toFixed(3)); phones.style.setProperty('--my', py.toFixed(3)); }
+      ring.style.transform = 'translate3d(' + rx.toFixed(2) + 'px,' + ry.toFixed(2) + 'px,0)';
+      if (phones && heroOn) { phones.style.setProperty('--mx', px.toFixed(3)); phones.style.setProperty('--my', py.toFixed(3)); }
+      if (Math.abs(mx - rx) < 0.1 && Math.abs(my - ry) < 0.1 && (!heroOn || (Math.abs(tx - px) < 0.002 && Math.abs(ty - py) < 0.002))) { raf = 0; return; }
       raf = requestAnimationFrame(loop);
     }
+    function kick() { if (!raf) raf = requestAnimationFrame(loop); }
+    if (hero && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { heroOn = es[0].isIntersecting; if (heroOn) kick(); }).observe(hero);
     window.addEventListener('mousemove', function (e) {
       mx = e.clientX; my = e.clientY;
       dot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)';
       if (!doc.classList.contains('cur-on')) { rx = mx; ry = my; doc.classList.add('cur-on'); }
       var t = e.target;
-      ring.classList.toggle('is-hot', !!(t.closest && t.closest('a,button,summary,label,select,[data-cursor]')));
-      doc.classList.toggle('cur-text', !!(t.closest && t.closest('input,textarea')));
-      if (hero) {
-        var r = hero.getBoundingClientRect();
-        if (e.clientY < r.bottom && e.clientY > r.top) { tx = (e.clientX / window.innerWidth - 0.5) * 2; ty = (e.clientY / window.innerHeight - 0.5) * 2; }
-      }
+      var hot = !!(t.closest && t.closest('a,button,summary,label,select,[data-cursor]'));
+      if (hot !== isHot) { isHot = hot; ring.classList.toggle('is-hot', hot); }
+      var txt = !!(t.closest && t.closest('input,textarea'));
+      if (txt !== isTxt) { isTxt = txt; doc.classList.toggle('cur-text', txt); }
+      if (heroOn && t.closest && t.closest('.hero')) { tx = (e.clientX / window.innerWidth - 0.5) * 2; ty = (e.clientY / window.innerHeight - 0.5) * 2; }
+      kick();
     }, { passive: true });
-    document.addEventListener('mouseleave', function () { doc.classList.remove('cur-on'); tx = ty = 0; });
-    raf = requestAnimationFrame(loop);
+    document.addEventListener('mouseleave', function () { doc.classList.remove('cur-on'); tx = ty = 0; kick(); });
+    kick();
     fine.addEventListener('change', function () {
-      if (!fine.matches) { cancelAnimationFrame(raf); doc.classList.remove('has-cursor', 'cur-on'); if (phones) { phones.style.removeProperty('--mx'); phones.style.removeProperty('--my'); } }
+      if (!fine.matches) { cancelAnimationFrame(raf); raf = 0; doc.classList.remove('has-cursor', 'cur-on'); if (phones) { phones.style.removeProperty('--mx'); phones.style.removeProperty('--my'); } }
     });
   })();
 
@@ -438,7 +490,11 @@
     $$('a[href^="#"]').forEach(function (a) {
       a.addEventListener('click', function (e) {
         var id = a.getAttribute('href'), el = id.length > 1 && document.querySelector(id);
-        if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -70 }); }
+        if (el) {
+          e.preventDefault();
+          /* las secciones con content-visibility cambian de altura al pintarse: al llegar, se corrige la desviacion */
+          lenis.scrollTo(el, { offset: -70, onComplete: function () { if (Math.abs(el.getBoundingClientRect().top - 70) > 3) lenis.scrollTo(el, { offset: -70, immediate: true }); } });
+        }
       });
     });
   }
