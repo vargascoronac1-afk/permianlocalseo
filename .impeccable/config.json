@@ -38,6 +38,15 @@
         ],
         "createdAt": "2026-10-24T07:00:44.032Z",
         "reason": "Dirección del director aprobada por Carlos: cartel de menú sobre crema con grano de papel, deliberado para la taquería"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "demos/electricista/index.html"
+        ],
+        "createdAt": "2026-10-24T07:35:27.760Z",
+        "reason": "Pulso luminoso de los hotspots sobre la foto del panel: señal de interacción deliberada, aprobada por el director"
       }
     ]
   }
