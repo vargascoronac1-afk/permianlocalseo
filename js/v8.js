@@ -97,12 +97,12 @@
   }
   if (document.readyState === 'complete') watchIframes(); else window.addEventListener('load', function () { setTimeout(watchIframes, 200); });
 
-  /* ---------- hero: carrusel de telefonos (abanico 3D en escritorio, scroll-snap en movil) ---------- */
+  /* ---------- hero: carrusel de telefonos (abanico 3D; deslizar, flechas, puntos, teclado) ---------- */
   (function () {
     var car = $('.pcar'), box = $('.phones');
     if (!car || !box) return;
     var mq = window.matchMedia('(max-width:899px), (pointer:coarse)');
-    var slides = $$('.pf', box), dots = $$('.pnav__dot', car), n = slides.length, cur = 1, loaded = [], loadT = 0, rafId = 0; /* rafId: temporizador del scroll */
+    var slides = $$('.pf', box), dots = $$('.pnav__dot', car), n = slides.length, cur = 1, loaded = [], loadT = 0;
     function mob() { return mq.matches; }
     function frame(i) { return $('iframe[data-lazy]', slides[i]); }
     function unload(i) {
@@ -119,18 +119,15 @@
       if (f.getAttribute('src') === 'about:blank') f.removeAttribute('src');
       if (!f.getAttribute('src')) { queue.push(f); pump(); }
     }
+    /* marcos fluidos de #work: escala por ancho y alto del iframe segun la pantalla (tope 62vh) */
     function fit() {
-      var m = mob();
-      $$('.pf', box).concat($$('.pf--fluid')).forEach(function (pf) {
-        var sc = $('.pf__screen', pf), w = sc && sc.clientWidth;
-        if (pf.parentNode === box && !m) { pf.style.removeProperty('--k'); return; }
-        if (w) pf.style.setProperty('--k', (w / 375).toFixed(4));
+      $$('.pf--fluid').forEach(function (pf) {
+        var sc = $('.pf__screen', pf), f = $('iframe', pf), w = sc && sc.clientWidth;
+        if (!w || !f) return;
+        var k = w / 375;
+        pf.style.setProperty('--k', k.toFixed(4));
+        f.style.height = (sc.clientHeight / k).toFixed(1) + 'px';
       });
-    }
-    function center(i, instant) {
-      if (!mob()) return;
-      var s = slides[i];
-      box.scrollTo({ left: s.offsetLeft - (box.clientWidth - s.offsetWidth) / 2, behavior: (instant || reduce) ? 'auto' : 'smooth' });
     }
     function paint() {
       slides.forEach(function (s, i) {
@@ -141,38 +138,47 @@
       clearTimeout(loadT);
       if (mob()) loadT = setTimeout(function () { load(cur); }, 180);
     }
-    function go(i, fromScroll) {
-      i = (i % n + n) % n;
-      var same = i === cur; cur = i; paint();
-      if (!fromScroll && (!same || mob())) center(i);
-    }
-    function nearest() {
-      var mid = box.scrollLeft + box.clientWidth / 2, best = 0, bd = 1e9;
-      slides.forEach(function (s, i) { var d = Math.abs(s.offsetLeft + s.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = i; } });
-      return best;
-    }
-    box.addEventListener('scroll', function () {
-      if (!mob()) return;
-      clearTimeout(rafId);
-      rafId = setTimeout(function () { var i = nearest(); if (i !== cur) go(i, true); }, 70);
-    }, { passive: true });
+    function go(i) { cur = (i % n + n) % n; paint(); }
+    function openDemo(i) { var h = $('.pf__hit', slides[i]); if (h) window.open(h.getAttribute('href'), '_blank', 'noopener'); }
     $$('.pnav__arrow', car).forEach(function (b) { b.addEventListener('click', function () { go(cur + Number(b.getAttribute('data-dir'))); }); });
     dots.forEach(function (d) { d.addEventListener('click', function () { go(Number(d.getAttribute('data-go'))); }); });
+    /* deslizar: gesto horizontal sobre .phones rota el abanico */
+    var sx = 0, sy = 0, sid = -1, swiped = 0;
+    box.addEventListener('pointerdown', function (e) { if (e.pointerType === 'mouse' && e.button !== 0) return; sx = e.clientX; sy = e.clientY; sid = e.pointerId; swiped = false; });
+    box.addEventListener('pointerup', function (e) {
+      if (e.pointerId !== sid) return; sid = -1;
+      var dx = e.clientX - sx, dy = e.clientY - sy;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) { swiped = Date.now(); go(cur + (dx < 0 ? 1 : -1)); }
+    });
+    box.addEventListener('pointercancel', function () { sid = -1; });
+    /* toque: lateral -> al centro; central -> doble toque (<350 ms) abre el demo */
+    var lastT = 0, lastI = -1;
     slides.forEach(function (s, i) {
       var hit = $('.pf__hit', s);
-      if (hit) hit.addEventListener('click', function (e) { if (i !== cur) { e.preventDefault(); go(i); } });
+      if (!hit) return;
+      hit.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (swiped && Date.now() - swiped < 400) { swiped = false; return; }
+        var now = Date.now();
+        if (i !== cur) { go(i); lastI = -1; return; }
+        if (lastI === i && now - lastT < 350) { lastI = -1; openDemo(i); return; }
+        lastI = i; lastT = now;
+      });
     });
     car.addEventListener('keydown', function (e) {
-      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-      e.preventDefault(); go(cur + (e.key === 'ArrowRight' ? 1 : -1));
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); go(cur + (e.key === 'ArrowRight' ? 1 : -1)); }
+      else if (e.key === 'Enter' && e.target === car) { e.preventDefault(); openDemo(cur); }
     });
-    function layout() { fit(); center(cur, true); }
-    if (window.ResizeObserver) new ResizeObserver(fit).observe(box); else window.addEventListener('resize', fit);
-    if (mq.addEventListener) mq.addEventListener('change', function () { layout(); paint(); });
+    $$('.pf--fluid').forEach(function (pf) {
+      if (window.ResizeObserver) new ResizeObserver(fit).observe(pf);
+      var f = $('iframe', pf);
+      if (f) f.addEventListener('load', function () { try { f.contentDocument.documentElement.style.overscrollBehavior = 'contain'; } catch (x) {} });
+    });
+    window.addEventListener('resize', fit);
+    if (mq.addEventListener) mq.addEventListener('change', paint);
     paint(); fit();
-    function start() { layout(); if (mob()) load(cur); }
+    function start() { fit(); if (mob()) load(cur); }
     if (document.readyState === 'complete') setTimeout(start, 250); else window.addEventListener('load', function () { setTimeout(start, 250); });
-    $$('.pf--fluid').forEach(function (pf) { if (window.ResizeObserver) new ResizeObserver(fit).observe(pf); });
   })();
 
   /* ---------- marcos de portatil: escala del iframe segun el ancho ---------- */
