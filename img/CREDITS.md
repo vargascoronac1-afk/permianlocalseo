@@ -103,9 +103,9 @@ Imagenes generadas con Pillow a partir de las originales de arriba, mismo autor 
 
 | Archivo derivado | Original | Autor | Licencia |
 |---|---|---|---|
-| pumpjacks-golden-grass-duo-960.webp, pumpjacks-golden-grass-duo-1600.webp (duotono verde/arena) | pumpjacks-golden-grass | Alissa Schilling | Unsplash License |
-| v8/highway-night-tint-480.webp, -960.webp, -1600.webp (tinte verde) | v8/highway-night-* | Akin Cakiner | Unsplash License |
-| v8/screen-neon-tint-960.webp, -1600.webp (gris sobre hueso) | v8/screen-neon-* | Jakub Zerdzicki | Unsplash License |
-| desert-road-winding-mock-1600.webp (oscurecida con degradado) | desert-road-winding | (ver la fila de desert-road-winding) | Unsplash License |
+| pumpjacks-golden-grass-duo-960.webp, pumpjacks-golden-grass-duo-1600.webp (duotono negro a rojo) | pumpjacks-golden-grass | Alissa Schilling | Unsplash License |
+| v8/highway-night-tint-480.webp, -960.webp, -1600.webp (blanco y negro, contraste alto, azul leve en sombras) | v8/highway-night-* | Akin Cakiner | Unsplash License |
+| v8/screen-neon-tint-960.webp, -1600.webp (blanco y negro con leve azul) | v8/screen-neon-* | Jakub Zerdzicki | Unsplash License |
+| desert-road-winding-mock-1600.webp (blanco y negro muy oscura) | desert-road-winding | (ver la fila de desert-road-winding) | Unsplash License |
 
 grain.png (ruido generado, sin fuente) y posters/*-laptop.webp (capturas de nuestras propias demos) no son fotos de terceros.

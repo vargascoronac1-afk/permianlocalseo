@@ -40,14 +40,24 @@
 
   /* ---------- fondo del body por seccion ---------- */
   (function () {
-    var map = { 'bg': 'var(--bg)', 'bg-2': 'var(--bg-2)', 'bg-3': 'var(--bg-3)', 'bone': 'var(--bone)', 'bone-2': 'var(--bone-2)', 'red': 'var(--red)' };
+    var map = { 'bg': 'var(--bg)', 'bg-2': 'var(--bg-2)', 'bg-3': 'var(--bg-3)', 'bone': 'var(--bone)', 'bone-2': 'var(--bone-2)' };
     var secs = $$('main > section');
     if (!('IntersectionObserver' in window)) return;
+    /* barra segmentada del hero: seccion numerada vigente (01-09) por el eyebrow "// NN" */
+    var segs = $$('.hprog__segs i'), nEl = document.querySelector('.hprog__n'), cur = 1;
+    secs.forEach(function (s) { var eb = s.querySelector('.eyebrow'), m = eb && /\/\/\s*(\d\d)/.exec(eb.textContent); if (m) cur = +m[1]; s._n = cur; });
+    function prog(n) {
+      if (nEl) nEl.textContent = (n < 10 ? '0' : '') + n;
+      var on = Math.ceil(n / 9 * segs.length);
+      segs.forEach(function (g, i) { g.classList.toggle('on', i < on); });
+    }
+    prog(1);
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         if (!e.isIntersecting) return;
         var k = e.target.getAttribute('data-bg') || 'bg';
         document.body.style.setProperty('--page-bg', map[k] || k);
+        prog(e.target._n || 1);
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     secs.forEach(function (s) { io.observe(s); });
