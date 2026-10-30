@@ -364,7 +364,7 @@
     var io = new IntersectionObserver(function (es) {
       if (started || !es[0].isIntersecting) return;
       started = true; io.disconnect();
-      import('/js/v8-3d.js').then(function (m) { m.init(stage, canvas); }).catch(function (e) { if (window.console) console.warn('3D no disponible', e); });
+      import('js/v8-3d.js').then(function (m) { m.init(stage, canvas); }).catch(function (e) { if (window.console) console.warn('3D no disponible', e); });
     }, { rootMargin: '100% 0px 100% 0px' });
     io.observe(sec);
   })();
@@ -374,7 +374,7 @@
     var stage = $('#stage3d'), img = stage && $('.stage3d__img', stage), sec = $('#extras');
     if (!stage || !img || !sec || (!reduce && fine.matches)) return;
     if (!reduce && $('.v9-truck__cv', sec)) return; /* v9: la secuencia a pantalla completa (v9-intro.js) sustituye a esta */
-    var N = 36, dir = (window.devicePixelRatio || 1) >= 2 && !(navigator.connection && navigator.connection.saveData) ? '/img/silverado/36/' : '/img/silverado/36s/';
+    var N = 36, dir = (window.devicePixelRatio || 1) >= 2 && !(navigator.connection && navigator.connection.saveData) ? 'img/silverado/36/' : 'img/silverado/36s/';
     function src(i) { return dir + ('000' + i).slice(-4) + '.webp'; }
     img.src = src(0); img.removeAttribute('loading'); img.width = 900; img.height = 535;
     if (reduce || !('IntersectionObserver' in window)) return; /* vista fija 0 */

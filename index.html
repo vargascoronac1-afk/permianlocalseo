@@ -12,9 +12,9 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" href="/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/instrument.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/instrument.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.add("js")</script>
 <script>if(/[?&]ideas=1(&|$)/.test(location.search))document.documentElement.classList.add("ideas")</script>
 <meta property="og:type" content="website">
@@ -27,11 +27,11 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="A pump jack silhouetted against a red West Texas style sunset">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" as="image" type="image/webp" fetchpriority="high" imagesrcset="/img/v8/highway-night-tint-480.webp 480w, /img/v8/highway-night-tint-960.webp 960w, /img/v8/highway-night-tint-1600.webp 1600w" imagesizes="100vw">
-<link rel="stylesheet" href="/css/v8.css">
-<link rel="stylesheet" href="/css/v8-b.css">
-<link rel="stylesheet" href="/css/v9-intro.css">
-<script type="importmap">{"imports":{"three":"/js/vendor/three/three.module.js","three/addons/":"/js/vendor/three/"}}</script>
+<link rel="preload" as="image" type="image/webp" fetchpriority="high" imagesrcset="img/v8/highway-night-tint-480.webp 480w, img/v8/highway-night-tint-960.webp 960w, img/v8/highway-night-tint-1600.webp 1600w" imagesizes="100vw">
+<link rel="stylesheet" href="css/v8.css">
+<link rel="stylesheet" href="css/v8-b.css">
+<link rel="stylesheet" href="css/v9-intro.css">
+<script type="importmap">{"imports":{"three":"js/vendor/three/three.module.js","three/addons/":"js/vendor/three/"}}</script>
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -145,7 +145,7 @@
   <!-- 0. CARRETERA (v9): secuencia de fotogramas en canvas, scrub con la rueda. El poster es la foto antigua (fallback sin JS). -->
   <section class="v9-road" id="road" data-bg="bg" aria-label="A highway at night" data-i18n-aria="v9_a_road">
     <div class="v9-road__stage">
-      <img class="v9-road__poster" src="/img/v8/highway-night-tint-1600.webp" srcset="/img/v8/highway-night-tint-480.webp 480w, /img/v8/highway-night-tint-960.webp 960w, /img/v8/highway-night-tint-1600.webp 1600w" sizes="100vw" width="1600" height="1067" fetchpriority="high" decoding="async" alt="">
+      <img class="v9-road__poster" src="img/v8/highway-night-tint-1600.webp" srcset="img/v8/highway-night-tint-480.webp 480w, img/v8/highway-night-tint-960.webp 960w, img/v8/highway-night-tint-1600.webp 1600w" sizes="100vw" width="1600" height="1067" fetchpriority="high" decoding="async" alt="">
       <canvas class="v9-cv v9-road__cv" data-clip="intro-a" data-count="90" aria-hidden="true"></canvas>
       <canvas class="v9-cv v9-road__cv v9-road__cv--b" data-clip="intro-b" data-count="90" aria-hidden="true"></canvas>
       <div class="v9-road__shade" aria-hidden="true"></div>
@@ -181,25 +181,25 @@
       <div class="phones" role="group" aria-label="Three demo websites on phones" data-i18n-aria="v8_a_phones">
         <div class="pf" data-pos="l" data-i="0" role="group" aria-roledescription="slide" aria-label="1 / 3"><div class="pf__in"><div class="pf__body"><div class="pf__screen">
           <span class="pf__chip" data-i18n="demo">Demo</span>
-          <img class="pf__poster" src="/img/posters/electricista.webp" width="640" height="1385" alt="" decoding="async">
-          <iframe data-lazy="/demos/electricista/" title="Demo website: electrician" data-i18n-title="t_electricista" tabindex="-1" width="375" height="740"></iframe>
-          <a class="pf__hit" href="/demos/electricista/" target="_blank" rel="noopener" tabindex="-1" aria-label="Open the electrician demo website"></a>
+          <img class="pf__poster" src="img/posters/electricista.webp" width="640" height="1385" alt="" decoding="async">
+          <iframe data-lazy="demos/electricista/" title="Demo website: electrician" data-i18n-title="t_electricista" tabindex="-1" width="375" height="740"></iframe>
+          <a class="pf__hit" href="demos/electricista/" target="_blank" rel="noopener" tabindex="-1" aria-label="Open the electrician demo website"></a>
         </div></div></div>
-        <a class="btn pf__open" href="/demos/electricista/" target="_blank" rel="noopener" aria-label="Open demo: Electrician" data-i18n-aria="wa_electricista"><span data-i18n="v8_pc_open">Open demo ↗</span></a></div>
+        <a class="btn pf__open" href="demos/electricista/" target="_blank" rel="noopener" aria-label="Open demo: Electrician" data-i18n-aria="wa_electricista"><span data-i18n="v8_pc_open">Open demo ↗</span></a></div>
         <div class="pf" data-pos="c" data-i="1" role="group" aria-roledescription="slide" aria-label="2 / 3"><div class="pf__in"><div class="pf__body"><div class="pf__screen">
           <span class="pf__chip" data-i18n="demo">Demo</span>
-          <img class="pf__poster" src="/img/posters/taller.webp" width="640" height="1385" alt="" decoding="async">
-          <iframe data-lazy="/demos/taller/" title="Demo website: auto repair shop" data-i18n-title="t_taller" tabindex="-1" width="375" height="740"></iframe>
-          <a class="pf__hit" href="/demos/taller/" target="_blank" rel="noopener" tabindex="-1" aria-label="Open the auto repair demo website"></a>
+          <img class="pf__poster" src="img/posters/taller.webp" width="640" height="1385" alt="" decoding="async">
+          <iframe data-lazy="demos/taller/" title="Demo website: auto repair shop" data-i18n-title="t_taller" tabindex="-1" width="375" height="740"></iframe>
+          <a class="pf__hit" href="demos/taller/" target="_blank" rel="noopener" tabindex="-1" aria-label="Open the auto repair demo website"></a>
         </div></div></div>
-        <a class="btn pf__open" href="/demos/taller/" target="_blank" rel="noopener" aria-label="Open demo: Auto repair shop" data-i18n-aria="wa_taller"><span data-i18n="v8_pc_open">Open demo ↗</span></a></div>
+        <a class="btn pf__open" href="demos/taller/" target="_blank" rel="noopener" aria-label="Open demo: Auto repair shop" data-i18n-aria="wa_taller"><span data-i18n="v8_pc_open">Open demo ↗</span></a></div>
         <div class="pf" data-pos="r" data-i="2" role="group" aria-roledescription="slide" aria-label="3 / 3"><div class="pf__in"><div class="pf__body"><div class="pf__screen">
           <span class="pf__chip" data-i18n="demo">Demo</span>
-          <img class="pf__poster" src="/img/posters/taqueria.webp" width="640" height="1385" alt="" decoding="async">
-          <iframe data-lazy="/demos/taqueria/" title="Demo website: taquería" data-i18n-title="t_taqueria" tabindex="-1" width="375" height="740"></iframe>
-          <a class="pf__hit" href="/demos/taqueria/" target="_blank" rel="noopener" tabindex="-1" aria-label="Open the taquería demo website"></a>
+          <img class="pf__poster" src="img/posters/taqueria.webp" width="640" height="1385" alt="" decoding="async">
+          <iframe data-lazy="demos/taqueria/" title="Demo website: taquería" data-i18n-title="t_taqueria" tabindex="-1" width="375" height="740"></iframe>
+          <a class="pf__hit" href="demos/taqueria/" target="_blank" rel="noopener" tabindex="-1" aria-label="Open the taquería demo website"></a>
         </div></div></div>
-        <a class="btn pf__open" href="/demos/taqueria/" target="_blank" rel="noopener" aria-label="Open demo: Taquería" data-i18n-aria="wa_taqueria"><span data-i18n="v8_pc_open">Open demo ↗</span></a></div>
+        <a class="btn pf__open" href="demos/taqueria/" target="_blank" rel="noopener" aria-label="Open demo: Taquería" data-i18n-aria="wa_taqueria"><span data-i18n="v8_pc_open">Open demo ↗</span></a></div>
       </div>
       <div class="pnav">
         <button class="pnav__arrow" type="button" data-dir="-1" aria-label="Previous demo" data-i18n-aria="v8_pc_prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -215,8 +215,8 @@
     </div>
     <div class="marquee" role="group" aria-label="Business types we build for" data-i18n-aria="v8_a_sectors">
       <div class="marquee__track">
-        <ul class="marquee__set"><li class="chip"><img src="/img/sector-autoshops-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_auto">Auto repair</span></li><li class="chip"><img src="/img/recortes/electricista-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_elec">Electricians</span></li><li class="chip"><img src="/img/sector-hvac-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_hvac">HVAC</span></li><li class="chip"><img src="/img/sector-roofers-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_roof">Roofing</span></li><li class="chip"><img src="/img/recortes/tacos-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_taq">Taquerías</span></li><li class="chip"><img src="/img/sector-salons-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_salon">Salons</span></li><li class="chip"><img src="/img/sector-dentists-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_dent">Dentists</span></li><li class="chip"><img src="/img/sector-attorneys-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_att">Attorneys</span></li><li class="chip"><img src="/img/sector-oilfield-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_oil">Oilfield services</span></li></ul>
-        <ul class="marquee__set" aria-hidden="true"><li class="chip"><img src="/img/sector-autoshops-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_auto">Auto repair</span></li><li class="chip"><img src="/img/recortes/electricista-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_elec">Electricians</span></li><li class="chip"><img src="/img/sector-hvac-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_hvac">HVAC</span></li><li class="chip"><img src="/img/sector-roofers-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_roof">Roofing</span></li><li class="chip"><img src="/img/recortes/tacos-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_taq">Taquerías</span></li><li class="chip"><img src="/img/sector-salons-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_salon">Salons</span></li><li class="chip"><img src="/img/sector-dentists-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_dent">Dentists</span></li><li class="chip"><img src="/img/sector-attorneys-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_att">Attorneys</span></li><li class="chip"><img src="/img/sector-oilfield-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_oil">Oilfield services</span></li></ul>
+        <ul class="marquee__set"><li class="chip"><img src="img/sector-autoshops-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_auto">Auto repair</span></li><li class="chip"><img src="img/recortes/electricista-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_elec">Electricians</span></li><li class="chip"><img src="img/sector-hvac-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_hvac">HVAC</span></li><li class="chip"><img src="img/sector-roofers-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_roof">Roofing</span></li><li class="chip"><img src="img/recortes/tacos-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_taq">Taquerías</span></li><li class="chip"><img src="img/sector-salons-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_salon">Salons</span></li><li class="chip"><img src="img/sector-dentists-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_dent">Dentists</span></li><li class="chip"><img src="img/sector-attorneys-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_att">Attorneys</span></li><li class="chip"><img src="img/sector-oilfield-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_oil">Oilfield services</span></li></ul>
+        <ul class="marquee__set" aria-hidden="true"><li class="chip"><img src="img/sector-autoshops-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_auto">Auto repair</span></li><li class="chip"><img src="img/recortes/electricista-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_elec">Electricians</span></li><li class="chip"><img src="img/sector-hvac-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_hvac">HVAC</span></li><li class="chip"><img src="img/sector-roofers-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_roof">Roofing</span></li><li class="chip"><img src="img/recortes/tacos-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_taq">Taquerías</span></li><li class="chip"><img src="img/sector-salons-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_salon">Salons</span></li><li class="chip"><img src="img/sector-dentists-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_dent">Dentists</span></li><li class="chip"><img src="img/sector-attorneys-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_att">Attorneys</span></li><li class="chip"><img src="img/sector-oilfield-640.webp" width="160" height="100" loading="lazy" decoding="async" alt=""><span data-i18n="v8_s_oil">Oilfield services</span></li></ul>
       </div>
     </div>
   </section>
@@ -264,60 +264,60 @@
           <p class="panel__label" data-i18n="v8_demo_fict">Demo — fictional business</p>
           <h3 data-i18n="w_taller">Auto repair shop</h3>
           <ul class="panel__list"><li data-i18n="v8_wt1">3D truck that turns as you scroll</li><li data-i18n="v8_wt2">Hours, day by day</li><li data-i18n="v8_wt3">FAQ in pixel style</li></ul>
-          <a class="btn" href="/demos/taller/" target="_blank" rel="noopener" aria-label="Open demo: Auto repair shop" data-i18n-aria="wa_taller"><span data-i18n="w_open">Open demo</span></a>
+          <a class="btn" href="demos/taller/" target="_blank" rel="noopener" aria-label="Open demo: Auto repair shop" data-i18n-aria="wa_taller"><span data-i18n="w_open">Open demo</span></a>
         </div>
         <div class="laptop"><div class="laptop__lid"><div class="laptop__screen">
           <span class="pf__chip" data-i18n="demo">Demo</span>
-          <img class="pf__poster" src="/img/posters/taller-laptop.webp" width="960" height="600" alt="" loading="lazy" decoding="async">
-          <iframe data-lazy="/demos/taller/" title="Demo website: Auto repair shop" data-i18n-title="t_taller" tabindex="-1" loading="lazy" width="1280" height="800"></iframe>
+          <img class="pf__poster" src="img/posters/taller-laptop.webp" width="960" height="600" alt="" loading="lazy" decoding="async">
+          <iframe data-lazy="demos/taller/" title="Demo website: Auto repair shop" data-i18n-title="t_taller" tabindex="-1" loading="lazy" width="1280" height="800"></iframe>
         </div></div><div class="laptop__base"></div></div>
         <div class="panel__phone"><div class="pf pf--fluid"><div class="pf__body"><div class="pf__screen">
           <span class="pf__chip" data-i18n="demo">Demo</span>
-          <img class="pf__poster" src="/img/posters/taller.webp" width="640" height="1385" alt="" loading="lazy" decoding="async">
-          <iframe data-lazy="/demos/taller/" title="Demo website: Auto repair shop" data-i18n-title="t_taller" tabindex="-1" loading="lazy" width="375" height="740"></iframe>
-          <a class="pf__hit" href="/demos/taller/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a>
+          <img class="pf__poster" src="img/posters/taller.webp" width="640" height="1385" alt="" loading="lazy" decoding="async">
+          <iframe data-lazy="demos/taller/" title="Demo website: Auto repair shop" data-i18n-title="t_taller" tabindex="-1" loading="lazy" width="375" height="740"></iframe>
+          <a class="pf__hit" href="demos/taller/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a>
         </div></div>
-        <a class="btn pf__open" href="/demos/taller/" target="_blank" rel="noopener" aria-label="Open demo: Auto repair shop" data-i18n-aria="wa_taller"><span data-i18n="w_open">Open demo</span></a></div></div>
+        <a class="btn pf__open" href="demos/taller/" target="_blank" rel="noopener" aria-label="Open demo: Auto repair shop" data-i18n-aria="wa_taller"><span data-i18n="w_open">Open demo</span></a></div></div>
         <div class="panel__shade"></div>
       </article><article class="panel panel--elec" style="--i:1">
         <div class="panel__txt">
           <p class="panel__label" data-i18n="v8_demo_fict">Demo — fictional business</p>
           <h3 data-i18n="w_electricista">Electrician</h3>
           <ul class="panel__list"><li data-i18n="v8_we1">Electrical panel with tappable hotspots</li><li data-i18n="v8_we2">Numbered service index</li><li data-i18n="v8_we3">How we work, in three steps</li></ul>
-          <a class="btn" href="/demos/electricista/" target="_blank" rel="noopener" aria-label="Open demo: Electrician" data-i18n-aria="wa_electricista"><span data-i18n="w_open">Open demo</span></a>
+          <a class="btn" href="demos/electricista/" target="_blank" rel="noopener" aria-label="Open demo: Electrician" data-i18n-aria="wa_electricista"><span data-i18n="w_open">Open demo</span></a>
         </div>
         <div class="laptop"><div class="laptop__lid"><div class="laptop__screen">
           <span class="pf__chip" data-i18n="demo">Demo</span>
-          <img class="pf__poster" src="/img/posters/electricista-laptop.webp" width="960" height="600" alt="" loading="lazy" decoding="async">
-          <iframe data-lazy="/demos/electricista/" title="Demo website: Electrician" data-i18n-title="t_electricista" tabindex="-1" loading="lazy" width="1280" height="800"></iframe>
+          <img class="pf__poster" src="img/posters/electricista-laptop.webp" width="960" height="600" alt="" loading="lazy" decoding="async">
+          <iframe data-lazy="demos/electricista/" title="Demo website: Electrician" data-i18n-title="t_electricista" tabindex="-1" loading="lazy" width="1280" height="800"></iframe>
         </div></div><div class="laptop__base"></div></div>
         <div class="panel__phone"><div class="pf pf--fluid"><div class="pf__body"><div class="pf__screen">
           <span class="pf__chip" data-i18n="demo">Demo</span>
-          <img class="pf__poster" src="/img/posters/electricista.webp" width="640" height="1385" alt="" loading="lazy" decoding="async">
-          <iframe data-lazy="/demos/electricista/" title="Demo website: Electrician" data-i18n-title="t_electricista" tabindex="-1" loading="lazy" width="375" height="740"></iframe>
-          <a class="pf__hit" href="/demos/electricista/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a>
+          <img class="pf__poster" src="img/posters/electricista.webp" width="640" height="1385" alt="" loading="lazy" decoding="async">
+          <iframe data-lazy="demos/electricista/" title="Demo website: Electrician" data-i18n-title="t_electricista" tabindex="-1" loading="lazy" width="375" height="740"></iframe>
+          <a class="pf__hit" href="demos/electricista/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a>
         </div></div>
-        <a class="btn pf__open" href="/demos/electricista/" target="_blank" rel="noopener" aria-label="Open demo: Electrician" data-i18n-aria="wa_electricista"><span data-i18n="w_open">Open demo</span></a></div></div>
+        <a class="btn pf__open" href="demos/electricista/" target="_blank" rel="noopener" aria-label="Open demo: Electrician" data-i18n-aria="wa_electricista"><span data-i18n="w_open">Open demo</span></a></div></div>
         <div class="panel__shade"></div>
       </article><article class="panel panel--taq" style="--i:2">
         <div class="panel__txt">
           <p class="panel__label" data-i18n="v8_demo_fict">Demo — fictional business</p>
           <h3 data-i18n="w_taqueria">Taquería</h3>
           <ul class="panel__list"><li data-i18n="v8_wq1">Menu by section: tacos, plates, drinks</li><li data-i18n="v8_wq2">Catering and events</li><li data-i18n="v8_wq3">English and Spanish switch</li></ul>
-          <a class="btn" href="/demos/taqueria/" target="_blank" rel="noopener" aria-label="Open demo: Taquería" data-i18n-aria="wa_taqueria"><span data-i18n="w_open">Open demo</span></a>
+          <a class="btn" href="demos/taqueria/" target="_blank" rel="noopener" aria-label="Open demo: Taquería" data-i18n-aria="wa_taqueria"><span data-i18n="w_open">Open demo</span></a>
         </div>
         <div class="laptop"><div class="laptop__lid"><div class="laptop__screen">
           <span class="pf__chip" data-i18n="demo">Demo</span>
-          <img class="pf__poster" src="/img/posters/taqueria-laptop.webp" width="960" height="600" alt="" loading="lazy" decoding="async">
-          <iframe data-lazy="/demos/taqueria/" title="Demo website: Taquería" data-i18n-title="t_taqueria" tabindex="-1" loading="lazy" width="1280" height="800"></iframe>
+          <img class="pf__poster" src="img/posters/taqueria-laptop.webp" width="960" height="600" alt="" loading="lazy" decoding="async">
+          <iframe data-lazy="demos/taqueria/" title="Demo website: Taquería" data-i18n-title="t_taqueria" tabindex="-1" loading="lazy" width="1280" height="800"></iframe>
         </div></div><div class="laptop__base"></div></div>
         <div class="panel__phone"><div class="pf pf--fluid"><div class="pf__body"><div class="pf__screen">
           <span class="pf__chip" data-i18n="demo">Demo</span>
-          <img class="pf__poster" src="/img/posters/taqueria.webp" width="640" height="1385" alt="" loading="lazy" decoding="async">
-          <iframe data-lazy="/demos/taqueria/" title="Demo website: Taquería" data-i18n-title="t_taqueria" tabindex="-1" loading="lazy" width="375" height="740"></iframe>
-          <a class="pf__hit" href="/demos/taqueria/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a>
+          <img class="pf__poster" src="img/posters/taqueria.webp" width="640" height="1385" alt="" loading="lazy" decoding="async">
+          <iframe data-lazy="demos/taqueria/" title="Demo website: Taquería" data-i18n-title="t_taqueria" tabindex="-1" loading="lazy" width="375" height="740"></iframe>
+          <a class="pf__hit" href="demos/taqueria/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a>
         </div></div>
-        <a class="btn pf__open" href="/demos/taqueria/" target="_blank" rel="noopener" aria-label="Open demo: Taquería" data-i18n-aria="wa_taqueria"><span data-i18n="w_open">Open demo</span></a></div></div>
+        <a class="btn pf__open" href="demos/taqueria/" target="_blank" rel="noopener" aria-label="Open demo: Taquería" data-i18n-aria="wa_taqueria"><span data-i18n="w_open">Open demo</span></a></div></div>
         <div class="panel__shade"></div>
       </article>
       </div>
@@ -326,7 +326,7 @@
 
   <!-- 4. 3D -->
   <section class="extras" id="extras" data-bg="bg-2" aria-labelledby="extras-title">
-    <div class="extras__bg" aria-hidden="true"><img src="/img/v8/highway-night-960.webp" srcset="/img/v8/highway-night-960.webp 960w, /img/v8/highway-night-1600.webp 1600w" sizes="100vw" width="1600" height="1067" loading="lazy" decoding="async" alt=""></div>
+    <div class="extras__bg" aria-hidden="true"><img src="img/v8/highway-night-960.webp" srcset="img/v8/highway-night-960.webp 960w, img/v8/highway-night-1600.webp 1600w" sizes="100vw" width="1600" height="1067" loading="lazy" decoding="async" alt=""></div>
     <div class="wrap extras__grid">
       <div class="extras__txt" data-reveal>
         <p class="eyebrow" data-i18n="v8_e_extras">// 02 Extras</p>
@@ -336,7 +336,7 @@
       <div class="stage3d" id="stage3d" data-reveal>
         <div class="halo" aria-hidden="true"></div>
         <div class="ring ring--1" aria-hidden="true"></div><div class="ring ring--2" aria-hidden="true"></div><div class="ring ring--3" aria-hidden="true"></div>
-        <img class="stage3d__img v9-truck__fb" src="/img/recortes/silverado-roja-640.webp" width="640" height="250" loading="lazy" decoding="async" alt="A pickup truck, the kind we turn into a 3D model" data-i18n-alt="v8_x_alt">
+        <img class="stage3d__img v9-truck__fb" src="img/recortes/silverado-roja-640.webp" width="640" height="250" loading="lazy" decoding="async" alt="A pickup truck, the kind we turn into a 3D model" data-i18n-alt="v8_x_alt">
       </div>
     </div>
     <div class="v9-truck"><div class="v9-truck__shadow" aria-hidden="true"></div><canvas class="v9-truck__cv" data-clip="silverado" data-count="72" role="img" aria-label="A pickup truck that turns as you scroll" data-i18n-aria="v9_a_truck"></canvas></div>
@@ -344,7 +344,7 @@
 
   <!-- 5. HOTSPOTS -->
   <section class="hs is-light" id="features" data-bg="bone-2" aria-labelledby="hs-title">
-    <div class="hs__bg" aria-hidden="true"><img src="/img/v8/screen-neon-tint-960.webp" srcset="/img/v8/screen-neon-tint-960.webp 960w, /img/v8/screen-neon-tint-1600.webp 1600w" sizes="100vw" width="1600" height="900" loading="lazy" decoding="async" alt=""></div>
+    <div class="hs__bg" aria-hidden="true"><img src="img/v8/screen-neon-tint-960.webp" srcset="img/v8/screen-neon-tint-960.webp 960w, img/v8/screen-neon-tint-1600.webp 1600w" sizes="100vw" width="1600" height="900" loading="lazy" decoding="async" alt=""></div>
     <div class="wrap">
       <div data-reveal>
         <p class="eyebrow" data-i18n="v8_e_get">// 03 What you get</p>
@@ -358,11 +358,11 @@
             <div class="hs__screen" id="hs-screen" data-step="0">
               <span class="pf__chip" data-i18n="demo">Demo</span>
               <div class="hs__slides">
-                <div class="hs__slide is-on" data-demo="taller"><img src="/img/posters/taller.webp" width="640" height="1385" alt="" loading="lazy" decoding="async"></div>
-                <div class="hs__slide" data-demo="electricista"><img src="/img/posters/electricista.webp" width="640" height="1385" alt="" loading="lazy" decoding="async"></div>
-                <div class="hs__slide" data-demo="taqueria"><img src="/img/posters/taqueria.webp" width="640" height="1385" alt="" loading="lazy" decoding="async"></div>
+                <div class="hs__slide is-on" data-demo="taller"><img src="img/posters/taller.webp" width="640" height="1385" alt="" loading="lazy" decoding="async"></div>
+                <div class="hs__slide" data-demo="electricista"><img src="img/posters/electricista.webp" width="640" height="1385" alt="" loading="lazy" decoding="async"></div>
+                <div class="hs__slide" data-demo="taqueria"><img src="img/posters/taqueria.webp" width="640" height="1385" alt="" loading="lazy" decoding="async"></div>
                 <div class="hs__slide hs__home" data-demo="principal" aria-hidden="true">
-                  <img class="hs__home-bg" src="/img/v8/highway-night-tint-480.webp" width="480" height="320" alt="" loading="lazy" decoding="async">
+                  <img class="hs__home-bg" src="img/v8/highway-night-tint-480.webp" width="480" height="320" alt="" loading="lazy" decoding="async">
                   <div class="hs__home-in"><div class="hs__home-bar"><b>PERMIAN LOCAL</b><span>EN / ES</span></div>
                   <p class="hs__home-eb" data-i18n="v8_eyebrow">// Odessa · Midland — Web studio</p>
                   <h4 class="hs__home-h" data-i18n-html="v8_h1">Websites that make Odessa <em class="neon">call you.</em></h4>
@@ -394,11 +394,11 @@
         <div class="cmp__screen" id="cmp-screen" style="--v:.5">
           <div class="cmp__pane cmp__pane--a">
             <span class="cmp__tag cmp__tag--a" data-i18n="v8_cmp_a">Typical template</span>
-            <div class="cmp__vp"><iframe data-lazy="/demos/plantilla/" title="Example of a typical template website" data-i18n-title="v8_cmp_ta" tabindex="-1" loading="lazy" width="1280" height="800"></iframe></div>
+            <div class="cmp__vp"><iframe data-lazy="demos/plantilla/" title="Example of a typical template website" data-i18n-title="v8_cmp_ta" tabindex="-1" loading="lazy" width="1280" height="800"></iframe></div>
           </div>
           <div class="cmp__pane cmp__pane--b">
             <span class="cmp__tag cmp__tag--b" data-i18n="v8_cmp_b">Permian Local</span>
-            <div class="cmp__vp"><iframe data-lazy="/demos/taller/" title="Demo website: Auto repair shop" data-i18n-title="v8_cmp_tb" tabindex="-1" loading="lazy" width="1280" height="800"></iframe></div>
+            <div class="cmp__vp"><iframe data-lazy="demos/taller/" title="Demo website: Auto repair shop" data-i18n-title="v8_cmp_tb" tabindex="-1" loading="lazy" width="1280" height="800"></iframe></div>
           </div>
           <div class="cmp__line" aria-hidden="true"><span class="cmp__knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg></span></div>
           <input class="cmp__range" id="cmp-range" type="range" min="0" max="100" step="1" value="50" aria-labelledby="cmp-hint">
@@ -522,7 +522,7 @@
 <section class="b-why is-light" id="about" data-bg="bone-2" aria-labelledby="about-title">
   <div class="wrap b-why__grid">
     <figure class="b-why__photo" data-reveal>
-      <img src="/img/main-street-dusk-960.webp" srcset="/img/main-street-dusk-480.webp 480w, /img/main-street-dusk-960.webp 960w, /img/main-street-dusk-1600.webp 1600w" sizes="(min-width: 900px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="A small-town main street at dusk with warm street lights" data-i18n-alt="v8_why_alt">
+      <img src="img/main-street-dusk-960.webp" srcset="img/main-street-dusk-480.webp 480w, img/main-street-dusk-960.webp 960w, img/main-street-dusk-1600.webp 1600w" sizes="(min-width: 900px) 50vw, 100vw" width="960" height="640" loading="lazy" decoding="async" alt="A small-town main street at dusk with warm street lights" data-i18n-alt="v8_why_alt">
       <figcaption class="b-why__card glass" data-i18n="v8_why_card">Based in Odessa. We answer in English and Spanish.</figcaption>
     </figure>
     <div class="b-why__txt" data-reveal>
@@ -530,7 +530,7 @@
       <h2 id="about-title" data-i18n-html="about_h">Built in <em class="neon">Odessa</em>, for Odessa and Midland.</h2>
       <!-- TODO Carlos: foto real y quitar hidden. Sustituir /img/carlos-placeholder.svg por una foto real (WebP 4:5, ~960x1200) con alt descriptivo -->
       <figure class="b-why__me" hidden>
-        <img src="/img/carlos-placeholder.svg" width="800" height="1000" loading="lazy" decoding="async" alt="[FOTO PENDIENTE] A real photo of Carlos, who runs Permian Local from Odessa, will go here.">
+        <img src="img/carlos-placeholder.svg" width="800" height="1000" loading="lazy" decoding="async" alt="[FOTO PENDIENTE] A real photo of Carlos, who runs Permian Local from Odessa, will go here.">
         <figcaption data-i18n="v8_why_soon">Photo of Carlos coming soon.</figcaption>
       </figure>
       <p data-i18n-html="v8_why_p1"><strong>I'm Carlos. I live in Odessa, Texas</strong>, and I'm a student at UTPB. I build websites for local businesses in Odessa and Midland. You deal with me, not a sales team.</p>
@@ -630,13 +630,13 @@
 </footer>
 
 
-<script src="/js/vendor/gsap.min.js" defer></script>
-<script src="/js/vendor/ScrollTrigger.min.js" defer></script>
-<script src="/js/vendor/lenis.min.js" defer></script>
-<script src="/js/i18n-parte-b.js"></script>
-<script src="/js/i18n.js"></script>
-<script src="/js/v8.js" defer></script>
-<script src="/js/v8-b.js" defer></script>
-<script src="/js/v9-intro.js" defer></script>
+<script src="js/vendor/gsap.min.js" defer></script>
+<script src="js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/vendor/lenis.min.js" defer></script>
+<script src="js/i18n-parte-b.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/v8.js" defer></script>
+<script src="js/v8-b.js" defer></script>
+<script src="js/v9-intro.js" defer></script>
 </body>
 </html>

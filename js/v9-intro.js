@@ -126,7 +126,7 @@
   function make(sec, sel, extra) {
     var cv = sec && $(sel, sec);
     if (!cv) return null;
-    var clip = cv.getAttribute('data-clip'), cfg = { canvas: cv, dir: '/img/v9/frames/' + clip, mobileDir: '/img/v9/frames/' + clip + '-720', count: +cv.getAttribute('data-count') || 90, eager: 10 };
+    var clip = cv.getAttribute('data-clip'), cfg = { canvas: cv, dir: 'img/v9/frames/' + clip, mobileDir: 'img/v9/frames/' + clip + '-720', count: +cv.getAttribute('data-count') || 90, eager: 10 };
     for (var k in (extra || {})) cfg[k] = extra[k];
     var s = createScrubber(cfg);
     S[clip] = s; return s;
@@ -136,7 +136,7 @@
   var extras = $('#extras'), V = null;
   if (extras) {
     var tcv = $('.v9-truck__cv', extras);
-    if (tcv) V = createScrubber({ canvas: tcv, dir: '/img/v9/silverado', mobileDir: '/img/v9/silverado-720', count: +tcv.getAttribute('data-count') || 72, eager: 10, alpha: true, fit: 'contain', onShow: function () { extras.classList.add('is-v9truck'); } });
+    if (tcv) V = createScrubber({ canvas: tcv, dir: 'img/v9/silverado', mobileDir: 'img/v9/silverado-720', count: +tcv.getAttribute('data-count') || 72, eager: 10, alpha: true, fit: 'contain', onShow: function () { extras.classList.add('is-v9truck'); } });
   }
 
   /* numero de fotogramas real: MANIFEST.json (si existe) manda sobre data-count */
@@ -148,7 +148,7 @@
     return +v > 0 ? +v : 0;
   }
   if (window.fetch) {
-    fetch('/img/v9/MANIFEST.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (m) {
+    fetch('img/v9/MANIFEST.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (m) {
       if (!m) return;
       Object.keys(S).forEach(function (clip) { var n = manifestCount(m, clip); if (n) S[clip].setCount(n); });
     }).catch(function () {});
@@ -199,7 +199,7 @@
       var im = $('.pf__poster', pf);
       if (!im) return;
       /* captura larga como fondo de un div (solo se pinta lo visible; una <img> alta con transform dentro de un telefono 3D a veces no se rasterizaba) */
-      var url = '/img/v9/ideas/' + (longs[+pf.getAttribute('data-i')] || longs[i]) + '-long.webp', dv = document.createElement('div'), pre = new Image();
+      var url = 'img/v9/ideas/' + (longs[+pf.getAttribute('data-i')] || longs[i]) + '-long.webp', dv = document.createElement('div'), pre = new Image();
       dv.className = 'pf__poster pf__long'; dv.style.backgroundImage = 'url(' + url + ')'; dv._ratio = 6; /* alto/ancho, se corrige al cargar */
       pre.onload = function () { dv._ratio = pre.naturalHeight / pre.naturalWidth; }; pre.src = url;
       im.parentNode.replaceChild(dv, im);
@@ -355,7 +355,7 @@
       var a = $('.panel__txt .btn', p), h3 = $('h3', p), href = a ? a.getAttribute('href') : '#', slug = (href.match(/demos\/([^\/]+)/) || [0, 'taller'])[1];
       slugs.push(slug);
       html += '<a class="wk__card" href="' + href + '" target="_blank" rel="noopener" aria-label="' + (a ? a.getAttribute('aria-label') : '') + '" data-i18n-aria="' + (a ? a.getAttribute('data-i18n-aria') : '') + '">' +
-        '<span class="wk__frame"><img class="wk__img" src="/img/v9/ideas/' + slug + '-long.webp" alt="" decoding="async"></span>' +
+        '<span class="wk__frame"><img class="wk__img" src="img/v9/ideas/' + slug + '-long.webp" alt="" decoding="async"></span>' +
         '<span class="wk__cap"><b data-i18n="' + h3.getAttribute('data-i18n') + '">' + h3.textContent + '</b><span><span data-i18n="w_open">Open demo</span> &#8599;</span></span></a>';
     });
     wk.innerHTML = html + '</div>';
@@ -399,7 +399,7 @@
       var phw = document.createElement('div'); phw.className = 'v9-ph'; phw.setAttribute('aria-hidden', 'true');
       [0, 18, 36, 54].forEach(function (fi) {
         var c = document.createElement('div'); c.className = 'v9-ph__c';
-        c.innerHTML = '<img src="/img/v9/silverado-720/f' + pad3(fi) + '.webp" alt="" decoding="async">';
+        c.innerHTML = '<img src="img/v9/silverado-720/f' + pad3(fi) + '.webp" alt="" decoding="async">';
         phw.appendChild(c); phc.push(c);
       });
       extras.appendChild(phw);

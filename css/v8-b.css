@@ -81,7 +81,7 @@
 
 /* ---------- Maqueta / formulario ---------- */
 .b-mock { position: relative; padding: clamp(72px, 11vw, 150px) 0; overflow: clip; isolation: isolate; background: var(--bg-2); }
-.b-mock__bg { position: absolute; inset: 0; z-index: -2; background: var(--bg-2) url("/img/desert-road-winding-mock-1600.webp") center / cover no-repeat; }
+.b-mock__bg { position: absolute; inset: 0; z-index: -2; background: var(--bg-2) url(img/desert-road-winding-mock-1600.webp") center / cover no-repeat; }
 .b-mock__halo { position: absolute; z-index: -1; right: -10%; top: -10%; width: min(70vw, 900px); aspect-ratio: 1; pointer-events: none; background: radial-gradient(closest-side, rgba(59,130,255,.16), transparent 70%); }
 .b-mock__grid { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 5vw, 72px); align-items: start; }
 .b-mock__title { margin: 14px 0 20px; font: 700 clamp(2.2rem, 6vw, 4.8rem)/.98 var(--display); letter-spacing: -.03em; color: var(--text); }

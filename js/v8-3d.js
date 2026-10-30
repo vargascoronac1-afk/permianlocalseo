@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/RoomEnvironment.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
-const MODEL = '/demos/taller/3d/silverado-opt.glb';
+const MODEL = 'demos/taller/3d/silverado-opt.glb';
 
 export function init(stage, canvas) {
   let renderer;
