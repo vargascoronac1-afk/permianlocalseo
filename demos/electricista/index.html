@@ -2,7 +2,7 @@
 <!--
   Permian Pro Electric: demo v2 (2026-10-24). ESTRUCTURA PROPIA, distinta de demos/taller.
   Taller = titular gigante centrado + protagonista debajo + fondo que cambia por seccion.
-  Aqui = hero de pantalla partida (navy | amarillo con rejilla blueprint), barra de emergencias fija
+  Aqui = (v9e, 2026-10-31) hero por scroll con fotogramas en canvas (tormenta > subestacion > caja de control, js en v9e.js) y "Inside your panel" con 4 animaciones; antes: hero de pantalla partida (navy | amarillo con rejilla blueprint), barra de emergencias fija
   (abajo en movil, lateral en escritorio), servicios como indice numerado con panel de foto sticky,
   zona de servicio en ruta con puntos + mapa, 3 pasos con linea conectada, FAQ pixelada 8x5,
   bloques navy / blanco / amarillo con cortes diagonales (clip-path). Fondo fijo por seccion, no cambia al scroll.
@@ -111,42 +111,46 @@ p{margin:0}
 .s-white .sub{color:var(--muted)}
 .s-yellow .sub{color:var(--navy)}
 
-/* hero: split screen */
-.hero{position:relative;display:grid;grid-template-columns:1fr;background:var(--navy);isolation:isolate}
-.hero__txt{order:2;container-type:inline-size;padding:30px 20px calc(var(--cut) + 36px);display:flex;flex-direction:column;justify-content:center}
-.hero__yel{order:1;position:relative;overflow:hidden;background:var(--yellow);min-height:min(54svh,440px);padding-top:var(--hdr)}
-.hero__bg{position:absolute;left:0;right:0;top:-16%;bottom:-16%;pointer-events:none;will-change:transform;
-  background-image:
-    linear-gradient(rgba(10,19,48,.32) 2px,transparent 2px),linear-gradient(90deg,rgba(10,19,48,.32) 2px,transparent 2px),
-    linear-gradient(rgba(10,19,48,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(10,19,48,.14) 1px,transparent 1px);
-  background-size:160px 160px,160px 160px,32px 32px,32px 32px}
-.hero__bg::after{content:"";position:absolute;inset:0;background:radial-gradient(closest-side at 50% 62%,rgba(255,212,0,0) 30%,rgba(255,212,0,.75) 100%)}
-.scan{display:none;position:absolute;left:0;right:0;top:0;height:24%;pointer-events:none;mix-blend-mode:soft-light;will-change:transform;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.85) 50%,rgba(255,255,255,0))}
-.fx-scan .scan{display:block}
-.hero__pro{position:absolute;left:50%;bottom:0;width:min(104%,520px);transform:translateX(-50%);z-index:2}
-.pro{transform-origin:50% 100%;will-change:transform}
-.pro img{width:100%;height:auto;filter:drop-shadow(0 18px 24px rgba(10,19,48,.35))}
-.tag24{position:absolute;z-index:3;left:5%;top:calc(var(--hdr) + 22px);transform:rotate(-9deg);display:flex;align-items:center;gap:8px;background:var(--navy);color:var(--yellow);padding:12px 18px 10px 16px;
-  font:800 clamp(2.6rem,12vw,4.2rem)/1 var(--head);letter-spacing:.02em;box-shadow:6px 6px 0 rgba(10,19,48,.25)}
-.tag24 svg{width:.7em;height:.7em;flex:none}
-.hero h1{font-size:clamp(2.4rem,11cqi,6.6rem);line-height:.92;letter-spacing:-.005em;color:#fff}
-.hero h1 .ln{display:block;overflow:hidden;padding:.02em 0 .06em}
-.hero h1 .ln>span{display:block;will-change:transform}
-.hero h1 .ln:last-child{color:var(--yellow)}
-.hero .lead{margin:22px 0 24px;max-width:30rem;font-size:clamp(1.05rem,.95rem + .5vw,1.3rem);color:#e8ecfa}
+/* hero por scroll (v9e): 3 clips de fotogramas en canvas, fijado ~330 %; el titular llega al final */
+.vhero{position:relative;height:100vh;height:100svh;min-height:520px;background:var(--black);isolation:isolate;overflow:hidden;color:#fff}
+.vh__l{position:absolute;inset:0}
+.vh__l img,.vh__l canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.vh__l canvas{visibility:hidden}
+.vh__l canvas.is-ready{visibility:visible}
+.js-anim .vh__l--b,.js-anim .vh__l--c{opacity:0}
+.static .vh__p0{display:none}
+.js-anim .vh__p1{display:none}
+.vhero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:46%;z-index:1;pointer-events:none;background:linear-gradient(to top,rgba(3,6,14,.72),rgba(3,6,14,0))}
+.vh__shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to top,rgba(3,6,14,.94) 0,rgba(10,19,48,.78) 48%,rgba(10,19,48,.25) 100%)}
+.js-anim .vh__shade{opacity:0}
+.vh__txt{position:absolute;z-index:2;left:0;right:0;top:0;bottom:0;container-type:inline-size;display:flex;flex-direction:column;justify-content:flex-end;padding:calc(var(--hdr) + 20px) 20px calc(var(--dock) + var(--cut) + 8px)}
+.vhero h1{font-size:clamp(2.4rem,11cqi,6.6rem);line-height:.92;letter-spacing:-.005em;color:#fff}
+.vhero h1 .ln{display:block;overflow:hidden;padding:.02em 0 .06em}
+.vhero h1 .ln>span{display:block;will-change:transform}
+.vhero h1 .ln:last-child{color:var(--yellow)}
+.vhero .lead{margin:20px 0 22px;max-width:30rem;font-size:clamp(1.05rem,.95rem + .5vw,1.3rem);color:#e8ecfa}
 .cta{display:flex;gap:12px;flex-wrap:wrap}
 .cta .btn{padding:0 24px}
-@media (max-width:599px){.cta .btn{flex:1 1 100%}}
+@media (max-width:599px){.cta .btn{flex:1 1 100%}.vhero .pills{display:none}}
 .pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;list-style:none;padding:0}
-.pills li{border:2px solid rgba(255,255,255,.35);border-radius:4px;padding:8px 14px;font:600 .95rem/1.2 var(--body);color:#fff;min-height:44px;display:inline-flex;align-items:center}
+.pills li{border:2px solid rgba(255,255,255,.35);border-radius:4px;padding:8px 14px;font:600 .95rem/1.2 var(--body);color:#fff;min-height:44px;display:inline-flex;align-items:center;background:rgba(10,19,48,.45)}
+.js-anim .vh-t{opacity:0}
+.vh__caps,.vh__cue{position:absolute;z-index:2;left:0;right:0;text-align:center;pointer-events:none}
+.vh__caps{bottom:calc(var(--dock) + 64px);height:3rem}
+.vh__cap{position:absolute;left:20px;right:20px;bottom:0;font:800 clamp(1.7rem,1rem + 2.6vw,3rem)/1 var(--head);text-transform:uppercase;letter-spacing:.04em;text-shadow:0 2px 20px rgba(0,0,0,.85)}
+.vh__cap b{color:var(--yellow)}
+.js-anim .vh__cap:not([data-i="0"]){opacity:0}
+.vh__cue{bottom:calc(var(--dock) + 20px);font:800 .95rem/1 var(--head);letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);text-shadow:0 2px 12px rgba(0,0,0,.8)}
+.vh__cue svg{display:block;width:22px;height:22px;margin:6px auto 0;animation:cue 1.6s ease-in-out infinite}
+@keyframes cue{50%{transform:translateY(6px)}}
+.static .vh__caps,.static .vh__cue{display:none}
 @media (min-width:900px){
-  .hero{grid-template-columns:55fr 45fr;min-height:100svh}
-  .hero__txt{order:1;padding:calc(var(--hdr) + 40px) 36px calc(var(--cut) + 40px) clamp(24px,5vw,72px)}
-  .hero__yel{order:2;min-height:0;padding-top:0;grid-column:2;grid-row:1}
-  .hero__txt{grid-column:1;grid-row:1}
-  .hero__pro{width:min(112%,640px)}
-  .tag24{top:calc(var(--hdr) + 40px);left:8%;font-size:clamp(3.6rem,6.4vw,6rem)}
+  .vh__shade{background:linear-gradient(90deg,rgba(3,6,14,.94) 0,rgba(10,19,48,.8) 38%,rgba(10,19,48,0) 74%)}
+  .vh__txt{justify-content:center;max-width:min(66%,900px);padding:calc(var(--hdr) + 30px) 36px calc(var(--dock) + var(--cut) + 20px) clamp(24px,5vw,72px)}
+  .vh__caps{bottom:calc(var(--dock) + 70px)}
+  .vh__cap{font-size:clamp(2rem,1.2rem + 1.8vw,3rem)}
 }
+@media (prefers-reduced-motion:reduce){.vh__cue svg{animation:none}}
 
 /* services: numbered technical index */
 .svc{min-height:100vh}
@@ -211,39 +215,67 @@ p{margin:0}
 @media (min-width:900px){.area__grid{grid-template-columns:5fr 7fr;gap:56px;align-items:stretch}.area .map{min-height:460px}.area .map iframe{min-height:452px}}
 
 
-/* glass cards over hero */
-.hero__glass{order:1;display:grid;gap:10px;padding:16px 20px 0;background:var(--navy);list-style:none;margin:0}
-.glass{display:flex;align-items:center;gap:12px;padding:12px 16px;min-height:56px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:10px;
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:700 1rem/1.25 var(--body);box-shadow:0 8px 24px rgba(10,19,48,.18)}
-.glass svg{width:26px;height:26px;flex:none;color:var(--yellow)}
-.glass em{font:800 .72rem/1 var(--head);font-style:normal;letter-spacing:.14em;text-transform:uppercase;border:1px solid currentColor;border-radius:3px;padding:3px 6px 2px;margin-left:6px;white-space:nowrap}
-@media (min-width:900px){
-  .hero__glass{order:0;grid-column:2;grid-row:1;align-self:start;justify-self:end;z-index:5;background:transparent;padding:calc(var(--hdr) + 150px) 20px 0 0;width:min(100%,280px);pointer-events:none}
-  .glass{color:var(--navy);box-shadow:0 8px 24px rgba(10,19,48,.12)}
-  .glass svg{color:var(--navy)}
-}
-
-/* panel hotspots */
+/* Inside your panel: 4 bloques, cada uno con su animacion */
 .panel .h2{max-width:14ch}
-.hs{position:relative;margin:34px 12px 12px 0;border:3px solid #fff;box-shadow:12px 12px 0 var(--yellow);background:var(--navy);max-width:960px}
-.hs>img{width:100%;height:auto;display:block}
-.hs__dot{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer;z-index:2}
-.hs__dot::before{content:"";position:absolute;left:50%;top:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:var(--yellow);border:3px solid var(--navy);box-shadow:0 0 0 2px #fff}
-.hs__dot::after{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid var(--yellow);animation:hspulse 1.8s ease-out infinite}
-.hs__dot[aria-expanded="true"]::before{background:#fff}
-.hs__dot[aria-expanded="true"]::after{animation:none;opacity:0}
-.hs__dot:focus-visible{outline:3px solid #fff;outline-offset:2px}
-@keyframes hspulse{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.5);opacity:0}}
-.hs__card{position:absolute;left:12px;right:12px;z-index:3;max-width:360px;background:var(--yellow);color:var(--navy);border:3px solid var(--navy);padding:12px 16px 14px;box-shadow:6px 6px 0 rgba(10,19,48,.35)}
-.hs__card[hidden]{display:none}
-.hs__card.at-bottom{bottom:12px}
-.hs__card.at-top{top:12px}
-.hs__card strong{display:block;font:800 1.35rem/1.05 var(--head);text-transform:uppercase}
-.hs__card p{margin:4px 0 0;font-size:.95rem;line-height:1.35;color:var(--navy)}
-.hs__price{display:inline-block;margin-top:8px;background:var(--navy);color:var(--yellow);font:800 1rem/1 var(--head);letter-spacing:.06em;text-transform:uppercase;padding:7px 10px 6px}
-.hs__hint{margin-top:22px;color:var(--soft);max-width:36rem}
-@media (min-width:900px){.hs__card{left:auto;right:auto}.hs__card.at-right{right:16px}.hs__card.at-left{left:16px}}
-@media (prefers-reduced-motion:reduce){.hs__dot::after{animation:none;opacity:.55;transform:scale(1.15)}}
+.ip{display:grid;gap:72px;margin-top:46px}
+.ib{display:grid;gap:26px;align-items:center}
+.ib__n{display:block;font:800 1.1rem/1 var(--head);letter-spacing:.18em;color:var(--yellow)}
+.ib__txt h3{font-size:clamp(2.3rem,1.4rem + 3.2vw,3.8rem);margin:10px 0 14px;color:#fff}
+.ib__txt p{color:var(--soft);max-width:30rem}
+.ib__price{display:inline-block;margin-top:16px;background:var(--yellow);color:var(--navy);font:800 1rem/1 var(--head);letter-spacing:.06em;text-transform:uppercase;padding:8px 12px 7px}
+.ib__fig{position:relative;aspect-ratio:16/9;margin:0 12px 12px 0;border:3px solid #fff;box-shadow:12px 12px 0 var(--yellow);background:#05091c;overflow:hidden;isolation:isolate}
+.ib__fig>img,.ib__fig>canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ib__fig>canvas{visibility:hidden}
+.ib__fig>canvas.is-ready{visibility:visible}
+@media (min-width:900px){
+  .ib{grid-template-columns:5fr 7fr;gap:56px}
+  .ib:nth-child(even){grid-template-columns:7fr 5fr}
+  .ib:nth-child(even) .ib__txt{order:2}
+}
+/* 01 labeling: pan horizontal, sombra y fondo oscuro */
+.lb__vp{position:absolute;inset:0;overflow:hidden;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none;background:#05070d}
+.lb__vp:focus-visible{outline:3px solid var(--yellow);outline-offset:-8px}
+.lb__img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;transform-origin:0 0;transition:transform .9s cubic-bezier(.22,.8,.2,1);will-change:transform;pointer-events:none;-webkit-user-drag:none}
+.lb.is-drag .lb__img{transition:none}
+.lb.is-drag .lb__vp{cursor:grabbing}
+.lb__vp::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 90px 24px rgba(0,0,0,.82);background:linear-gradient(to bottom,rgba(3,6,14,.35),rgba(3,6,14,0) 30%,rgba(3,6,14,0) 70%,rgba(3,6,14,.45))}
+.lb__btn{position:absolute;top:50%;z-index:3;width:56px;height:56px;margin-top:-28px;display:none;place-items:center;padding:0;border:3px solid var(--navy);border-radius:4px;background:var(--yellow);color:var(--navy);cursor:pointer;box-shadow:4px 4px 0 rgba(10,19,48,.5)}
+.lb__btn svg{width:26px;height:26px}
+.lb__btn--prev{left:14px}
+.lb__btn--next{right:14px}
+.lb__btn[disabled]{opacity:.3;cursor:default}
+@media (hover:hover) and (pointer:fine){.lb__btn{display:grid}.lb__btn:not([disabled]):hover{background:#fff}}
+.lb__dots{position:absolute;z-index:3;left:0;right:0;bottom:6px;display:flex;justify-content:center;gap:0}
+.lb__dot{width:44px;height:44px;padding:0;border:0;background:transparent;cursor:pointer;position:relative}
+.lb__dot::before{content:"";position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;border:2px solid #fff;background:rgba(10,19,48,.6);transition:background .3s,transform .3s}
+.lb__dot[aria-current="true"]::before{background:var(--yellow);border-color:var(--yellow);transform:scale(1.25)}
+.lb__dot:focus-visible{outline:3px solid var(--yellow);outline-offset:-6px}
+.lb__hint{position:absolute;z-index:3;left:12px;top:12px;background:var(--navy);color:var(--yellow);font:800 .85rem/1 var(--head);letter-spacing:.14em;text-transform:uppercase;padding:7px 10px 6px;pointer-events:none}
+.lb__hint .t-pc{display:none}
+@media (hover:hover) and (pointer:fine){.lb__hint .t-pc{display:inline}.lb__hint .t-tc{display:none}}
+/* 03 wiring: pulso de luz amarilla sobre el cobre */
+.cw__svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.cw__p{fill:none;stroke:#ffd400;stroke-linecap:round;stroke-dasharray:140 860;stroke-dashoffset:140;opacity:0}
+.cw__p--in{stroke-width:9;stroke:#ffe980}
+.cw__p--cu{stroke-width:10}
+.cw__g{fill:none;stroke:#ffd400;stroke-width:16;stroke-linecap:round;opacity:0}
+.cw__tip{fill:#fff3a0;opacity:0;transform-box:fill-box;transform-origin:center}
+.cw.is-live .cw__p{opacity:1}
+.cw.is-live .cw__p--in{opacity:.6;animation:cwA 3s linear infinite}
+.cw.is-live .cw__g{animation:cwG 3s ease-in-out infinite}
+.cw.is-live .cw__p--cu{animation:cwB 3s linear infinite}
+.cw.is-live .cw__p--cu:nth-of-type(2){animation-delay:.12s}
+.cw.is-live .cw__p--cu:nth-of-type(3){animation-delay:.24s}
+.cw.is-live .cw__tip{animation:cwT 3s linear infinite}
+@keyframes cwA{0%{stroke-dashoffset:140}48%,100%{stroke-dashoffset:-1000}}
+@keyframes cwG{0%,44%{opacity:0}62%{opacity:.4}100%{opacity:0}}
+@keyframes cwB{0%,46%{stroke-dashoffset:140}96%,100%{stroke-dashoffset:-1000}}
+@keyframes cwT{0%,90%{opacity:0;transform:scale(.4)}96%{opacity:1;transform:scale(1.5)}100%{opacity:0;transform:scale(2)}}
+@media (prefers-reduced-motion:reduce){
+  .cw__p{opacity:.9!important;stroke-dasharray:none;animation:none!important}
+  .cw__g{opacity:.3}
+  .cw__p--in{opacity:.4!important}
+}
 
 /* technical grid in service area */
 .area{background-color:var(--yellow);background-image:linear-gradient(rgba(10,19,48,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(10,19,48,.08) 1px,transparent 1px);background-size:48px 48px;background-position:-1px -1px}
@@ -379,45 +411,44 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
 
 <main id="top">
 
-<!-- 1. HERO: split screen -->
-<div class="hero">
-  <div class="hero__txt">
+<!-- 1. HERO por scroll: tormenta -> subestacion -> caja de control; el titular aparece al final -->
+<div class="hero vhero" id="vhero">
+  <div class="vh__l vh__l--a" id="vh-la">
+    <img class="vh__p0" src="../../img/v9/frames/sub-a/f000.webp" width="1280" height="720" fetchpriority="high" alt="" aria-hidden="true">
+    <canvas id="vh-a" aria-hidden="true"></canvas>
+  </div>
+  <div class="vh__l vh__l--b" id="vh-lb"><canvas id="vh-b" aria-hidden="true"></canvas></div>
+  <div class="vh__l vh__l--c" id="vh-lc">
+    <img class="vh__p1" src="../../img/v9/frames/caja/f089.webp" width="1280" height="720" alt="Glowing blueprint view of an industrial electrical control cabinet full of wiring" data-alt-en="Glowing blueprint view of an industrial electrical control cabinet full of wiring" data-alt-es="Vista de plano luminoso de un armario de control eléctrico industrial lleno de cableado">
+    <canvas id="vh-c" aria-hidden="true"></canvas>
+  </div>
+  <div class="vh__shade" id="vhShade" aria-hidden="true"></div>
+  <div class="vh__caps" aria-hidden="true">
+    <p class="vh__cap" data-i="0" data-en="A storm hits the grid." data-es="Una tormenta golpea la red.">A storm hits the grid.</p>
+    <p class="vh__cap" data-i="1" data-en="Power runs through the substation." data-es="La energía pasa por la subestación.">Power runs through the substation.</p>
+    <p class="vh__cap" data-i="2" data-en="And ends at your panel." data-es="Y termina en tu panel.">And ends at your panel.</p>
+  </div>
+  <div class="vh__cue" id="vhCue" aria-hidden="true"><span data-en="Scroll" data-es="Desliza">Scroll</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l7 7 7-7"/></svg></div>
+  <div class="vh__txt">
     <h1 id="h1">
       <span class="ln"><span data-en="No power." data-es="Sin luz.">No power.</span></span>
       <span class="ln"><span data-en="Panel tripping." data-es="Panel que salta.">Panel tripping.</span></span>
       <span class="ln"><span data-en="Licensed, today." data-es="Hoy, con licencia.">Licensed, today.</span></span>
     </h1>
-    <p class="lead rv" data-en="Licensed electricians in Odessa &amp; Midland. Free estimates, a real person answers, any hour." data-es="Electricistas con licencia en Odessa y Midland. Presupuesto gratis, contesta una persona real, a cualquier hora.">Licensed electricians in Odessa &amp; Midland. Free estimates, a real person answers, any hour.</p>
-    <div class="cta rv">
+    <p class="lead vh-t" data-en="Licensed electricians in Odessa &amp; Midland. Free estimates, a real person answers, any hour." data-es="Electricistas con licencia en Odessa y Midland. Presupuesto gratis, contesta una persona real, a cualquier hora.">Licensed electricians in Odessa &amp; Midland. Free estimates, a real person answers, any hour.</p>
+    <div class="cta vh-t">
       <a class="btn btn--main" href="tel:+14325550162">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
         <span data-en="Call 24/7" data-es="Llamar 24/7">Call 24/7</span>
       </a>
       <a class="btn btn--line" href="#quote"><span data-en="Request a quote" data-es="Pedir presupuesto">Request a quote</span></a>
     </div>
-    <ul class="pills rv">
+    <ul class="pills vh-t">
       <li data-en="Free estimates" data-es="Presupuesto gratis">Free estimates</li>
       <li data-en="Open 24/7 for emergencies" data-es="Abierto 24/7 para emergencias">Open 24/7 for emergencies</li>
       <li data-en="We speak Spanish" data-es="Se habla español">We speak Spanish</li>
     </ul>
   </div>
-  <div class="hero__yel" id="yel">
-    <div class="hero__bg" id="heroBg" aria-hidden="true"></div>
-    <div class="scan" id="scan" aria-hidden="true"></div>
-    <div class="tag24" id="tag24" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg>24/7</div>
-    <div class="hero__pro" id="heroPro">
-      <div class="pro" id="pro">
-        <img src="../../img/recortes/electricista-1132.webp" srcset="../../img/recortes/electricista-640.webp 640w, ../../img/recortes/electricista-1132.webp 1132w" sizes="(min-width:900px) 640px, 104vw"
-             width="1132" height="920" fetchpriority="high"
-             alt="Smiling electrician in a yellow hard hat and safety vest holding a cordless drill" data-alt-en="Smiling electrician in a yellow hard hat and safety vest holding a cordless drill" data-alt-es="Electricista sonriente con casco amarillo y chaleco de seguridad sosteniendo un taladro inalámbrico">
-      </div>
-    </div>
-  </div>
-  <ul class="hero__glass rv" aria-label="Highlights" data-aria-en="Highlights" data-aria-es="Datos clave">
-    <li class="glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-en="Open 24/7 · emergencies" data-es="Abierto 24/7 · emergencias">Open 24/7 · emergencies</span></li>
-    <li class="glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg><span data-en="Written quote in 24 h" data-es="Presupuesto por escrito en 24 h">Written quote in 24 h</span><em data-en="demo" data-es="demo">demo</em></li>
-    <li class="glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><span data-en="TECL license (demo)" data-es="Licencia TECL (demo)">TECL license (demo)</span></li>
-  </ul>
 </div>
 
 <!-- 2. SERVICES: numbered technical index -->
@@ -484,40 +515,88 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
   </div>
 </section>
 
-<!-- 2b. PANEL HOTSPOTS -->
+<!-- 2b. INSIDE YOUR PANEL: 4 animaciones -->
 <section class="sec cutB s-navy panel" id="panel">
   <div class="wrap">
     <p class="eyebrow rv" data-en="Panels &amp; breaker boxes" data-es="Paneles y cuadros eléctricos">Panels &amp; breaker boxes</p>
     <h2 class="h2 rv" data-en="Inside your panel" data-es="Dentro de tu panel">Inside your panel</h2>
-    <p class="sub rv" data-en="Tap a point on the photo to see what we check and a ballpark price. Demo prices, not a real quote." data-es="Pulsa un punto de la foto para ver qué revisamos y un precio orientativo. Precios de demostración, no un presupuesto real.">Tap a point on the photo to see what we check and a ballpark price. Demo prices, not a real quote.</p>
-    <div class="hs rv" id="hs">
-      <img src="../../img/servicios/paneles-960.webp" srcset="../../img/servicios/paneles-480.webp 480w, ../../img/servicios/paneles-960.webp 960w" sizes="(min-width:1000px) 940px, 92vw" width="960" height="640" loading="lazy" decoding="async" alt="Breaker panel with neatly color-coded wires" data-alt-en="Breaker panel with neatly color-coded wires" data-alt-es="Panel de breakers con cables ordenados por colores">
-      <button class="hs__dot" type="button" style="left:75%;top:39%" aria-expanded="false" aria-controls="hs-c1" aria-label="Main breaker" data-aria-en="Main breaker" data-aria-es="Breaker principal"></button>
-      <button class="hs__dot" type="button" style="left:50%;top:67%" aria-expanded="false" aria-controls="hs-c2" aria-label="Wiring" data-aria-en="Wiring" data-aria-es="Cableado"></button>
-      <button class="hs__dot" type="button" style="left:30%;top:82%" aria-expanded="false" aria-controls="hs-c3" aria-label="Ground bar" data-aria-en="Ground bar" data-aria-es="Barra de tierra"></button>
-      <button class="hs__dot" type="button" style="left:26%;top:32%" aria-expanded="false" aria-controls="hs-c4" aria-label="Labeling" data-aria-en="Labeling" data-aria-es="Etiquetado"></button>
-      <div class="hs__card at-bottom at-left" id="hs-c1" role="group" aria-labelledby="hs-t1" hidden>
-        <strong id="hs-t1" data-en="Main breaker" data-es="Breaker principal">Main breaker</strong>
-        <p data-en="We test it, tighten the lugs and swap it if it runs hot or trips." data-es="Lo probamos, apretamos los bornes y lo cambiamos si se calienta o salta.">We test it, tighten the lugs and swap it if it runs hot or trips.</p>
-        <span class="hs__price" data-en="from $180 (demo)" data-es="desde $180 (demo)">from $180 (demo)</span>
-      </div>
-      <div class="hs__card at-top at-right" id="hs-c2" role="group" aria-labelledby="hs-t2" hidden>
-        <strong id="hs-t2" data-en="Wiring" data-es="Cableado">Wiring</strong>
-        <p data-en="Loose, scorched or undersized conductors repaired and neatly dressed." data-es="Conductores flojos, quemados o cortos de sección, reparados y bien ordenados.">Loose, scorched or undersized conductors repaired and neatly dressed.</p>
-        <span class="hs__price" data-en="from $220 (demo)" data-es="desde $220 (demo)">from $220 (demo)</span>
-      </div>
-      <div class="hs__card at-top at-left" id="hs-c3" role="group" aria-labelledby="hs-t3" hidden>
-        <strong id="hs-t3" data-en="Ground bar" data-es="Barra de tierra">Ground bar</strong>
-        <p data-en="Check the ground and neutral bars and bond them to code." data-es="Revisamos las barras de tierra y neutro y las conectamos según norma.">Check the ground and neutral bars and bond them to code.</p>
-        <span class="hs__price" data-en="from $150 (demo)" data-es="desde $150 (demo)">from $150 (demo)</span>
-      </div>
-      <div class="hs__card at-bottom at-right" id="hs-c4" role="group" aria-labelledby="hs-t4" hidden>
-        <strong id="hs-t4" data-en="Labeling" data-es="Etiquetado">Labeling</strong>
-        <p data-en="Every circuit labeled, so you know what to switch off." data-es="Cada circuito etiquetado, para saber qué apagar.">Every circuit labeled, so you know what to switch off.</p>
-        <span class="hs__price" data-en="from $95 (demo)" data-es="desde $95 (demo)">from $95 (demo)</span>
-      </div>
+    <p class="sub rv" data-en="Four things we check in every panel. Scroll, swipe or tap to see each one. Demo prices, not a real quote." data-es="Cuatro cosas que revisamos en todo panel. Desliza, arrastra o pulsa para verlas. Precios de demostración, no un presupuesto real.">Four things we check in every panel. Scroll, swipe or tap to see each one. Demo prices, not a real quote.</p>
+    <div class="ip">
+
+      <article class="ib" id="ib-label">
+        <div class="ib__txt rv">
+          <span class="ib__n" aria-hidden="true">01</span>
+          <h3 data-en="Labeling" data-es="Etiquetado">Labeling</h3>
+          <p data-en="Every circuit gets a clear label, so you know exactly what to switch off, and nobody guesses at 2 a.m." data-es="Cada circuito lleva su etiqueta clara, para saber qué apagar sin adivinar a las 2 de la madrugada.">Every circuit gets a clear label, so you know exactly what to switch off, and nobody guesses at 2 a.m.</p>
+          <span class="ib__price" data-en="from $95 (demo)" data-es="desde $95 (demo)">from $95 (demo)</span>
+        </div>
+        <div class="ib__fig lb" id="lb">
+          <div class="lb__vp" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Panel labels, use the arrow keys" data-aria-en="Panel labels, use the arrow keys" data-aria-es="Etiquetas del panel, usa las flechas del teclado">
+            <img class="lb__img" src="../../img/v9/stills/panel.webp" width="1376" height="768" loading="lazy" decoding="async" draggable="false" alt="Close-up of a breaker panel with a row of labeled breakers" data-alt-en="Close-up of a breaker panel with a row of labeled breakers" data-alt-es="Primer plano de un panel de breakers con una fila de breakers etiquetados">
+          </div>
+          <span class="lb__hint" aria-hidden="true"><span class="t-pc" data-en="Use the arrows" data-es="Usa las flechas">Use the arrows</span><span class="t-tc" data-en="Swipe" data-es="Desliza">Swipe</span></span>
+          <button class="lb__btn lb__btn--prev" type="button" aria-label="Previous" data-aria-en="Previous" data-aria-es="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button class="lb__btn lb__btn--next" type="button" aria-label="Next" data-aria-en="Next" data-aria-es="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+          <div class="lb__dots">
+            <button class="lb__dot" type="button" aria-label="View 1" data-aria-en="View 1" data-aria-es="Vista 1"></button>
+            <button class="lb__dot" type="button" aria-label="View 2" data-aria-en="View 2" data-aria-es="Vista 2"></button>
+            <button class="lb__dot" type="button" aria-label="View 3" data-aria-en="View 3" data-aria-es="Vista 3"></button>
+          </div>
+        </div>
+      </article>
+
+      <article class="ib" id="ib-main">
+        <div class="ib__txt rv">
+          <span class="ib__n" aria-hidden="true">02</span>
+          <h3 data-en="Main breaker" data-es="Breaker principal">Main breaker</h3>
+          <p data-en="Flip the main and the whole panel comes alive. We test it, tighten the lugs and swap it if it runs hot or trips." data-es="Sube el principal y todo el panel se enciende. Lo probamos, apretamos los bornes y lo cambiamos si se calienta o salta.">Flip the main and the whole panel comes alive. We test it, tighten the lugs and swap it if it runs hot or trips.</p>
+          <span class="ib__price" data-en="from $180 (demo)" data-es="desde $180 (demo)">from $180 (demo)</span>
+        </div>
+        <div class="ib__fig">
+          <img src="../../img/v9/frames/breaker/f071.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Breaker panel with its main breaker switched on and every circuit lit" data-alt-en="Breaker panel with its main breaker switched on and every circuit lit" data-alt-es="Panel con el breaker principal encendido y todos los circuitos iluminados">
+          <canvas id="ib-breaker" aria-hidden="true"></canvas>
+        </div>
+      </article>
+
+      <article class="ib" id="ib-wire">
+        <div class="ib__txt rv">
+          <span class="ib__n" aria-hidden="true">03</span>
+          <h3 data-en="Grouping &amp; wiring" data-es="Agrupado y cableado">Grouping &amp; wiring</h3>
+          <p data-en="Copper carries the load, so every conductor must be clean, tight and the right size. Loose or scorched wire gets repaired and neatly dressed." data-es="El cobre lleva la carga, así que cada conductor debe estar limpio, firme y del calibre correcto. El cable flojo o quemado se repara y se ordena.">Copper carries the load, so every conductor must be clean, tight and the right size. Loose or scorched wire gets repaired and neatly dressed.</p>
+          <span class="ib__price" data-en="from $220 (demo)" data-es="desde $220 (demo)">from $220 (demo)</span>
+        </div>
+        <div class="ib__fig cw" id="cw">
+          <img src="../../img/v9/stills/cable.webp" width="1376" height="768" loading="lazy" decoding="async" alt="Cable with the rubber cut away and bare copper strands showing" data-alt-en="Cable with the rubber cut away and bare copper strands showing" data-alt-es="Cable con la goma cortada y los hilos de cobre al descubierto">
+          <svg class="cw__svg" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><filter id="cwg" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+            <g filter="url(#cwg)">
+              <path class="cw__g" d="M470,448 L700,352 L920,268"/>
+              <path class="cw__g" d="M480,456 L720,388 L945,350"/>
+              <path class="cw__g" d="M520,452 L760,432 L965,414"/>
+              <path class="cw__p cw__p--in" pathLength="1000" d="M0,735 L250,600 L470,448"/>
+              <path class="cw__p cw__p--cu" pathLength="1000" d="M470,448 L700,352 L920,268"/>
+              <path class="cw__p cw__p--cu" pathLength="1000" d="M480,456 L720,388 L945,350"/>
+              <path class="cw__p cw__p--cu" pathLength="1000" d="M520,452 L760,432 L965,414"/>
+              <circle class="cw__tip" cx="950" cy="355" r="26"/>
+            </g>
+          </svg>
+        </div>
+      </article>
+
+      <article class="ib" id="ib-gnd">
+        <div class="ib__txt rv">
+          <span class="ib__n" aria-hidden="true">04</span>
+          <h3 data-en="Ground bar" data-es="Barra de tierra">Ground bar</h3>
+          <p data-en="When lightning or a fault hits, the ground bar gives the surge a safe path down into the earth, away from your family and your gear. We check it and bond it to code." data-es="Cuando cae un rayo o hay una falla, la barra de tierra da a la descarga un camino seguro hacia el suelo, lejos de tu familia y tus equipos. La revisamos y la conectamos según norma.">When lightning or a fault hits, the ground bar gives the surge a safe path down into the earth, away from your family and your gear. We check it and bond it to code.</p>
+          <span class="ib__price" data-en="from $150 (demo)" data-es="desde $150 (demo)">from $150 (demo)</span>
+        </div>
+        <div class="ib__fig">
+          <img src="../../img/v9/frames/varilla/f024.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Lightning striking a copper ground rod and spreading into the soil" data-alt-en="Lightning striking a copper ground rod and spreading into the soil" data-alt-es="Un rayo cae sobre una varilla de tierra de cobre y se dispersa por el suelo">
+          <canvas id="ib-ground" aria-hidden="true"></canvas>
+        </div>
+      </article>
+
     </div>
-    <p class="note hs__hint rv" data-en="Keyboard: Tab to a point, Enter to open, Esc to close." data-es="Teclado: Tab hasta un punto, Intro para abrir, Esc para cerrar.">Keyboard: Tab to a point, Enter to open, Esc to close.</p>
   </div>
 </section>
 
@@ -673,6 +752,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
 <script src="../../js/vendor/gsap.min.js"></script>
 <script src="../../js/vendor/ScrollTrigger.min.js"></script>
 <script src="../../js/vendor/lenis.min.js"></script>
+<script src="v9e.js"></script>
 <script>
 /* language (EN/ES) */
 (function(){
@@ -701,26 +781,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
     e.preventDefault(); var b=document.getElementById('send'); b.disabled=true; b.textContent=T.demo[lang];
   });
   apply(lang);
-})();
-
-/* panel hotspots: one card open at a time, Esc closes, click outside closes */
-(function(){
-  var box=document.getElementById('hs'); if(!box) return;
-  var dots=[].slice.call(box.querySelectorAll('.hs__dot'));
-  function closeAll(except){dots.forEach(function(d){if(d===except) return; d.setAttribute('aria-expanded','false'); var c=document.getElementById(d.getAttribute('aria-controls')); if(c) c.hidden=true;});}
-  dots.forEach(function(d){
-    d.addEventListener('click',function(e){
-      e.stopPropagation();
-      var open=d.getAttribute('aria-expanded')==='true', c=document.getElementById(d.getAttribute('aria-controls'));
-      closeAll(d); d.setAttribute('aria-expanded',open?'false':'true'); c.hidden=open;
-    });
-  });
-  addEventListener('keydown',function(e){
-    if(e.key!=='Escape') return;
-    var o=dots.filter(function(d){return d.getAttribute('aria-expanded')==='true';})[0];
-    if(o){closeAll(); o.setAttribute('aria-expanded','false'); document.getElementById(o.getAttribute('aria-controls')).hidden=true; o.focus();}
-  });
-  document.addEventListener('click',function(e){if(!e.target.closest('.hs__card')) closeAll();});
 })();
 
 /* lateral scroll progress + dock height (work without GSAP) */
@@ -797,49 +857,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
     document.addEventListener('mouseleave',function(){cur.classList.remove('on');});
   }
 
-  /* hero photo: effects driven by ACCUMULATED scroll distance (never rewinds on scroll up).
-     zoom 1 -> 1.1 and a gentle sway; a soft "scanline" glint over the blueprint grid (mix-blend-mode, the costly part).
-     Frame time is probed; the scanline is switched off if the average frame takes > 32 ms. */
-  (function(){
-    var pro=document.getElementById('pro'),scan=document.getElementById('scan'),yel=document.getElementById('yel');
-    if(reduce||!pro||!scan||!yel) return;
-    root.classList.add('fx');
-    var acc=0,cur=0,lastY=window.scrollY||0,H=yel.offsetHeight||600,vis=true,running=false,scanOn=false,last=0,win=[];
-    var API=window.__proFx={acc:0,cur:0,scan:false,avg:0,probed:false};
-    addEventListener('resize',function(){H=yel.offsetHeight||H;});
-    if(window.IntersectionObserver) new IntersectionObserver(function(en){vis=en[0].isIntersecting;if(vis)kick();}).observe(yel);
-    addEventListener('scroll',function(){
-      var y=window.scrollY||0,d=Math.abs(y-lastY);lastY=y;
-      if(d>0){acc+=Math.min(d,400);API.acc=acc;kick();}
-    },{passive:true});
-    function render(){
-      var z=Math.min(cur/900,1);z=1-(1-z)*(1-z);
-      pro.style.transform='translate3d('+(8*Math.sin(cur/280)).toFixed(2)+'px,0,0) scale('+(1+.1*z).toFixed(4)+')';
-      if(scanOn){var ph=(cur/800)%1;scan.style.transform='translate3d(0,'+((ph*1.5-.25)*H).toFixed(1)+'px,0)';}
-      API.cur=cur;
-    }
-    function avgOf(a){var s=0;for(var i=0;i<a.length;i++)s+=a[i];return a.length?s/a.length:0;}
-    function setScan(on){scanOn=on;API.scan=on;root.classList.toggle('fx-scan',on);}
-    API.force=function(on){API.locked=true;setScan(on);render();}; /* test hook */
-    function tick(t){
-      if(last){var dt=t-last;if(dt<250){win.push(dt);if(win.length>30)win.shift();if(win.length>=20){API.avg=avgOf(win);if(scanOn&&!API.locked&&API.avg>32)setScan(false);}}}
-      last=t;
-      cur+=(acc-cur)*.08;if(Math.abs(acc-cur)<.3)cur=acc;
-      render();
-      if(Math.abs(acc-cur)>.3&&vis) requestAnimationFrame(tick); else {running=false;last=0;}
-    }
-    function kick(){if(!running&&vis){running=true;requestAnimationFrame(tick);}}
-    function probe(){
-      var n=0,pl=0,ds=[];
-      (function f(t){if(pl){var dt=t-pl;if(dt<250)ds.push(dt);}pl=t;
-        if(++n<42) requestAnimationFrame(f);
-        else{var a=avgOf(ds);API.avg=a;API.probed=true;if(ds.length>=20&&a<=32){setScan(true);render();}}
-      })(performance.now());
-    }
-    if(document.readyState==='complete') setTimeout(probe,300); else addEventListener('load',function(){setTimeout(probe,300);});
-    render();
-  })();
-
   if(reduce||!window.gsap||!window.ScrollTrigger){ /* static look */
     document.querySelectorAll('[data-count]').forEach(function(n){n.textContent=n.getAttribute('data-count');});
     return;
@@ -858,20 +875,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
     });
   }
 
-  /* headline: whole LINES rise in (not words) */
-  gsap.from('#h1 .ln>span',{yPercent:115,duration:1,ease:'power4.out',stagger:.16,delay:.15});
-  gsap.from('#heroPro',{yPercent:14,opacity:0,duration:1.2,ease:'power3.out',delay:.3});
-  gsap.from('#tag24',{scale:.3,rotation:-40,opacity:0,duration:.8,ease:'back.out(2.2)',delay:.9});
-
-  /* hero parallax: the yellow blueprint block moves at its own speed */
-  var st={trigger:'.hero',start:'top top',end:'bottom top',scrub:true};
-  gsap.to('#heroBg',{yPercent:12,ease:'none',scrollTrigger:st});
-  gsap.to('#heroPro',{y:34,ease:'none',scrollTrigger:st});
-  gsap.to('#tag24',{y:-46,ease:'none',scrollTrigger:st});
-
   /* reveals */
-  gsap.to('.hero .rv',{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.15,delay:.8});
-  ScrollTrigger.batch('.rv:not(.hero .rv)',{start:'top 90%',once:true,onEnter:function(b){gsap.to(b,{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.1,overwrite:true});}});
+    ScrollTrigger.batch('.rv',{start:'top 90%',once:true,onEnter:function(b){gsap.to(b,{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.1,overwrite:true});}});
 
   /* connected line of the 3 steps grows with scroll (horizontal on desktop, vertical on mobile) */
   var mm=gsap.matchMedia();
