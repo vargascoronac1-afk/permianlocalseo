@@ -6,6 +6,7 @@
   var doc = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var small = window.matchMedia('(max-width:768px)');
+  var portraitMQ = window.matchMedia('(max-width:768px),(orientation:portrait)'); /* misma condicion que la banda 16:9 de css/v9-intro.css (fase 3e/3g) */
   function $(s, c) { return (c || document).querySelector(s); }
   function $$(s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); }
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -18,23 +19,26 @@
          se dibuja el cargado mas cercano.
        - dibuja con drawImage ajustando "cover" al tamano del canvas (devicePixelRatio, tope 2).
        - carpeta -720 (mobileDir) si matchMedia (max-width:768px).
+       - portraitDir (fase 3g): si hay y la pantalla es vertical (portraitMQ), tiene prioridad sobre mobileDir/dir; si la orientacion cambia
+         se descartan los fotogramas y se recarga la secuencia adecuada.
        - setProgress(0..1). Nunca cambia el src de ningun <img>.
      --------------------------------------------------------------------------------------------- */
   function createScrubber(o) {
     var canvas = o.canvas, alpha = !!o.alpha, ctx = canvas.getContext('2d', { alpha: alpha }) || canvas.getContext('2d');
     var contain = o.fit === 'contain', maxStep = o.maxStep || 0, cur = -1;
     var count = Math.max(1, o.count | 0), eager = Math.min(o.eager || 10, count);
-    var base = ((small.matches || o.light) && o.mobileDir) ? o.mobileDir : o.dir;
+    function pickBase() { return (o.portraitDir && portraitMQ.matches) ? o.portraitDir : ((small.matches || o.light) && o.mobileDir) ? o.mobileDir : o.dir; }
+    var base = pickBase();
     var imgs = [], state = [], started = false, bgTimer = 0, rafId = 0, target = 0, drawn = -1, dirty = true;
     var readyRes, ready = new Promise(function (r) { readyRes = r; });
-    var isReady = false;
+    var isReady = false, gen = 0;
 
     function url(i) { return base + '/f' + pad3(i) + '.webp'; }
     function load(i) {
       if (i < 0 || i >= count || state[i]) return;
       state[i] = 1; /* 1 cargando, 2 ok, 3 fallo */
       var im = new Image(); im.decoding = 'async'; imgs[i] = im;
-      var fin = function (ok) { state[i] = ok ? 2 : 3; if (ok && (i === target || drawn < 0)) schedule(); };
+      var g0 = gen, fin = function (ok) { if (g0 !== gen) return; state[i] = ok ? 2 : 3; if (ok && (i === target || drawn < 0)) schedule(); };
       im.onload = function () { if (im.decode) im.decode().then(function () { fin(true); }, function () { fin(true); }); else fin(true); };
       im.onerror = function () { fin(false); };
       im.src = url(i);
@@ -86,6 +90,13 @@
     }
     function schedule() { if (!rafId) rafId = requestAnimationFrame(draw); }
     function setProgress(p) { target = clamp(+p || 0, 0, 1); schedule(); }
+    function rebase() { /* cambio de orientacion: recarga la secuencia adecuada (solo si hay portraitDir) */
+      var nb = pickBase(); if (nb === base) return;
+      base = nb; gen++; imgs = []; state = []; cur = -1; drawn = -1; dirty = true; clearTimeout(bgTimer); bgTimer = 0;
+      if (started) { var p = []; for (var i = 0; i < eager; i++) p.push(settled(i)); Promise.all(p).then(function () { bgTimer = setTimeout(background, 80); schedule(); }); }
+      schedule();
+    }
+    if (o.portraitDir) { if (portraitMQ.addEventListener) portraitMQ.addEventListener('change', rebase); else if (portraitMQ.addListener) portraitMQ.addListener(rebase); }
     if (window.ResizeObserver) new ResizeObserver(function () { dirty = true; schedule(); }).observe(canvas);
     var api = {
       canvas: canvas, start: start, ready: ready, setProgress: setProgress,
@@ -133,7 +144,7 @@
     S[clip] = s; return s;
   }
   var A = make(road, '.v9-road__cv:not(.v9-road__cv--b)'), B = make(road, '.v9-road__cv--b');
-  var T = make(shop, '.v9-shop__cv'), H = make(city, '.v9-city__cv', { eager: 20, maxStep: 1 }); /* houston: 20 antes de mostrar, y nunca salta mas de 1 fotograma por frame */
+  var T = make(shop, '.v9-shop__cv', { portraitDir: 'img/v9/frames/tienda-v' }), H = make(city, '.v9-city__cv', { eager: 20, maxStep: 1, portraitDir: 'img/v9/frames/houston-v' }); /* houston: 20 antes de mostrar, y nunca salta mas de 1 fotograma por frame */
   var extras = $('#extras'), V = null;
   if (extras) {
     var tcv = $('.v9-truck__cv', extras);

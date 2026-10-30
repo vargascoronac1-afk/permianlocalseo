@@ -147,16 +147,19 @@ html.ideas.v9-on .work.is-gal .work__head::after{content:"";display:block;width:
   .wk{--wk-h:min(48svh,440px)}
 }
 
-/* ---------- Fase 3e: vertical / movil -> el clip es una banda apaisada 16:9 a todo el ancho, centrada en vertical sobre var(--bg).
-   Los textos van fuera de la banda (carretera, ciudad y tienda: debajo). El lienzo mide justo 16:9, asi que "cover" no recorta nada. ---------- */
+/* ---------- Fase 3e/3g: vertical / movil. La carretera (sin clip vertical todavia) es una banda apaisada 16:9 a todo el ancho, centrada sobre var(--bg),
+   con el titular debajo. La ciudad y la tienda (fase 3g) usan sus secuencias verticales (houston-v, tienda-v) a pantalla completa con "cover" y
+   los textos encima, como en escritorio. ---------- */
 @media(max-width:768px),(orientation:portrait){
-  .v9-on .v9-road__cv,.v9-on .v9-shop__cv,.v9-on .v9-city__cv{inset:auto;left:0;top:50%;width:100%;height:56.25vw;transform:translateY(-50%)}
+  .v9-on .v9-road__cv{inset:auto;left:0;top:50%;width:100%;height:56.25vw;transform:translateY(-50%)}
   .v9-on .v9-road__poster{inset:auto;left:0;top:50%;height:56.25vw;transform:translateY(-50%)}
-  .v9-on .v9-road__shade,.v9-on .v9-city__shade,.v9-on .v9-shop__shade{display:none}
+  .v9-on .v9-road__shade{display:none}
   .v9-on .v9-road__title{text-shadow:none}
-  .v9-on .v9-city__h{text-shadow:none}
-  .v9-on .v9-shop__txt{min-height:0;padding-bottom:clamp(28px,6svh,56px)}
-  .v9-on .v9-num{font-size:clamp(4.5rem,22vw,8rem)}
-  .v9-on .v9-l{font-size:clamp(1.05rem,4.6vw,1.5rem)}
-  .v9-on .v9-src{margin-top:10px;font-size:.74rem}
+  .v9-on .v9-city__shade{background:linear-gradient(0deg,rgba(5,5,7,.9),rgba(5,5,7,.55) 34%,rgba(5,5,7,0) 62%),linear-gradient(180deg,rgba(5,5,7,.35),rgba(5,5,7,0) 22%)}
+  .v9-on .v9-city__h{margin-bottom:clamp(48px,11svh,110px);font-size:clamp(2.1rem,10.5vw,3.4rem);text-shadow:0 2px 24px rgba(0,0,0,.7)}
+  .v9-on .v9-shop__shade{background:linear-gradient(0deg,rgba(5,5,7,.94),rgba(5,5,7,.72) 34%,rgba(5,5,7,0) 66%),linear-gradient(180deg,rgba(5,5,7,.3),rgba(5,5,7,0) 20%)}
+  .v9-on .v9-shop__txt{min-height:0;padding-bottom:clamp(36px,7svh,72px)}
+  .v9-on .v9-num{font-size:clamp(4.5rem,22vw,8rem);text-shadow:0 2px 22px rgba(0,0,0,.6)}
+  .v9-on .v9-l{font-size:clamp(1.05rem,4.6vw,1.5rem);text-shadow:0 1px 14px rgba(0,0,0,.75)}
+  .v9-on .v9-src{margin-top:10px;font-size:.74rem;color:var(--text);opacity:.8;text-shadow:0 1px 10px rgba(0,0,0,.8)}
 }

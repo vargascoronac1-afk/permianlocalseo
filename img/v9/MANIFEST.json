@@ -1,6 +1,6 @@
 {
   "generado": "2026-10-30",
-  "formato": "WebP libwebp; fotogramas f000.webp..f(N-1); desktop 1280 px ancho, movil 720 px ancho (alto 720 / 406 segun clip, 16:9) | 2026-10-30 fase 3e: carpetas *-720 (nombre historico) ahora llevan 1080 px de ancho (houston 944)",
+  "formato": "WebP libwebp; fotogramas f000.webp..f(N-1); desktop 1280 px ancho, movil 720 px ancho (alto 720 / 406 segun clip, 16:9) | 2026-10-30 fase 3e: carpetas *-720 (nombre historico) ahora llevan 1080 px de ancho (houston 944) | 2026-10-30 fase 3g: carpetas houston-v y tienda-v (720x1280 vertical)",
   "limites": {
     "escritorio_bytes_max": 7000000,
     "movil_bytes_max": 7000000
@@ -153,6 +153,26 @@
       "bytes_escritorio": 3012448,
       "bytes_movil": 1228726,
       "ok_limites": true
+    },
+    "houston-v": {
+      "origen": "clip vertical 720x1280 (fase 3g)",
+      "fotogramas": 90,
+      "carpeta_vertical": "frames/houston-v",
+      "ancho_vertical": 720,
+      "alto_vertical": 1280,
+      "bytes_vertical": 8667314,
+      "ok_limites_vertical": false,
+      "nota": "3g: se usa en vertical (max-width:768px o orientation:portrait) en lugar de *-720; dibujo cover a pantalla completa"
+    },
+    "tienda-v": {
+      "origen": "clip vertical 720x1280 (fase 3g) ; empieza en t=2,2 s del clip para saltarse un rotulo con texto",
+      "fotogramas": 64,
+      "carpeta_vertical": "frames/tienda-v",
+      "ancho_vertical": 720,
+      "alto_vertical": 1280,
+      "bytes_vertical": 3533096,
+      "ok_limites_vertical": true,
+      "nota": "3g: se usa en vertical (max-width:768px o orientation:portrait) en lugar de *-720; dibujo cover a pantalla completa"
     }
   },
   "silverado": {
