@@ -109,3 +109,15 @@ Imagenes generadas con Pillow a partir de las originales de arriba, mismo autor 
 | desert-road-winding-mock-1600.webp (blanco y negro muy oscura) | desert-road-winding | (ver la fila de desert-road-winding) | Unsplash License |
 
 grain.png (ruido generado, sin fuente) y posters/*-laptop.webp (capturas de nuestras propias demos) no son fotos de terceros.
+
+## Menu 3D de la taqueria demo (2026-10-31)
+
+Fotos de Unsplash (Unsplash License: uso comercial libre, sin atribucion obligatoria; se acredita igualmente). Se recortaron con rembg y se convirtieron a WebP con alpha en `demos/taqueria/3d/` (con un mapa de relieve generado a partir de la silueta). Ninguna es de Unsplash+/Getty. Descargadas 2026-10-30.
+
+| Archivo | Foto original | Autor | Licencia |
+|---|---|---|---|
+| demos/taqueria/3d/tacos-birria.webp | https://unsplash.com/photos/BpmEx2YgqWM ("Tacos de Birria"; recorte del plato inferior) | Diego Lozano | Unsplash License |
+| demos/taqueria/3d/quesabirria.webp | https://unsplash.com/photos/YBp9IqJ1P88 (3 quesabirria con consome, Long Beach) | Doris Morgan | Unsplash License |
+| demos/taqueria/3d/consome-birria.webp | https://unsplash.com/photos/DXKbOIWGZSA (cuenco de sopa tipo birria con limon y cilantro) | Kelsey Todd | Unsplash License |
+
+Fotos de apoyo descartadas: tlfjDBm-fXc (You Le; un plato con un adhesivo de marca de terceros) y m_6l8ZiQ8pc / T6D_RDoQ82E (Kelsey Todd; el cuenco quedaba cortado por el borde). Son fotos de archivo, no del negocio ficticio; con las fotos del cliente se sustituyen con `director/2026-10-31-menu-3d/herramientas/relieve.py`.

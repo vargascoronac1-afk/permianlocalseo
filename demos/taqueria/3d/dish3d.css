@@ -1,0 +1,30 @@
+/* Menu 3D: tarjetas de platos (visor en 3d/dish3d.js). Variables heredadas de la pagina (--crema, --teja, --maiz, --ink, --head, --body). */
+.m3d{position:relative;color:var(--crema);padding:clamp(56px,9vw,110px) 0 clamp(56px,8vw,96px);
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,#8a2a12 0%,#4a170b 45%,#2b1a10 100%)}
+.m3d h2{color:var(--maiz)}
+.m3d .eyebrow{color:#f3d9a3}
+.m3d__head{max-width:1180px;margin:0 auto 34px;padding:0 20px}
+.m3d__sub{max-width:52ch;margin-top:12px;color:#f3d9a3;font-weight:600}
+.m3d__grid{max-width:1180px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.dish3d{display:flex;flex-direction:column;background:rgba(248,238,214,.07);border:2px solid rgba(246,194,62,.35);border-radius:22px;padding:14px 14px 18px}
+.dish3d__stage{position:relative;aspect-ratio:1/1;border-radius:14px;overflow:hidden;
+  background:radial-gradient(circle at 50% 42%,rgba(246,194,62,.22),rgba(0,0,0,0) 62%)}
+.dish3d__stage::after{content:"";position:absolute;left:50%;bottom:6%;width:62%;height:9%;transform:translateX(calc(-50% + var(--sx,0px)));
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.55),rgba(0,0,0,0) 70%);pointer-events:none;z-index:0;filter:blur(2px)}
+.dish3d__stage img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:auto;max-height:100%;object-fit:contain;z-index:1;transition:opacity .35s;filter:drop-shadow(0 10px 14px rgba(0,0,0,.35))}
+.dish3d__cv{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2;opacity:0;transition:opacity .35s;cursor:grab;touch-action:pan-y}
+.dish3d__stage.is-3d .dish3d__cv{opacity:1}
+.dish3d__stage.is-3d img{opacity:0}
+.dish3d__stage.is-drag .dish3d__cv{cursor:grabbing}
+.dish3d__go{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:3;min-height:44px;padding:0 20px;border-radius:999px;border:2px solid var(--maiz);background:rgba(43,26,16,.85);color:var(--maiz);font:800 .95rem/1 var(--body);cursor:pointer}
+.dish3d__go[hidden]{display:none}
+.dish3d__hint{align-self:center;margin:10px 0 2px;font:800 .78rem/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:#f3d9a3;opacity:.85;display:flex;align-items:center;gap:8px}
+.dish3d__hint svg{width:22px;height:22px}
+.dish3d h3{font-size:1.55rem;color:var(--crema);margin-top:8px;text-transform:uppercase}
+.dish3d p{margin-top:8px;color:#ecdcb7;font-size:1rem;line-height:1.45;flex:1}
+.dish3d__foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px}
+.dish3d__price{font:400 1.7rem/1 var(--head);color:var(--maiz)}
+.dish3d .btn{min-height:48px;padding:0 22px;box-shadow:3px 3px 0 rgba(0,0,0,.5)}
+.m3d__note{max-width:1180px;margin:22px auto 0;padding:0 20px;font-size:.9rem;color:#d9c391}
+@media (max-width:900px){.m3d__grid{grid-template-columns:1fr;max-width:520px}}
+@media (prefers-reduced-motion:reduce){.dish3d__cv,.dish3d__stage img{transition:none}}

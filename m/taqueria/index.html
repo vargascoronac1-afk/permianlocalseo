@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>El Sol de Odessa Taquería · Menu</title>
+<meta name="description" content="Menu with 3D dishes, prices, hours and address. Demo of a table-QR/NFC menu by Permian Local. Fictional business.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2b1a10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap">
+<link rel="stylesheet" href="../../demos/taqueria/3d/dish3d.css">
+<script type="importmap">{"imports":{"three":"../../js/vendor/three/three.module.js"}}</script>
+<style>
+:root{--crema:#f8eed6;--crema2:#efe0bd;--teja:#9c2f14;--teja-d:#7d2310;--tejaoscuro:#5a1a0e;--maiz:#f6c23e;--verde:#1f4a28;--verde2:#2d6a3a;--ink:#2b1a10;--muted:#5e3b2a;--line:#c9a977;
+  --head:"Alfa Slab One",Georgia,"Times New Roman",serif;--body:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-padding-top:116px;scroll-behavior:smooth}
+body{margin:0;background:var(--crema);color:var(--ink);font:400 1.0625rem/1.5 var(--body);padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:var(--head);font-weight:400;line-height:1.02;margin:0}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border:3px solid transparent;border-radius:999px;cursor:pointer;font:800 1rem/1 var(--body);text-decoration:none}
+.btn svg{width:20px;height:20px;flex:none}
+.btn--teja{background:var(--teja);color:#fff;box-shadow:3px 3px 0 var(--ink)}
+.btn--maiz{background:var(--maiz);color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.top{position:sticky;top:0;z-index:40;background:var(--crema);border-bottom:3px solid var(--ink)}
+.top__in{display:flex;align-items:center;gap:10px;padding:10px 16px 8px}
+.top h1{font-size:1.25rem;color:var(--teja);flex:1;min-width:0}
+.top h1 small{display:block;font:800 .72rem/1.2 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--verde2);margin-top:3px}
+.lang{min-width:48px;min-height:44px;border:3px solid var(--ink);border-radius:999px;background:transparent;font:800 .95rem/1 var(--body);cursor:pointer;color:var(--ink)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:0 16px 10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;min-height:40px;display:inline-flex;align-items:center;padding:0 16px;border-radius:999px;border:2px solid var(--teja);color:var(--teja);font:800 .92rem/1 var(--body);text-decoration:none;background:var(--crema)}
+.chips a:first-child{background:var(--teja);color:#fff}
+main{max-width:760px;margin:0 auto}
+.m3d{margin:0;padding:34px 0 30px}
+.m3d__grid{grid-template-columns:1fr;max-width:none;padding:0 16px;gap:18px}
+.m3d__head{padding:0 16px;margin-bottom:20px}
+.m3d h2{font-size:2.5rem;text-transform:uppercase}
+.m3d__note{padding:0 16px}
+.cat{padding:30px 16px 0}
+.cat h2{font-size:2rem;color:var(--teja);text-transform:uppercase;margin-bottom:14px}
+.cat ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.item{display:grid;grid-template-columns:104px 1fr;gap:12px;align-items:center;background:#fff8e6;border:2px solid var(--line);border-radius:16px;padding:8px}
+.item img{width:104px;height:86px;object-fit:cover;border-radius:10px}
+.item__row{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+.item__row b{font:400 1.08rem/1.1 var(--head);color:var(--ink)}
+.item__p{margin-left:auto;font:800 1.05rem/1 var(--body);color:var(--teja)}
+.item__p small{font-weight:600;color:var(--muted);margin-left:3px}
+.item p{font-size:.92rem;line-height:1.35;color:var(--muted);margin-top:4px}
+.tag{font:800 .68rem/1 var(--body);letter-spacing:.08em;text-transform:uppercase;background:var(--maiz);padding:4px 8px;border-radius:999px;color:var(--ink)}
+.info{margin:34px 16px 0;padding:20px 18px;background:var(--tejaoscuro);color:var(--crema);border-radius:20px}
+.info h2{font-size:1.6rem;color:var(--maiz);margin-bottom:12px;text-transform:uppercase}
+.info table{border-collapse:collapse;width:100%;font-size:.98rem}
+.info th{text-align:left;font-weight:700;padding:3px 0} .info td{text-align:right;padding:3px 0}
+.info tr.off td{color:#f3b9a8}
+.info address{font-style:normal;margin-top:14px;font-weight:700}
+.info .st{margin-top:12px;font-weight:800;color:var(--maiz)}
+.info .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.info .btn--line{border-color:var(--crema);color:var(--crema);background:transparent}
+.legal{margin:22px 16px 0;font-size:.82rem;color:var(--muted)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:var(--ink);border-top:3px solid var(--maiz)}
+.bar .btn{flex:1}
+@media (min-width:700px){.m3d__grid{grid-template-columns:repeat(2,1fr)}.m3d h2{font-size:3rem}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top__in">
+    <h1>El Sol de Odessa<small data-es="Taquería · Odessa, TX" data-en="Taquería · Odessa, TX">Taquería · Odessa, TX</small></h1>
+    <button class="lang" id="lang" type="button" aria-label="Cambiar a español">ES</button>
+  </div>
+  <nav class="chips" aria-label="Menu">
+    <a href="#menu3d" data-es="Menú 3D" data-en="3D menu">3D menu</a>
+    <a href="#tacos" data-es="Tacos" data-en="Tacos">Tacos</a>
+    <a href="#platos" data-es="Platos" data-en="Plates">Plates</a>
+    <a href="#bebidas" data-es="Bebidas" data-en="Drinks">Drinks</a>
+    <a href="#horario" data-es="Horario" data-en="Hours">Hours</a>
+  </nav>
+</header>
+
+<main>
+<section class="m3d" id="menu3d" aria-label="Menú 3D">
+  <div class="m3d__head">
+    <p class="eyebrow" data-es="Platos estrella" data-en="Star dishes" style="font:800 .85rem/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:#f3d9a3;margin-bottom:10px">Star dishes</p>
+    <h2 data-es="Menú 3D" data-en="3D menu">3D menu</h2>
+    <p class="m3d__sub" data-es="Gira cada plato con el dedo antes de pedir." data-en="Spin each dish with your finger before you order.">Spin each dish with your finger before you order.</p>
+  </div>
+  <div class="m3d__grid">
+      <article class="dish3d">
+        <div class="dish3d__stage" data-src="../../demos/taqueria/3d/tacos-birria.webp" data-depth="../../demos/taqueria/3d/tacos-birria-depth.png">
+          <img src="../../demos/taqueria/3d/tacos-birria.webp" style="width:72.7%" width="800" height="600" loading="lazy" decoding="async" alt="Tacos de birria con cebolla y cilantro" data-alt-es="Tacos de birria con cebolla y cilantro" data-alt-en="Birria tacos with onion and cilantro">
+          <button class="dish3d__go" type="button" hidden data-es="Ver en 3D" data-en="View in 3D">Ver en 3D</button>
+        </div>
+        <span class="dish3d__hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg><span data-es="Arrastra para girar" data-en="Drag to rotate">Arrastra para girar</span></span>
+        <h3 data-es="Tacos de birria" data-en="Birria tacos">Tacos de birria</h3>
+        <p data-es="Res en adobo cocida lenta, tortilla pasada por el consomé, cebolla y cilantro. Orden de tres." data-en="Slow-cooked adobo beef, tortilla dipped in the consomé, onion and cilantro. Order of three.">Res en adobo cocida lenta, tortilla pasada por el consomé, cebolla y cilantro. Orden de tres.</p>
+        <div class="dish3d__foot"><span class="dish3d__price">$13.95</span><a class="btn btn--teja" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+      </article>
+      <article class="dish3d">
+        <div class="dish3d__stage" data-src="../../demos/taqueria/3d/quesabirria.webp" data-depth="../../demos/taqueria/3d/quesabirria-depth.png">
+          <img src="../../demos/taqueria/3d/quesabirria.webp" style="width:84%" width="800" height="600" loading="lazy" decoding="async" alt="Quesabirria con queso fundido" data-alt-es="Quesabirria con queso fundido" data-alt-en="Quesabirria with melted cheese">
+          <button class="dish3d__go" type="button" hidden data-es="Ver en 3D" data-en="View in 3D">Ver en 3D</button>
+        </div>
+        <span class="dish3d__hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg><span data-es="Arrastra para girar" data-en="Drag to rotate">Arrastra para girar</span></span>
+        <h3 data-es="Quesabirria" data-en="Quesabirria">Quesabirria</h3>
+        <p data-es="Tortilla dorada con queso fundido y birria deshebrada. Viene con consomé para mojar." data-en="Crisp griddled tortilla with melted cheese and shredded birria. Comes with consomé for dipping.">Tortilla dorada con queso fundido y birria deshebrada. Viene con consomé para mojar.</p>
+        <div class="dish3d__foot"><span class="dish3d__price">$14.50</span><a class="btn btn--teja" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+      </article>
+      <article class="dish3d">
+        <div class="dish3d__stage" data-src="../../demos/taqueria/3d/consome-birria.webp" data-depth="../../demos/taqueria/3d/consome-birria-depth.png">
+          <img src="../../demos/taqueria/3d/consome-birria.webp" style="width:65.5%" width="800" height="600" loading="lazy" decoding="async" alt="Tazón de consomé de birria" data-alt-es="Tazón de consomé de birria" data-alt-en="Bowl of birria consomé">
+          <button class="dish3d__go" type="button" hidden data-es="Ver en 3D" data-en="View in 3D">Ver en 3D</button>
+        </div>
+        <span class="dish3d__hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg><span data-es="Arrastra para girar" data-en="Drag to rotate">Arrastra para girar</span></span>
+        <h3 data-es="Consomé de birria" data-en="Birria consomé">Consomé de birria</h3>
+        <p data-es="El caldo de la birria con cebolla, cilantro y limón. Para mojar o para tomar." data-en="The birria broth with onion, cilantro and lime. For dipping or for sipping.">El caldo de la birria con cebolla, cilantro y limón. Para mojar o para tomar.</p>
+        <div class="dish3d__foot"><span class="dish3d__price">$6.50</span><a class="btn btn--teja" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+      </article>
+  </div>
+</section>
+
+  <section class="cat" id="tacos">
+    <h2 data-es="Tacos" data-en="Tacos">Tacos</h2>
+    <ul>
+      <li class="item">
+        <img src="../../img/menu/trompo-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+        <div class="item__t"><div class="item__row"><b data-es="Tacos de trompo" data-en="Trompo tacos">Tacos de trompo</b><span class="tag" data-es="La estrella" data-en="The star">La estrella</span><span class="item__p">$2.75<small data-es="c/u" data-en="each">c/u</small></span></div>
+        <p data-es="Cerdo al pastor del trompo, con piña y cebolla." data-en="Pork al pastor off the spit, with pineapple and onion.">Cerdo al pastor del trompo, con piña y cebolla.</p></div>
+      </li>
+      <li class="item">
+        <img src="../../img/menu/asada-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+        <div class="item__t"><div class="item__row"><b data-es="Tacos de asada" data-en="Asada tacos">Tacos de asada</b><span class="item__p">$3.25<small data-es="c/u" data-en="each">c/u</small></span></div>
+        <p data-es="Res a la parrilla, picada al momento." data-en="Grilled beef, chopped to order.">Res a la parrilla, picada al momento.</p></div>
+      </li>
+      <li class="item">
+        <img src="../../img/menu/barbacoa-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+        <div class="item__t"><div class="item__row"><b data-es="Tacos de barbacoa" data-en="Barbacoa tacos">Tacos de barbacoa</b><span class="item__p">$3.50<small data-es="c/u" data-en="each">c/u</small></span></div>
+        <p data-es="Cocida lenta, suave, con su consomé aparte." data-en="Slow-cooked and tender, with consommé on the side.">Cocida lenta, suave, con su consomé aparte.</p></div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="cat" id="platos">
+    <h2 data-es="Platos" data-en="Plates">Platos</h2>
+    <ul>
+      <li class="item">
+        <img src="../../img/menu/menudo-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+        <div class="item__t"><div class="item__row"><b data-es="Menudo" data-en="Menudo">Menudo</b><span class="tag" data-es="Sáb y Dom" data-en="Sat &amp; Sun">Sáb y Dom</span><span class="item__p">$11.50</span></div>
+        <p data-es="Caldo rojo, con orégano, limón y tortillas calientes." data-en="Red broth with oregano, lime and warm tortillas.">Caldo rojo, con orégano, limón y tortillas calientes.</p></div>
+      </li>
+      <li class="item">
+        <img src="../../img/menu/tortas-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+        <div class="item__t"><div class="item__row"><b data-es="Tortas" data-en="Tortas">Tortas</b><span class="item__p">$9.50</span></div>
+        <p data-es="Telera tostada, frijoles, aguacate y tu carne favorita." data-en="Toasted telera roll, beans, avocado and your choice of meat.">Telera tostada, frijoles, aguacate y tu carne favorita.</p></div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="cat" id="bebidas">
+    <h2 data-es="Bebidas" data-en="Drinks">Bebidas</h2>
+    <ul>
+      <li class="item">
+        <img src="../../img/menu/aguas-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+        <div class="item__t"><div class="item__row"><b data-es="Aguas frescas" data-en="Aguas frescas">Aguas frescas</b><span class="item__p">$3.50</span></div>
+        <p data-es="Horchata, jamaica y limón. Vaso grande." data-en="Horchata, hibiscus and lime. Large cup.">Horchata, jamaica y limón. Vaso grande.</p></div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="info" id="horario">
+    <h2 data-es="Horario y dirección" data-en="Hours &amp; address">Hours &amp; address</h2>
+    <table><tbody>
+      <tr class="off"><th scope="row" data-es="Lunes" data-en="Monday">Monday</th><td data-es="Cerrado" data-en="Closed">Closed</td></tr>
+      <tr><th scope="row" data-es="Martes a domingo" data-en="Tuesday to Sunday">Tuesday to Sunday</th><td>7 am – 10 pm</td></tr>
+    </tbody></table>
+    <address>E 8th St, Odessa, TX</address>
+    <div class="row">
+      <a class="btn btn--maiz" href="https://www.google.com/maps/search/?api=1&amp;query=taquer%C3%ADa+E+8th+St+Odessa+TX" target="_blank" rel="noopener"><span data-es="Cómo llegar" data-en="Get directions">Get directions</span></a>
+    </div>
+  </section>
+  <p class="legal" data-es="Sitio de demostración. Taquería El Sol de Odessa es un negocio ficticio; nombre, teléfono, dirección y precios son inventados. Fotos de archivo. Hecho por Permian Local." data-en="Demo page. El Sol de Odessa Taquería is a fictional business; the name, phone, address and prices are made up. Stock photos. Made by Permian Local.">Demo page. El Sol de Odessa Taquería is a fictional business; the name, phone, address and prices are made up. Stock photos. Made by Permian Local.</p>
+</main>
+
+<div class="bar">
+  <a class="btn btn--maiz" href="tel:+14325550174"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-es="Llamar" data-en="Call">Call</span></a>
+  <a class="btn btn--teja" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Order</span></a>
+</div>
+
+<script type="module">
+/* menu 3D: carga perezosa al acercarse a la seccion */
+(function(){var sec=document.getElementById('menu3d');if(!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();import('../../demos/taqueria/3d/dish3d.js').then(function(m){m.lazyMountAll(sec);}).catch(function(){});}},{rootMargin:'300px'});io.observe(sec);})();
+</script>
+<script>
+/* idioma EN/ES (misma clave que el demo: tq-lang2); ingles por defecto */
+(function(){
+  var KEY='tq-lang2',btn=document.getElementById('lang'),lang='en';
+  try{var s=localStorage.getItem(KEY);if(s==='en'||s==='es')lang=s;}catch(e){}
+  var T={title:{es:'El Sol de Odessa Taquería · Menú',en:'El Sol de Odessa Taquería · Menu'},toggle:{es:['EN','Switch to English'],en:['ES','Cambiar a español']}};
+  function apply(l){
+    lang=l;document.documentElement.lang=l;
+    document.querySelectorAll('[data-es]').forEach(function(el){var v=el.getAttribute('data-'+l);if(v!==null)el.innerHTML=v;});
+    document.querySelectorAll('[data-alt-es]').forEach(function(el){el.setAttribute('alt',el.getAttribute('data-alt-'+l));});
+    document.title=T.title[l];btn.textContent=T.toggle[l][0];btn.setAttribute('aria-label',T.toggle[l][1]);
+  }
+  btn.addEventListener('click',function(){var n=lang==='es'?'en':'es';try{localStorage.setItem(KEY,n);}catch(e){}apply(n);});
+  apply(lang);
+})();
+</script>
+</body>
+</html>
