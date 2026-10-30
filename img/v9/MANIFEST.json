@@ -59,7 +59,7 @@
       "nota_movil": "3e: carpeta tienda-720 (nombre historico) con fotogramas de 1080 px, q74"
     },
     "houston": {
-      "origen": "generaciones/G4-houston.mp4 (10.08 s)",
+      "origen": "posproduccion/G4-houston-x2-fundido.mp4: fotogramas x2 (realesr-animevideov3) con fundidos cruzados 0,6 s en los cortes t=4,125 s y 6,375 s; fps=90/8.96 (2026-10-30)",
       "fotogramas": 90,
       "calidad_escritorio": 58,
       "calidad_movil": 64,
@@ -70,8 +70,8 @@
       "alto_escritorio": 900,
       "ancho_movil": 944,
       "alto_movil": 532,
-      "bytes_escritorio": 11741312,
-      "bytes_movil": 6944040,
+      "bytes_escritorio": 11672032,
+      "bytes_movil": 6782730,
       "ok_limites": false,
       "problema": "escritorio 11,7 MB > 7 MB: aceptado por Carlos/director por nitidez (limite 12 MB fase 3d)",
       "ok_limites_movil": true,
