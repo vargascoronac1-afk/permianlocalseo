@@ -133,7 +133,8 @@
         "rule": "buried-raster",
         "value": "*",
         "files": [
-          "demos/taller/index.html"
+          "demos/taller/index.html",
+          "web/demos/taller/index.html"
         ],
         "createdAt": "2026-10-24T14:13:37.693Z",
         "reason": "La foto del motor (#truckMotor) empieza a opacidad 0 a propósito: aparece con el scroll al final de la secuencia de la camioneta (pedido de Carlos 2026-10-24)"

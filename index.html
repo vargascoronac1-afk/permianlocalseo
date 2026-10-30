@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Websites for Odessa &amp; Midland businesses | Permian Local</title>
-<meta name="description" content="Websites for small businesses in Odessa and Midland, TX. Fixed price quoted in 48 hours, live in 7 days, English and Spanish. Free homepage mockup in 48 hours.">
+<meta name="description" content="Websites for small businesses in Odessa and Midland, TX. Estimate in 48 hours, live in 7 days, English and Spanish. Free homepage mockup in 48 hours.">
 <link rel="canonical" href="https://permianlocalseo.com/">
 <meta name="theme-color" content="#050507">
 <meta name="color-scheme" content="dark">
@@ -16,10 +16,11 @@
 <link rel="preload" href="/fonts/instrument.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.add("js")</script>
+<script>if(/[?&]ideas=1(&|$)/.test(location.search))document.documentElement.classList.add("ideas")</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Permian Local">
 <meta property="og:title" content="Websites for Odessa and Midland businesses, live in 7 days">
-<meta property="og:description" content="Fixed prices, quoted with your free homepage mockup in 48 hours. English and Spanish.">
+<meta property="og:description" content="Estimate with your free homepage mockup in 48 hours. English and Spanish.">
 <meta property="og:url" content="https://permianlocalseo.com/">
 <meta property="og:image" content="https://permianlocalseo.com/img/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -29,6 +30,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" imagesrcset="/img/v8/highway-night-tint-480.webp 480w, /img/v8/highway-night-tint-960.webp 960w, /img/v8/highway-night-tint-1600.webp 1600w" imagesizes="100vw">
 <link rel="stylesheet" href="/css/v8.css">
 <link rel="stylesheet" href="/css/v8-b.css">
+<link rel="stylesheet" href="/css/v9-intro.css">
 <script type="importmap">{"imports":{"three":"/js/vendor/three/three.module.js","three/addons/":"/js/vendor/three/"}}</script>
 <script type="application/ld+json">
 {
@@ -37,7 +39,7 @@
  "@id": "https://permianlocalseo.com/#business",
  "name": "Permian Local",
   "alternateName": ["Permian Local SEO", "Permian Local Websites"],
- "description": "Website design for small businesses in Odessa and Midland, Texas. Fixed prices, live in 7 days, English and Spanish.",
+ "description": "Website design for small businesses in Odessa and Midland, Texas. Starter and Business plans, live in 7 days, English and Spanish.",
  "url": "https://permianlocalseo.com/",
  "image": "https://permianlocalseo.com/img/og.jpg",
  "email": "hello@permianlocalseo.com",
@@ -140,11 +142,21 @@
 
 <main id="main">
 
+  <!-- 0. CARRETERA (v9): secuencia de fotogramas en canvas, scrub con la rueda. El poster es la foto antigua (fallback sin JS). -->
+  <section class="v9-road" id="road" data-bg="bg" aria-label="A highway at night" data-i18n-aria="v9_a_road">
+    <div class="v9-road__stage">
+      <img class="v9-road__poster" src="/img/v8/highway-night-tint-1600.webp" srcset="/img/v8/highway-night-tint-480.webp 480w, /img/v8/highway-night-tint-960.webp 960w, /img/v8/highway-night-tint-1600.webp 1600w" sizes="100vw" width="1600" height="1067" fetchpriority="high" decoding="async" alt="">
+      <canvas class="v9-cv v9-road__cv" data-clip="intro-a" data-count="90" aria-hidden="true"></canvas>
+      <canvas class="v9-cv v9-road__cv v9-road__cv--b" data-clip="intro-b" data-count="90" aria-hidden="true"></canvas>
+      <div class="v9-road__shade" aria-hidden="true"></div>
+      <p class="h-giant v9-road__title" aria-hidden="true" data-i18n-html="v8_h1">Websites that make Odessa <em class="neon">call you.</em></p>
+      <span class="v9-road__cue" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v11M3 8.5l5 5 5-5"/></svg></span>
+    </div>
+  </section>
+
   <!-- 1. HERO -->
   <section class="hero" id="hero" data-bg="bg" aria-labelledby="hero-title">
     <div class="hero__bg" aria-hidden="true">
-      <!-- FOTO v8: skyline de Odessa/Midland al anochecer (cuando haya foto con licencia) -->
-      <img src="/img/v8/highway-night-tint-1600.webp" srcset="/img/v8/highway-night-tint-480.webp 480w, /img/v8/highway-night-tint-960.webp 960w, /img/v8/highway-night-tint-1600.webp 1600w" sizes="100vw" width="1600" height="1067" fetchpriority="high" decoding="async" alt="">
     </div>
     <div class="hero__grid grid-lines" aria-hidden="true"></div>
     <div class="halo hero__halo-a" aria-hidden="true"></div>
@@ -154,7 +166,7 @@
         <p class="eyebrow" data-i18n="v8_eyebrow">// Odessa · Midland — Web studio</p>
         <h1 class="h-giant hero__h1" id="hero-title" data-i18n-html="v8_h1">Websites that make Odessa <em class="neon">call you.</em></h1>
         <div class="hprog" aria-hidden="true"><span class="hprog__segs"><i></i><i></i><i></i><i></i><i></i></span><span class="hprog__lab"><span data-i18n="v8_sec">Section</span> <b class="hprog__n">01</b> / 09</span></div>
-        <p class="hero__sub" data-i18n="v8_sub">Fixed price. Live in 7 days. English and Spanish.</p>
+        <p class="hero__sub" data-i18n="v8_sub">Starter and Business plans. Live in 7 days. English and Spanish.</p>
         <div class="hero__cta">
           <a class="btn" href="#mockup" data-i18n="hero_cta">Get your free homepage mockup</a>
           <a class="btn btn--ghost" href="#work" data-i18n="hero_cta2">See our work</a>
@@ -209,16 +221,32 @@
     </div>
   </section>
 
-  <!-- 2. EL DATO -->
-  <section class="data is-light" id="data" data-bg="bone" aria-label="Local websites, by the numbers" data-i18n-aria="v8_a_data">
-    <div class="data__photo" aria-hidden="true">
-      <img src="/img/pumpjacks-golden-grass-duo-1600.webp" srcset="/img/pumpjacks-golden-grass-duo-960.webp 960w, /img/pumpjacks-golden-grass-duo-1600.webp 1600w" sizes="(min-width:900px) 66vw, 100vw" width="1600" height="1067" loading="lazy" decoding="async" alt="">
+  <!-- 2. LA CIUDAD (v9): clip houston con el titular; despues viene la tienda -->
+  <section class="v9-city" id="city" data-bg="bg" aria-labelledby="city-title">
+    <div class="v9-city__stage">
+      <canvas class="v9-cv v9-city__cv" data-clip="houston" data-count="90" aria-hidden="true"></canvas>
+      <div class="v9-city__shade" aria-hidden="true"></div>
+      <h2 class="h-giant v9-city__h" id="city-title" data-i18n-html="v9_city_h">Your site could <em class="neon">look like this.</em></h2>
     </div>
-    <div class="wrap data__inner">
-      <p class="data__num" aria-label="34%"><span class="count" data-to="34">34</span><span class="pc neon">%</span></p>
-      <p class="data__l1" data-i18n="v8_data_l1">of the 340 Odessa &amp; Midland businesses we checked have no website or one that doesn't work on a phone.</p>
-      <p class="data__l2" data-i18n-html="v8_data_l2"><strong>62.7%</strong> of Odessa is Hispanic. Your site should speak both languages.</p>
-      <p class="data__src" data-i18n-html="v8_data_src">Source: our own check of 340 local businesses; <a href="https://www.census.gov/quickfacts/fact/table/odessacitytexas,midlandcitytexas/PST045224" rel="noopener" target="_blank">U.S. Census Bureau, QuickFacts</a>.</p>
+  </section>
+
+  <!-- 2b. LA TIENDA (v9): clip en canvas con dos pausas que muestran el dato -->
+  <section class="v9-shop" id="data" data-bg="bg" aria-label="Local websites, by the numbers" data-i18n-aria="v8_a_data">
+    <div class="v9-shop__stage">
+      <canvas class="v9-cv v9-shop__cv" data-clip="tienda" data-count="64" aria-hidden="true"></canvas>
+      <div class="v9-shop__shade" aria-hidden="true"></div>
+      <div class="wrap v9-shop__txt">
+        <div class="v9-d v9-d1">
+          <p class="v9-num" aria-label="34%"><span class="v9-count" data-to="34">34</span><span class="pc neon">%</span></p>
+          <p class="v9-l" data-i18n="v8_data_l1">of the 340 Odessa &amp; Midland businesses we checked have no website or one that doesn't work on a phone.</p>
+          <p class="v9-src" data-i18n="v9_src1">Source: our own check of 340 local businesses.</p>
+        </div>
+        <div class="v9-d v9-d2">
+          <p class="v9-num" aria-label="61%"><span>61</span><span class="pc neon">%</span></p>
+          <p class="v9-l" data-i18n="v9_hisp_l">of Odessa is Hispanic. Your site should speak both languages.</p>
+          <p class="v9-src" data-i18n="v9_hisp_src">U.S. Census Bureau, ACS 2019-2023</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -304,15 +332,14 @@
         <p class="eyebrow" data-i18n="v8_e_extras">// 02 Extras</p>
         <h2 class="h-giant" id="extras-title" data-i18n-html="v8_x_h">Your truck, your dish, your product. In <em class="neon">3D.</em></h2>
         <p class="extras__p" data-i18n-html="v8_x_p">Made from 4 photos of the real vehicle. <strong>Available as an extra</strong>.</p>
-        <p class="extras__fine" data-i18n="v8_x_credit">3D model: Chevrolet Silverado by Ddiaz Design (Sketchfab, CC BY), recolored.</p>
       </div>
       <div class="stage3d" id="stage3d" data-reveal>
         <div class="halo" aria-hidden="true"></div>
         <div class="ring ring--1" aria-hidden="true"></div><div class="ring ring--2" aria-hidden="true"></div><div class="ring ring--3" aria-hidden="true"></div>
-        <img class="stage3d__img" src="/img/recortes/silverado-roja-1132.webp" width="1132" height="443" loading="lazy" decoding="async" alt="A pickup truck, the kind we turn into a 3D model" data-i18n-alt="v8_x_alt">
-        <canvas id="c3d" role="img" aria-label="3D pickup truck that turns as you scroll" data-i18n-aria="v8_a_3d"></canvas>
+        <img class="stage3d__img v9-truck__fb" src="/img/recortes/silverado-roja-640.webp" width="640" height="250" loading="lazy" decoding="async" alt="A pickup truck, the kind we turn into a 3D model" data-i18n-alt="v8_x_alt">
       </div>
     </div>
+    <div class="v9-truck"><div class="v9-truck__shadow" aria-hidden="true"></div><canvas class="v9-truck__cv" data-clip="silverado" data-count="72" role="img" aria-label="A pickup truck that turns as you scroll" data-i18n-aria="v9_a_truck"></canvas></div>
   </section>
 
   <!-- 5. HOTSPOTS -->
@@ -328,10 +355,21 @@
         <div class="hs__phone" data-reveal>
           <div class="halo" aria-hidden="true"></div>
           <div class="pf__body">
-            <div class="hs__screen">
+            <div class="hs__screen" id="hs-screen" data-step="0">
               <span class="pf__chip" data-i18n="demo">Demo</span>
-              <img class="pf__poster" src="/img/posters/taller.webp" width="640" height="1385" alt="" loading="lazy" decoding="async">
-              <iframe data-lazy="/demos/taller/" title="Demo website: auto repair shop" data-i18n-title="t_taller" tabindex="-1" loading="lazy" width="375" height="740"></iframe>
+              <div class="hs__slides">
+                <div class="hs__slide is-on" data-demo="taller"><img src="/img/posters/taller.webp" width="640" height="1385" alt="" loading="lazy" decoding="async"></div>
+                <div class="hs__slide" data-demo="electricista"><img src="/img/posters/electricista.webp" width="640" height="1385" alt="" loading="lazy" decoding="async"></div>
+                <div class="hs__slide" data-demo="taqueria"><img src="/img/posters/taqueria.webp" width="640" height="1385" alt="" loading="lazy" decoding="async"></div>
+                <div class="hs__slide hs__home" data-demo="principal" aria-hidden="true">
+                  <img class="hs__home-bg" src="/img/v8/highway-night-tint-480.webp" width="480" height="320" alt="" loading="lazy" decoding="async">
+                  <div class="hs__home-in"><div class="hs__home-bar"><b>PERMIAN LOCAL</b><span>EN / ES</span></div>
+                  <p class="hs__home-eb" data-i18n="v8_eyebrow">// Odessa · Midland — Web studio</p>
+                  <h4 class="hs__home-h" data-i18n-html="v8_h1">Websites that make Odessa <em class="neon">call you.</em></h4>
+                  <p class="hs__home-p" data-i18n="v8_sub">Starter and Business plans. Live in 7 days. English and Spanish.</p>
+                  <span class="hs__home-btn" data-i18n="hero_cta">Get your free homepage mockup</span></div>
+                </div>
+              </div>
               <button class="hs__dot" type="button" style="--x:84%;--y:7%" aria-expanded="true" aria-controls="hs-1" aria-label="Tap-to-call" data-i18n-aria="v8_h1t"></button><button class="hs__dot" type="button" style="--x:50%;--y:80%" aria-expanded="false" aria-controls="hs-2" aria-label="Hours by day" data-i18n-aria="v8_h2t"></button><button class="hs__dot" type="button" style="--x:82%;--y:93%" aria-expanded="false" aria-controls="hs-3" aria-label="Google Maps" data-i18n-aria="v8_h3t"></button><button class="hs__dot" type="button" style="--x:58%;--y:7%" aria-expanded="false" aria-controls="hs-4" aria-label="English / Spanish toggle" data-i18n-aria="v8_h4t"></button><button class="hs__dot" type="button" style="--x:14%;--y:30%" aria-expanded="false" aria-controls="hs-5" aria-label="Loads in under 2 s" data-i18n-aria="v8_h5t"></button>
             </div>
           </div>
@@ -374,14 +412,6 @@
 
 <!-- ===== v8 PARTE B: secciones 6-10 (precios, proceso, por que nosotros, maqueta, contacto) + </main> + pie ===== -->
 
-<!-- 5b. FRANJA ANTES DE PRECIOS (encargo del director) -->
-<section class="b-strip" data-bg="bg-3" aria-labelledby="strip-text">
-  <div class="wrap">
-    <p class="b-strip__eyebrow" data-reveal data-i18n="v8_strip_eb">// Why it matters</p>
-    <p class="b-strip__text" id="strip-text" data-reveal data-i18n="v8_strip">You don't pay for the 3D. You pay to get more calls.</p>
-  </div>
-</section>
-
 <!-- 6. PRECIOS -->
 <section class="b-pricing is-light" id="pricing" data-bg="bone" aria-labelledby="pricing-title">
   <div class="wrap">
@@ -392,7 +422,7 @@
       <article class="b-plan glass" data-reveal>
         <header class="b-plan__head">
           <h3 class="b-plan__name" data-i18n="p1">Starter</h3>
-          <p class="b-plan__price"><span class="b-plan__fixed" data-i18n="v8_fixed">Fixed price</span><small data-i18n="v8_fixed_s">Quoted with your free mockup, in 48 hours</small></p>
+          <p class="b-plan__price"><span class="b-plan__fixed" data-i18n="v8_pl1">Starter plan</span><small data-i18n="v8_fixed_s">Pick it and we send your estimate in 48 hours</small></p>
           <p class="b-plan__tag" data-i18n="p1t">1 page, live in 7 days</p>
         </header>
         <ul class="b-plan__list">
@@ -404,14 +434,14 @@
           <li data-i18n="p1f">Hosting included for 1 year</li>
           <li data-i18n="p1g">Live in 7 days</li>
         </ul>
-        <a class="btn btn--ghost b-plan__cta" href="#mockup" data-i18n="p_btn">Get my free mockup</a>
+        <a class="btn btn--ghost b-plan__cta" href="#mockup" data-plan="Starter" data-i18n="p_btn">Get my free mockup</a>
       </article>
 
       <article class="b-plan b-plan--main glass" data-reveal>
         <span class="b-plan__halo" aria-hidden="true"></span>
         <header class="b-plan__head">
           <h3 class="b-plan__name"><span data-i18n="p2">Business</span> <span class="b-plan__badge" data-i18n="p_rec">Recommended</span></h3>
-          <p class="b-plan__price"><span class="b-plan__fixed" data-i18n="v8_fixed">Fixed price</span><small data-i18n="v8_fixed_s">Quoted with your free mockup, in 48 hours</small></p>
+          <p class="b-plan__price"><span class="b-plan__fixed" data-i18n="v8_pl2">Business plan</span><small data-i18n="v8_fixed_s">Pick it and we send your estimate in 48 hours</small></p>
           <p class="b-plan__tag" data-i18n="p2t">Up to 5 pages, live in 10 days</p>
         </header>
         <ul class="b-plan__list">
@@ -423,13 +453,13 @@
           <li data-i18n="p2f">Google Business Profile check</li>
           <li data-i18n="p2g">Live in 10 days</li>
         </ul>
-        <a class="btn b-plan__cta" href="#mockup" data-i18n="p_btn">Get my free mockup</a>
+        <a class="btn b-plan__cta" href="#mockup" data-plan="Business" data-i18n="p_btn">Get my free mockup</a>
       </article>
     </div>
 
     <aside class="b-quote" data-reveal aria-labelledby="quote-title">
       <h3 class="b-quote__title" id="quote-title" data-i18n="v8_q_h">Ask us for a price</h3>
-      <p class="b-quote__text" data-i18n="v8_q_p">Every site is a fixed price, agreed before we start, no surprises. Tell us about your business and in 48 hours you get your free homepage mockup with the price next to it.</p>
+      <p class="b-quote__text" data-i18n="v8_q_p">Choose the Starter plan or the Business plan and we send your estimate. In 48 hours you also get your free homepage mockup with the estimate next to it.</p>
       <a class="btn b-quote__btn" href="#mockup" data-i18n="v8_q_btn">Get my price and mockup</a>
     </aside>
 
@@ -474,7 +504,7 @@
     <ol class="b-steps">
       <li class="b-step" data-reveal>
         <span class="b-step__n" aria-hidden="true">01</span>
-        <div class="b-step__txt"><h3 data-i18n="s1t">Tell us your business</h3><p data-i18n="s1b">A 2-minute form: name, type of business, phone.</p></div>
+        <div class="b-step__txt"><h3 data-i18n="s1t">Tell us your business</h3><p data-i18n="s1b">A 1-minute form: your business, your name, phone and email.</p></div>
       </li>
       <li class="b-step" data-reveal>
         <span class="b-step__n" aria-hidden="true">02</span>
@@ -504,7 +534,7 @@
         <figcaption data-i18n="v8_why_soon">Photo of Carlos coming soon.</figcaption>
       </figure>
       <p data-i18n-html="v8_why_p1"><strong>I'm Carlos. I live in Odessa, Texas</strong>, and I'm a student at UTPB. I build websites for local businesses in Odessa and Midland. You deal with me, not a sales team.</p>
-      <p data-i18n="v8_why_p2">The price is fixed and agreed before we start. No surprise bill.</p>
+      <p data-i18n="v8_why_p2">Pick the Starter or the Business plan and I send you the estimate in 48 hours. Clear terms before we start.</p>
       <p data-i18n-html="about_p2">Every site comes in English and Spanish. In Odessa, about 63% of residents are Hispanic or Latino and 44% of people age 5 and over speak a language other than English at home. Source: <a href="https://www.census.gov/quickfacts/fact/table/odessacitytexas,midlandcitytexas/PST045224" rel="noopener" target="_blank">U.S. Census Bureau, QuickFacts</a>.</p>
       <p lang="es">Hablo español. Si prefiere que le escriba en español, dígamelo y lo hago con gusto.</p>
     </div>
@@ -532,14 +562,11 @@
       <input type="hidden" name="_next" value="https://permianlocalseo.com/free-review/thanks.html">
       <input type="hidden" name="_template" value="table">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-label="Leave this field empty" data-i18n-aria="v8_hp">
+      <input type="hidden" name="plan" id="plan-field" value="">
       <div class="b-field"><label for="business" data-i18n="f_business">Business name</label><input id="business" name="business_name" type="text" required autocomplete="organization"></div>
-      <div class="b-field"><label for="sector" data-i18n="f_sector">Type of business</label><select id="sector" name="sector" required><option value="" selected disabled data-i18n="o_choose">Choose one</option><option value="Auto repair" data-i18n="o_auto">Auto repair</option><option value="Electrician" data-i18n="o_elec">Electrician</option><option value="HVAC" data-i18n="o_hvac">HVAC</option><option value="Roofing" data-i18n="o_roof">Roofing</option><option value="Restaurant or taqueria" data-i18n="o_food">Restaurant or taqueria</option><option value="Barber or salon" data-i18n="o_hair">Barber or salon</option><option value="Other" data-i18n="o_other">Other</option></select></div>
-      <div class="b-field"><label for="city" data-i18n="f_city">City</label><select id="city" name="city" required><option value="" selected disabled data-i18n="o_choosec">Choose a city</option><option value="Odessa">Odessa</option><option value="Midland">Midland</option><option value="Other" data-i18n="o_other2">Other</option></select></div>
-      <div class="b-field"><label for="phone" data-i18n="f_phone">Phone</label><input id="phone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" aria-describedby="phone-h"><p class="b-hint" id="phone-h" data-i18n="h_phone">So we can text or call you about your mockup.</p></div>
-      <div class="b-field"><label for="email" data-i18n-html="f_email">Email <span class="opt">(optional)</span></label><input id="email" name="email" type="email" autocomplete="email"></div>
-      <div class="b-field"><label for="website" data-i18n-html="f_web">Current website <span class="opt">(optional)</span></label><input id="website" name="website" type="text" inputmode="url" autocomplete="url" placeholder="example.com" data-i18n-ph="ph_web"></div>
-      <div class="b-field"><label for="lang" data-i18n="f_lang">Preferred language</label><select id="lang" name="preferred_language"><option value="English" data-i18n="o_en">English</option><option value="Spanish" data-i18n="o_es">Spanish</option><option value="Either" data-i18n="o_either">Either</option></select></div>
-      <div class="b-field"><label for="notes" data-i18n-html="f_notes">Notes <span class="opt">(optional)</span></label><textarea id="notes" name="notes" rows="4"></textarea></div>
+      <div class="b-field"><label for="person" data-i18n="f_person">Your name</label><input id="person" name="contact_name" type="text" required autocomplete="name"></div>
+      <div class="b-field"><label for="phone" data-i18n="f_phone">Phone</label><input id="phone" name="phone" type="tel" inputmode="tel" required autocomplete="tel"></div>
+      <div class="b-field"><label for="email" data-i18n="f_email2">Email</label><input id="email" name="email" type="email" required autocomplete="email"></div>
       <div><button type="submit" class="btn b-btn-lg" data-i18n="f_send">Send me my free mockup</button></div>
       <p class="b-hint" data-i18n-html="f_fine">Free, no obligation. This form is delivered to our inbox by the FormSubmit service; see the <a href="/privacy.html">privacy page</a>.</p>
     </form>
@@ -610,5 +637,6 @@
 <script src="/js/i18n.js"></script>
 <script src="/js/v8.js" defer></script>
 <script src="/js/v8-b.js" defer></script>
+<script src="/js/v9-intro.js" defer></script>
 </body>
 </html>

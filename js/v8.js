@@ -132,7 +132,7 @@
 
   /* trabajos: solo el panel activo del stack (el ultimo que ha entrado) tiene su iframe vivo: portatil >=900, telefono <900 */
   (function () {
-    var panels = $$('.stack .panel');
+    var panels = (doc.classList.contains('ideas') && !reduce) ? [] : $$('.stack .panel');
     if (!panels.length) return;
     var wide = window.matchMedia('(min-width:900px)'), seen = [];
     function pick(p) { return $(wide.matches ? '.laptop__screen iframe' : '.panel__phone iframe', p); }
@@ -173,6 +173,7 @@
     function frame(i) { return $('iframe[data-lazy]', slides[i]); }
     /* en el hero vive como mucho 1 iframe: el del telefono central; al rotar, sale el viejo y entra el nuevo */
     function load(i) {
+      if (doc.classList.contains('ideas') && doc.classList.contains('v9-on')) return; /* ?ideas=1: el telefono central muestra su captura larga, sin iframe */
       slides.forEach(function (s, k) { var f = frame(k); if (k === i && ready && heroOn) loadFrame(f); else unloadFrame(f); });
     }
     near(box, '100%', function () { heroOn = true; load(cur); }, function () { heroOn = false; load(cur); });
@@ -197,6 +198,7 @@
       if (ready) loadT = setTimeout(function () { load(cur); }, 180);
     }
     function go(i) { cur = (i % n + n) % n; paint(); }
+    window.plCarousel = { go: go, get cur() { return cur; }, n: n }; /* v9: la rueda tambien mueve el carrusel */
     function openDemo(i) { var h = $('.pf__hit', slides[i]); if (h) window.open(h.getAttribute('href'), '_blank', 'noopener'); }
     $$('.pnav__arrow', car).forEach(function (b) { b.addEventListener('click', function () { go(cur + Number(b.getAttribute('data-dir'))); }); });
     dots.forEach(function (d) { d.addEventListener('click', function () { go(Number(d.getAttribute('data-go'))); }); });
@@ -256,8 +258,11 @@
   (function () {
     var dots = $$('.hs__dot'), tabs = $$('.hs__tabs button'), cards = $$('.hs__card');
     if (!cards.length) return;
-    function open(i) {
+    var api = window.plHs = { cur: 0, n: cards.length };
+    function open(i, quiet) {
       cards.forEach(function (c, j) { c.hidden = j !== i; });
+      api.cur = i;
+      document.dispatchEvent(new CustomEvent('plhs', { detail: { i: i, quiet: !!quiet } }));
       dots.concat(tabs).forEach(function (b) {
         var on = b.getAttribute('aria-controls') === cards[i].id;
         b.setAttribute('aria-expanded', on ? 'true' : 'false');
@@ -265,6 +270,7 @@
     }
     dots.forEach(function (b, i) { b.addEventListener('click', function () { open(i); }); });
     tabs.forEach(function (b, i) { b.addEventListener('click', function () { open(i); }); });
+    api.go = open;
   })();
 
   /* ---------- comparador plantilla vs. nosotros ---------- */
@@ -295,6 +301,43 @@
     set(50);
     rng.addEventListener('input', function () { set(parseFloat(rng.value)); });
     document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.lang button')) setTimeout(function () { set(parseFloat(rng.value)); }, 0); });
+    /* scroll independiente: solo se desplaza la mitad (plantilla o nuestra) bajo el cursor/dedo.
+       Al llegar al final (o al inicio) del iframe se deja pasar el scroll a la pagina (y a Lenis). */
+    function halfFrame(clientX) {
+      var r = scr.getBoundingClientRect(), v = parseFloat(getComputedStyle(scr).getPropertyValue('--v')) || 0;
+      var cut = r.left + 24 + (r.width - 48) * v;
+      var vp = clientX < cut ? $('.cmp__pane--a .cmp__vp', scr) : $('.cmp__pane--b .cmp__vp', scr);
+      return vp && $('iframe', vp);
+    }
+    function room(f, dy) {
+      try {
+        var w = f.contentWindow, d = f.contentDocument.documentElement;
+        var max = d.scrollHeight - w.innerHeight, top = w.scrollY;
+        if (dy > 0 ? top < max - 1 : top > 0) return w;
+      } catch (err) { /* iframe de otro origen o sin cargar: no se consume */ }
+      return null;
+    }
+    scr.addEventListener('wheel', function (e) {
+      if (!wide.matches || e.ctrlKey || !e.deltaY || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      var f = halfFrame(e.clientX); if (!f) return;
+      var w = room(f, e.deltaY); if (!w) return;
+      var dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * w.innerHeight : e.deltaY;
+      e.preventDefault(); e.stopPropagation();
+      w.scrollBy({ top: dy, left: 0, behavior: 'instant' });
+    }, { passive: false });
+    var ty = null, tf = null;
+    scr.addEventListener('touchstart', function (e) {
+      var t = e.touches[0]; ty = t.clientY; tf = e.touches.length === 1 ? halfFrame(t.clientX) : null;
+    }, { passive: true });
+    scr.addEventListener('touchmove', function (e) {
+      if (!wide.matches || !tf || ty === null) return;
+      var t = e.touches[0], dy = ty - t.clientY; ty = t.clientY;
+      if (!dy) return;
+      var w = room(tf, dy); if (!w) return;
+      if (e.cancelable) e.preventDefault();
+      w.scrollBy({ top: dy, left: 0, behavior: 'instant' });
+    }, { passive: false });
+    scr.addEventListener('touchend', function () { ty = null; tf = null; }, { passive: true });
     /* entrada: un barrido corto de 85 a 50 una sola vez (no con reduced-motion) */
     if (!reduce && 'IntersectionObserver' in window) {
       var played = false;
@@ -330,6 +373,7 @@
   (function () {
     var stage = $('#stage3d'), img = stage && $('.stage3d__img', stage), sec = $('#extras');
     if (!stage || !img || !sec || (!reduce && fine.matches)) return;
+    if (!reduce && $('.v9-truck__cv', sec)) return; /* v9: la secuencia a pantalla completa (v9-intro.js) sustituye a esta */
     var N = 36, dir = (window.devicePixelRatio || 1) >= 2 && !(navigator.connection && navigator.connection.saveData) ? '/img/silverado/36/' : '/img/silverado/36s/';
     function src(i) { return dir + ('000' + i).slice(-4) + '.webp'; }
     img.src = src(0); img.removeAttribute('loading'); img.width = 900; img.height = 535;
@@ -494,6 +538,7 @@
   var lenis = null;
   if (window.Lenis) {
     lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+    window.plLenis = lenis;
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
@@ -533,6 +578,7 @@
     });
   }
   mm.add('(min-width:900px)', function () {
+    if (!$('.data')) return; /* v9: la seccion del dato ahora la lleva js/v9-intro.js */
     var tl = gsap.timeline({ scrollTrigger: { trigger: '.data', start: 'top top', end: '+=110%', pin: true, scrub: 0.6 } });
     tl.fromTo('.data__photo img', { scale: 1.18, xPercent: 8 }, { scale: 1, xPercent: 0, ease: 'none' }, 0)
       .fromTo('.data__l2', { opacity: 0, y: 30 }, { opacity: 1, y: 0, ease: 'none', duration: 0.4 }, 0.25)
@@ -541,7 +587,7 @@
 
   /* ---------- 3 trabajos: card stack ---------- */
   mm.add('(min-width:900px)', function () {
-    var panels = $$('.stack .panel');
+    var panels = (doc.classList.contains('ideas') && !reduce) ? [] : $$('.stack .panel'); /* ?ideas=1: la galeria de v9-intro.js sustituye al stack */
     panels.forEach(function (p, i) {
       var next = panels[i + 1]; if (!next) return;
       var top = 76 + 16 + (i + 1) * 16;

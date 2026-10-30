@@ -276,18 +276,24 @@ p{margin:0}
 /* faq */
 .faq{margin-top:34px;max-width:900px}
 .faq details{position:relative;border-top:2px solid rgba(255,255,255,.3);padding-inline:18px}
-html:not(.faq-px) .faq details[open]{background:var(--black)}
+/* wipe colour per section (data-px="yellow|black" overrides): yellow squares on navy/dark, black on yellow, never white */
+.s-navy,.s-black,.s-white,.sec{--px:var(--yellow);--pxink:var(--navy)}
+.s-yellow{--px:var(--black);--pxink:#fff}
+[data-px="yellow"]{--px:var(--yellow);--pxink:var(--navy)}
+[data-px="black"]{--px:var(--black);--pxink:#fff}
+html:not(.faq-px) .faq details[open]{background:var(--px)}
+.faq details[open] summary,.faq details[open] .ans,.faq details[open] .ans p{color:var(--pxink)}
 .faq summary,.faq .ans{position:relative;z-index:1}
 .faq .px{position:absolute;inset:0;z-index:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(5,1fr);pointer-events:none;overflow:hidden}
-.faq .px b{background:var(--black);opacity:0;margin:-.5px}
+.faq .px b{background:var(--px);opacity:0;margin:-.5px}
 .faq details:last-child{border-bottom:2px solid rgba(255,255,255,.3)}
 .faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;padding:12px 0;font:800 clamp(1.4rem,1rem + 1.6vw,2rem)/1.1 var(--head);text-transform:uppercase;letter-spacing:.01em}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary i{flex:none;width:48px;height:48px;border:3px solid #fff;border-radius:4px;position:relative;transition:background .3s,border-color .3s}
 .faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:18px;height:3px;background:#fff;transform:translate(-50%,-50%)}
 .faq summary i::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s}
-.faq details[open] summary i{background:var(--yellow);border-color:var(--yellow)}
-.faq details[open] summary i::before,.faq details[open] summary i::after{background:var(--navy)}
+.faq details[open] summary i{background:var(--pxink);border-color:var(--pxink)}
+.faq details[open] summary i::before,.faq details[open] summary i::after{background:var(--px)}
 .faq details[open] summary i::after{transform:translate(-50%,-50%) rotate(0)}
 .faq .ans{overflow:hidden}
 .faq .ans p{padding:0 44px 22px 0;color:#e8ecfa;max-width:44rem}
@@ -754,7 +760,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy);outline:3px sol
   var root=document.documentElement;
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* FAQ accordion: details + animated height + 8x5 pixel-block wipe (navy -> black on open, black -> navy on close) */
+  /* FAQ accordion: details + animated height + 8x5 pixel-block wipe (section bg -> var(--px) on open and back on close) */
   var dets=document.querySelectorAll('.faq details');
   var PXC=8,PXR=5,PXT=.35;
   if(!reduce&&window.gsap) root.classList.add('faq-px');

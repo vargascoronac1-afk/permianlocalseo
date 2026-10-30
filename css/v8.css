@@ -321,6 +321,7 @@ html.reveal-on .hero__h1:not(.is-split){visibility:hidden}
   .cmp__screen{aspect-ratio:auto;overflow:visible;background:none;display:grid;gap:36px;justify-items:center}
   .cmp__pane,.cmp__pane--b{position:relative;inset:auto;clip-path:none;width:min(100%,300px);aspect-ratio:375/740;padding:8px;border-radius:34px;background:#0b0b10;border:1px solid rgba(245,245,247,.3);box-shadow:0 30px 60px -24px rgba(0,0,0,.85)}
   .cmp__vp{inset:8px;border-radius:26px}
+  .cmp__vp iframe{pointer-events:auto}
   .cmp__tag{top:20px}.cmp__tag--a,.cmp__tag--b{left:18px;right:auto}
 }
 
