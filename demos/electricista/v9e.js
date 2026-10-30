@@ -157,7 +157,7 @@
   (function () {
     var hero = $('#vhero'); if (!hero) return;
     function mk(id, name, n) { return createScrubber({ canvas: $(id), dir: FR + name, mobileDir: FR + name + '-720', count: n, eager: 10 }); }
-    var A = mk('#vh-a', 'sub-a', 90), B = mk('#vh-b', 'sub-b', 64), C = mk('#vh-c', 'caja', 90);
+    var A = mk('#vh-a', 'sub-a', 64), B = mk('#vh-b', 'sub-b', 64), C = mk('#vh-c', 'caja', 64);
     A.start(); /* B y C se piden cuando A ya esta lista, para no competir con la primera pantalla */
     A.ready.then(function () { setTimeout(function () { B.start(); C.start(); }, 400); });
     var tl = gsap.timeline({
