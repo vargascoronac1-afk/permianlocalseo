@@ -301,7 +301,7 @@
       onUpdate: function (self) {
         var p = self.progress;
         H.start(); H.setProgress(p);
-        var t = p >= 0.3; if (t !== chOn) { chOn = t; ch.classList.toggle('is-on', t); }
+        var t = p >= 0.85; if (t !== chOn) { chOn = t; ch.classList.toggle('is-on', t); }
       }
     });
   }
@@ -344,7 +344,7 @@
   (function () {
     var L = window.plLenis;
     if (!L || !L.on) return;
-    var defs = [[roadST, 1], [cityST, 0.34], [shopST, 0.2], [shopST, 0.78]], gates = [], internal = false, prog = false, progT = 0, lockT = 0, lastV = 0, t0 = 0, prev = L.scroll || window.scrollY;
+    var defs = [[roadST, 1], [cityST, 0.98], [shopST, 0.2], [shopST, 0.78]], gates = [], internal = false, prog = false, progT = 0, lockT = 0, lastV = 0, t0 = 0, prev = L.scroll || window.scrollY;
     defs.forEach(function (d) { if (d[0]) gates.push({ st: d[0], f: d[1], y: 0, armed: true }); });
     if (!gates.length) return;
     function vh() { return window.innerHeight || 800; }
