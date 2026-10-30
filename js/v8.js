@@ -537,7 +537,7 @@
   /* ---------- Lenis + GSAP ---------- */
   var lenis = null;
   if (window.Lenis) {
-    lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+    lenis = new Lenis({ duration: 1.1, smoothWheel: true, syncTouch: window.matchMedia('(pointer:coarse)').matches }); /* syncTouch: en tactil el dedo tambien pasa por Lenis (si no, el impulso nativo no se puede frenar en las paradas de v9-intro.js) */
     window.plLenis = lenis;
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });

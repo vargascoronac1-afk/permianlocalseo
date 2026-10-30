@@ -119,6 +119,7 @@
   if (reduce || !hasG || !('requestAnimationFrame' in window)) return; /* queda el poster y los textos estaticos */
   doc.classList.add('v9-on');
   gsap.registerPlugin(ScrollTrigger);
+  var roadST = null, cityST = null, shopST = null;
   var IDEAS = doc.classList.contains('ideas'); /* ?ideas=1: version alternativa (cover-flow, 4 fotos, galeria); sin el parametro nada de esto corre */
 
   /* ---------- scrubbers ---------- */
@@ -170,7 +171,7 @@
   /* ---------- 1. CARRETERA: pin 2.5 pantallas; 0-.5 intro-a, .5-1 intro-b (fundido cruzado); titular al 85 % ---------- */
   if (road && A) {
     var cb = B && B.canvas, title = $('.v9-road__title', road), cue = $('.v9-road__cue', road), titleOn = false, cueOn = true;
-    ScrollTrigger.create({
+    roadST = ScrollTrigger.create({
       trigger: road, start: 'top top', end: '+=250%', pin: true, refreshPriority: 10, scrub: true, anticipatePin: 1,
       onUpdate: function (self) {
         var p = self.progress;
@@ -284,7 +285,7 @@
     /* escenario fijo: fundido sobre el final del deshacer (city sube 100svh sobre el hero fijado), se mantiene 200svh y la tienda lo tapa */
     gsap.fromTo(cstage, { opacity: 0 }, { opacity: 1, ease: 'none', scrollTrigger: { trigger: city, start: 'top 45%', end: 'top top', scrub: true } });
     ScrollTrigger.create({ trigger: city, start: 'top 45%', end: 'bottom top', onToggle: function (self) { cstage.style.visibility = self.isActive ? 'visible' : 'hidden'; if (self.isActive) H.start(); } });
-    ScrollTrigger.create({
+    cityST = ScrollTrigger.create({
       trigger: city, start: 'top top', end: '+=200%', scrub: true,
       onUpdate: function (self) {
         var p = self.progress;
@@ -302,39 +303,19 @@
     for (var i = 0; i < SEG.length; i++) { var sg = SEG[i]; if (p <= sg[1]) return sg[2] + (sg[3] - sg[2]) * clamp((p - sg[0]) / (sg[1] - sg[0]), 0, 1); }
     return 1;
   }
-  /* freno: al entrar en una pausa baja la velocidad de Lenis (rueda x0.22, duracion 2.8 s) durante 1.2 s y la restaura */
-  var brakeT = 0, brakeSaved = null;
-  function brakeOff() {
-    clearTimeout(brakeT); brakeT = 0;
-    var L = window.plLenis; if (!L || !brakeSaved) return;
-    if (L.virtualScroll && L.virtualScroll.options) L.virtualScroll.options.wheelMultiplier = brakeSaved.w;
-    L.options.duration = brakeSaved.d; brakeSaved = null;
-  }
-  function brakeOn() {
-    var L = window.plLenis; if (!L) return;
-    if (!brakeSaved) brakeSaved = { w: L.virtualScroll && L.virtualScroll.options ? L.virtualScroll.options.wheelMultiplier : 1, d: L.options.duration };
-    if (L.virtualScroll && L.virtualScroll.options) L.virtualScroll.options.wheelMultiplier = 0.22;
-    L.options.duration = 2.8;
-    clearTimeout(brakeT); brakeT = setTimeout(brakeOff, 1200);
-  }
-  window.plV9.brake = brakeOn;
   if (shop && T) {
-    var d1 = $('.v9-d1', shop), d2 = $('.v9-d2', shop), cnt = $('.v9-count', shop), counted = false, o1 = false, o2 = false, in1 = false, in2 = false;
+    var d1 = $('.v9-d1', shop), d2 = $('.v9-d2', shop), cnt = $('.v9-count', shop), counted = false, o1 = false, o2 = false;
     if (cnt) cnt.textContent = '1';
     function runCount() {
       if (counted || !cnt) return; counted = true;
       var to = parseInt(cnt.getAttribute('data-to'), 10) || 34, obj = { v: 1 };
       gsap.to(obj, { v: to, duration: 1.2, ease: 'power2.out', onUpdate: function () { cnt.textContent = Math.round(obj.v); }, onComplete: function () { cnt.textContent = to; } });
     }
-    ScrollTrigger.create({
+    shopST = ScrollTrigger.create({
       trigger: shop, start: 'top top', end: '+=300%', pin: true, refreshPriority: 10, scrub: true, anticipatePin: 1,
-      onLeave: brakeOff, onLeaveBack: brakeOff,
       onUpdate: function (self) {
         var p = self.progress;
         T.start(); T.setProgress(frameAt(p)); /* start() es idempotente: cubre saltos por ancla */
-        var i1 = p >= 0.18 && p < 0.42, i2 = p >= 0.74 && p < 0.98;
-        if ((i1 && !in1) || (i2 && !in2)) brakeOn();
-        in1 = i1; in2 = i2;
         var a = p >= 0.18 && p < 0.46, b = p >= 0.74;
         if (a !== o1) { o1 = a; d1.classList.toggle('is-on', a); }
         if (a && !counted) runCount();
@@ -342,6 +323,64 @@
       }
     });
   }
+
+
+  /* ---------- COMPUERTAS: 4 paradas obligatorias (fin de la carretera/hero, titular de la ciudad, dato 34 %, dato 61 %). ----------
+     Cada una tiene una posicion Y (fraccion f del recorrido de su ScrollTrigger). Con la compuerta armada, al cruzar Y hacia abajo:
+     Lenis salta a Y (immediate, descarta el impulso), se para ~700 ms (tambien bloquea teclado y dedo: overflow hidden) y la compuerta se
+     desarma. Se rearma al quedar la pagina una pantalla por encima de Y. Hacia arriba y en saltos programaticos (anclas, pasos del telefono)
+     no hay paradas. En tactil, Lenis va con syncTouch (js/v8.js) para que el impulso del dedo tambien se pueda cortar. */
+  (function () {
+    var L = window.plLenis;
+    if (!L || !L.on) return;
+    var defs = [[roadST, 1], [cityST, 0.34], [shopST, 0.2], [shopST, 0.78]], gates = [], internal = false, prog = false, progT = 0, lockT = 0, lastV = 0, t0 = 0, prev = L.scroll || window.scrollY;
+    defs.forEach(function (d) { if (d[0]) gates.push({ st: d[0], f: d[1], y: 0, armed: true }); });
+    if (!gates.length) return;
+    function vh() { return window.innerHeight || 800; }
+    function calc() {
+      gates.forEach(function (g) { g.y = Math.round(g.st.start + g.f * (g.st.end - g.st.start)); });
+      var s = L.scroll; gates.forEach(function (g) { if (!g.init) { g.init = 1; g.armed = s < g.y - 2; } }); /* si se carga ya pasada una parada, no se detiene; los refresh posteriores solo recolocan Y */
+    }
+    /* scrollTo programatico (anclas, botones del telefono...): sin paradas hasta que termine */
+    var orig = L.scrollTo;
+    L.scrollTo = function (t, o) {
+      if (!internal && !(o && o.programmatic === false)) {
+        prog = true; clearTimeout(progT);
+        var oc = o && o.onComplete, dur = (o && o.immediate) ? -300 : ((o && o.duration) || L.options.duration || 1.2) * 1000; /* immediate: 300 ms de margen */
+        o = Object.assign({}, o, { onComplete: function () { clearTimeout(progT); progT = setTimeout(function () { prog = false; }, 60); if (oc) oc(); } });
+        progT = setTimeout(function () { prog = false; }, dur + 600);
+      }
+      return orig.call(L, t, o);
+    };
+    function hold(g) {
+      g.armed = false; internal = true;
+      orig.call(L, g.y, { immediate: true, force: true });
+      internal = false;
+      L.stop(); clearTimeout(lockT); lockT = setTimeout(tryUnlock, 700); t0 = Date.now();
+    }
+    /* se desbloquea a los 700 ms, pero solo cuando la rueda/dedo llevan 150 ms callados: asi la cola de inercia del mismo gesto no se cuela
+       como "gesto nuevo" (tope 2,5 s) */
+    function tryUnlock() {
+      if (Date.now() - lastV < 150 && Date.now() - t0 < 2500) { lockT = setTimeout(tryUnlock, 60); return; }
+      L.start();
+    }
+    L.on('virtual-scroll', function () { lastV = Date.now(); });
+    L.on('scroll', function (e) {
+      if (internal) return;
+      var s = e.scroll, down = s > prev; prev = s;
+      for (var i = 0; i < gates.length; i++) {
+        var g = gates[i];
+        if (s < g.y - vh()) g.armed = true;
+        else if (g.armed && s >= g.y) {
+          if (prog) g.armed = false; /* salto programatico: pasa de largo y la desarma */
+          else if (down) { hold(g); prev = g.y; return; }
+        }
+      }
+    });
+    ScrollTrigger.addEventListener('refresh', calc);
+    calc();
+    window.plV9.gates = gates; /* solo lectura (pruebas) */
+  })();
 
   /* ---------- ?ideas=1 (7): galeria horizontal de #work. Seccion fijada; 3 tarjetas altas (taller, electricista, taqueria); la captura larga de cada
      demo hace scroll interno al llegar al centro y el color de fondo pasa al del negocio. Titular fijo arriba a la izquierda. ---------- */
