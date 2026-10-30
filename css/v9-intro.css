@@ -146,3 +146,17 @@ html.ideas.v9-on .work.is-gal .work__head::after{content:"";display:block;width:
   .wk__card{width:62vw}
   .wk{--wk-h:min(48svh,440px)}
 }
+
+/* ---------- Fase 3e: vertical / movil -> el clip es una banda apaisada 16:9 a todo el ancho, centrada en vertical sobre var(--bg).
+   Los textos van fuera de la banda (carretera, ciudad y tienda: debajo). El lienzo mide justo 16:9, asi que "cover" no recorta nada. ---------- */
+@media(max-width:768px),(orientation:portrait){
+  .v9-on .v9-road__cv,.v9-on .v9-shop__cv,.v9-on .v9-city__cv{inset:auto;left:0;top:50%;width:100%;height:56.25vw;transform:translateY(-50%)}
+  .v9-on .v9-road__poster{inset:auto;left:0;top:50%;height:56.25vw;transform:translateY(-50%)}
+  .v9-on .v9-road__shade,.v9-on .v9-city__shade,.v9-on .v9-shop__shade{display:none}
+  .v9-on .v9-road__title{text-shadow:none}
+  .v9-on .v9-city__h{text-shadow:none}
+  .v9-on .v9-shop__txt{min-height:0;padding-bottom:clamp(28px,6svh,56px)}
+  .v9-on .v9-num{font-size:clamp(4.5rem,22vw,8rem)}
+  .v9-on .v9-l{font-size:clamp(1.05rem,4.6vw,1.5rem)}
+  .v9-on .v9-src{margin-top:10px;font-size:.74rem}
+}
