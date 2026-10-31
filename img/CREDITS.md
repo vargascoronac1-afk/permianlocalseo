@@ -112,12 +112,35 @@ grain.png (ruido generado, sin fuente) y posters/*-laptop.webp (capturas de nues
 
 ## Menu 3D de la taqueria demo (2026-10-31)
 
-Fotos de Unsplash (Unsplash License: uso comercial libre, sin atribucion obligatoria; se acredita igualmente). Se recortaron con rembg y se convirtieron a WebP con alpha en `demos/taqueria/3d/` (con un mapa de relieve generado a partir de la silueta). Ninguna es de Unsplash+/Getty. Descargadas 2026-10-30.
+Fotos de Unsplash (Unsplash License: uso comercial libre, sin atribucion obligatoria; se acredita igualmente). Se recortaron con rembg y se convirtieron a WebP con alpha en `director/2026-10-31-menu-3d/archivo-demo-3d/ (retirado de la web el 2026-10-31) ` (con un mapa de relieve generado a partir de la silueta). Ninguna es de Unsplash+/Getty. Descargadas 2026-10-30.
 
 | Archivo | Foto original | Autor | Licencia |
 |---|---|---|---|
-| demos/taqueria/3d/tacos-birria.webp | https://unsplash.com/photos/BpmEx2YgqWM ("Tacos de Birria"; recorte del plato inferior) | Diego Lozano | Unsplash License |
-| demos/taqueria/3d/quesabirria.webp | https://unsplash.com/photos/YBp9IqJ1P88 (3 quesabirria con consome, Long Beach) | Doris Morgan | Unsplash License |
-| demos/taqueria/3d/consome-birria.webp | https://unsplash.com/photos/DXKbOIWGZSA (cuenco de sopa tipo birria con limon y cilantro) | Kelsey Todd | Unsplash License |
+| director/2026-10-31-menu-3d/archivo-demo-3d/ (retirado de la web el 2026-10-31) tacos-birria.webp | https://unsplash.com/photos/BpmEx2YgqWM ("Tacos de Birria"; recorte del plato inferior) | Diego Lozano | Unsplash License |
+| director/2026-10-31-menu-3d/archivo-demo-3d/ (retirado de la web el 2026-10-31) quesabirria.webp | https://unsplash.com/photos/YBp9IqJ1P88 (3 quesabirria con consome, Long Beach) | Doris Morgan | Unsplash License |
+| director/2026-10-31-menu-3d/archivo-demo-3d/ (retirado de la web el 2026-10-31) consome-birria.webp | https://unsplash.com/photos/DXKbOIWGZSA (cuenco de sopa tipo birria con limon y cilantro) | Kelsey Todd | Unsplash License |
 
 Fotos de apoyo descartadas: tlfjDBm-fXc (You Le; un plato con un adhesivo de marca de terceros) y m_6l8ZiQ8pc / T6D_RDoQ82E (Kelsey Todd; el cuenco quedaba cortado por el borde). Son fotos de archivo, no del negocio ficticio; con las fotos del cliente se sustituyen con `director/2026-10-31-menu-3d/herramientas/relieve.py`.
+
+## Taquería v2 (2026-10-31)
+
+Fotos de Unsplash (Unsplash License: uso comercial libre, sin atribución obligatoria; se acredita igualmente). Ninguna es de Unsplash+/Getty. Descargadas 2026-10-31 desde images.unsplash.com. Recortadas con rembg (isnet-general-use) y retocadas con Pillow; salvo el humo, nada está generado por IA. Todos los ficheros están en `demos/taqueria/img/`.
+
+| Archivo | Foto original (página) | Autor | Licencia |
+|---|---|---|---|
+| tacos-pastor.png, tacos-pastor-1200.webp, -700.webp | https://unsplash.com/photos/Zggo6DP_P88 (tres tacos con carne adobada) | Federico Ramirez | Unsplash License |
+| tacos-asada.png, tacos-asada-1200.webp, -700.webp | https://unsplash.com/photos/oDC_9Uq1los (tres tacos en plato blanco) | Robby McCullough | Unsplash License |
+| quesabirria.png, quesabirria-1200.webp, -700.webp | https://unsplash.com/photos/YBp9IqJ1P88 (quesabirria con consomé) | Doris Morgan | Unsplash License |
+| burrito.png, burrito-1200.webp, -700.webp | https://unsplash.com/photos/BqV9zOdio6A (burrito partido en plato de barro) | Snappr | Unsplash License |
+| consome.png, consome-1200.webp, -700.webp | https://unsplash.com/photos/DXKbOIWGZSA (cuenco de consomé de birria) | Kelsey Todd | Unsplash License |
+| ing-tortilla.png, .webp | https://unsplash.com/photos/Ju0XPJLxPw0 (tortilla recién hecha en comal) | AJOY DAS | Unsplash License |
+| ing-carne.png, .webp | https://unsplash.com/photos/Z7t0cS9dgd0 (carne sazonada a la parrilla; una pieza) | Oleksandra Nadtocha | Unsplash License |
+| ing-cebolla.png, .webp | https://unsplash.com/photos/gAIhUvHv0f0 (cebolla morada en cuartos) | Burhan Rexhepi | Unsplash License |
+| ing-cilantro.png, .webp | https://unsplash.com/photos/fCn8XzqyyNo (hojas de cilantro) | usama firdous | Unsplash License |
+| ing-limon.png, .webp | https://unsplash.com/photos/c5_N5ak_kJU (limas partidas) | Shaun Meintjes | Unsplash License |
+| ing-salsa.png, .webp (tomatillos; sustituye al cuenco de salsa) | https://unsplash.com/photos/YJuXBOGapwM (tomatillos con cáscara) | (ver la página de la foto) | Unsplash License |
+| ing-aguacate.png, .webp (extra) | https://unsplash.com/photos/cueV_oTVsic (aguacates) | (ver la página de la foto) | Unsplash License |
+| ing-chile.png, .webp | https://unsplash.com/photos/nZUQgW0FVnc (chile rojo) | Mockup Graphics | Unsplash License |
+| plato-cenital-1600.webp, -800.webp (recorte y reescalado) | https://unsplash.com/photos/T1c5qwFkdu4 (mesa de tacos vista desde arriba) | Rebecca Orlov / Epic Playdate | Unsplash License |
+
+humo.png: generado con Pillow y NumPy (ruido gaussiano multiescala), sin fuente de terceros.

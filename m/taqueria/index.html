@@ -1,217 +1,546 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="js">
 <head>
+<script>(function(d){d.className='js';try{if(matchMedia('(prefers-reduced-motion: reduce)').matches||/[?&]rm=1/.test(location.search))d.className+=' rm';}catch(e){}})(document.documentElement);</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>El Sol de Odessa Taquería · Menu</title>
-<meta name="description" content="Menu with 3D dishes, prices, hours and address. Demo of a table-QR/NFC menu by Permian Local. Fictional business.">
+<meta name="description" content="Menu, prices, hours and phone. Demo of a table-QR/NFC menu by Permian Local. Fictional business.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#2b1a10">
+<meta name="theme-color" content="#1b120c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap">
-<link rel="stylesheet" href="../../demos/taqueria/3d/dish3d.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@400;600;800&display=swap">
 <link rel="icon" href="../../favicon.ico">
-<script type="importmap">{"imports":{"three":"../../js/vendor/three/three.module.js","three/addons/":"../../js/vendor/three/"}}</script>
 <style>
-:root{--crema:#f8eed6;--crema2:#efe0bd;--teja:#9c2f14;--teja-d:#7d2310;--tejaoscuro:#5a1a0e;--maiz:#f6c23e;--verde:#1f4a28;--verde2:#2d6a3a;--ink:#2b1a10;--muted:#5e3b2a;--line:#c9a977;
-  --head:"Alfa Slab One",Georgia,"Times New Roman",serif;--body:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+@property --acc{syntax:'<color>';inherits:true;initial-value:#f2a93b}
+:root{
+  --coal:#1b120c;--coal2:#2a1a12;--coal3:#120b07;
+  --amber:#f2b13a;--amber2:#e39a1d;
+  --salsa:#9b2a1c;--verde:#4d6a21;--cilantro:#2f6b3a;--birria:#43200f;--maiz:#efb52b;--crema:#f4e7c9;--crema2:#e9d7b0;
+  --ink:#2a1405;
+  --head:"Anton","Impact","Arial Narrow",sans-serif;
+  --body:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --out:cubic-bezier(.23,1,.32,1);
+  --hh:64px;
+  --pad:clamp(16px,2.6vw,36px);
+}
 *{box-sizing:border-box}
-html{scroll-padding-top:116px;scroll-behavior:smooth}
-body{margin:0;background:var(--crema);color:var(--ink);font:400 1.0625rem/1.5 var(--body);padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+html{scroll-padding-top:72px}
+html:not(.lenis){scroll-behavior:smooth}
+html.rm{scroll-behavior:auto}
+body{margin:0;background:var(--coal);color:var(--crema);font:400 1.0625rem/1.55 var(--body);padding-bottom:40px;overflow-x:clip;-webkit-font-smoothing:antialiased}
 img{max-width:100%;height:auto;display:block}
-h1,h2,h3{font-family:var(--head);font-weight:400;line-height:1.02;margin:0}
-p{margin:0}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:4px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border:3px solid transparent;border-radius:999px;cursor:pointer;font:800 1rem/1 var(--body);text-decoration:none}
+p,h1,h2,h3,figure,blockquote,ul{margin:0;padding:0}
+ul{list-style:none}
+h1,h2,h3{font-family:var(--head);font-weight:400;text-transform:uppercase;line-height:.92;letter-spacing:-.012em}
+.ln{display:block}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+
+/* botones: pastilla, una decisión para toda la página */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border:3px solid transparent;border-radius:999px;cursor:pointer;
+  font:800 1.02rem/1 var(--body);text-decoration:none;white-space:nowrap;
+  transition:background-color .18s ease,color .18s ease,transform .16s var(--out)}
 .btn svg{width:20px;height:20px;flex:none}
-.btn--teja{background:var(--teja);color:#fff;box-shadow:3px 3px 0 var(--ink)}
-.btn--maiz{background:var(--maiz);color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
-.top{position:sticky;top:0;z-index:40;background:var(--crema);border-bottom:3px solid var(--ink)}
-.top__in{display:flex;align-items:center;gap:10px;padding:10px 16px 8px}
-.top h1{font-size:1.25rem;color:var(--teja);flex:1;min-width:0}
-.top h1 small{display:block;font:800 .72rem/1.2 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--verde2);margin-top:3px}
-.lang{min-width:48px;min-height:44px;border:3px solid var(--ink);border-radius:999px;background:transparent;font:800 .95rem/1 var(--body);cursor:pointer;color:var(--ink)}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:0 16px 10px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chips a{flex:none;min-height:40px;display:inline-flex;align-items:center;padding:0 16px;border-radius:999px;border:2px solid var(--teja);color:var(--teja);font:800 .92rem/1 var(--body);text-decoration:none;background:var(--crema)}
-.chips a:first-child{background:var(--teja);color:#fff}
-main{max-width:760px;margin:0 auto}
-.m3d{margin:0;padding:34px 0 30px}
-.m3d__grid{grid-template-columns:1fr;max-width:none;padding:0 16px;gap:18px}
-.m3d__head{padding:0 16px;margin-bottom:20px}
-.m3d h2{font-size:2.5rem;text-transform:uppercase}
-.m3d__note{padding:0 16px}
-.cat{padding:30px 16px 0}
-.cat h2{font-size:2rem;color:var(--teja);text-transform:uppercase;margin-bottom:14px}
-.cat ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.item{display:grid;grid-template-columns:104px 1fr;gap:12px;align-items:center;background:#fff8e6;border:2px solid var(--line);border-radius:16px;padding:8px}
-.item img{width:104px;height:86px;object-fit:cover;border-radius:10px}
-.item__row{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
-.item__row b{font:400 1.08rem/1.1 var(--head);color:var(--ink)}
-.item__p{margin-left:auto;font:800 1.05rem/1 var(--body);color:var(--teja)}
-.item__p small{font-weight:600;color:var(--muted);margin-left:3px}
-.item p{font-size:.92rem;line-height:1.35;color:var(--muted);margin-top:4px}
-.tag{font:800 .68rem/1 var(--body);letter-spacing:.08em;text-transform:uppercase;background:var(--maiz);padding:4px 8px;border-radius:999px;color:var(--ink)}
-.info{margin:34px 16px 0;padding:20px 18px;background:var(--tejaoscuro);color:var(--crema);border-radius:20px}
-.info h2{font-size:1.6rem;color:var(--maiz);margin-bottom:12px;text-transform:uppercase}
-.info table{border-collapse:collapse;width:100%;font-size:.98rem}
-.info th{text-align:left;font-weight:700;padding:3px 0} .info td{text-align:right;padding:3px 0}
-.info tr.off td{color:#f3b9a8}
-.info address{font-style:normal;margin-top:14px;font-weight:700}
-.info .st{margin-top:12px;font-weight:800;color:var(--maiz)}
-.info .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-.info .btn--line{border-color:var(--crema);color:var(--crema);background:transparent}
-.legal{margin:22px 16px 0;font-size:.82rem;color:var(--muted)}
-.bar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:var(--ink);border-top:3px solid var(--maiz)}
-.bar .btn{flex:1}
-@media (min-width:700px){.m3d__grid{grid-template-columns:repeat(2,1fr)}.m3d h2{font-size:3rem}}
+.btn:active{transform:scale(.97)}
+.btn--amber{background:var(--amber);color:var(--ink)}
+.btn--ink{background:var(--ink);color:var(--crema)}
+.btn--line{background:transparent;color:var(--crema);border-color:var(--crema)}
+.btn--sm{min-height:46px;padding:0 18px}
+@media(hover:hover){
+  .btn--amber:hover{background:#ffc552}
+  .btn--ink:hover{background:#000}
+  .btn--line:hover{background:var(--crema);color:var(--ink)}
+}
+.lnk{font-weight:800;text-underline-offset:5px;text-decoration-thickness:2px;padding:12px 4px;transition:color .18s ease}
+@media(hover:hover){.lnk:hover{color:var(--amber)}}
+.cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
+
+/* barra */
+.top{position:sticky;top:0;z-index:60;height:var(--hh);background:var(--coal)}
+.top__in{position:relative;display:flex;align-items:center;gap:8px;height:100%;padding:0 var(--pad)}
+.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font:400 1.25rem/1 var(--head);text-transform:uppercase;letter-spacing:.02em;margin-right:auto}
+.logo svg{width:34px;height:34px}
+.nav{display:none;gap:2px;margin-right:12px}
+.nav a{white-space:nowrap;text-decoration:none;font-weight:600;padding:0 14px;min-height:46px;display:inline-flex;align-items:center;border-radius:999px;transition:background-color .18s ease}
+@media(hover:hover){.nav a:hover{background:var(--coal2)}}
+.lang{min-width:46px;min-height:46px;padding:0 12px;border:2px solid var(--crema2);border-radius:999px;background:transparent;color:var(--crema);font:800 .95rem/1 var(--body);cursor:pointer;transition:background-color .18s ease,color .18s ease,transform .16s var(--out)}
+.lang:active{transform:scale(.97)}
+@media(hover:hover){.lang:hover{background:var(--crema);color:var(--ink)}}
+.top .t-long{display:none}
+.progress{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--amber);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+
+@media(max-width:420px){.logo span{display:none}.top .btn--sm .t-long{display:none}}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:max(660px,calc(100svh - var(--hh)));background:var(--coal);overflow:clip;--acc:#f2a93b;transition:--acc .6s ease;isolation:isolate}
+.hero[data-k="1"]{--acc:#6fa83a}
+.hero[data-k="2"]{--acc:#f5b43c}
+.hero[data-k="3"]{--acc:#efb52b}
+.hero[data-k="4"]{--acc:#d6381f}
+.hero__halo{position:absolute;z-index:0;left:60%;top:60%;width:min(110vw,1100px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--acc) 62%,transparent),color-mix(in srgb,var(--acc) 22%,transparent) 55%,transparent 100%)}
+.hero__h1{position:relative;z-index:1;padding:26px var(--pad) 0;font-size:clamp(3.4rem,13.2vw,11.5rem);color:var(--crema)}
+.stage{position:relative;z-index:2;width:100%;margin-top:-4vw;height:min(60vw,60svh);pointer-events:none}
+.smoke{position:absolute;inset:-34% -8% 4% -8%;z-index:1;pointer-events:none}
+.smoke__p{position:absolute;inset:0;will-change:transform;transition:transform .8s var(--out)}
+.sm{position:absolute;mix-blend-mode:screen;opacity:.42}
+.sm1{width:70%;left:2%;top:-4%;animation:drift1 22s ease-in-out infinite alternate}
+.sm2{width:64%;right:0;top:6%;opacity:.34;animation:drift2 33s ease-in-out infinite alternate}
+@keyframes drift1{from{transform:translate(0,6%) rotate(-6deg) scale(1)}to{transform:translate(5%,-10%) rotate(8deg) scale(1.12)}}
+@keyframes drift2{from{transform:translate(0,0) rotate(10deg) scale(1.1)}to{transform:translate(-6%,-12%) rotate(-8deg) scale(.96)}}
+.plates{position:absolute;inset:0;z-index:2}
+.hp{position:absolute;left:50%;top:0;width:min(92vw,1100px);height:100%;object-fit:contain;transform:translateX(-50%) scale(.96);opacity:0;
+  transition:opacity .45s ease,transform .6s var(--out);filter:drop-shadow(0 28px 30px rgba(0,0,0,.45))}
+.hp.is-on{opacity:1;transform:translateX(-50%) scale(1)}
+.hero__bar{position:relative;z-index:3;display:grid;gap:14px;padding:6px var(--pad) 34px;justify-items:start}
+.lead{max-width:36ch;margin-bottom:16px}
+.picker{display:flex;gap:10px}
+.pk{width:62px;height:62px;padding:0;border:3px solid transparent;border-radius:50%;background:var(--coal2);overflow:hidden;cursor:pointer;
+  transition:border-color .2s ease,transform .16s var(--out)}
+.pk img{width:100%;height:100%;object-fit:cover}
+.pk:active{transform:scale(.95)}
+.pk[aria-pressed="true"]{border-color:var(--acc)}
+@media(hover:hover){.pk:hover{border-color:var(--crema2)}.pk[aria-pressed="true"]:hover{border-color:var(--acc)}}
+.hero__meta{display:flex;align-items:flex-end;order:1;min-height:44px}
+.picker{order:2}.hero__copy{order:3;margin-top:10px}
+.hero__halo{top:44%;left:50%}.ribbon{font-size:.74rem;padding:7px 12px}
+.hn{display:flex;align-items:baseline;gap:16px;opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .3s var(--out)}
+.hn.is-on{opacity:1;transform:none}
+.hn b{font:400 clamp(1.7rem,3.4vw,2.6rem)/1 var(--head);text-transform:uppercase;white-space:nowrap}
+.hn i{font:400 clamp(1.7rem,3.4vw,2.6rem)/1 var(--head);font-style:normal;color:var(--acc);font-variant-numeric:tabular-nums;transition:color .6s ease}
+
+
+/* ---------- DEL COMAL AL PLATO ---------- */
+.comal{position:relative;background:var(--coal3);--u:min(1vmin,10px)}
+.comal__pin{position:relative;height:100svh;min-height:560px;overflow:clip;display:grid;place-items:center}
+.comal__t{position:absolute;z-index:1;left:var(--pad);top:calc(var(--hh) + clamp(14px,3vh,34px));font-size:clamp(2.4rem,5.4vw,5rem);color:var(--crema)}
+.comal__disc{position:absolute;left:50%;top:54%;width:min(86vmin,760px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#0b0705;border:clamp(8px,1.6vmin,16px) solid var(--coal2)}
+.ings{display:none}
+.taco{position:relative;z-index:3;width:min(92vw,86vmin);margin-top:20svh}
+.comal__cap{position:absolute;z-index:4;left:var(--pad);bottom:68px;display:grid}
+.cap{grid-area:1/1;font:400 clamp(1.5rem,3.6vw,2.8rem)/1 var(--head);text-transform:uppercase;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .3s ease,transform .4s var(--out),visibility 0s .3s}
+.cap.is-on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.cap--end{color:var(--amber)}
+.js:not(.rm) .ings{display:block;position:absolute;inset:0;z-index:2;pointer-events:none}
+.js:not(.rm) .taco{opacity:0}
+.js.rm .cap:not(.cap--end){display:none}
+.js.rm .cap--end{opacity:1;visibility:visible;transform:none}
+html:not(.js) .cap:not(.cap--end){display:none}
+html:not(.js) .cap--end{opacity:1;visibility:visible;transform:none}
+.ings,.taco,.comal__disc{pointer-events:none}
+.ing{position:absolute;left:50%;top:50%;height:auto;max-width:none;will-change:transform}
+.i-tort{width:calc(var(--u)*50)}
+.i-chi{width:calc(var(--u)*30)}
+.i-ceb{width:calc(var(--u)*17)}
+.i-cil{width:calc(var(--u)*19)}
+.i-lim{width:calc(var(--u)*22)}
+.i-tom{width:calc(var(--u)*19)}
+
+
+/* ---------- MENÚ POR PLATOS ---------- */
+.menu{position:relative;background:var(--salsa);transition:none}
+.dish{background:var(--bg);position:relative;min-height:max(600px,calc(100svh - var(--hh)));overflow:clip;display:flex;flex-direction:column;justify-content:flex-end;color:var(--fg,var(--crema));padding:0 var(--pad)}
+.d-salsa{--bg:var(--salsa);--word:rgba(255,196,120,.2)}
+.d-verde{--bg:var(--verde);--word:rgba(232,244,160,.17)}
+.d-crema{--bg:var(--crema);--fg:var(--ink);--word:rgba(155,42,28,.14)}
+.d-maiz{--bg:var(--maiz);--fg:var(--ink);--word:rgba(110,45,0,.2)}
+.d-birria{--bg:var(--birria);--word:rgba(242,177,58,.2)}
+.menu__t{position:absolute;z-index:3;left:var(--pad);top:calc(var(--hh) + 18px);font-size:clamp(2rem,4vw,3.4rem)}
+.dish__word{position:absolute;z-index:0;left:50%;top:36%;transform:translate(-50%,-50%);white-space:nowrap;font:400 clamp(8rem,29vw,30rem)/.8 var(--head);color:var(--word);text-transform:uppercase;user-select:none}
+.d-birria .dish__word{font-size:clamp(7rem,27vw,28rem)}
+.d-birria::before{content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(55% 60% at 88% 38%,rgba(242,150,50,.3),transparent 70%)}
+.dish__stage{pointer-events:none;position:absolute;z-index:1;inset:calc(var(--hh) + 40px) 0 190px 0;display:flex;align-items:center;justify-content:center}
+.dish__img{height:100%;width:100%;object-fit:contain;max-width:min(94vw,900px);transform:rotate(var(--r));filter:drop-shadow(0 30px 34px rgba(0,0,0,.38));will-change:transform}
+.dish__info{position:relative;z-index:2;display:grid;gap:10px 28px;padding:0 0 56px;align-items:end}
+.dish__info h3{font-size:clamp(2rem,4.6vw,3.6rem)}
+.dish__info p{max-width:42ch;font-size:1.05rem}
+.dish__buy{display:flex;align-items:center;gap:18px}
+.dish__price{font:400 clamp(2rem,4vw,3rem)/1 var(--head);font-variant-numeric:tabular-nums;white-space:nowrap}
+.dish__price small{font:600 .95rem/1 var(--body);margin-left:6px}
+.menu__note{background:var(--birria);color:var(--crema);padding:22px var(--pad) 26px;font-size:1rem}
+
+
+  .dish{min-height:max(530px,calc(100svh - var(--hh) - 230px))}
+  .d-crema{min-height:565px}
+  .dish__stage{inset:64px 0 200px 0;align-items:flex-start}
+  .menu__t{top:16px}
+  .dish__img{width:118vw;max-width:none;height:auto}
+  .d-crema .dish__img{width:80vw}
+  .d-birria .dish__img{width:134vw}
+  .dish__word{top:21%;font-size:clamp(6rem,46vw,14rem)}
+  .d-birria .dish__word{font-size:clamp(4.5rem,31vw,12rem)}
+
+
+/* ---------- RESEÑAS (claro) ---------- */
+.rev{position:relative;z-index:5;background:var(--crema);color:var(--ink);padding:clamp(40px,8vw,140px) 0 clamp(60px,9vw,150px);overflow-x:clip;overflow-y:visible}
+.rev__ph{position:relative;z-index:6;width:100%;margin-top:-18vw}
+.rev__ph img{width:100%;height:auto;filter:drop-shadow(0 22px 30px rgba(42,20,5,.25))}
+.rev__in{position:relative;z-index:7;padding:28px var(--pad) 0}
+.rev h2{font-size:clamp(3rem,8vw,7.4rem);color:var(--salsa);margin-bottom:28px}
+.rq{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;padding:22px 0}
+.rq:nth-of-type(2){padding-left:clamp(0px,4vw,60px)}
+.av{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font:400 1.5rem/1 var(--head);letter-spacing:.04em;color:var(--crema)}
+.av-salsa{background:var(--salsa)}.av-verde{background:var(--cilantro)}.av-maiz{background:var(--maiz);color:var(--ink)}
+.rq blockquote p{font:600 clamp(1.1rem,1.6vw,1.35rem)/1.4 var(--body);max-width:46ch}
+.rq figcaption{margin-top:8px;font-size:.95rem}
+.rq figcaption b{font-weight:800}
+.rev__note{margin-top:14px;font-size:.95rem}
+.loose{position:absolute;z-index:8;pointer-events:none;height:auto;max-width:none;will-change:transform}
+.l-cil{width:clamp(110px,16vw,260px);right:2vw;top:2%;transform:rotate(18deg)}
+.l-lim{width:clamp(120px,15vw,250px);right:6vw;bottom:4%;transform:rotate(-12deg)}
+.l-chi{width:clamp(120px,14vw,240px);right:34vw;top:5%;transform:rotate(-24deg)}
+
+
+  .l-chi{display:none}
+  .l-cil{width:100px;top:12vw}
+  .l-lim{width:110px;bottom:auto;top:62vw;right:2vw}
+
+
+/* ---------- HOY ---------- */
+.today{background:var(--amber);color:var(--ink)}
+.today__in{display:flex;flex-wrap:wrap;align-items:center;gap:14px 30px;padding:28px var(--pad)}
+.today__tag{font:400 clamp(2.6rem,6vw,4.6rem)/1 var(--head)}
+.today__state{flex:1 1 280px;display:flex;align-items:center;gap:12px;font:400 clamp(1.5rem,3.4vw,2.6rem)/1.05 var(--head);text-transform:uppercase}
+.today__state i{flex:none;width:18px;height:18px;border-radius:50%;background:var(--cilantro)}
+.today__state.off i{background:var(--salsa)}
+
+/* ---------- HORARIO ---------- */
+.hrs{background:var(--coal2);padding:clamp(70px,10vw,150px) 0}
+.hrs__in{display:grid;gap:40px;padding:0 var(--pad)}
+.hrs h2{font-size:clamp(3.4rem,10vw,9rem);color:var(--amber);margin-bottom:28px}
+.hours table{width:100%;border-collapse:collapse}
+.hours th,.hours td{padding:12px 16px;text-align:left}
+.hours th{font:400 clamp(1.4rem,2.4vw,2rem)/1 var(--head);text-transform:uppercase;width:55%}
+.hours td{font-weight:600;font-variant-numeric:tabular-nums}
+.hours tr:nth-child(odd){background:rgba(244,231,201,.06)}
+.hours tr.off td{opacity:.7}
+.hours tr.now{background:var(--amber);color:var(--ink)}
+.hours tr.now td{opacity:1}
+.hrs__r{display:grid;gap:20px;align-content:end;max-width:44ch}
+.hrs__r p{font-size:1.15rem}
+address{font-style:normal;font:400 clamp(1.7rem,3vw,2.4rem)/1.05 var(--head);text-transform:uppercase}
+
+
+/* ---------- CATERING ---------- */
+.cater{background:var(--salsa);overflow:clip;padding:clamp(70px,9vw,140px) 0 0}
+.cater__in{display:grid;grid-template-columns:minmax(0,1fr);gap:30px;padding-left:var(--pad)}
+.cater__txt{display:grid;gap:22px;justify-items:start;padding-right:var(--pad);max-width:720px;min-width:0}
+.cater h2{font-size:clamp(3.2rem,8.4vw,8rem)}
+.cater p{font-size:1.15rem;max-width:46ch}
+.cater__img{width:min(130vw,1000px);max-width:none;transform:rotate(-6deg) translateX(6%);margin-bottom:-4%;filter:drop-shadow(0 26px 30px rgba(0,0,0,.4))}
+
+
+/* ---------- CIFRAS ---------- */
+.nums{background:var(--coal);padding:clamp(60px,9vw,130px) var(--pad)}
+.nums__in{display:grid;gap:44px}
+.nums li{display:grid;gap:6px;align-content:start}
+.nums b{font:400 clamp(5rem,15vw,13rem)/.85 var(--head);color:var(--amber);font-variant-numeric:tabular-nums}
+.nums b i{font-style:normal;font-size:.4em;margin-left:.08em;color:var(--crema)}
+.nums .n2{color:var(--crema)}
+.nums .lbl{font:400 1.7rem/1.05 var(--head);text-transform:uppercase}
+.nums small{font-size:.92rem;opacity:.85}
+
+
+/* ---------- FAQ ---------- */
+.faqs{background:var(--crema);color:var(--ink);padding:clamp(70px,9vw,140px) var(--pad)}
+.faqs__in{display:grid;gap:36px}
+.faqs h2{font-size:clamp(3.2rem,7.4vw,7rem);color:var(--salsa)}
+.faq details{background:rgba(42,20,5,.06);margin-bottom:10px}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 20px;font:400 clamp(1.3rem,2.4vw,1.9rem)/1.1 var(--head);text-transform:uppercase;min-height:64px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{position:relative;flex:none;width:22px;height:22px;transition:transform .25s var(--out)}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;background:var(--salsa)}
+.faq summary i::after{transform:rotate(90deg)}
+.faq details[open] summary i{transform:rotate(45deg)}
+.faq .ans{padding:0 20px 24px;max-width:60ch;font-size:1.08rem}
+
+
+/* ---------- VISITA ---------- */
+.visit{background:var(--coal2);padding:clamp(70px,9vw,140px) var(--pad)}
+.visit__in{display:grid;gap:34px}
+.visit h2{font-size:clamp(3.4rem,10vw,9rem);color:var(--amber)}
+.visit__r{display:grid;gap:22px;align-content:end;justify-items:start}
+.map{width:100%;min-height:300px;background:var(--coal);display:grid;place-items:center}
+.map iframe{width:100%;height:340px;border:0;display:block}
+
+
+footer{background:var(--coal3);overflow:clip}
+.foot__name{font:400 clamp(3rem,14.4vw,17rem)/.85 var(--head);color:var(--amber);white-space:nowrap;padding:40px var(--pad) 0;letter-spacing:-.01em}
+.foot__in{display:grid;gap:8px;padding:24px var(--pad) 40px;font-size:1rem;max-width:80ch}
+.ribbon{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--coal3);color:var(--crema);font-size:.82rem;line-height:1.3;text-align:center;padding:9px 16px;min-height:36px;border-top:3px solid var(--amber)}
+.ribbon a{font-weight:600;text-underline-offset:3px}
+
+/* entradas: solo se ocultan si hay JS y movimiento permitido */
+.js:not(.rm) .rv{opacity:0;transform:translateY(24px);transition:opacity .6s var(--out),transform .7s var(--out)}
+.js:not(.rm) .rv.in{opacity:1;transform:none}
+
+@media(prefers-reduced-motion:reduce){
+  .sm1,.sm2{animation:none}
+  .hp,.hn,.cap{transition:opacity .2s ease}
+  .smoke__p{transition:none}
+}
+.rm .sm1,.rm .sm2{animation:none}
+.rm .smoke__p{transition:none}
+.rm .hp,.rm .hn,.rm .cap{transition:opacity .2s ease}
+
+/* entrada del hero al cargar: solo transform y opacidad */
+@keyframes rise{from{opacity:0;transform:translateY(26px)}}
+.js:not(.rm) .hero__h1 .ln{animation:rise .9s var(--out) both}
+.js:not(.rm) .hero__h1 .ln:nth-child(2){animation-delay:.08s}
+.js:not(.rm) .plates{animation:rise 1s var(--out) .12s both}
+.js:not(.rm) .hero__copy{animation:rise .8s var(--out) .3s both}
+.js:not(.rm) .picker{animation:rise .8s var(--out) .38s both}
+.js:not(.rm) .hero__meta{animation:rise .8s var(--out) .46s both}
+
+.hero{min-height:0}
+.hero__h1{font-size:clamp(3rem,min(13.2vw,74px),4.6rem)}
+.comal{display:none}
+.hero__bar{padding-bottom:30px}
+body{max-width:560px;margin:0 auto}
+.top{position:sticky}
+.menu{transition:background-color .5s ease}
+.hrs{padding:60px 0}
+.hrs h2{font-size:clamp(3.2rem,18vw,5rem)}
+.mcall{background:var(--coal3);padding:44px var(--pad) 28px;display:grid;gap:16px;justify-items:start}
+.mcall h2{font-size:clamp(3rem,17vw,5rem);color:var(--amber)}
+.foot__in{padding:20px var(--pad) 30px}
+
 </style>
 </head>
 <body>
 <header class="top">
   <div class="top__in">
-    <h1>El Sol de Odessa<small data-es="Taquería · Odessa, TX" data-en="Taquería · Odessa, TX">Taquería · Odessa, TX</small></h1>
-    <button class="lang" id="lang" type="button" aria-label="Cambiar a español">ES</button>
+    <a class="logo" href="#top" aria-label="El Sol de Odessa"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="8" fill="#f2b13a" stroke="#1b120c" stroke-width="2.4"/><g stroke="#f2b13a" stroke-width="3.4" stroke-linecap="round"><path d="M20 3v5M20 32v5M3 20h5M32 20h5M8 8l3.5 3.5M28.5 28.5L32 32M8 32l3.5-3.5M28.5 11.5L32 8"/></g></svg><span>El Sol de Odessa</span></a>
+    <button class="lang" id="lang" type="button" aria-label="Switch to English">ES</button>
+    <a class="btn btn--amber btn--sm" href="tel:+14325550174"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-es="Llamar" data-en="Call">Llamar</span></a>
+    <div class="progress" id="progress" aria-hidden="true"></div>
   </div>
-  <nav class="chips" aria-label="Menu">
-    <a href="#menu3d" data-es="Menú 3D" data-en="3D menu">3D menu</a>
-    <a href="#tacos" data-es="Tacos" data-en="Tacos">Tacos</a>
-    <a href="#platos" data-es="Platos" data-en="Plates">Plates</a>
-    <a href="#bebidas" data-es="Bebidas" data-en="Drinks">Drinks</a>
-    <a href="#horario" data-es="Horario" data-en="Hours">Hours</a>
-  </nav>
 </header>
-
-<main>
-<section class="m3d" id="menu3d" aria-label="Menú 3D">
-  <div class="m3d__head">
-    <p class="eyebrow" data-es="Platos estrella" data-en="Star dishes" style="font:800 .85rem/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:#f3d9a3;margin-bottom:10px">Star dishes</p>
-    <h2 data-es="Menú 3D" data-en="3D menu">3D menu</h2>
-    <p class="m3d__sub" data-es="Gira cada plato con el dedo antes de pedir." data-en="Spin each dish with your finger before you order.">Spin each dish with your finger before you order.</p>
+<main id="top">
+<section class="hero" id="hero" data-k="0">
+  <div class="hero__halo" aria-hidden="true"></div>
+  <h1 class="hero__h1"><span class="ln" data-es="CUANDO PEGA" data-en="WHEN THE">CUANDO PEGA</span><span class="ln" data-es="EL ANTOJO" data-en="CRAVING HITS">EL ANTOJO</span></h1>
+  <div class="stage" id="stage">
+    <div class="smoke" aria-hidden="true">
+      <div class="smoke__p" data-d="14"><img class="sm sm1" src="../../demos/taqueria/img/humo.png" width="1000" height="1000" alt="" decoding="async"></div>
+      <div class="smoke__p" data-d="-22"><img class="sm sm2" src="../../demos/taqueria/img/humo.png" width="1000" height="1000" alt="" decoding="async"></div>
+    </div>
+    <div class="plates">
+<img class="hp is-on" data-k="0" src="../../demos/taqueria/img/tacos-pastor-700.webp" srcset="../../demos/taqueria/img/tacos-pastor-700.webp 700w, ../../demos/taqueria/img/tacos-pastor-1200.webp 1200w" sizes="92vw" width="1200" height="709" fetchpriority="high" alt="Marinated pork tacos with onion and cilantro" data-alt-es="Tacos de cerdo adobado con cebolla y cilantro" data-alt-en="Marinated pork tacos with onion and cilantro">
+<img class="hp" data-k="1" src="../../demos/taqueria/img/tacos-asada-700.webp" srcset="../../demos/taqueria/img/tacos-asada-700.webp 700w, ../../demos/taqueria/img/tacos-asada-1200.webp 1200w" sizes="92vw" width="1200" height="739" loading="lazy" decoding="async" alt="Plate of asada tacos with two salsas" data-alt-es="Plato de tacos de asada con dos salsas" data-alt-en="Plate of asada tacos with two salsas">
+<img class="hp" data-k="2" src="../../demos/taqueria/img/quesabirria-700.webp" srcset="../../demos/taqueria/img/quesabirria-700.webp 700w, ../../demos/taqueria/img/quesabirria-1200.webp 1200w" sizes="92vw" width="1200" height="524" loading="lazy" decoding="async" alt="Golden quesabirria with melted cheese" data-alt-es="Quesabirria dorada con queso fundido" data-alt-en="Golden quesabirria with melted cheese">
+<img class="hp" data-k="3" src="../../demos/taqueria/img/burrito-700.webp" srcset="../../demos/taqueria/img/burrito-700.webp 700w, ../../demos/taqueria/img/burrito-1200.webp 1200w" sizes="92vw" width="1200" height="714" loading="lazy" decoding="async" alt="Burrito cut in half with a cup of green salsa" data-alt-es="Burrito cortado por la mitad con salsero de salsa verde" data-alt-en="Burrito cut in half with a cup of green salsa">
+<img class="hp" data-k="4" src="../../demos/taqueria/img/consome-700.webp" srcset="../../demos/taqueria/img/consome-700.webp 700w, ../../demos/taqueria/img/consome-1200.webp 1200w" sizes="92vw" width="1200" height="1120" loading="lazy" decoding="async" alt="Bowl of red broth with jalapeño, red onion and avocado" data-alt-es="Tazón de caldo rojo con jalapeño, cebolla morada y aguacate" data-alt-en="Bowl of red broth with jalapeño, red onion and avocado">
+    </div>
   </div>
-  <div class="m3d__grid">
-      <article class="dish3d">
-        <div class="dish3d__stage" data-src="../../demos/taqueria/3d/tacos-birria.webp" data-depth="../../demos/taqueria/3d/tacos-birria-depth.png">
-          <img src="../../demos/taqueria/3d/tacos-birria.webp" style="width:72.7%" width="800" height="600" loading="lazy" decoding="async" alt="Tacos de birria con cebolla y cilantro" data-alt-es="Tacos de birria con cebolla y cilantro" data-alt-en="Birria tacos with onion and cilantro">
-          <button class="dish3d__go" type="button" hidden data-es="Ver en 3D" data-en="View in 3D">Ver en 3D</button>
-        </div>
-        <span class="dish3d__hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg><span data-es="Arrastra para girar" data-en="Drag to rotate">Arrastra para girar</span></span>
-        <h3 data-es="Tacos de birria" data-en="Birria tacos">Tacos de birria</h3>
-        <p data-es="Res en adobo cocida lenta, tortilla pasada por el consomé, cebolla y cilantro. Orden de tres." data-en="Slow-cooked adobo beef, tortilla dipped in the consomé, onion and cilantro. Order of three.">Res en adobo cocida lenta, tortilla pasada por el consomé, cebolla y cilantro. Orden de tres.</p>
-        <div class="dish3d__foot"><span class="dish3d__price">$13.95</span><a class="btn btn--teja" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
-      </article>
-      <article class="dish3d">
-        <div class="dish3d__stage" data-src="../../demos/taqueria/3d/quesabirria.webp" data-depth="../../demos/taqueria/3d/quesabirria-depth.png">
-          <img src="../../demos/taqueria/3d/quesabirria.webp" style="width:84%" width="800" height="600" loading="lazy" decoding="async" alt="Quesabirria con queso fundido" data-alt-es="Quesabirria con queso fundido" data-alt-en="Quesabirria with melted cheese">
-          <button class="dish3d__go" type="button" hidden data-es="Ver en 3D" data-en="View in 3D">Ver en 3D</button>
-        </div>
-        <span class="dish3d__hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg><span data-es="Arrastra para girar" data-en="Drag to rotate">Arrastra para girar</span></span>
-        <h3 data-es="Quesabirria" data-en="Quesabirria">Quesabirria</h3>
-        <p data-es="Tortilla dorada con queso fundido y birria deshebrada. Viene con consomé para mojar." data-en="Crisp griddled tortilla with melted cheese and shredded birria. Comes with consomé for dipping.">Tortilla dorada con queso fundido y birria deshebrada. Viene con consomé para mojar.</p>
-        <div class="dish3d__foot"><span class="dish3d__price">$14.50</span><a class="btn btn--teja" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
-      </article>
-      <article class="dish3d">
-        <div class="dish3d__stage" data-src="../../demos/taqueria/3d/consome-birria.webp" data-depth="../../demos/taqueria/3d/consome-birria-depth.png">
-          <img src="../../demos/taqueria/3d/consome-birria.webp" style="width:65.5%" width="800" height="600" loading="lazy" decoding="async" alt="Tazón de consomé de birria" data-alt-es="Tazón de consomé de birria" data-alt-en="Bowl of birria consomé">
-          <button class="dish3d__go" type="button" hidden data-es="Ver en 3D" data-en="View in 3D">Ver en 3D</button>
-        </div>
-        <span class="dish3d__hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg><span data-es="Arrastra para girar" data-en="Drag to rotate">Arrastra para girar</span></span>
-        <h3 data-es="Consomé de birria" data-en="Birria consomé">Consomé de birria</h3>
-        <p data-es="El caldo de la birria con cebolla, cilantro y limón. Para mojar o para tomar." data-en="The birria broth with onion, cilantro and lime. For dipping or for sipping.">El caldo de la birria con cebolla, cilantro y limón. Para mojar o para tomar.</p>
-        <div class="dish3d__foot"><span class="dish3d__price">$6.50</span><a class="btn btn--teja" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
-      </article>
+  <div class="hero__bar">
+    <div class="hero__copy">
+      <p class="lead" data-es="Escanea, elige y pide por teléfono: te esperamos con la bolsa lista." data-en="Scan, pick and order by phone: we will have your bag ready.">Escanea, elige y pide por teléfono: te esperamos con la bolsa lista.</p>
+      <div class="cta"><a class="btn btn--amber" href="tel:+14325550174"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-es="Llamar" data-en="Call">Llamar</span></a><a class="lnk" href="#menu"><span data-es="Ver el menú" data-en="See the menu">Ver el menú</span></a></div>
+    </div>
+    <div class="picker" role="group" data-aria-es="Elige un plato" data-aria-en="Pick a dish" aria-label="Pick a dish">
+<button class="pk" type="button" data-k="0" data-nes="Tacos de adobada" data-nen="Adobada tacos" data-p="$2.75" aria-pressed="true" aria-label="Adobada tacos" data-aria-es="Tacos de adobada" data-aria-en="Adobada tacos"><img src="../../demos/taqueria/img/th-tacos-pastor.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="1" data-nes="Tacos de asada" data-nen="Asada tacos" data-p="$3.25" aria-pressed="false" aria-label="Asada tacos" data-aria-es="Tacos de asada" data-aria-en="Asada tacos"><img src="../../demos/taqueria/img/th-tacos-asada.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="2" data-nes="Quesabirria" data-nen="Quesabirria" data-p="$14.50" aria-pressed="false" aria-label="Quesabirria" data-aria-es="Quesabirria" data-aria-en="Quesabirria"><img src="../../demos/taqueria/img/th-quesabirria.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="3" data-nes="Burrito de carne" data-nen="Beef burrito" data-p="$10.50" aria-pressed="false" aria-label="Beef burrito" data-aria-es="Burrito de carne" data-aria-en="Beef burrito"><img src="../../demos/taqueria/img/th-burrito.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="4" data-nes="Caldo rojo" data-nen="Red broth" data-p="$11.50" aria-pressed="false" aria-label="Red broth" data-aria-es="Caldo rojo" data-aria-en="Red broth"><img src="../../demos/taqueria/img/th-consome.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+    </div>
+    <div class="hero__meta" aria-live="polite">
+<div class="hn is-on"><b id="hnName" data-es="Tacos de adobada" data-en="Adobada tacos">Tacos de adobada</b><i id="hnPrice">$2.75</i></div>    </div>
   </div>
 </section>
 
-  <section class="cat" id="tacos">
-    <h2 data-es="Tacos" data-en="Tacos">Tacos</h2>
-    <ul>
-      <li class="item">
-        <img src="../../img/menu/trompo-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
-        <div class="item__t"><div class="item__row"><b data-es="Tacos de trompo" data-en="Trompo tacos">Tacos de trompo</b><span class="tag" data-es="La estrella" data-en="The star">La estrella</span><span class="item__p">$2.75<small data-es="c/u" data-en="each">c/u</small></span></div>
-        <p data-es="Cerdo al pastor del trompo, con piña y cebolla." data-en="Pork al pastor off the spit, with pineapple and onion.">Cerdo al pastor del trompo, con piña y cebolla.</p></div>
-      </li>
-      <li class="item">
-        <img src="../../img/menu/asada-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
-        <div class="item__t"><div class="item__row"><b data-es="Tacos de asada" data-en="Asada tacos">Tacos de asada</b><span class="item__p">$3.25<small data-es="c/u" data-en="each">c/u</small></span></div>
-        <p data-es="Res a la parrilla, picada al momento." data-en="Grilled beef, chopped to order.">Res a la parrilla, picada al momento.</p></div>
-      </li>
-      <li class="item">
-        <img src="../../img/menu/barbacoa-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
-        <div class="item__t"><div class="item__row"><b data-es="Tacos de barbacoa" data-en="Barbacoa tacos">Tacos de barbacoa</b><span class="item__p">$3.50<small data-es="c/u" data-en="each">c/u</small></span></div>
-        <p data-es="Cocida lenta, suave, con su consomé aparte." data-en="Slow-cooked and tender, with consommé on the side.">Cocida lenta, suave, con su consomé aparte.</p></div>
-      </li>
-    </ul>
-  </section>
-
-  <section class="cat" id="platos">
-    <h2 data-es="Platos" data-en="Plates">Platos</h2>
-    <ul>
-      <li class="item">
-        <img src="../../img/menu/menudo-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
-        <div class="item__t"><div class="item__row"><b data-es="Menudo" data-en="Menudo">Menudo</b><span class="tag" data-es="Sáb y Dom" data-en="Sat &amp; Sun">Sáb y Dom</span><span class="item__p">$11.50</span></div>
-        <p data-es="Caldo rojo, con orégano, limón y tortillas calientes." data-en="Red broth with oregano, lime and warm tortillas.">Caldo rojo, con orégano, limón y tortillas calientes.</p></div>
-      </li>
-      <li class="item">
-        <img src="../../img/menu/tortas-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
-        <div class="item__t"><div class="item__row"><b data-es="Tortas" data-en="Tortas">Tortas</b><span class="item__p">$9.50</span></div>
-        <p data-es="Telera tostada, frijoles, aguacate y tu carne favorita." data-en="Toasted telera roll, beans, avocado and your choice of meat.">Telera tostada, frijoles, aguacate y tu carne favorita.</p></div>
-      </li>
-    </ul>
-  </section>
-
-  <section class="cat" id="bebidas">
-    <h2 data-es="Bebidas" data-en="Drinks">Bebidas</h2>
-    <ul>
-      <li class="item">
-        <img src="../../img/menu/aguas-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
-        <div class="item__t"><div class="item__row"><b data-es="Aguas frescas" data-en="Aguas frescas">Aguas frescas</b><span class="item__p">$3.50</span></div>
-        <p data-es="Horchata, jamaica y limón. Vaso grande." data-en="Horchata, hibiscus and lime. Large cup.">Horchata, jamaica y limón. Vaso grande.</p></div>
-      </li>
-    </ul>
-  </section>
-
-  <section class="info" id="horario">
-    <h2 data-es="Horario y dirección" data-en="Hours &amp; address">Hours &amp; address</h2>
-    <table><tbody>
-      <tr class="off"><th scope="row" data-es="Lunes" data-en="Monday">Monday</th><td data-es="Cerrado" data-en="Closed">Closed</td></tr>
-      <tr><th scope="row" data-es="Martes a domingo" data-en="Tuesday to Sunday">Tuesday to Sunday</th><td>7 am – 10 pm</td></tr>
-    </tbody></table>
-    <address>E 8th St, Odessa, TX</address>
-    <div class="row">
-      <a class="btn btn--maiz" href="https://www.google.com/maps/search/?api=1&amp;query=taquer%C3%ADa+E+8th+St+Odessa+TX" target="_blank" rel="noopener"><span data-es="Cómo llegar" data-en="Get directions">Get directions</span></a>
-    </div>
-  </section>
-  <p class="legal" data-es="Sitio de demostración. Taquería El Sol de Odessa es un negocio ficticio; nombre, teléfono, dirección y precios son inventados. Fotos de archivo. Hecho por Permian Local." data-en="Demo page. El Sol de Odessa Taquería is a fictional business; the name, phone, address and prices are made up. Stock photos. Made by Permian Local.">Demo page. El Sol de Odessa Taquería is a fictional business; the name, phone, address and prices are made up. Stock photos. Made by Permian Local.</p>
-</main>
-
-<div class="bar">
-  <a class="btn btn--maiz" href="tel:+14325550174"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-es="Llamar" data-en="Call">Call</span></a>
-  <a class="btn btn--teja" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Order</span></a>
+<div class="menu" id="menu">
+<section class="dish d-salsa" data-i="0" style="--r:-9deg">
+  <h2 class="menu__t"><span data-es="El menú" data-en="The menu">El menú</span></h2>
+  <span class="dish__word" aria-hidden="true">ADOBADA</span>
+  <div class="dish__stage"><img class="dish__img" src="../../demos/taqueria/img/tacos-pastor-700.webp" srcset="../../demos/taqueria/img/tacos-pastor-700.webp 700w, ../../demos/taqueria/img/tacos-pastor-1200.webp 1200w" sizes="92vw" width="1200" height="709" loading="lazy" decoding="async" alt="Marinated pork tacos with onion and cilantro" data-alt-es="Tacos de cerdo adobado con cebolla y cilantro" data-alt-en="Marinated pork tacos with onion and cilantro"></div>
+  <div class="dish__info">
+    <h3 data-es="Tacos de adobada" data-en="Adobada tacos">Tacos de adobada</h3>
+    <p data-es="Cerdo adobado con cebolla y cilantro, en tortilla suave." data-en="Marinated pork with onion and cilantro, on soft tortillas.">Cerdo adobado con cebolla y cilantro, en tortilla suave.</p>
+    <div class="dish__buy"><span class="dish__price">$2.75<small data-es="c/u" data-en="each">c/u</small></span><a class="btn btn--ink" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+  </div>
+</section>
+<section class="dish d-verde" data-i="1" style="--r:8deg">
+  
+  <span class="dish__word" aria-hidden="true">ASADA</span>
+  <div class="dish__stage"><img class="dish__img" src="../../demos/taqueria/img/tacos-asada-700.webp" srcset="../../demos/taqueria/img/tacos-asada-700.webp 700w, ../../demos/taqueria/img/tacos-asada-1200.webp 1200w" sizes="92vw" width="1200" height="739" loading="lazy" decoding="async" alt="Plate of asada tacos with two salsas" data-alt-es="Plato de tacos de asada con dos salsas" data-alt-en="Plate of asada tacos with two salsas"></div>
+  <div class="dish__info">
+    <h3 data-es="Tacos de asada" data-en="Asada tacos">Tacos de asada</h3>
+    <p data-es="Res asada picada con cebolla, cilantro y dos salsas." data-en="Chopped grilled beef with onion, cilantro and two salsas.">Res asada picada con cebolla, cilantro y dos salsas.</p>
+    <div class="dish__buy"><span class="dish__price">$3.25<small data-es="c/u" data-en="each">c/u</small></span><a class="btn btn--ink" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+  </div>
+</section>
+<section class="dish d-crema" data-i="2" style="--r:-12deg">
+  
+  <span class="dish__word" aria-hidden="true">CALDO</span>
+  <div class="dish__stage"><img class="dish__img" src="../../demos/taqueria/img/consome-700.webp" srcset="../../demos/taqueria/img/consome-700.webp 700w, ../../demos/taqueria/img/consome-1200.webp 1200w" sizes="92vw" width="1200" height="1120" loading="lazy" decoding="async" alt="Bowl of red broth with jalapeño, red onion and avocado" data-alt-es="Tazón de caldo rojo con jalapeño, cebolla morada y aguacate" data-alt-en="Bowl of red broth with jalapeño, red onion and avocado"></div>
+  <div class="dish__info">
+    <h3 data-es="Caldo rojo" data-en="Red broth">Caldo rojo</h3>
+    <p data-es="Caldo rojo con jalapeño, cebolla morada, aguacate y limón." data-en="Red broth with jalapeño, red onion, avocado and lime.">Caldo rojo con jalapeño, cebolla morada, aguacate y limón.</p>
+    <div class="dish__buy"><span class="dish__price">$11.50</span><a class="btn btn--ink" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+  </div>
+</section>
+<section class="dish d-maiz" data-i="3" style="--r:11deg">
+  
+  <span class="dish__word" aria-hidden="true">BURRITO</span>
+  <div class="dish__stage"><img class="dish__img" src="../../demos/taqueria/img/burrito-700.webp" srcset="../../demos/taqueria/img/burrito-700.webp 700w, ../../demos/taqueria/img/burrito-1200.webp 1200w" sizes="92vw" width="1200" height="714" loading="lazy" decoding="async" alt="Burrito cut in half with a cup of green salsa" data-alt-es="Burrito cortado por la mitad con salsero de salsa verde" data-alt-en="Burrito cut in half with a cup of green salsa"></div>
+  <div class="dish__info">
+    <h3 data-es="Burrito de carne" data-en="Beef burrito">Burrito de carne</h3>
+    <p data-es="Relleno de carne, arroz y frijol, con salsita verde al lado." data-en="Filled with beef, rice and beans, with green salsa on the side.">Relleno de carne, arroz y frijol, con salsita verde al lado.</p>
+    <div class="dish__buy"><span class="dish__price">$10.50</span><a class="btn btn--ink" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+  </div>
+</section>
+<section class="dish d-birria" data-i="4" style="--r:-8deg">
+  
+  <span class="dish__word" aria-hidden="true">QUESABIRRIA</span>
+  <div class="dish__stage"><img class="dish__img" src="../../demos/taqueria/img/quesabirria-700.webp" srcset="../../demos/taqueria/img/quesabirria-700.webp 700w, ../../demos/taqueria/img/quesabirria-1200.webp 1200w" sizes="92vw" width="1200" height="524" loading="lazy" decoding="async" alt="Golden quesabirria with melted cheese" data-alt-es="Quesabirria dorada con queso fundido" data-alt-en="Golden quesabirria with melted cheese"></div>
+  <div class="dish__info">
+    <h3 data-es="Quesabirria" data-en="Quesabirria">Quesabirria</h3>
+    <p data-es="Tortilla dorada, queso estirado y birria deshebrada." data-en="Crisp tortilla, stretchy cheese and shredded birria.">Tortilla dorada, queso estirado y birria deshebrada.</p>
+    <div class="dish__buy"><span class="dish__price">$14.50</span><a class="btn btn--ink" href="tel:+14325550174"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+  </div>
+</section>
+  <p class="menu__note" data-es="Precios de ejemplo para esta demo. Pregunta por alergias o por menos picante." data-en="Sample prices for this demo. Ask about allergies or milder salsa.">Precios de ejemplo para esta demo. Pregunta por alergias o por menos picante.</p>
 </div>
 
-<script type="module">
-/* menu 3D: carga perezosa al acercarse a la seccion */
-(function(){var sec=document.getElementById('menu3d');if(!('IntersectionObserver' in window))return;
-  var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();import('../../demos/taqueria/3d/dish3d.js').then(function(m){m.lazyMountAll(sec);}).catch(function(){});}},{rootMargin:'300px'});io.observe(sec);})();
-</script>
+<section class="today" id="hoy" aria-label="Today" data-aria-es="Hoy" data-aria-en="Today">
+  <div class="today__in">
+    <p class="today__tag"><span data-es="HOY" data-en="TODAY">HOY</span></p>
+    <p class="today__state" id="todayState" role="status"><i aria-hidden="true"></i><span id="todayText">…</span></p>
+  </div>
+</section>
+
+<section class="hrs" id="horario" aria-labelledby="hrsT">
+  <div class="hrs__in">
+    <div class="hrs__l">
+      <h2 id="hrsT"><span class="ln" data-es="HORARIO" data-en="HOURS">HORARIO</span></h2>
+      <div class="hours">
+        <table>
+          <caption class="sr" data-es="Horario semanal" data-en="Weekly hours">Horario semanal</caption>
+          <tbody id="hrsBody">
+<tr class="off" data-d="1"><th scope="row" data-es="Lunes" data-en="Monday">Lunes</th><td data-es="Cerrado" data-en="Closed">Cerrado</td></tr>
+<tr data-d="2"><th scope="row" data-es="Martes" data-en="Tuesday">Martes</th><td>7 am – 10 pm</td></tr>
+<tr data-d="3"><th scope="row" data-es="Miércoles" data-en="Wednesday">Miércoles</th><td>7 am – 10 pm</td></tr>
+<tr data-d="4"><th scope="row" data-es="Jueves" data-en="Thursday">Jueves</th><td>7 am – 10 pm</td></tr>
+<tr data-d="5"><th scope="row" data-es="Viernes" data-en="Friday">Viernes</th><td>7 am – 10 pm</td></tr>
+<tr data-d="6"><th scope="row" data-es="Sábado" data-en="Saturday">Sábado</th><td>7 am – 10 pm</td></tr>
+<tr data-d="0"><th scope="row" data-es="Domingo" data-en="Sunday">Domingo</th><td>7 am – 10 pm</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mcall" aria-labelledby="callT">
+  <h2 id="callT"><span class="ln" data-es="PIDE" data-en="CALL">PIDE</span><span class="ln" data-es="AHORA" data-en="NOW">AHORA</span></h2>
+  <address>E 8th St, Odessa, TX</address>
+  <div class="cta"><a class="btn btn--amber" href="tel:+14325550174"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-es="Llama: (432) 555-0174" data-en="Call: (432) 555-0174">Llama: (432) 555-0174</span></a></div>
+</section>
+</main>
+<footer>
+  <div class="foot__in">
+    <p data-es="Sitio de demostración. Taquería El Sol de Odessa es un negocio ficticio; el nombre, el teléfono y la dirección son inventados. Las fotos son de archivo (créditos en el sitio principal)." data-en="Demo website. El Sol de Odessa Taquería is a fictional business; the name, phone number and address are made up. Photos are stock (credits on the main site).">Sitio de demostración. Taquería El Sol de Odessa es un negocio ficticio; el nombre, el teléfono y la dirección son inventados. Las fotos son de archivo (créditos en el sitio principal).</p>
+  </div>
+</footer>
+<div class="ribbon" role="note">
+  <a href="/" data-es="Sitio demo de Permian Local · negocio ficticio · permianlocalseo.com" data-en="Demo site by Permian Local · fictional business · permianlocalseo.com">Sitio demo de Permian Local · negocio ficticio · permianlocalseo.com</a>
+</div>
 <script>
-/* idioma EN/ES (misma clave que el demo: tq-lang2); ingles por defecto */
+/* idioma ES/EN: inglés por defecto; la elección se guarda */
 (function(){
-  var KEY='tq-lang2',btn=document.getElementById('lang'),lang='en';
-  try{var s=localStorage.getItem(KEY);if(s==='en'||s==='es')lang=s;}catch(e){}
-  var T={title:{es:'El Sol de Odessa Taquería · Menú',en:'El Sol de Odessa Taquería · Menu'},toggle:{es:['EN','Switch to English'],en:['ES','Cambiar a español']}};
+  var KEY='tq-lang2', btn=document.getElementById('lang'), lang='en';
+  try{var s=localStorage.getItem(KEY); lang=(s==='en'||s==='es')?s:'en';}catch(e){lang='en';}
+  var T={
+    title:{es:'Taquería El Sol de Odessa · Demo',en:'El Sol de Odessa Taquería · Demo'},
+    desc:{es:'Sitio demo de Permian Local: tacos al carbón en Odessa, Texas. Negocio ficticio.',en:'Permian Local demo site: charcoal tacos in Odessa, Texas. Fictional business.'},
+    toggle:{es:['EN','Switch to English'],en:['ES','Cambiar a español']}
+  };
   function apply(l){
-    lang=l;document.documentElement.lang=l;
-    document.querySelectorAll('[data-es]').forEach(function(el){var v=el.getAttribute('data-'+l);if(v!==null)el.innerHTML=v;});
+    lang=l; window.__tqLang=l; document.documentElement.lang=l;
+    document.querySelectorAll('[data-es]').forEach(function(el){var v=el.getAttribute('data-'+l); if(v!==null) el.textContent=v;});
     document.querySelectorAll('[data-alt-es]').forEach(function(el){el.setAttribute('alt',el.getAttribute('data-alt-'+l));});
-    document.title=T.title[l];btn.textContent=T.toggle[l][0];btn.setAttribute('aria-label',T.toggle[l][1]);
+    document.querySelectorAll('[data-aria-es]').forEach(function(el){el.setAttribute('aria-label',el.getAttribute('data-aria-'+l));});
+    document.title=T.title[l];
+    var m=document.querySelector('meta[name=description]'); if(m) m.setAttribute('content',T.desc[l]);
+    btn.textContent=T.toggle[l][0]; btn.setAttribute('aria-label',T.toggle[l][1]);
+    document.dispatchEvent(new CustomEvent('tqlang',{detail:l}));
   }
-  btn.addEventListener('click',function(){var n=lang==='es'?'en':'es';try{localStorage.setItem(KEY,n);}catch(e){}apply(n);});
-  apply(lang);
+  btn.addEventListener('click',function(){var n=lang==='es'?'en':'es'; try{localStorage.setItem(KEY,n);}catch(e){} apply(n);});
+  window.__tqLang=lang; window.__tqApply=apply;
 })();
+
+/* franja "Hoy": hora de Odessa (America/Chicago), resalta la fila del día */
+(function(){
+  var box=document.getElementById('todayState'),txt=document.getElementById('todayText'),rows=document.querySelectorAll('#hrsBody tr');
+  var OPEN=7,CLOSE=22,MAP={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+  function now(){
+    try{
+      var p=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',weekday:'short',hour:'numeric',minute:'numeric',hourCycle:'h23'}).formatToParts(new Date()),o={};
+      p.forEach(function(x){o[x.type]=x.value;});
+      return {d:MAP[o.weekday],h:(+o.hour)+(+o.minute)/60};
+    }catch(e){var n=new Date();return {d:n.getDay(),h:n.getHours()+n.getMinutes()/60};}
+  }
+  var S={
+    es:{open:'Abierto hasta las 10 pm',mon:'Cerrado los lunes · Abrimos el martes a las 7 am',early:'Cerrado ahora · Abrimos a las 7 am',lateTue:'Cerrado ahora · Abrimos el martes a las 7 am',late:'Cerrado ahora · Abrimos mañana a las 7 am'},
+    en:{open:'Open until 10 pm',mon:'Closed Mondays · We open Tuesday at 7 am',early:'Closed now · We open at 7 am',lateTue:'Closed now · We open Tuesday at 7 am',late:'Closed now · We open tomorrow at 7 am'}
+  };
+  function status(d,h){
+    if(d===1) return {k:'mon',open:false};
+    if(h>=OPEN&&h<CLOSE) return {k:'open',open:true};
+    if(h<OPEN) return {k:'early',open:false};
+    return {k:d===0?'lateTue':'late',open:false};
+  }
+  function render(){
+    var n=now(),l=window.__tqLang||'es',s=status(n.d,n.h);
+    txt.textContent=S[l][s.k]; box.classList.toggle('off',!s.open);
+    rows.forEach(function(r){r.classList.toggle('now',+r.getAttribute('data-d')===n.d);});
+  }
+  window.__tqToday={status:function(d,h,l){return S[l||'es'][status(d,h).k];}};
+  document.addEventListener('tqlang',render);
+  window.__tqApply(window.__tqLang);
+  setInterval(render,60000);
+})();
+
+/* progreso de lectura */
+(function(){
+  var bar=document.getElementById('progress'),tick=false;
+  function upd(){tick=false;var h=document.documentElement.scrollHeight-innerHeight;bar.style.transform='scaleX('+(h>0?Math.min(1,scrollY/h):0)+')';}
+  addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});upd();
+})();
+
+/* hero: selector de platos (cambia plato, nombre, precio y acento sin mover el layout) */
+(function(){
+  var hero=document.getElementById('hero'),pks=[].slice.call(hero.querySelectorAll('.pk')),hps=[].slice.call(hero.querySelectorAll('.hp')),hns=[];
+  var meta=hero.querySelector('.hn'),nm=document.getElementById('hnName'),pr=document.getElementById('hnPrice'),mt=0;
+  function setMeta(b){
+    var l=window.__tqLang==='es'?'es':'en';
+    nm.setAttribute('data-es',b.getAttribute('data-nes'));nm.setAttribute('data-en',b.getAttribute('data-nen'));
+    nm.textContent=b.getAttribute('data-n'+l);pr.textContent=b.getAttribute('data-p');
+  }
+  function pick(k){
+    hero.setAttribute('data-k',k);
+    pks.forEach(function(b,i){b.setAttribute('aria-pressed',i===k?'true':'false');});
+    hps.forEach(function(el,i){el.classList.toggle('is-on',i===k);});
+    clearTimeout(mt);meta.classList.remove('is-on');
+    mt=setTimeout(function(){setMeta(pks[k]);meta.classList.add('is-on');},160);
+  }
+  pks.forEach(function(b,i){b.addEventListener('click',function(){pick(i);});});
+  /* humo: parallax leve con el ratón (solo con puntero fino y movimiento permitido) */
+  if(!document.documentElement.classList.contains('rm')&&matchMedia('(hover:hover)').matches){
+    var layers=[].slice.call(hero.querySelectorAll('.smoke__p'));
+    hero.addEventListener('pointermove',function(ev){
+      var r=hero.getBoundingClientRect(),mx=(ev.clientX-r.left)/r.width-.5,my=(ev.clientY-r.top)/r.height-.5;
+      layers.forEach(function(l){var d=+l.getAttribute('data-d');l.style.transform='translate('+(mx*d*2).toFixed(1)+'px,'+(my*d*2).toFixed(1)+'px)';});
+    });
+  }
+})();
+
+
 </script>
 </body>
 </html>
