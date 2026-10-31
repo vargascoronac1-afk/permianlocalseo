@@ -183,6 +183,15 @@
         ],
         "createdAt": "2026-10-31T21:04:34.809Z",
         "reason": "Falso positivo: el detector no resuelve style.css externo; el texto va a 16-32px del borde (--m) y el fondo es de ancho completo."
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          "demos/**"
+        ],
+        "createdAt": "2026-10-31T22:02:02.894Z",
+        "reason": "Las demos son variantes de sector con su propia tipografia, por diseno (DESIGN.md: la marca aplica a la web principal)"
       }
     ]
   }

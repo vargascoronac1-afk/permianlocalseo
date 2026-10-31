@@ -14,3 +14,6 @@ Esta v2 no añade fotos nuevas: reutiliza el material que ya está en `img/` y y
 
 Tipografía: Hanken Grotesk (Google Fonts, SIL Open Font License). Todas las fotos son de archivo y el negocio es ficticio.
 No se ha generado ninguna imagen nueva ni se ha descargado nada nuevo para esta versión.
+
+## Ronda 2 (2026-10-31)
+Sin descargas nuevas. "Inside your panel" usa los fotogramas propios `img/v9/frames/caja`, `breaker` y `varilla` (y sus -720 en movil), cargados desde `../../img/v9/frames/`. El mapa de la zona es un SVG dibujado a mano (posiciones aproximadas, estilizado).
