@@ -96,7 +96,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
   transition:opacity .35s ease;filter:drop-shadow(0 28px 30px rgba(0,0,0,.45));transform-origin:50% 60%;backface-visibility:hidden}
 .hp.is-on{opacity:1}
 html:not(.js) .hp[data-k="0"]{opacity:1}
-.hp[data-k="2"],.hp[data-k="3"]{height:86%}
+.hp[data-k="2"]{height:86%}
+.hp[data-k="3"]{height:72%;top:12%}
 .hp[data-k="4"]{height:92%}
 /* entrada orbital ligera (solo transform y opacidad): giro de ~18 grados hacia su sitio */
 @keyframes orbit{
@@ -183,6 +184,7 @@ html:not(.js) .cap--end{opacity:1;visibility:visible;transform:none}
   .dish__img{width:118vw;max-width:none;height:auto}
   .d-crema .dish__img{width:92vw}
   .d-birria .dish__img{width:104vw}
+  .d-maiz .dish__img{width:98vw}
   .dish__word{top:21%;font-size:clamp(6rem,46vw,14rem)}
   .d-birria .dish__word{font-size:clamp(4.5rem,31vw,12rem)}
 
@@ -346,8 +348,8 @@ body{max-width:560px;margin:0 auto}
     <div class="plates">
 <img class="hp" data-k="0" src="../../demos/taqueria/img/tacos-pastor-700.webp" srcset="../../demos/taqueria/img/tacos-pastor-700.webp 700w, ../../demos/taqueria/img/tacos-pastor-1200.webp 1200w" sizes="92vw" width="1200" height="709" loading="lazy" decoding="async" alt="Marinated pork tacos with onion and cilantro" data-alt-es="Tacos de cerdo adobado con cebolla y cilantro" data-alt-en="Marinated pork tacos with onion and cilantro">
 <img class="hp" data-k="1" src="../../demos/taqueria/img/tacos-asada-700.webp" srcset="../../demos/taqueria/img/tacos-asada-700.webp 700w, ../../demos/taqueria/img/tacos-asada-1200.webp 1200w" sizes="92vw" width="1200" height="739" loading="lazy" decoding="async" alt="Plate of asada tacos with two salsas" data-alt-es="Plato de tacos de asada con dos salsas" data-alt-en="Plate of asada tacos with two salsas">
-<img class="hp" data-k="2" src="../../demos/taqueria/img/quesabirria-plato-700.webp" srcset="../../demos/taqueria/img/quesabirria-plato-700.webp 700w, ../../demos/taqueria/img/quesabirria-plato-1200.webp 1200w" sizes="92vw" width="1200" height="467" loading="lazy" decoding="async" alt="Golden quesabirria with melted cheese on a white plate" data-alt-es="Quesabirria dorada con queso fundido sobre un plato blanco" data-alt-en="Golden quesabirria with melted cheese on a white plate">
-<img class="hp" data-k="3" src="../../demos/taqueria/img/burrito-servilleta-700.webp" srcset="../../demos/taqueria/img/burrito-servilleta-700.webp 700w, ../../demos/taqueria/img/burrito-servilleta-1200.webp 1200w" sizes="92vw" width="1200" height="623" loading="lazy" decoding="async" alt="Burrito cut in half on a paper napkin with a cup of green salsa" data-alt-es="Burrito cortado por la mitad sobre una servilleta de papel con salsero de salsa verde" data-alt-en="Burrito cut in half on a paper napkin with a cup of green salsa">
+<img class="hp" data-k="2" src="../../demos/taqueria/img/quesabirria-serv-700.webp" srcset="../../demos/taqueria/img/quesabirria-serv-700.webp 700w, ../../demos/taqueria/img/quesabirria-serv-1200.webp 1200w" sizes="92vw" width="1200" height="654" loading="lazy" decoding="async" alt="Crisp quesabirria tacos with melted cheese and onion, served on a plate with a cup of consommé" data-alt-es="Tacos de quesabirria dorados con queso fundido y cebolla, servidos en plato con su consomé" data-alt-en="Crisp quesabirria tacos with melted cheese and onion, served on a plate with a cup of consommé">
+<img class="hp" data-k="3" src="../../demos/taqueria/img/burrito-rojo-700.webp" srcset="../../demos/taqueria/img/burrito-rojo-700.webp 700w, ../../demos/taqueria/img/burrito-rojo-1200.webp 1200w" sizes="92vw" width="1200" height="777" loading="lazy" decoding="async" alt="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa" data-alt-es="Burrito cortado por la mitad sobre una servilleta de tela roja bordada con salsero de salsa verde" data-alt-en="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa">
 <img class="hp" data-k="4" src="../../demos/taqueria/img/caldo-700.webp" srcset="../../demos/taqueria/img/caldo-700.webp 700w, ../../demos/taqueria/img/caldo-1200.webp 1200w" sizes="92vw" width="1200" height="959" loading="lazy" decoding="async" alt="Bowl of red broth with tender beef and dried chile" data-alt-es="Tazón de caldo rojo con res y chile seco" data-alt-en="Bowl of red broth with tender beef and dried chile">
     </div>
   </div>
@@ -359,8 +361,8 @@ body{max-width:560px;margin:0 auto}
     <div class="picker" role="group" data-aria-es="Elige un plato" data-aria-en="Pick a dish" aria-label="Pick a dish">
 <button class="pk" type="button" data-k="0" data-nes="Tacos de adobada" data-nen="Adobada tacos" data-p="$2.75" aria-pressed="true" aria-label="Adobada tacos" data-aria-es="Tacos de adobada" data-aria-en="Adobada tacos"><img src="../../demos/taqueria/img/th-tacos-pastor.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
 <button class="pk" type="button" data-k="1" data-nes="Tacos de asada" data-nen="Asada tacos" data-p="$3.25" aria-pressed="false" aria-label="Asada tacos" data-aria-es="Tacos de asada" data-aria-en="Asada tacos"><img src="../../demos/taqueria/img/th-tacos-asada.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
-<button class="pk" type="button" data-k="2" data-nes="Quesabirria" data-nen="Quesabirria" data-p="$14.50" aria-pressed="false" aria-label="Quesabirria" data-aria-es="Quesabirria" data-aria-en="Quesabirria"><img src="../../demos/taqueria/img/th-quesabirria-plato.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
-<button class="pk" type="button" data-k="3" data-nes="Burrito de carne" data-nen="Beef burrito" data-p="$10.50" aria-pressed="false" aria-label="Beef burrito" data-aria-es="Burrito de carne" data-aria-en="Beef burrito"><img src="../../demos/taqueria/img/th-burrito-servilleta.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="2" data-nes="Quesabirria" data-nen="Quesabirria" data-p="$14.50" aria-pressed="false" aria-label="Quesabirria" data-aria-es="Quesabirria" data-aria-en="Quesabirria"><img src="../../demos/taqueria/img/th-quesabirria-serv.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="3" data-nes="Burrito de carne" data-nen="Beef burrito" data-p="$10.50" aria-pressed="false" aria-label="Beef burrito" data-aria-es="Burrito de carne" data-aria-en="Beef burrito"><img src="../../demos/taqueria/img/th-burrito-rojo.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
 <button class="pk" type="button" data-k="4" data-nes="Caldo rojo" data-nen="Red broth" data-p="$11.50" aria-pressed="false" aria-label="Red broth" data-aria-es="Caldo rojo" data-aria-en="Red broth"><img src="../../demos/taqueria/img/th-caldo.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
     </div>
     <div class="hero__meta" aria-live="polite">
@@ -418,7 +420,7 @@ body{max-width:560px;margin:0 auto}
 <section class="dish d-maiz" data-i="3" style="--r:11deg">
   
   <span class="dish__word" aria-hidden="true"><i>BURRITO</i></span>
-  <div class="dish__stage"><img class="dish__img" src="../../demos/taqueria/img/burrito-servilleta-700.webp" srcset="../../demos/taqueria/img/burrito-servilleta-700.webp 700w, ../../demos/taqueria/img/burrito-servilleta-1200.webp 1200w" sizes="92vw" width="1200" height="623" loading="lazy" decoding="async" alt="Burrito cut in half on a paper napkin with a cup of green salsa" data-alt-es="Burrito cortado por la mitad sobre una servilleta de papel con salsero de salsa verde" data-alt-en="Burrito cut in half on a paper napkin with a cup of green salsa"></div>
+  <div class="dish__stage"><img class="dish__img" src="../../demos/taqueria/img/burrito-rojo-700.webp" srcset="../../demos/taqueria/img/burrito-rojo-700.webp 700w, ../../demos/taqueria/img/burrito-rojo-1200.webp 1200w" sizes="92vw" width="1200" height="777" loading="lazy" decoding="async" alt="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa" data-alt-es="Burrito cortado por la mitad sobre una servilleta de tela roja bordada con salsero de salsa verde" data-alt-en="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa"></div>
   <div class="dish__info">
     <h3 data-es="Burrito de carne" data-en="Beef burrito">Burrito de carne</h3>
     <p data-es="Relleno de carne, arroz y frijol, con salsita verde al lado." data-en="Filled with beef, rice and beans, with green salsa on the side.">Relleno de carne, arroz y frijol, con salsita verde al lado.</p>
@@ -428,7 +430,7 @@ body{max-width:560px;margin:0 auto}
 <section class="dish d-birria" data-i="4" style="--r:-8deg">
   
   <span class="dish__word" aria-hidden="true"><i>QUESABIRRIA</i></span>
-  <div class="dish__stage"><img class="dish__img" src="../../demos/taqueria/img/quesabirria-plato-700.webp" srcset="../../demos/taqueria/img/quesabirria-plato-700.webp 700w, ../../demos/taqueria/img/quesabirria-plato-1200.webp 1200w" sizes="92vw" width="1200" height="467" loading="lazy" decoding="async" alt="Golden quesabirria with melted cheese on a white plate" data-alt-es="Quesabirria dorada con queso fundido sobre un plato blanco" data-alt-en="Golden quesabirria with melted cheese on a white plate"></div>
+  <div class="dish__stage"><img class="dish__img" src="../../demos/taqueria/img/quesabirria-serv-700.webp" srcset="../../demos/taqueria/img/quesabirria-serv-700.webp 700w, ../../demos/taqueria/img/quesabirria-serv-1200.webp 1200w" sizes="92vw" width="1200" height="654" loading="lazy" decoding="async" alt="Crisp quesabirria tacos with melted cheese and onion, served on a plate with a cup of consommé" data-alt-es="Tacos de quesabirria dorados con queso fundido y cebolla, servidos en plato con su consomé" data-alt-en="Crisp quesabirria tacos with melted cheese and onion, served on a plate with a cup of consommé"></div>
   <div class="dish__info">
     <h3 data-es="Quesabirria" data-en="Quesabirria">Quesabirria</h3>
     <p data-es="Tortilla dorada, queso estirado y birria deshebrada." data-en="Crisp tortilla, stretchy cheese and shredded birria.">Tortilla dorada, queso estirado y birria deshebrada.</p>
@@ -586,36 +588,68 @@ body{max-width:560px;margin:0 auto}
 (function(){
   var root=document.documentElement;
   if(root.classList.contains('rm')||!('IntersectionObserver' in window)||!document.documentElement.animate){root.classList.add('rm');return;}
-  var OUT='cubic-bezier(.16,1,.3,1)',IN='cubic-bezier(.55,0,1,.45)',EO='cubic-bezier(.22,1,.36,1)';
+  var OUT='cubic-bezier(.16,1,.3,1)',IN='cubic-bezier(.55,0,1,.45)',EO='cubic-bezier(.22,1,.36,1)',EX='cubic-bezier(.19,1,.22,1)';
   function go(el,kf,dur,delay,origin){
     if(origin)el.style.transformOrigin=origin;
     var a=el.animate(kf,{duration:dur,delay:delay||0,fill:'both'});
     a.onfinish=function(){el.style.opacity='1';};
     return a;
   }
+  /* entradas del menú: ~850 ms cada una; la 5.ª (quesabirria) ya no cae de arriba: llega deslizando desde la derecha con giro y arco y se posa */
   var ENT=[
-    function(st,wi){go(st,[{opacity:0,transform:'scale(.55)'},{opacity:1,transform:'scale(1)'}],950,0,'50% 50%');go(wi,[{opacity:0,transform:'translateX(-115%)'},{opacity:1,transform:'none'}],1000,0);},
-    function(st,wi){go(st,[{opacity:0,transform:'translateX(-100vw)'},{opacity:1,transform:'none'}],1000,0);go(wi,[{opacity:0,transform:'translateX(115%)'},{opacity:1,transform:'none'}],1050,50);},
-    function(st,wi){go(st,[{opacity:0,transform:'translateY(105%)'},{opacity:1,transform:'none'}],1000,0);go(wi,[{opacity:0,transform:'translateY(40%)'},{opacity:1,transform:'none'}],800,150);},
-    function(st,wi){go(st,[{opacity:0,transform:'translateY(-125%)',offset:0,easing:IN},{opacity:1,transform:'translateY(0)',offset:.5,easing:EO},{transform:'translateY(-7%)',offset:.64,easing:IN},{transform:'translateY(0)',offset:.78,easing:EO},{transform:'translateY(-2%)',offset:.89,easing:IN},{transform:'translateY(0)',offset:1}],1000,0);go(wi,[{opacity:0,transform:'translateY(-60%)'},{opacity:1,transform:'none'}],700,100);},
-    function(st,wi){go(st,[{opacity:0,transform:'translateY(-125%) scale(1,1)',offset:0,easing:IN},{opacity:1,transform:'translateY(0) scale(1,1)',offset:.55,easing:EO},{transform:'translateY(0) scale(1.03,.92)',offset:.66,easing:EO},{transform:'translateY(0) scale(1,1)',offset:1}],900,0,'50% 100%');go(wi,[{opacity:0,transform:'scale(1.18)'},{opacity:1,transform:'none'}],700,200);}
+    function(st,wi){go(st,[{opacity:0,transform:'scale(.55)'},{opacity:1,transform:'scale(1)'}],850,0,'50% 50%');go(wi,[{opacity:0,transform:'translateX(-115%)'},{opacity:1,transform:'none'}],850,0);},
+    function(st,wi){go(st,[{opacity:0,transform:'translateX(-100vw)'},{opacity:1,transform:'none'}],850,0);go(wi,[{opacity:0,transform:'translateX(115%)'},{opacity:1,transform:'none'}],900,40);},
+    function(st,wi){go(st,[{opacity:0,transform:'translateY(105%)'},{opacity:1,transform:'none'}],850,0);go(wi,[{opacity:0,transform:'translateY(40%)'},{opacity:1,transform:'none'}],700,120);},
+    function(st,wi){go(st,[{opacity:0,transform:'translateY(-125%)',offset:0,easing:IN},{opacity:1,transform:'translateY(0)',offset:.5,easing:EO},{transform:'translateY(-7%)',offset:.64,easing:IN},{transform:'translateY(0)',offset:.78,easing:EO},{transform:'translateY(-2%)',offset:.89,easing:IN},{transform:'translateY(0)',offset:1}],850,0);go(wi,[{opacity:0,transform:'translateY(-60%)'},{opacity:1,transform:'none'}],600,100);},
+    function(st,wi){go(st,[{opacity:0,transform:'translate(62vw,-5vh) rotate(15deg)',offset:0},{opacity:1,transform:'translate(18vw,-2vh) rotate(5deg)',offset:.35},{opacity:1,transform:'none',offset:1}],900,0,'60% 70%');
+      go(wi,[{opacity:0,transform:'scale(.8)'},{opacity:1,transform:'none'}],800,120);}
   ];
-  [].slice.call(document.querySelectorAll('.dish')).forEach(function(d,i){
-    var st=d.querySelector('.dish__stage'),wi=d.querySelector('.dish__word i'),inf=d.querySelector('.dish__info');
-    var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){io.disconnect();ENT[i](st,wi);go(inf,[{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],700,500);}});},{threshold:.22});
-    io.observe(d);
-  });
-  /* cifras: el 12 desde la izquierda, el 15 desde la derecha, el 3 desde abajo, con contador */
-  [].slice.call(document.querySelectorAll('.nums .nm')).forEach(function(li){
-    var f=li.getAttribute('data-from'),cnt=li.querySelector('.cnt'),to=+cnt.getAttribute('data-to');
-    cnt.textContent='0';
-    var from=f==='l'?'translateX(-100vw)':f==='r'?'translateX(100vw)':'translateY(170px)';
-    var io=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)return;io.disconnect();
-      go(li,[{opacity:0,transform:from},{opacity:1,transform:'none'}],1150,0);
-      var t0=performance.now();(function tick(t){var p=Math.min(1,(t-t0)/1500);cnt.textContent=String(Math.round(to*(1-Math.pow(1-p,2))));if(p<1)requestAnimationFrame(tick);})(t0);
-    });},{threshold:.3});
-    io.observe(li);
-  });
+  /* sin paradas en táctil: la entrada se lanza cuando el plato ocupa el centro de la pantalla, se repite cada vez que se vuelve a pasar y se oculta al salir */
+  var dishes=[].slice.call(document.querySelectorAll('.dish')),shown=[],ZERO=[];
+  function parts(d){return [d.querySelector('.dish__stage'),d.querySelector('.dish__word i'),d.querySelector('.dish__info')];}
+  function showD(i){
+    if(shown[i])return;shown[i]=true;var d=dishes[i],p=parts(d);
+    ENT[i](p[0],p[1]);go(p[2],[{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],600,300);
+  }
+  function hideD(i){
+    if(!shown[i])return;shown[i]=false;
+    parts(dishes[i]).forEach(function(el){el.getAnimations().forEach(function(a){a.cancel();});el.style.opacity='';el.style.transformOrigin='';});
+  }
+  var tick=false;
+  function state(){
+    tick=false;var vh=innerHeight;
+    dishes.forEach(function(d,i){
+      var r=d.getBoundingClientRect();
+      if(r.top>=vh-2||r.bottom<=70){hideD(i);return;}
+      if(!shown[i]&&r.top<=vh*.5&&r.bottom>=vh*.5)showD(i);
+    });
+  }
+  dishes.forEach(function(d,i){shown[i]=false;});
+  addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(state);}},{passive:true});
+  addEventListener('resize',state);
+  state();
+  /* cifras: el 12 desde la izquierda, el 15 desde la derecha, el 3 desde abajo, con contador; al entrar la sección al 40 %, ~900 ms, y se repite al volver a entrar */
+  (function(){
+    var sec=document.querySelector('.nums');if(!sec)return;
+    var cfg=[].slice.call(sec.querySelectorAll('.nm')).map(function(li){
+      var f=li.getAttribute('data-from'),cnt=li.querySelector('.cnt');
+      return {li:li,cnt:cnt,to:+cnt.getAttribute('data-to'),raf:0,from:f==='l'?'translateX(-100vw)':f==='r'?'translateX(100vw)':'translateY(190px)'};
+    });
+    var on=false;
+    function reset(){on=false;cfg.forEach(function(c){cancelAnimationFrame(c.raf);c.li.getAnimations().forEach(function(a){a.cancel();});c.li.style.opacity='';c.cnt.textContent='0';});}
+    function play(){
+      if(on)return;on=true;
+      cfg.forEach(function(c,i){
+        c.cnt.textContent='0';
+        go(c.li,[{opacity:0,transform:c.from},{opacity:1,transform:'none'}],900,i*60);
+        var t0=performance.now()+i*60;(function tk(t){var p=Math.max(0,Math.min(1,(t-t0)/900));c.cnt.textContent=String(Math.round(c.to*(1-Math.pow(1-p,2))));if(p<1)c.raf=requestAnimationFrame(tk);})(performance.now());
+      });
+    }
+    cfg.forEach(function(c){c.cnt.textContent='0';});
+    var ioPlay=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting&&en.intersectionRect.height>=Math.min(en.boundingClientRect.height,innerHeight)*.4)play();});},{threshold:[.1,.2,.3,.4,.5,.6]});
+    var ioReset=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)reset();});},{threshold:0});
+    ioPlay.observe(sec);ioReset.observe(sec);
+  })();
 })();
 </script>
 </body>

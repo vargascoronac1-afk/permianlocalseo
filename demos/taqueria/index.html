@@ -100,7 +100,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 .hp{position:absolute;left:50%;top:0;width:min(92vw,1100px);height:100%;object-fit:contain;transform:translateX(-50%);opacity:0;
   transition:opacity .35s ease;filter:drop-shadow(0 28px 30px rgba(0,0,0,.45));transform-origin:50% 60%;backface-visibility:hidden}
 .hp.is-on{opacity:1}
-.hp[data-k="2"],.hp[data-k="3"]{height:86%}
+.hp[data-k="2"]{height:86%}
+.hp[data-k="3"]{height:72%;top:12%}
 .hp[data-k="4"]{height:92%}
 html:not(.js) .hp[data-k="0"]{opacity:1}
 /* entrada orbital: el plato gira ~18 grados hacia su sitio con un leve cambio de ángulo (rotateX / translateZ) */
@@ -168,10 +169,9 @@ html:not(.js) .cap--end{opacity:1;visibility:visible;transform:none}
 .ings,.tacos,.comal__disc{pointer-events:none}
 .ing{position:absolute;left:50%;top:50%;height:auto;max-width:none;will-change:transform}
 .i-tort{width:calc(var(--u)*50)}
-.i-car{width:calc(var(--u)*19)}
-.i-ceb{width:calc(var(--u)*14)}
-.i-cil{width:calc(var(--u)*16)}
-.i-tom{width:calc(var(--u)*15)}
+.i-car{width:calc(var(--u)*32)}
+.i-sal{width:calc(var(--u)*17)}
+.i-cil{width:calc(var(--u)*22)}
 
 @media(min-width:900px){.comal__disc{left:62%}.js:not(.rm) .ings{left:24%}.tacos{margin-left:24vw}}
 /* ---------- MENÚ POR PLATOS ---------- */
@@ -211,6 +211,7 @@ html:not(.js) .cap--end{opacity:1;visibility:visible;transform:none}
   .dish__img{width:118vw;max-width:none;height:auto}
   .d-crema .dish__img{width:92vw}
   .d-birria .dish__img{width:104vw}
+  .d-maiz .dish__img{width:98vw}
   .dish__word{top:21%;font-size:clamp(6rem,46vw,14rem)}
   .d-birria .dish__word{font-size:clamp(4.5rem,31vw,12rem)}
 }
@@ -276,10 +277,19 @@ html:not(.js) .cap--end{opacity:1;visibility:visible;transform:none}
 .hours tr.off td{opacity:.7}
 .hours tr.now{background:var(--amber);color:var(--ink)}
 .hours tr.now td{opacity:1}
-.hrs__r{display:grid;gap:20px;align-content:end;max-width:44ch}
+.hrs__r{display:grid;gap:26px;align-content:end}
+.hrs__top{display:grid;gap:22px;align-items:end}
+.hrs__note{display:grid;gap:18px;align-content:end;max-width:40ch}
 .hrs__r p{font-size:1.15rem}
+.map--sq{width:min(100%,300px);min-height:0;aspect-ratio:1;justify-self:start}
+.map--sq .map__f{gap:10px;padding:14px}
+.map--sq .map__f svg{width:34px;height:34px}
+.map--sq .map__a{font-size:1.25rem;line-height:1.05}
+.map--sq .btn{min-height:44px;padding:0 16px;font-size:.95rem}
+.map--sq iframe{width:100%;height:100%}
 address{font-style:normal;font:400 clamp(1.7rem,3vw,2.4rem)/1.05 var(--head);text-transform:uppercase}
-@media(min-width:900px){.hrs__in{grid-template-columns:1.25fr 1fr;gap:6vw;align-items:end}}
+@media(min-width:900px){.hrs__in{grid-template-columns:1fr 1fr;gap:5vw;align-items:end}.hrs__top{grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:28px}}
+@media(min-width:1180px){.hrs__top{grid-template-columns:minmax(0,300px) minmax(0,1fr)}}
 
 /* ---------- CATERING ---------- */
 .cater{background:var(--salsa);overflow:clip;padding:clamp(70px,9vw,140px) 0 0}
@@ -287,10 +297,15 @@ address{font-style:normal;font:400 clamp(1.7rem,3vw,2.4rem)/1.05 var(--head);tex
 .cater__txt{display:grid;gap:22px;justify-items:start;padding-right:var(--pad);max-width:560px;min-width:0}
 .cater h2{font-size:clamp(3.2rem,8.4vw,8rem)}
 .cater p{font-size:1.15rem;max-width:38ch}
-.cater__img{width:min(130vw,1000px);max-width:none;transform:rotate(-6deg) translateX(6%);margin-bottom:-4%;filter:drop-shadow(0 26px 30px rgba(0,0,0,.4))}
+/* mantel de cuadros (gingham) detrás del plato; el plato mide ~55 % de su columna y una segunda foto pequeña lo acompaña */
+.cater__art{position:relative;min-width:0;padding:34px 0 40px;margin-right:calc(var(--pad)*-1)}
+.cater__band{position:absolute;left:0;right:0;top:7%;bottom:7%;background-color:var(--crema);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect width='56' height='28' fill='%239b2a1c' fill-opacity='.3'/%3E%3Crect width='28' height='56' fill='%239b2a1c' fill-opacity='.3'/%3E%3C/svg%3E");background-size:56px 56px}
+.cater__img{position:relative;display:block;width:68%;max-width:none;margin:0 auto 0 10%;transform:rotate(-5deg);filter:drop-shadow(0 22px 26px rgba(0,0,0,.42))}
+.cater__img2{position:absolute;z-index:2;width:34%;right:5%;bottom:0;transform:rotate(7deg);filter:drop-shadow(0 16px 20px rgba(0,0,0,.45))}
 @media(min-width:900px){
   .cater__in{grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);align-items:center;gap:0}
-  .cater__img{width:62vw;max-width:none;justify-self:start;transform:rotate(-7deg) translate(-2vw,4%);margin:0 -12vw 0 0}
+  .cater__img{width:58%;margin:0 auto 0 12%}
+  .cater__art{padding:48px 0 52px}
   .cater{padding-bottom:clamp(50px,6vw,90px)}
 }
 
@@ -335,8 +350,8 @@ html:not(.faq-px) .faq details[open]{background:var(--salsa);color:var(--crema)}
 .map__f{display:grid;justify-items:center;gap:14px;padding:28px var(--pad);text-align:center}
 .map__f svg{width:44px;height:44px;fill:var(--amber)}
 .map__a{font:400 clamp(1.6rem,3vw,2.4rem)/1.05 var(--head);text-transform:uppercase}
-.hrs__map{padding:0 var(--pad);margin-bottom:clamp(40px,6vw,90px)}
 .map iframe{width:100%;height:340px;border:0;display:block}
+.map--sq iframe{height:100%}
 @media(min-width:900px){.visit__in{grid-template-columns:1fr 1.2fr;gap:6vw;align-items:end}}
 
 footer{background:var(--coal3);overflow:clip}
@@ -398,8 +413,8 @@ footer{background:var(--coal3);overflow:clip}
     <div class="plates">
 <img class="hp" data-k="0" src="img/tacos-pastor-700.webp" srcset="img/tacos-pastor-700.webp 700w, img/tacos-pastor-1200.webp 1200w" sizes="(min-width:900px) 66vw, 92vw" width="1200" height="709" loading="lazy" decoding="async" alt="Marinated pork tacos with onion and cilantro" data-alt-es="Tacos de cerdo adobado con cebolla y cilantro" data-alt-en="Marinated pork tacos with onion and cilantro">
 <img class="hp" data-k="1" src="img/tacos-asada-700.webp" srcset="img/tacos-asada-700.webp 700w, img/tacos-asada-1200.webp 1200w" sizes="(min-width:900px) 66vw, 92vw" width="1200" height="739" loading="lazy" decoding="async" alt="Plate of asada tacos with two salsas" data-alt-es="Plato de tacos de asada con dos salsas" data-alt-en="Plate of asada tacos with two salsas">
-<img class="hp" data-k="2" src="img/quesabirria-plato-700.webp" srcset="img/quesabirria-plato-700.webp 700w, img/quesabirria-plato-1200.webp 1200w" sizes="(min-width:900px) 66vw, 92vw" width="1200" height="467" loading="lazy" decoding="async" alt="Golden quesabirria with melted cheese on a white plate" data-alt-es="Quesabirria dorada con queso fundido sobre un plato blanco" data-alt-en="Golden quesabirria with melted cheese on a white plate">
-<img class="hp" data-k="3" src="img/burrito-servilleta-700.webp" srcset="img/burrito-servilleta-700.webp 700w, img/burrito-servilleta-1200.webp 1200w" sizes="(min-width:900px) 66vw, 92vw" width="1200" height="623" loading="lazy" decoding="async" alt="Burrito cut in half on a paper napkin with a cup of green salsa" data-alt-es="Burrito cortado por la mitad sobre una servilleta de papel con salsero de salsa verde" data-alt-en="Burrito cut in half on a paper napkin with a cup of green salsa">
+<img class="hp" data-k="2" src="img/quesabirria-serv-700.webp" srcset="img/quesabirria-serv-700.webp 700w, img/quesabirria-serv-1200.webp 1200w" sizes="(min-width:900px) 66vw, 92vw" width="1200" height="654" loading="lazy" decoding="async" alt="Crisp quesabirria tacos with melted cheese and onion, served on a plate with a cup of consommé" data-alt-es="Tacos de quesabirria dorados con queso fundido y cebolla, servidos en plato con su consomé" data-alt-en="Crisp quesabirria tacos with melted cheese and onion, served on a plate with a cup of consommé">
+<img class="hp" data-k="3" src="img/burrito-rojo-700.webp" srcset="img/burrito-rojo-700.webp 700w, img/burrito-rojo-1200.webp 1200w" sizes="(min-width:900px) 66vw, 92vw" width="1200" height="777" loading="lazy" decoding="async" alt="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa" data-alt-es="Burrito cortado por la mitad sobre una servilleta de tela roja bordada con salsero de salsa verde" data-alt-en="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa">
 <img class="hp" data-k="4" src="img/caldo-700.webp" srcset="img/caldo-700.webp 700w, img/caldo-1200.webp 1200w" sizes="(min-width:900px) 66vw, 92vw" width="1200" height="959" loading="lazy" decoding="async" alt="Bowl of red broth with tender beef and dried chile" data-alt-es="Tazón de caldo rojo con res y chile seco" data-alt-en="Bowl of red broth with tender beef and dried chile">
     </div>
   </div>
@@ -411,8 +426,8 @@ footer{background:var(--coal3);overflow:clip}
     <div class="picker" role="group" data-aria-es="Elige un plato" data-aria-en="Pick a dish" aria-label="Pick a dish">
 <button class="pk" type="button" data-k="0" data-nes="Tacos de adobada" data-nen="Adobada tacos" data-p="$2.75" aria-pressed="true" aria-label="Adobada tacos" data-aria-es="Tacos de adobada" data-aria-en="Adobada tacos"><img src="img/th-tacos-pastor.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
 <button class="pk" type="button" data-k="1" data-nes="Tacos de asada" data-nen="Asada tacos" data-p="$3.25" aria-pressed="false" aria-label="Asada tacos" data-aria-es="Tacos de asada" data-aria-en="Asada tacos"><img src="img/th-tacos-asada.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
-<button class="pk" type="button" data-k="2" data-nes="Quesabirria" data-nen="Quesabirria" data-p="$14.50" aria-pressed="false" aria-label="Quesabirria" data-aria-es="Quesabirria" data-aria-en="Quesabirria"><img src="img/th-quesabirria-plato.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
-<button class="pk" type="button" data-k="3" data-nes="Burrito de carne" data-nen="Beef burrito" data-p="$10.50" aria-pressed="false" aria-label="Beef burrito" data-aria-es="Burrito de carne" data-aria-en="Beef burrito"><img src="img/th-burrito-servilleta.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="2" data-nes="Quesabirria" data-nen="Quesabirria" data-p="$14.50" aria-pressed="false" aria-label="Quesabirria" data-aria-es="Quesabirria" data-aria-en="Quesabirria"><img src="img/th-quesabirria-serv.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="3" data-nes="Burrito de carne" data-nen="Beef burrito" data-p="$10.50" aria-pressed="false" aria-label="Beef burrito" data-aria-es="Burrito de carne" data-aria-en="Beef burrito"><img src="img/th-burrito-rojo.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
 <button class="pk" type="button" data-k="4" data-nes="Caldo rojo" data-nen="Red broth" data-p="$11.50" aria-pressed="false" aria-label="Red broth" data-aria-es="Caldo rojo" data-aria-en="Red broth"><img src="img/th-caldo.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
     </div>
     <div class="hero__meta" aria-live="polite">
@@ -442,10 +457,9 @@ footer{background:var(--coal3);overflow:clip}
     <div class="comal__disc" aria-hidden="true"></div>
     <div class="ings" aria-hidden="true">
       <img class="ing i-tort" src="img/ing-tortilla.webp" width="800" height="307" loading="lazy" decoding="async" alt="">
-      <img class="ing i-car" src="img/ing-carne-cuchara.webp" width="560" height="887" loading="lazy" decoding="async" alt="">
-      <img class="ing i-tom" src="img/ing-salsa.webp" width="800" height="748" loading="lazy" decoding="async" alt="">
-      <img class="ing i-ceb" src="img/ing-cebolla.webp" width="792" height="800" loading="lazy" decoding="async" alt="">
-      <img class="ing i-cil" src="img/ing-cilantro.webp" width="782" height="800" loading="lazy" decoding="async" alt="">
+      <img class="ing i-car" src="img/ing-carne-picada.webp" width="760" height="350" loading="lazy" decoding="async" alt="">
+      <img class="ing i-sal" src="img/ing-salsa-roja.webp" width="560" height="502" loading="lazy" decoding="async" alt="">
+      <img class="ing i-cil" src="img/ing-cilantro-picado.webp" width="760" height="539" loading="lazy" decoding="async" alt="">
     </div>
     <div class="tacos">
       <img class="taco t-l" src="img/tacos-pastor-1200.webp" srcset="img/tacos-pastor-700.webp 700w, img/tacos-pastor-1200.webp 1200w" sizes="(min-width:900px) 60vw, 92vw" width="1200" height="709" loading="lazy" decoding="async" alt="Tacos de adobada servidos con cebolla y cilantro" data-alt-es="Tacos de adobada servidos con cebolla y cilantro" data-alt-en="Served adobada tacos with onion and cilantro">
@@ -455,9 +469,9 @@ footer{background:var(--coal3);overflow:clip}
     <div class="comal__dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i><i></i></div>
     <div class="comal__cap">
       <p class="cap is-on" data-es="Tortilla al comal" data-en="Tortilla on the comal">Tortilla al comal</p>
-      <p class="cap" data-es="Cae la carne" data-en="The meat goes on">Cae la carne</p>
-      <p class="cap" data-es="Tomatillo y cebolla" data-en="Tomatillo and onion">Tomatillo y cebolla</p>
-      <p class="cap" data-es="Cilantro por encima" data-en="Cilantro on top">Cilantro por encima</p>
+      <p class="cap" data-es="Carne desmenuzada" data-en="Shredded meat">Carne desmenuzada</p>
+      <p class="cap" data-es="Salsa roja encima" data-en="Red salsa on top">Salsa roja encima</p>
+      <p class="cap" data-es="Cilantro picado" data-en="Chopped cilantro">Cilantro picado</p>
       <p class="cap cap--end" data-es="Listo: tacos de adobada" data-en="Done: adobada tacos">Listo: tacos de adobada</p>
     </div>
   </div>
@@ -497,7 +511,7 @@ footer{background:var(--coal3);overflow:clip}
 <section class="dish d-maiz" data-i="3" style="--r:11deg">
   
   <span class="dish__word" aria-hidden="true"><i>BURRITO</i></span>
-  <div class="dish__stage"><img class="dish__img" src="img/burrito-servilleta-700.webp" srcset="img/burrito-servilleta-700.webp 700w, img/burrito-servilleta-1200.webp 1200w" sizes="(min-width:900px) 62vw, 92vw" width="1200" height="623" loading="lazy" decoding="async" alt="Burrito cut in half on a paper napkin with a cup of green salsa" data-alt-es="Burrito cortado por la mitad sobre una servilleta de papel con salsero de salsa verde" data-alt-en="Burrito cut in half on a paper napkin with a cup of green salsa"></div>
+  <div class="dish__stage"><img class="dish__img" src="img/burrito-rojo-700.webp" srcset="img/burrito-rojo-700.webp 700w, img/burrito-rojo-1200.webp 1200w" sizes="(min-width:900px) 62vw, 92vw" width="1200" height="777" loading="lazy" decoding="async" alt="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa" data-alt-es="Burrito cortado por la mitad sobre una servilleta de tela roja bordada con salsero de salsa verde" data-alt-en="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa"></div>
   <div class="dish__info">
     <h3 data-es="Burrito de carne" data-en="Beef burrito">Burrito de carne</h3>
     <p data-es="Relleno de carne, arroz y frijol, con salsita verde al lado." data-en="Filled with beef, rice and beans, with green salsa on the side.">Relleno de carne, arroz y frijol, con salsita verde al lado.</p>
@@ -507,7 +521,7 @@ footer{background:var(--coal3);overflow:clip}
 <section class="dish d-birria" data-i="4" style="--r:-8deg">
   
   <span class="dish__word" aria-hidden="true"><i>QUESABIRRIA</i></span>
-  <div class="dish__stage"><img class="dish__img" src="img/quesabirria-plato-700.webp" srcset="img/quesabirria-plato-700.webp 700w, img/quesabirria-plato-1200.webp 1200w" sizes="(min-width:900px) 62vw, 92vw" width="1200" height="467" loading="lazy" decoding="async" alt="Golden quesabirria with melted cheese on a white plate" data-alt-es="Quesabirria dorada con queso fundido sobre un plato blanco" data-alt-en="Golden quesabirria with melted cheese on a white plate"></div>
+  <div class="dish__stage"><img class="dish__img" src="img/quesabirria-serv-700.webp" srcset="img/quesabirria-serv-700.webp 700w, img/quesabirria-serv-1200.webp 1200w" sizes="(min-width:900px) 62vw, 92vw" width="1200" height="654" loading="lazy" decoding="async" alt="Crisp quesabirria tacos with melted cheese and onion, served on a plate with a cup of consommé" data-alt-es="Tacos de quesabirria dorados con queso fundido y cebolla, servidos en plato con su consomé" data-alt-en="Crisp quesabirria tacos with melted cheese and onion, served on a plate with a cup of consommé"></div>
   <div class="dish__info">
     <h3 data-es="Quesabirria" data-en="Quesabirria">Quesabirria</h3>
     <p data-es="Tortilla dorada, queso estirado y birria deshebrada." data-en="Crisp tortilla, stretchy cheese and shredded birria.">Tortilla dorada, queso estirado y birria deshebrada.</p>
@@ -525,9 +539,9 @@ footer{background:var(--coal3);overflow:clip}
   <div class="rev__in">
     <h2 id="revT" class="rv"><span class="ln" data-es="LO QUE" data-en="WHAT">LO QUE</span><span class="ln" data-es="DICEN" data-en="THEY SAY">DICEN</span></h2>
 <figure class="rq rv"><span class="av av-salsa" aria-hidden="true">MG</span><div><div class="rq__head"><b>María G.</b><span class="stars" role="img" aria-label="5 stars" data-aria-es="5 estrellas" data-aria-en="5 stars"><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg></span><span class="when" data-es="hace 2 semanas" data-en="2 weeks ago">hace 2 semanas</span></div><blockquote><p data-es="Llegué a las 7 de la mañana y ya olía a carbón. Los tacos de adobada salen calientes, en tortilla recién hecha." data-en="I got there at 7 a.m. and it already smelled like charcoal. The adobada tacos come out hot, on a fresh tortilla.">Llegué a las 7 de la mañana y ya olía a carbón. Los tacos de adobada salen calientes, en tortilla recién hecha.</p></blockquote><figcaption><span class="ord"><img src="img/th-tacos-pastor.webp" width="144" height="144" alt="" loading="lazy" decoding="async"><span data-es="Pidió: tacos de adobada" data-en="Ordered: adobada tacos">Pidió: tacos de adobada</span></span><span class="demo" data-es="Reseña de ejemplo (demo)" data-en="Sample review (demo)">Reseña de ejemplo (demo)</span></figcaption></div></figure>
-<figure class="rq rv"><span class="av av-verde" aria-hidden="true">JT</span><div><div class="rq__head"><b>Jake T.</b><span class="stars" role="img" aria-label="5 stars" data-aria-es="5 estrellas" data-aria-en="5 stars"><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg></span><span class="when" data-es="hace 1 mes" data-en="a month ago">hace 1 mes</span></div><blockquote><p data-es="Pedí por teléfono y al llegar la bolsa ya estaba lista. La quesabirria con el queso estirado, de lo mejor." data-en="I ordered by phone and the bag was ready when I got there. The quesabirria, with that stretchy cheese, is the best.">Pedí por teléfono y al llegar la bolsa ya estaba lista. La quesabirria con el queso estirado, de lo mejor.</p></blockquote><figcaption><span class="ord"><img src="img/th-quesabirria-plato.webp" width="144" height="144" alt="" loading="lazy" decoding="async"><span data-es="Pidió: quesabirria" data-en="Ordered: quesabirria">Pidió: quesabirria</span></span><span class="demo" data-es="Reseña de ejemplo (demo)" data-en="Sample review (demo)">Reseña de ejemplo (demo)</span></figcaption></div></figure>
+<figure class="rq rv"><span class="av av-verde" aria-hidden="true">JT</span><div><div class="rq__head"><b>Jake T.</b><span class="stars" role="img" aria-label="5 stars" data-aria-es="5 estrellas" data-aria-en="5 stars"><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg></span><span class="when" data-es="hace 1 mes" data-en="a month ago">hace 1 mes</span></div><blockquote><p data-es="Pedí por teléfono y al llegar la bolsa ya estaba lista. La quesabirria con el queso estirado, de lo mejor." data-en="I ordered by phone and the bag was ready when I got there. The quesabirria, with that stretchy cheese, is the best.">Pedí por teléfono y al llegar la bolsa ya estaba lista. La quesabirria con el queso estirado, de lo mejor.</p></blockquote><figcaption><span class="ord"><img src="img/th-quesabirria-serv.webp" width="144" height="144" alt="" loading="lazy" decoding="async"><span data-es="Pidió: quesabirria" data-en="Ordered: quesabirria">Pidió: quesabirria</span></span><span class="demo" data-es="Reseña de ejemplo (demo)" data-en="Sample review (demo)">Reseña de ejemplo (demo)</span></figcaption></div></figure>
 <figure class="rq rv"><span class="av av-maiz" aria-hidden="true">LR</span><div><div class="rq__head"><b>Luis R.</b><span class="stars" role="img" aria-label="5 stars" data-aria-es="5 estrellas" data-aria-en="5 stars"><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg></span><span class="when" data-es="hace 3 días" data-en="3 days ago">hace 3 días</span></div><blockquote><p data-es="El caldo rojo con limón en un día frío de Odessa: justo lo que hacía falta." data-en="The red broth with lime on a cold Odessa day: exactly what I needed.">El caldo rojo con limón en un día frío de Odessa: justo lo que hacía falta.</p></blockquote><figcaption><span class="ord"><img src="img/th-caldo.webp" width="144" height="144" alt="" loading="lazy" decoding="async"><span data-es="Pidió: caldo rojo" data-en="Ordered: red broth">Pidió: caldo rojo</span></span><span class="demo" data-es="Reseña de ejemplo (demo)" data-en="Sample review (demo)">Reseña de ejemplo (demo)</span></figcaption></div></figure>
-<figure class="rq rv"><span class="av av-birria" aria-hidden="true">AP</span><div><div class="rq__head"><b>Ana P.</b><span class="stars" role="img" aria-label="4 stars" data-aria-es="4 estrellas" data-aria-en="4 stars"><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st st--off" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg></span><span class="when" data-es="hace 5 días" data-en="5 days ago">hace 5 días</span></div><blockquote><p data-es="El burrito es enorme y la salsita verde pica lo justo. Le faltó un poco de sal, pero volvería." data-en="The burrito is huge and the green salsa has just the right kick. It needed a little salt, but I would go back.">El burrito es enorme y la salsita verde pica lo justo. Le faltó un poco de sal, pero volvería.</p></blockquote><figcaption><span class="ord"><img src="img/th-burrito-servilleta.webp" width="144" height="144" alt="" loading="lazy" decoding="async"><span data-es="Pidió: burrito de carne" data-en="Ordered: beef burrito">Pidió: burrito de carne</span></span><span class="demo" data-es="Reseña de ejemplo (demo)" data-en="Sample review (demo)">Reseña de ejemplo (demo)</span></figcaption></div></figure>
+<figure class="rq rv"><span class="av av-birria" aria-hidden="true">AP</span><div><div class="rq__head"><b>Ana P.</b><span class="stars" role="img" aria-label="4 stars" data-aria-es="4 estrellas" data-aria-en="4 stars"><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg><svg class="st st--off" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.6 5.5 6 .8-4.4 4.2 1.1 6L10 15.2 4.7 18.1l1.1-6L1.4 7.9l6-.8z"/></svg></span><span class="when" data-es="hace 5 días" data-en="5 days ago">hace 5 días</span></div><blockquote><p data-es="El burrito es enorme y la salsita verde pica lo justo. Le faltó un poco de sal, pero volvería." data-en="The burrito is huge and the green salsa has just the right kick. It needed a little salt, but I would go back.">El burrito es enorme y la salsita verde pica lo justo. Le faltó un poco de sal, pero volvería.</p></blockquote><figcaption><span class="ord"><img src="img/th-burrito-rojo.webp" width="144" height="144" alt="" loading="lazy" decoding="async"><span data-es="Pidió: burrito de carne" data-en="Ordered: beef burrito">Pidió: burrito de carne</span></span><span class="demo" data-es="Reseña de ejemplo (demo)" data-en="Sample review (demo)">Reseña de ejemplo (demo)</span></figcaption></div></figure>
     <p class="rev__note rv" data-es="Reseñas de ejemplo escritas para esta demo; el negocio es ficticio." data-en="Sample reviews written for this demo; the business is fictional.">Reseñas de ejemplo escritas para esta demo; el negocio es ficticio.</p>
   </div>
 </section>
@@ -541,7 +555,6 @@ footer{background:var(--coal3);overflow:clip}
 </section>
 
 <section class="hrs" id="hrs" aria-labelledby="hrsT">
-  <div class="hrs__map rv"><div class="map" data-map><div class="map__f"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><p class="map__a">E 8th St, Odessa, TX</p><button class="btn btn--line mapBtn" type="button"><span data-es="Ver mapa aquí" data-en="Show map here">Ver mapa aquí</span></button></div></div></div>
   <div class="hrs__in">
     <div class="hrs__l">
       <h2 id="hrsT" class="rv"><span class="ln" data-es="HORARIO" data-en="HOURS">HORARIO</span></h2>
@@ -561,8 +574,13 @@ footer{background:var(--coal3);overflow:clip}
       </div>
     </div>
     <div class="hrs__r rv">
-      <p data-es="Abrimos a las 7 am: desayuno de tacos antes del trabajo. Pide por teléfono y recoge sin hacer fila." data-en="We open at 7 am: taco breakfast before work. Order by phone and pick up without the line.">Abrimos a las 7 am: desayuno de tacos antes del trabajo. Pide por teléfono y recoge sin hacer fila.</p>
-      <address>E 8th St, Odessa, TX</address>
+      <div class="hrs__top">
+        <div class="map map--sq" data-map><div class="map__f"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><p class="map__a">E 8th St, Odessa, TX</p><button class="btn btn--line mapBtn" type="button"><span data-es="Ver mapa aquí" data-en="Show map here">Ver mapa aquí</span></button></div></div>
+        <div class="hrs__note">
+          <p data-es="Abrimos a las 7 a. m.: desayuno de tacos antes del trabajo. Pide por teléfono y recoge sin hacer fila." data-en="We open at 7 a.m.: taco breakfast before work. Order by phone and pick up without the line.">Abrimos a las 7 a. m.: desayuno de tacos antes del trabajo. Pide por teléfono y recoge sin hacer fila.</p>
+          <address>E 8th St, Odessa, TX</address>
+        </div>
+      </div>
       <div class="cta"><a class="btn btn--amber" href="tel:+14325550174"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-es="Llama: (432) 555-0174" data-en="Call: (432) 555-0174">Llama: (432) 555-0174</span></a><a class="lnk" href="#mapa"><span data-es="Cómo llegar" data-en="Get directions">Cómo llegar</span></a></div>
     </div>
   </div>
@@ -575,7 +593,10 @@ footer{background:var(--coal3);overflow:clip}
       <p class="rv" data-es="Cumpleaños, quinceañeras, equipos de trabajo y reuniones en la iglesia. Charolas listas o tacos en sitio. Llámanos con unos días de aviso." data-en="Birthdays, quinceañeras, work crews and church gatherings. Ready-to-serve trays or tacos on site. Call us a few days ahead.">Cumpleaños, quinceañeras, equipos de trabajo y reuniones en la iglesia. Charolas listas o tacos en sitio. Llámanos con unos días de aviso.</p>
       <a class="btn btn--amber rv" href="tel:+14325550174"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-es="Llama para cotizar" data-en="Call for a quote">Llama para cotizar</span></a>
     </div>
-    <img class="cater__img" src="img/tacos-asada-700.webp" srcset="img/tacos-asada-700.webp 700w, img/tacos-asada-1200.webp 1200w" sizes="(min-width:900px) 54vw, 100vw" width="1200" height="739" loading="lazy" decoding="async" alt="Plato de tacos de asada con dos salsas" data-alt-es="Plato de tacos de asada con dos salsas" data-alt-en="Plate of asada tacos with two salsas">
+    <div class="cater__art"><span class="cater__band" aria-hidden="true"></span>
+      <img class="cater__img" src="img/tacos-asada-700.webp" srcset="img/tacos-asada-700.webp 700w, img/tacos-asada-1200.webp 1200w" sizes="(min-width:900px) 34vw, 70vw" width="1200" height="739" loading="lazy" decoding="async" alt="Plato de tacos de asada con dos salsas" data-alt-es="Plato de tacos de asada con dos salsas" data-alt-en="Plate of asada tacos with two salsas">
+      <img class="cater__img2" src="img/tacos-pastor-700.webp" width="700" height="414" loading="lazy" decoding="async" alt="" aria-hidden="true">
+    </div>
   </div>
 </section>
 
@@ -751,6 +772,7 @@ footer{background:var(--coal3);overflow:clip}
   var lenis=null;
   if(window.Lenis){
     lenis=new Lenis({lerp:.1});
+    window.__tqLenis=lenis;
     lenis.on('scroll',ScrollTrigger.update);
     gsap.ticker.add(function(t){lenis.raf(t*1000);});
     gsap.ticker.lagSmoothing(0);
@@ -792,11 +814,16 @@ footer{background:var(--coal3);overflow:clip}
         setCap(p>=.9?4:p>=.6?3:p>=.38?2:p>=.15?1:0);
         if(p>=.9){if(fin.reversed()||fin.progress()===0)fin.play();}else if(fin.progress()>0&&!fin.reversed()){fin.reverse();}
       }}});
+    /* preparación: 1 tortilla, 2 carne desmenuzada (aparece sola), 3 salsa roja vertida, 4 cilantro picado esparcido */
     fly(tl,'.i-tort',[0,3,-4],[-70,40,-120],0,.12);
-    fly(tl,'.i-car',[-1,-1,-58],[8,-85,-150,.8],.16,.18,'power3.in');
-    fly(tl,'.i-tom',[-15,-3,-8],[-75,10,-90],.38,.18);
-    fly(tl,'.i-ceb',[15,-1,14],[75,-30,160],.4,.16);
-    fly(tl,'.i-cil',[6,-8,25],[10,-80,120,1.25],.6,.18,'power2.out');
+    function put(sel,pos,from,at,dur,ease){
+      var el=sec.querySelector(sel);gsap.set(el,{xPercent:-50,yPercent:-50,transformOrigin:from.o||'50% 50%'});
+      tl.fromTo(el,{x:function(){return pos[0]*U();},y:function(){return (pos[1]+from.dy)*U()+innerHeight*.04;},rotation:pos[2]+(from.dr||0),scale:from.s,opacity:0},
+        {x:function(){return pos[0]*U();},y:function(){return pos[1]*U()+innerHeight*.04;},rotation:pos[2],scale:1,opacity:1,ease:ease||'power2.out',duration:dur},at);
+    }
+    put('.i-car',[-1.5,2.4,-3],{dy:-7,s:.86,dr:-5},.16,.15,'power2.out');
+    put('.i-sal',[3.2,1.6,14],{dy:-5,s:.12,o:'50% 0%'},.38,.14,'power2.out');
+    put('.i-cil',[.6,.6,6],{dy:-15,s:1.12,dr:14},.6,.14,'power2.out');
     tl.to({},{duration:.22},.78);
     var st=tl.scrollTrigger;
     /* asentar el scroll en la parada más cercana cuando el gesto termina (solo con ratón; en táctil quedan los plateaus) */
@@ -835,35 +862,58 @@ footer{background:var(--coal3);overflow:clip}
     });
   }
 
-  /* menú: una entrada distinta por plato (marcada) y, en ratón, PARADA de ~700 ms al llegar a cada plato (mismo mecanismo que la web principal) */
+  /* menú: una entrada distinta por plato. Se dispara EN la parada (no al acercarse), se repite en cada parada y se vuelve a ocultar al salir. */
   if(menu){
+    var PARADAS_ARRIBA=true;   /* true: también para al subir (scroll hacia arriba). Ponlo en false para quitarlo. */
+    var HOLD=900;              /* ms que dura cada parada; la entrada dura ~850 ms */
     var ENT=[
       /* adobada: el plato crece desde pequeño mientras la palabra entra de lado */
-      function(st,wi){return gsap.timeline().fromTo(st,{scale:.55,opacity:0},{scale:1,opacity:1,duration:.95,ease:'power3.out'},0).fromTo(wi,{xPercent:-115,opacity:0},{xPercent:0,opacity:1,duration:1,ease:'power3.out'},0);},
+      function(st,wi){return gsap.timeline().fromTo(st,{scale:.55,opacity:0},{scale:1,opacity:1,duration:.85,ease:'power3.out'},0).fromTo(wi,{xPercent:-115,opacity:0},{xPercent:0,opacity:1,duration:.85,ease:'power3.out'},0);},
       /* asada: el plato cruza de izquierda a derecha; la palabra llega de derecha a izquierda y queda detrás */
-      function(st,wi){return gsap.timeline().fromTo(st,{x:'-85vw',opacity:0},{x:0,opacity:1,duration:1,ease:'power3.out'},0).fromTo(wi,{xPercent:115,opacity:0},{xPercent:0,opacity:1,duration:1.05,ease:'power3.out'},.05);},
+      function(st,wi){return gsap.timeline().fromTo(st,{x:'-85vw',opacity:0},{x:0,opacity:1,duration:.85,ease:'power3.out'},0).fromTo(wi,{xPercent:115,opacity:0},{xPercent:0,opacity:1,duration:.9,ease:'power3.out'},.04);},
       /* caldo rojo: sube desde abajo (es redondo) */
-      function(st,wi){return gsap.timeline().fromTo(st,{yPercent:105,opacity:0},{yPercent:0,opacity:1,duration:1,ease:'power3.out'},0).fromTo(wi,{yPercent:40,opacity:0},{yPercent:0,opacity:1,duration:.8,ease:'power3.out'},.15);},
+      function(st,wi){return gsap.timeline().fromTo(st,{yPercent:105,opacity:0},{yPercent:0,opacity:1,duration:.85,ease:'power3.out'},0).fromTo(wi,{yPercent:40,opacity:0},{yPercent:0,opacity:1,duration:.7,ease:'power3.out'},.12);},
       /* burrito: cae desde arriba con un rebote corto */
-      function(st,wi){return gsap.timeline().fromTo(st,{yPercent:-125,opacity:0},{yPercent:0,opacity:1,duration:.5,ease:'power2.in'},0).to(st,{yPercent:-7,duration:.14,ease:'power2.out'}).to(st,{yPercent:0,duration:.14,ease:'power2.in'}).to(st,{yPercent:-2,duration:.08,ease:'power2.out'}).to(st,{yPercent:0,duration:.08,ease:'power2.in'}).fromTo(wi,{yPercent:-60,opacity:0},{yPercent:0,opacity:1,duration:.7,ease:'power3.out'},.1);},
-      /* quesabirria: cae y se aplasta al aterrizar */
-      function(st,wi){return gsap.timeline().set(st,{transformOrigin:'50% 100%'}).fromTo(st,{yPercent:-125,opacity:0},{yPercent:0,opacity:1,duration:.5,ease:'power2.in'},0).to(st,{scaleY:.92,scaleX:1.03,duration:.09,ease:'power2.out'}).to(st,{scaleY:1,scaleX:1,duration:.3,ease:'power3.out'}).fromTo(wi,{scale:1.18,opacity:0},{scale:1,opacity:1,duration:.7,ease:'power3.out'},.2);}
+      function(st,wi){return gsap.timeline().fromTo(st,{yPercent:-125,opacity:0},{yPercent:0,opacity:1,duration:.4,ease:'power2.in'},0).to(st,{yPercent:-7,duration:.12,ease:'power2.out'}).to(st,{yPercent:0,duration:.12,ease:'power2.in'}).to(st,{yPercent:-2,duration:.07,ease:'power2.out'}).to(st,{yPercent:0,duration:.07,ease:'power2.in'}).fromTo(wi,{yPercent:-60,opacity:0},{yPercent:0,opacity:1,duration:.6,ease:'power3.out'},.1);},
+      /* quesabirria: llega deslizando desde la derecha con un giro y un leve arco, y se posa; la palabra se acerca en zoom (nada cae de arriba) */
+      function(st,wi){return gsap.timeline().set(st,{transformOrigin:'60% 70%'}).fromTo(st,{x:'62vw',rotation:15,opacity:0},{x:0,rotation:0,opacity:1,duration:.9,ease:'expo.out'},0).fromTo(st,{y:'-5vh'},{y:0,duration:.9,ease:'sine.inOut'},0).fromTo(wi,{scale:.8,opacity:0},{scale:1,opacity:1,duration:.8,ease:'power3.out'},.12);}
     ];
-    dishes.forEach(function(d,i){
-      var st=d.querySelector('.dish__stage'),wi=d.querySelector('.dish__word i'),inf=d.querySelector('.dish__info');
-      ScrollTrigger.create({trigger:d,start:'top 78%',once:true,onEnter:function(){
-        ENT[i](st,wi);
-        gsap.fromTo(inf,{y:30,opacity:0},{y:0,opacity:1,duration:.7,delay:.5,ease:'power3.out'});
-      }});
-    });
-    var coarseM=matchMedia('(pointer:coarse)').matches;
+    var shown=[],tls=[],dirS=1,lastSY=scrollY,coarseM=matchMedia('(pointer:coarse)').matches,gatesOn=false;
+    dishes.forEach(function(d,i){shown[i]=false;});
+    function showDish(i){
+      if(shown[i])return;shown[i]=true;
+      var d=dishes[i],st=d.querySelector('.dish__stage'),wi=d.querySelector('.dish__word i'),inf=d.querySelector('.dish__info');
+      var m=gsap.timeline();m.add(ENT[i](st,wi),0).fromTo(inf,{y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'power3.out'},.3);tls[i]=m;
+    }
+    function hideDish(i){
+      if(!shown[i])return;shown[i]=false;if(tls[i])tls[i].kill();
+      var d=dishes[i];gsap.set([d.querySelector('.dish__stage'),d.querySelector('.dish__word i'),d.querySelector('.dish__info')],{clearProps:'transform,opacity'});
+    }
+    window.__tqDish={show:showDish,hide:hideDish,shown:shown};
+    /* estado por posición: oculto cuando el plato está fuera de pantalla; visible al llegar a la parada (ventana de ~140 px junto a la parada) */
+    function dishState(){
+      var y=scrollY;if(Math.abs(y-lastSY)>0)dirS=y>lastSY?1:-1;lastSY=y;
+      var vh=innerHeight;
+      dishes.forEach(function(d,i){
+        var r=d.getBoundingClientRect();
+        if(r.top>=vh-2||r.bottom<=70){hideDish(i);return;}
+        if(shown[i])return;
+        if(!gatesOn){if(r.top<=vh*.5&&r.bottom>=vh*.5)showDish(i);return;}
+        if(r.top<=134&&r.top>=-6)showDish(i);
+        else if(dirS>0&&r.top<-6)showDish(i);                 /* se saltó la ventana hacia abajo */
+        else if(dirS<0&&r.top>134&&r.top<vh*.7)showDish(i);   /* se saltó la ventana hacia arriba */
+      });
+    }
+    addEventListener('scroll',dishState,{passive:true});
+    ScrollTrigger.addEventListener('refresh',dishState);
     if(lenis&&!coarseM){
-      var gates=dishes.map(function(d){return {d:d,y:0,armed:true,init:false,r:1};}),lockT=0,lastV=0,t0=0,prevS=lenis.scroll||scrollY;
+      gatesOn=true;
+      var gates=dishes.map(function(d,i){return {d:d,i:i,y:0,armed:true,armedUp:false,init:false,r:.45};}),lockT=0,lastV=0,t0=0,prevS=lenis.scroll||scrollY;
       /* el comal también para en cada paso (mismo mecanismo): 4 paradas intermedias y una al terminar el pin */
-      if(st){[.12,.34,.56,.78,1].forEach(function(p){gates.push({p:p,y:0,armed:true,init:false,r:.45});});}
-      function calcG(){gates.forEach(function(g){g.y=g.d?Math.round(g.d.getBoundingClientRect().top+scrollY-64):Math.round(st.start+g.p*(st.end-st.start));});var s=lenis.scroll;gates.forEach(function(g){if(!g.init){g.init=true;g.armed=s<g.y-2;}});}
+      if(st){[.12,.34,.56,.78,1].forEach(function(p){gates.push({p:p,y:0,armed:true,armedUp:false,init:false,r:.45});});}
+      function calcG(){gates.forEach(function(g){g.y=g.d?Math.round(g.d.getBoundingClientRect().top+scrollY-64):Math.round(st.start+g.p*(st.end-st.start));});var s=lenis.scroll;gates.forEach(function(g){if(!g.init){g.init=true;g.armed=s<g.y-2;g.armedUp=s>g.y+2;}});}
       function tryUnlock(){if(Date.now()-lastV<150&&Date.now()-t0<2500){lockT=setTimeout(tryUnlock,60);return;}lenis.start();window.__tqLock=false;}
-      function hold(g){g.armed=false;window.__tqLock=true;lenis.scrollTo(g.y,{immediate:true,force:true});lenis.stop();clearTimeout(lockT);t0=Date.now();lockT=setTimeout(tryUnlock,700);}
+      function hold(g){g.armed=false;g.armedUp=false;window.__tqLock=true;lenis.scrollTo(g.y,{immediate:true,force:true});lenis.stop();clearTimeout(lockT);t0=Date.now();lockT=setTimeout(tryUnlock,HOLD);if(g.d)showDish(g.i);}
       lenis.on('virtual-scroll',function(){lastV=Date.now();});
       lenis.on('scroll',function(e){
         var sc=e.scroll,down=sc>prevS;prevS=sc;
@@ -871,27 +921,39 @@ footer{background:var(--coal3);overflow:clip}
         for(var i=0;i<gates.length;i++){
           var g=gates[i];
           if(sc<g.y-innerHeight*g.r)g.armed=true;
-          else if(g.armed&&sc>=g.y){
-            if(window.__tqProg)g.armed=false;
-            else if(down){hold(g);prevS=g.y;return;}
+          if(sc>g.y+innerHeight*g.r)g.armedUp=true;
+          if(down){
+            if(g.armed&&sc>=g.y){if(window.__tqProg)g.armed=false;else{hold(g);prevS=g.y;return;}}
+          }else if(PARADAS_ARRIBA&&g.armedUp&&sc<=g.y){
+            if(window.__tqProg)g.armedUp=false;else{hold(g);prevS=g.y;return;}
           }
         }
       });
       ScrollTrigger.addEventListener('refresh',calcG);calcG();
       window.__tqGates=gates;
     }
+    dishState();
   }
 
-  /* cifras: el 12 entra desde la izquierda, el 15 desde la derecha y el 3 desde abajo, con contador */
-  [].slice.call(document.querySelectorAll('.nums .nm')).forEach(function(li){
-    var f=li.getAttribute('data-from'),cnt=li.querySelector('.cnt'),to=+cnt.getAttribute('data-to'),o={v:0};
-    var from=f==='l'?{x:'-24vw'}:f==='r'?{x:'24vw'}:{y:170};
-    gsap.set(cnt,{textContent:'0'});
-    ScrollTrigger.create({trigger:li,start:'top 88%',once:true,onEnter:function(){
-      gsap.fromTo(li,Object.assign({opacity:0},from),{x:0,y:0,opacity:1,duration:1.15,ease:'power3.out'});
-      gsap.to(o,{v:to,duration:1.5,ease:'power2.out',onUpdate:function(){cnt.textContent=String(Math.round(o.v));}});
-    }});
-  });
+  /* cifras: el 12 entra desde la izquierda, el 15 desde la derecha y el 3 desde abajo, con contador. Se dispara al entrar la sección al 40 %, dura ~900 ms y se repite al volver a entrar. */
+  (function(){
+    var sec=document.querySelector('.nums');if(!sec)return;
+    var lis=[].slice.call(sec.querySelectorAll('.nm')),on=false;
+    var cfg=lis.map(function(li){var f=li.getAttribute('data-from');return {li:li,cnt:li.querySelector('.cnt'),to:+li.querySelector('.cnt').getAttribute('data-to'),o:{v:0},from:f==='l'?{x:'-32vw'}:f==='r'?{x:'32vw'}:{y:190}};});
+    function reset(){on=false;cfg.forEach(function(c){gsap.killTweensOf([c.li,c.o]);c.o.v=0;c.cnt.textContent='0';gsap.set(c.li,Object.assign({opacity:0,x:0,y:0},c.from));});}
+    function play(){
+      if(on)return;on=true;
+      cfg.forEach(function(c,i){
+        gsap.killTweensOf([c.li,c.o]);c.o.v=0;c.cnt.textContent='0';
+        gsap.fromTo(c.li,Object.assign({opacity:0},c.from),{x:0,y:0,opacity:1,duration:.9,delay:i*.06,ease:'power3.out'});
+        gsap.to(c.o,{v:c.to,duration:.9,delay:i*.06,ease:'power2.out',onUpdate:function(){c.cnt.textContent=String(Math.round(c.o.v));}});
+      });
+    }
+    reset();
+    ScrollTrigger.create({trigger:sec,start:'top 60%',end:'bottom 40%',onEnter:play,onEnterBack:play});
+    ScrollTrigger.create({trigger:sec,start:'top bottom',end:'bottom top',onLeave:reset,onLeaveBack:reset});
+    window.__tqNums={play:play,reset:reset};
+  })();
 
   /* FAQ: cuadraditos que pasan de crema a rojo al abrir (8x5) y vuelven al cerrar; altura animada */
   [].slice.call(document.querySelectorAll('.faq details')).forEach(function(d){

@@ -192,6 +192,15 @@
         ],
         "createdAt": "2026-10-31T22:02:02.894Z",
         "reason": "Las demos son variantes de sector con su propia tipografia, por diseno (DESIGN.md: la marca aplica a la web principal)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "demos/taqueria/**"
+        ],
+        "createdAt": "2026-10-31T22:14:49.758Z",
+        "reason": "Secciones a sangre con inset en los hijos via --pad/clamp(); falso positivo medido en capturas (sin texto a <8px de un borde)"
       }
     ]
   }
