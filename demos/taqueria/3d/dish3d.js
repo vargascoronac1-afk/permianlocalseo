@@ -5,7 +5,6 @@
    - 2.5D (respaldo): recorte de la foto + relieve ("almohada") + luz calida, arrastrar para girar (+-37 grados), balanceo suave.
    Uso: import('./3d/dish3d.js').then(m => m.mount(stageEl)); stage necesita data-src (webp con alpha) y data-depth (png 8 bit); opcional data-glb. */
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const MAXY = 0.65, MAXX = 0.18, SEG = 90, RELIEF = 0.2;
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -14,7 +13,8 @@ const MAXX_GLB = 15 * Math.PI / 180, TILT = 0.3, SPIN = 0.35;
 /* cola: como mucho un GLB descargandose a la vez */
 let glbChain = Promise.resolve();
 function loadGlb(url) {
-  const p = glbChain.then(() => new Promise((ok, ko) => new GLTFLoader().load(url, ok, undefined, ko)));
+  /* el cargador GLTF solo se descarga si algun plato trae data-glb (el 2.5D no lo necesita) */
+  const p = glbChain.then(() => import('three/addons/loaders/GLTFLoader.js')).then(({ GLTFLoader }) => new Promise((ok, ko) => new GLTFLoader().load(url, ok, undefined, ko)));
   glbChain = p.catch(() => {});
   return p;
 }
