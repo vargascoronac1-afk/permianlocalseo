@@ -113,7 +113,7 @@
       },
       {
         "rule": "overused-font",
-        "value": "Instrument Sans",
+        "value": "instrument sans",
         "files": [
           "css/v8.css"
         ],
@@ -122,7 +122,7 @@
       },
       {
         "rule": "overused-font",
-        "value": "Instrument Serif",
+        "value": "instrument serif",
         "files": [
           "css/v8.css"
         ],
@@ -147,6 +147,42 @@
         ],
         "createdAt": "2026-10-24T14:45:22.470Z",
         "reason": "La palabra PERMIAN en contorno del hero se rellena con el scroll mediante background-clip:text; es decorativa y aria-hidden, recurso tomado de los reels (lote 5, idea 5)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "demos/electricista-v2/index.html"
+        ],
+        "createdAt": "2026-10-31T21:02:04.693Z",
+        "reason": "Agent: falso positivo. Los bloques planos (hero, secciones, stage, slip, card) llevan el inset en un hijo (.wrap, .hero__txt, .slip__in) o en clamp() con variables que el detector no resuelve; medido con inspect.mjs sin texto pegado a bordes"
+      },
+      {
+        "rule": "organic-clip-path",
+        "value": "*",
+        "files": [
+          "demos/electricista-v2/index.html"
+        ],
+        "createdAt": "2026-10-31T21:02:05.216Z",
+        "reason": "Agent: borde dentado del recibo (zigzag regular de 14 dientes), es geometria deliberada de la orden de trabajo, no un contorno organico ni una imagen sustituida"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          "demos/taller-v2/**"
+        ],
+        "createdAt": "2026-10-31T21:04:27.860Z",
+        "reason": "Sufijo 'mo' de 12 mo: mide 151px con style.css; el detector no resuelve el CSS externo."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "demos/taller-v2/**"
+        ],
+        "createdAt": "2026-10-31T21:04:34.809Z",
+        "reason": "Falso positivo: el detector no resuelve style.css externo; el texto va a 16-32px del borde (--m) y el fondo es de ancho completo."
       }
     ]
   }
