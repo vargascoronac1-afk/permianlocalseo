@@ -4,6 +4,7 @@ No se ha añadido ninguna foto nueva: todas estaban ya en el repositorio y con l
 
 | Fichero en demos/taller-v2/img | Foto original | Autor | Licencia |
 |---|---|---|---|
+| coche-1600.webp, coche-900.webp (ronda 2, hero; recorte rembg birefnet-general sobre recorte de 2000 px, revisado a 2x sobre #dfdedb y #26251e) | https://www.pexels.com/photo/skoda-superb-on-the-road-with-a-countryside-landscape-in-the-background-15194849/ | Emrah Ayvali | Pexels License |
 | camioneta-1600.webp, camioneta-900.webp (fondo quitado con rembg isnet-general-use sobre el original de 1600 px, alpha suavizado 1 px) | https://www.pexels.com/photo/yellow-truck-parked-on-the-road-7873720/ | Andrew LaBonne | Pexels License |
 | motor-1100.webp, motor-600.webp | https://www.pexels.com/photo/chrome-ls3-engine-of-restored-1957-chevrolet-cameo-pickup-truck-12385627/ | Juan Montes | Pexels License |
 | mechanic-under-car-960.webp, -480.webp | https://unsplash.com/photos/K5624F8cipE | Tahamie Farooqui | Unsplash License |
@@ -16,3 +17,5 @@ No se ha añadido ninguna foto nueva: todas estaban ya en el repositorio y con l
 | svc-inspeccion.webp | https://unsplash.com/photos/erWc6mrOq_I | Dextar Studio | Unsplash License |
 
 Tipografías (Google Fonts, SIL OFL): Barlow Condensed y Albert Sans.
+
+Secuencia de la camioneta (ronda 2): se lee de ../taller/video/motor/ y motor600/ (órbita Seedance 2.0 generada por el director, recorte birefnet-general; ver demos/taller/video/NOTAS.md). Foto base: Andrew LaBonne, Pexels.

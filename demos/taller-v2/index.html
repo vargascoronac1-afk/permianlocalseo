@@ -15,7 +15,7 @@
 <meta property="og:title" content="Loop 338 Auto Repair | Odessa, TX (demo)">
 <meta property="og:description" content="Demo website for a fictional auto repair shop in Odessa, TX. Written quote first. Built by Permian Local.">
 <meta name="theme-color" content="#dfdedb">
-<link rel="preload" as="image" href="img/camioneta-1600.webp" type="image/webp" fetchpriority="high" imagesrcset="img/camioneta-900.webp 900w, img/camioneta-1600.webp 1600w" imagesizes="(max-width:900px) 118vw, 88vw">
+<link rel="preload" as="image" href="img/coche-1600.webp" type="image/webp" fetchpriority="high" imagesrcset="img/coche-900.webp 900w, img/coche-1600.webp 1600w" imagesizes="(max-width:900px) 118vw, 92vw">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500&family=Barlow+Condensed:wght@600;700&display=swap">
@@ -46,15 +46,14 @@
 <section class="hero" aria-labelledby="h1">
   <div class="hero__sky">
     <h1 class="hero__h1" id="h1"><span class="l1">Loop 338</span> <span class="l2">Auto Repair</span></h1>
-    <div class="hero__truck" id="heroTruck">
-      <img src="img/camioneta-1600.webp" srcset="img/camioneta-900.webp 900w, img/camioneta-1600.webp 1600w" sizes="(max-width:900px) 118vw, 88vw" width="1600" height="516" fetchpriority="high" decoding="async"
-           alt="Yellow pickup truck parked in profile" data-alt-en="Yellow pickup truck parked in profile" data-alt-es="Camioneta pickup amarilla estacionada de perfil">
-    </div>
-    <div class="hero__truck hero__cab" id="heroCab" aria-hidden="true">
-      <img src="img/camioneta-1600.webp" srcset="img/camioneta-900.webp 900w, img/camioneta-1600.webp 1600w" sizes="(max-width:900px) 118vw, 88vw" width="1600" height="516" alt="" decoding="async">
+    <div class="hero__car" id="heroCar">
+      <img src="img/coche-1600.webp" srcset="img/coche-900.webp 900w, img/coche-1600.webp 1600w" sizes="(max-width:900px) 118vw, 92vw" width="1600" height="506" fetchpriority="high" decoding="async"
+           alt="Gray sedan parked in profile" data-alt-en="Gray sedan parked in profile" data-alt-es="Sedán gris estacionado de perfil">
+      <i class="hero__shadow" aria-hidden="true"></i>
     </div>
   </div>
   <div class="hero__road">
+    <p class="hero__cue" id="cue" aria-hidden="true"><span data-en="Scroll" data-es="Baje">Scroll</span><i></i></p>
     <div class="hero__copy">
       <p class="lead" data-en="Car trouble in Odessa? Honest repairs, same-day when we can." data-es="¿Problemas con el carro en Odessa? Reparaciones honestas, el mismo día cuando se puede.">Car trouble in Odessa? Honest repairs, same-day when we can.</p>
       <div class="cta">
@@ -123,14 +122,18 @@
 
     <div class="order__right">
       <div class="diagram" id="diagram">
-        <img class="diagram__img" src="img/camioneta-1600.webp" srcset="img/camioneta-900.webp 900w, img/camioneta-1600.webp 1600w" sizes="(max-width:900px) 94vw, 56vw" width="1600" height="516" loading="lazy" decoding="async"
-             alt="Yellow pickup truck in profile with a point on each part we repair" data-alt-en="Yellow pickup truck in profile with a point on each part we repair" data-alt-es="Camioneta pickup amarilla de perfil con un punto en cada pieza que reparamos">
-        <button class="hs" type="button" data-i="2" style="left:39%;top:18%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
-        <button class="hs" type="button" data-i="1" style="left:15%;top:35%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
-        <button class="hs" type="button" data-i="4" style="left:35%;top:72%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
-        <button class="hs" type="button" data-i="0" style="left:16%;top:81%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
-        <button class="hs hs--r" type="button" data-i="3" style="left:65%;top:80%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
-        <button class="hs hs--r" type="button" data-i="5" style="left:82%;top:46%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+        <img class="diagram__img" id="seqImg" src="../taller/video/motor600/0026.webp" width="600" height="338" decoding="async"
+             alt="Yellow pickup truck in profile, the camera circling it to each part we repair" data-alt-en="Yellow pickup truck in profile, the camera circling it to each part we repair" data-alt-es="Camioneta pickup amarilla de perfil, con la cámara girando hacia cada pieza que reparamos">
+        <canvas class="diagram__cv" id="seqCv" width="1100" height="619" aria-hidden="true"></canvas>
+        <button class="hs" type="button" data-i="0" style="left:64%;top:80%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+        <button class="hs" type="button" data-i="1" style="left:40%;top:33%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+        <button class="hs" type="button" data-i="2" style="left:50%;top:55%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+        <button class="hs" type="button" data-i="3" style="left:48%;top:82%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+        <button class="hs" type="button" data-i="4" style="left:52%;top:64%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+        <button class="hs" type="button" data-i="5" style="left:59%;top:55%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+      </div>
+      <div class="stops" id="stops" role="group" aria-label="Jobs" data-aria-en="Jobs" data-aria-es="Trabajos">
+        <button type="button" data-i="0">1</button><button type="button" data-i="1">2</button><button type="button" data-i="2">3</button><button type="button" data-i="3">4</button><button type="button" data-i="4">5</button><button type="button" data-i="5">6</button>
       </div>
       <div class="detail" aria-live="polite">
         <h3 class="detail__t" id="dTitle" data-en="Brakes" data-es="Frenos">Brakes</h3>
@@ -269,7 +272,7 @@
   </div>
   <div class="foot__b">
     <p data-en="Demo website. Loop 338 Auto Repair is a fictional business; the name, phone number and address are made up. Photos are stock." data-es="Sitio de demostración. Loop 338 Auto Repair es un negocio ficticio; el nombre, el teléfono y la dirección son inventados. Las fotos son de archivo.">Demo website. Loop 338 Auto Repair is a fictional business; the name, phone number and address are made up. Photos are stock.</p>
-    <p class="credit" data-en="Photos: Andrew LaBonne (truck), Juan Montes (engine), Tahamie Farooqui (mechanic), Isabela Kronemberger (wrenches), Toby Hall, Kate Ibragimova, Olav Tvedt, Tekton, Xavier von Erlach, Dextar Studio (services). Pexels and Unsplash." data-es="Fotos: Andrew LaBonne (camioneta), Juan Montes (motor), Tahamie Farooqui (mecánico), Isabela Kronemberger (llaves), Toby Hall, Kate Ibragimova, Olav Tvedt, Tekton, Xavier von Erlach, Dextar Studio (servicios). Pexels y Unsplash.">Photos: Andrew LaBonne (truck), Juan Montes (engine), Tahamie Farooqui (mechanic), Isabela Kronemberger (wrenches), Toby Hall, Kate Ibragimova, Olav Tvedt, Tekton, Xavier von Erlach, Dextar Studio (services). Pexels and Unsplash.</p>
+    <p class="credit" data-en="Photos: Emrah Ayvali (car), Andrew LaBonne (truck), Juan Montes (engine), Tahamie Farooqui (mechanic), Isabela Kronemberger (wrenches), Toby Hall, Kate Ibragimova, Olav Tvedt, Tekton, Xavier von Erlach, Dextar Studio (services). Pexels and Unsplash." data-es="Fotos: Emrah Ayvali (carro), Andrew LaBonne (camioneta), Juan Montes (motor), Tahamie Farooqui (mecánico), Isabela Kronemberger (llaves), Toby Hall, Kate Ibragimova, Olav Tvedt, Tekton, Xavier von Erlach, Dextar Studio (servicios). Pexels y Unsplash.">Photos: Emrah Ayvali (car), Andrew LaBonne (truck), Juan Montes (engine), Tahamie Farooqui (mechanic), Isabela Kronemberger (wrenches), Toby Hall, Kate Ibragimova, Olav Tvedt, Tekton, Xavier von Erlach, Dextar Studio (services). Pexels and Unsplash.</p>
   </div>
 </footer>
 
