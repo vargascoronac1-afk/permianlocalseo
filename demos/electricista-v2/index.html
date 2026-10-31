@@ -1,0 +1,363 @@
+<!doctype html>
+<!--
+  Permian Pro Electric: demo v2 (2026-10-31). Direccion "la pagina es el objeto": el objeto es el panel electrico y su
+  hoja de circuitos (panel schedule). Hero = apagon: el panel esta apagado y al bajar se sube el breaker principal
+  (secuencia de fotogramas en canvas, pin por CSS sticky). "Inside your panel" = hotspots sobre el panel con servicio y
+  precio demo. Servicios = menu con puntos guia. Zona = esquema Odessa-Midland sobre amarillo. Proceso = orden de trabajo
+  que se imprime. Footer cortina. Una familia (Hanken Grotesk), blanco intencional, amarillo de seguridad solo en la accion.
+  Rutas solo relativas (../../img, ../../js/vendor). Fotos: ver CREDITS.md de esta carpeta.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Permian Pro Electric | Electricians in Odessa &amp; Midland, TX (Demo)</title>
+<meta name="description" content="Demo site: licensed electricians in Odessa and Midland, Texas. 24/7 emergency service, panels, EV chargers, lighting. Fictional business. Built by Permian Local.">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Permian Pro Electric | Electricians in Odessa &amp; Midland, TX (Demo)">
+<meta property="og:description" content="Licensed electricians in Odessa and Midland, Texas. 24/7 emergency service. Demo site for a fictional business.">
+<meta name="theme-color" content="#15171a">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&display=swap">
+<link rel="preload" as="image" href="../../img/v9/frames/breaker/f000.webp" media="(min-width:769px)" fetchpriority="high">
+<link rel="preload" as="image" href="../../img/v9/frames/breaker-720/f000.webp" media="(max-width:768px)" fetchpriority="high">
+<script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('js-anim')}catch(e){}</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#services" data-en="Skip to content" data-es="Saltar al contenido">Skip to content</a>
+
+<header class="top">
+  <div class="top__in">
+    <a class="logo" href="#top" aria-label="Permian Pro Electric"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg></b><span>Permian Pro Electric</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#services" data-en="Services" data-es="Servicios">Services</a>
+      <a href="#area" data-en="Service area" data-es="Zona de servicio">Service area</a>
+      <a href="#quote" data-en="Get a quote" data-es="Pedir presupuesto">Get a quote</a>
+    </nav>
+    <button class="lang" id="lang" type="button" aria-label="Cambiar a español">ES</button>
+    <a class="btn btn--call" href="tel:+14325550162">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+      <span data-en="Call 24/7" data-es="Llamar 24/7">Call 24/7</span><span class="t-long">&nbsp;(432) 555-0162</span>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- 1. HERO: apagon. El breaker principal se sube con el scroll -->
+<section class="hero" id="hero" aria-label="Permian Pro Electric">
+  <div class="hero__pin" id="heroPin">
+    <div class="hero__txt">
+      <h1 id="h1"><span class="ln"><span data-en="No power?" data-es="¿Sin luz?">No power?</span></span><span class="ln"><span data-en="We pick up." data-es="Contestamos.">We pick up.</span></span></h1>
+      <p class="lead hv" data-en="Licensed electricians in Odessa &amp; Midland. Free estimates, a real person answers, any hour." data-es="Electricistas con licencia en Odessa y Midland. Presupuesto gratis, contesta una persona real, a cualquier hora.">Licensed electricians in Odessa &amp; Midland. Free estimates, a real person answers, any hour.</p>
+      <div class="cta hv">
+        <a class="btn btn--call btn--xl" href="tel:+14325550162">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          <span data-en="Call 24/7" data-es="Llamar 24/7">Call 24/7</span><span class="t-long">&nbsp;(432) 555-0162</span>
+        </a>
+        <a class="link" href="#quote"><span data-en="Request a quote" data-es="Pedir presupuesto">Request a quote</span></a>
+      </div>
+      <ul class="facts hv">
+        <li data-en="Free estimates" data-es="Presupuesto gratis">Free estimates</li>
+        <li data-en="Open 24/7 for emergencies" data-es="Abierto 24/7 para emergencias">Open 24/7 for emergencies</li>
+        <li data-en="We speak Spanish" data-es="Se habla español">We speak Spanish</li>
+      </ul>
+    </div>
+    <figure class="hero__fig" id="heroFig">
+      <picture>
+        <source media="(max-width:768px)" srcset="../../img/v9/frames/breaker-720/f000.webp">
+        <img class="hero__poster" id="heroPoster" src="../../img/v9/frames/breaker/f000.webp" width="1280" height="720" fetchpriority="high" alt="Breaker panel on a dark wall, every breaker off" data-alt-en="Breaker panel on a dark wall, every breaker off" data-alt-es="Panel de breakers en una pared oscura, todos los breakers apagados">
+      </picture>
+      <canvas id="heroCv" aria-hidden="true"></canvas>
+      <figcaption class="hero__read" aria-hidden="true">
+        <span class="hero__main"><span data-en="Main breaker" data-es="Breaker principal">Main breaker</span> <b id="heroState" data-en="OFF" data-es="APAGADO">OFF</b></span>
+      </figcaption>
+    </figure>
+    <div class="hero__cue" id="heroCue" aria-hidden="true"><span data-en="Scroll to switch it on" data-es="Baja para encenderlo">Scroll to switch it on</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l7 7 7-7"/></svg></div>
+  </div>
+</section>
+
+<!-- 2. SERVICIOS: menu con puntos guia + foto fija que cambia -->
+<section class="sec cut-l svc light" id="services" aria-labelledby="svc-h">
+  <div class="wrap svc__grid">
+    <div class="svc__head">
+      <h2 class="h2 mask" id="svc-h"><span data-en="Electrical work, done right" data-es="Trabajo eléctrico bien hecho">Electrical work, done right</span></h2>
+      <p class="sub up" data-en="From a dead outlet to a full commercial build-out. Not on the list? Call us and we will tell you straight if we can do it." data-es="Desde un enchufe muerto hasta una obra comercial completa. ¿No está en la lista? Llámanos y te decimos con franqueza si podemos hacerlo.">From a dead outlet to a full commercial build-out. Not on the list? Call us and we will tell you straight if we can do it.</p>
+    </div>
+    <div class="svc__pic" id="svcPic">
+      <img class="on" src="../../img/servicios/emergencias-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Lightning striking over power lines at dusk" data-alt-en="Lightning striking over power lines at dusk" data-alt-es="Un rayo cae sobre cables eléctricos al anochecer">
+      <img src="../../img/servicios/paneles-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Breaker panel with neatly color-coded wires" data-alt-en="Breaker panel with neatly color-coded wires" data-alt-es="Panel de breakers con cables ordenados por colores">
+      <img src="../../img/servicios/instalaciones-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Electrician in a hard hat installing an outlet with a cordless drill" data-alt-en="Electrician in a hard hat installing an outlet with a cordless drill" data-alt-es="Electricista con casco instalando un enchufe con un taladro inalámbrico">
+      <img src="../../img/servicios/cargadores-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Electric car plugged into a charging cable on a street" data-alt-en="Electric car plugged into a charging cable on a street" data-alt-es="Coche eléctrico enchufado a un cable de carga en la calle">
+      <img src="../../img/servicios/iluminacion-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Pendant light bulb hanging from a braided cord" data-alt-en="Pendant light bulb hanging from a braided cord" data-alt-es="Bombilla colgante de un cable trenzado">
+      <img src="../../img/servicios/inspecciones-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Electrician inspecting a wall-mounted electrical panel" data-alt-en="Electrician inspecting a wall-mounted electrical panel" data-alt-es="Electricista revisando un panel eléctrico en la pared">
+    </div>
+    <ul class="menu" id="svcMenu">
+      <li class="mi is-on" data-i="0">
+        <a class="mi__a" href="tel:+14325550162">
+          <span class="mi__row"><h3 data-en="24/7 emergency repair" data-es="Emergencias 24/7">24/7 emergency repair</h3><i class="dots" aria-hidden="true"></i><span class="mi__v" data-en="Fast response" data-es="Respuesta rápida">Fast response</span></span>
+          <img class="mi__img" src="../../img/servicios/emergencias-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+          <p data-en="No power, burning smell, sparking outlets or a tripping breaker. Call any hour, we dispatch right away." data-es="Sin luz, olor a quemado, enchufes que chispean o un breaker que salta. Llama a cualquier hora y salimos de inmediato.">No power, burning smell, sparking outlets or a tripping breaker. Call any hour, we dispatch right away.</p>
+        </a>
+      </li>
+      <li class="mi" data-i="1">
+        <a class="mi__a" href="#quote">
+          <span class="mi__row"><h3 data-en="Panels &amp; breaker boxes" data-es="Paneles y cuadros eléctricos">Panels &amp; breaker boxes</h3><i class="dots" aria-hidden="true"></i><span class="mi__v" data-en="Up to 200 A" data-es="Hasta 200 A">Up to 200 A</span></span>
+          <img class="mi__img" src="../../img/servicios/paneles-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+          <p data-en="Upgrades to 200-amp service, replacements, new breakers and fixes for panels that can't keep up." data-es="Ampliación a 200 amperios, reemplazos, breakers nuevos y arreglos para paneles que se quedan cortos.">Upgrades to 200-amp service, replacements, new breakers and fixes for panels that can't keep up.</p>
+        </a>
+      </li>
+      <li class="mi" data-i="2">
+        <a class="mi__a" href="#quote">
+          <span class="mi__row"><h3 data-en="Residential &amp; commercial wiring" data-es="Instalaciones residenciales y comerciales">Residential &amp; commercial wiring</h3><i class="dots" aria-hidden="true"></i><span class="mi__v" data-en="Passes inspection" data-es="Pasa inspección">Passes inspection</span></span>
+          <img class="mi__img" src="../../img/servicios/instalaciones-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+          <p data-en="New circuits, remodels, additions, shops and offices. Clean work that passes inspection the first time." data-es="Circuitos nuevos, reformas, ampliaciones, talleres y oficinas. Trabajo limpio que pasa la inspección a la primera.">New circuits, remodels, additions, shops and offices. Clean work that passes inspection the first time.</p>
+        </a>
+      </li>
+      <li class="mi" data-i="3">
+        <a class="mi__a" href="#quote">
+          <span class="mi__row"><h3 data-en="EV charger installation" data-es="Cargadores de coche eléctrico">EV charger installation</h3><i class="dots" aria-hidden="true"></i><span class="mi__v" data-en="Level 2" data-es="Nivel 2">Level 2</span></span>
+          <img class="mi__img" src="../../img/servicios/cargadores-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+          <p data-en="Level 2 home and business chargers, dedicated circuits and load checks for any make of electric vehicle." data-es="Cargadores Nivel 2 para casa y negocio, circuitos dedicados y cálculo de carga para cualquier marca de coche eléctrico.">Level 2 home and business chargers, dedicated circuits and load checks for any make of electric vehicle.</p>
+        </a>
+      </li>
+      <li class="mi" data-i="4">
+        <a class="mi__a" href="#quote">
+          <span class="mi__row"><h3 data-en="Lighting" data-es="Iluminación">Lighting</h3><i class="dots" aria-hidden="true"></i><span class="mi__v" data-en="LED upgrades" data-es="Mejoras a LED">LED upgrades</span></span>
+          <img class="mi__img" src="../../img/servicios/iluminacion-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+          <p data-en="Indoor, outdoor, security and parking-lot lighting. LED upgrades that cut your power bill." data-es="Iluminación interior, exterior, de seguridad y de estacionamientos. Mejoras a LED que bajan tu factura.">Indoor, outdoor, security and parking-lot lighting. LED upgrades that cut your power bill.</p>
+        </a>
+      </li>
+      <li class="mi" data-i="5">
+        <a class="mi__a" href="#quote">
+          <span class="mi__row"><h3 data-en="Safety inspections" data-es="Inspecciones de seguridad">Safety inspections</h3><i class="dots" aria-hidden="true"></i><span class="mi__v" data-en="Straight answer" data-es="Respuesta clara">Straight answer</span></span>
+          <img class="mi__img" src="../../img/servicios/inspecciones-480.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+          <p data-en="Buying or selling a home, or just worried about old wiring? We check it and tell you plainly what needs fixing." data-es="¿Compras o vendes casa, o te preocupa el cableado viejo? Lo revisamos y te decimos claro qué hay que arreglar.">Buying or selling a home, or just worried about old wiring? We check it and tell you plainly what needs fixing.</p>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- 3. INSIDE YOUR PANEL: hotspots sobre el panel; el scroll recorre cada uno (parada) -->
+<section class="sec cut-r pn dark" id="panel" aria-labelledby="pn-h">
+  <div class="wrap pn__head">
+    <h2 class="h2 mask" id="pn-h"><span data-en="Inside your panel" data-es="Dentro de tu panel">Inside your panel</span></h2>
+    <p class="sub up" data-en="Four things we check in every panel. Scroll, swipe or tap to see each one. Demo prices, not a real quote." data-es="Cuatro cosas que revisamos en todo panel. Desliza, arrastra o pulsa para verlas. Precios de demostración, no un presupuesto real.">Four things we check in every panel. Scroll, swipe or tap to see each one. Demo prices, not a real quote.</p>
+  </div>
+  <div class="pn__track" id="pnTrack">
+    <div class="pn__stick">
+      <div class="wrap pn__grid">
+        <div class="pn__stage" id="pnStage">
+          <div class="pn__plate">
+            <div class="pn__zoom" id="pnZoom">
+              <img src="../../img/v9/frames/breaker/f071.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Breaker panel with its main breaker switched on and every circuit lit" data-alt-en="Breaker panel with its main breaker switched on and every circuit lit" data-alt-es="Panel con el breaker principal encendido y todos los circuitos iluminados">
+              <button class="hs is-on" type="button" data-i="0" style="left:45.5%;top:55.6%" aria-label="Labeling, from $95 (demo)" data-aria-en="Labeling, from $95 (demo)" data-aria-es="Etiquetado, desde $95 (demo)"><i></i><span class="hs__l"><b data-en="Labeling" data-es="Etiquetado">Labeling</b> <span data-en="from $95" data-es="desde $95">from $95</span></span></button>
+              <button class="hs" type="button" data-i="1" style="left:51.2%;top:31.3%" aria-label="Main breaker, from $180 (demo)" data-aria-en="Main breaker, from $180 (demo)" data-aria-es="Breaker principal, desde $180 (demo)"><i></i><span class="hs__l hs__l--r"><b data-en="Main breaker" data-es="Breaker principal">Main breaker</b> <span data-en="from $180" data-es="desde $180">from $180</span></span></button>
+              <button class="hs" type="button" data-i="2" style="left:60.3%;top:41.7%" aria-label="Grouping and wiring, from $220 (demo)" data-aria-en="Grouping and wiring, from $220 (demo)" data-aria-es="Agrupado y cableado, desde $220 (demo)"><i></i><span class="hs__l hs__l--r"><b data-en="Wiring" data-es="Cableado">Wiring</b> <span data-en="from $220" data-es="desde $220">from $220</span></span></button>
+              <button class="hs" type="button" data-i="3" style="left:43.4%;top:32.2%" aria-label="Ground bar, from $150 (demo)" data-aria-en="Ground bar, from $150 (demo)" data-aria-es="Barra de tierra, desde $150 (demo)"><i></i><span class="hs__l"><b data-en="Ground bar" data-es="Barra de tierra">Ground bar</b> <span data-en="from $150" data-es="desde $150">from $150</span></span></button>
+            </div>
+          </div>
+        </div>
+        <table class="ps" id="ps">
+          <caption class="sr" data-en="Panel schedule: what we check, with demo prices" data-es="Hoja de circuitos: lo que revisamos, con precios de demostración">Panel schedule: what we check, with demo prices</caption>
+          <tbody>
+            <tr class="ps__row is-on" data-i="0">
+              <th scope="row">1 · 3 · 5</th>
+              <td><button class="ps__b" type="button"><span class="ps__n" data-en="Labeling" data-es="Etiquetado">Labeling</span><span class="ps__p" data-en="from $95 (demo)" data-es="desde $95 (demo)">from $95 (demo)</span></button>
+                <p class="ps__d" data-en="Every circuit gets a clear label, so you know exactly what to switch off, and nobody guesses at 2 a.m." data-es="Cada circuito lleva su etiqueta clara, para saber qué apagar sin adivinar a las 2 de la madrugada.">Every circuit gets a clear label, so you know exactly what to switch off, and nobody guesses at 2 a.m.</p></td>
+            </tr>
+            <tr class="ps__row" data-i="1">
+              <th scope="row" data-en="Main" data-es="Principal">Main</th>
+              <td><button class="ps__b" type="button"><span class="ps__n" data-en="Main breaker" data-es="Breaker principal">Main breaker</span><span class="ps__p" data-en="from $180 (demo)" data-es="desde $180 (demo)">from $180 (demo)</span></button>
+                <p class="ps__d" data-en="Flip the main and the whole panel comes alive. We test it, tighten the lugs and swap it if it runs hot or trips." data-es="Sube el principal y todo el panel se enciende. Lo probamos, apretamos los bornes y lo cambiamos si se calienta o salta.">Flip the main and the whole panel comes alive. We test it, tighten the lugs and swap it if it runs hot or trips.</p></td>
+            </tr>
+            <tr class="ps__row" data-i="2">
+              <th scope="row">2 · 4 · 6</th>
+              <td><button class="ps__b" type="button"><span class="ps__n" data-en="Grouping &amp; wiring" data-es="Agrupado y cableado">Grouping &amp; wiring</span><span class="ps__p" data-en="from $220 (demo)" data-es="desde $220 (demo)">from $220 (demo)</span></button>
+                <p class="ps__d" data-en="Copper carries the load, so every conductor must be clean, tight and the right size. Loose or scorched wire gets repaired and neatly dressed." data-es="El cobre lleva la carga, así que cada conductor debe estar limpio, firme y del calibre correcto. El cable flojo o quemado se repara y se ordena.">Copper carries the load, so every conductor must be clean, tight and the right size. Loose or scorched wire gets repaired and neatly dressed.</p></td>
+            </tr>
+            <tr class="ps__row" data-i="3">
+              <th scope="row" data-en="Ground" data-es="Tierra">Ground</th>
+              <td><button class="ps__b" type="button"><span class="ps__n" data-en="Ground bar" data-es="Barra de tierra">Ground bar</span><span class="ps__p" data-en="from $150 (demo)" data-es="desde $150 (demo)">from $150 (demo)</span></button>
+                <p class="ps__d" data-en="When lightning or a fault hits, the ground bar gives the surge a safe path down into the earth, away from your family and your gear. We check it and bond it to code." data-es="Cuando cae un rayo o hay una falla, la barra de tierra da a la descarga un camino seguro hacia el suelo, lejos de tu familia y tus equipos. La revisamos y la conectamos según norma.">When lightning or a fault hits, the ground bar gives the surge a safe path down into the earth, away from your family and your gear. We check it and bond it to code.</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ZONA DE SERVICIO: dos puntos en un mismo bus -->
+<section class="sec cut-l area yellow" id="area" aria-labelledby="ar-h">
+  <div class="wrap area__grid">
+    <div class="area__txt">
+      <h2 class="h2 mask" id="ar-h"><span data-en="Odessa, Midland and nearby" data-es="Odessa, Midland y alrededores">Odessa, Midland and nearby</span></h2>
+      <p class="sub up" data-en="Serving the Permian Basin. Emergencies go out right away, any hour." data-es="Atendemos la cuenca Pérmica. Las emergencias salen enseguida, a cualquier hora.">Serving the Permian Basin. Emergencies go out right away, any hour.</p>
+      <ul class="towns up">
+        <li><b>Odessa</b> <span data-en="(home base)" data-es="(base central)">(home base)</span></li>
+        <li><b>Midland</b></li>
+        <li>Gardendale</li>
+        <li>Goldsmith</li>
+        <li>Greenwood</li>
+        <li>Stanton</li>
+      </ul>
+      <p class="hours247 up" aria-label="24/7"><span aria-hidden="true">2 4 / 7</span></p>
+      <div class="area__cta up"><a class="btn btn--dark" href="tel:+14325550162"><span data-en="Call (432) 555-0162" data-es="Llamar (432) 555-0162">Call (432) 555-0162</span></a><button class="link link--dark" type="button" id="gmapBtn" aria-expanded="false" aria-controls="gmap"><span data-en="Show the map of Odessa" data-es="Ver el mapa de Odessa">Show the map of Odessa</span></button></div>
+    </div>
+    <div class="area__map" id="areaMap" role="img" aria-label="Schematic of the service area: one line along I-20 with Goldsmith, Odessa, Midland and Stanton on it, and Gardendale and Greenwood branching off" data-aria-en="Schematic of the service area: one line along I-20 with Goldsmith, Odessa, Midland and Stanton on it, and Gardendale and Greenwood branching off" data-aria-es="Esquema de la zona de servicio: una línea a lo largo de la I-20 con Goldsmith, Odessa, Midland y Stanton, y Gardendale y Greenwood como ramales">
+      <i class="bus bus--h"></i>
+      <i class="stub stub--s" style="left:12%"></i><i class="stub" style="left:30%"></i><i class="stub" style="left:62%"></i><i class="stub stub--s" style="left:90%"></i>
+      <span class="pt pt--s pt--top pt--go" style="left:12%;top:42%"><i></i><em>Goldsmith</em></span>
+      <span class="pt pt--od" style="left:30%;top:62%"><i></i><em><b>Odessa</b><small data-en="≈ N 31.85 · W 102.37" data-es="≈ N 31.85 · O 102.37">≈ N 31.85 · W 102.37</small></em></span>
+      <span class="pt pt--md" style="left:62%;top:62%"><i></i><em><b>Midland</b><small data-en="≈ N 32.00 · W 102.08" data-es="≈ N 32.00 · O 102.08">≈ N 32.00 · W 102.08</small></em></span>
+      <span class="pt pt--s pt--top pt--st" style="left:90%;top:42%"><i></i><em>Stanton</em></span>
+      <span class="pt pt--s pt--top" style="left:30%;top:20%"><i></i><em>Gardendale</em></span>
+      <span class="pt pt--s pt--top" style="left:62%;top:20%"><i></i><em>Greenwood</em></span>
+      <span class="area__cap" data-en="Schematic along I-20, not to scale" data-es="Esquema a lo largo de la I-20, sin escala">Schematic along I-20, not to scale</span>
+    </div>
+    <div class="area__gmap" id="gmap" hidden></div>
+  </div>
+</section>
+
+<!-- 5. PROCESO: la orden de trabajo se imprime -->
+<section class="sec cut-r proc steel" id="process" aria-labelledby="pr-h">
+  <div class="wrap proc__grid">
+    <div class="proc__txt">
+      <h2 class="h2 mask" id="pr-h"><span data-en="No surprises on the bill" data-es="Sin sorpresas en la factura">No surprises on the bill</span></h2>
+      <ul class="figs">
+        <li class="up"><b><span data-count="60">60</span></b><span data-en="min emergency goal" data-es="min meta en emergencias">min emergency goal</span></li>
+        <li class="up"><b><span data-count="2400">2400</span>+</b><span data-en="jobs completed" data-es="trabajos terminados">jobs completed</span></li>
+        <li class="up"><b><span data-count="18">18</span>+</b><span data-en="years licensed" data-es="años con licencia">years licensed</span></li>
+      </ul>
+      <p class="figs__note up" data-en="Demo figures, not real claims." data-es="Cifras de demostración, no reales.">Demo figures, not real claims.</p>
+    </div>
+    <div class="slip" id="slip">
+      <div class="slip__in" id="slipIn">
+        <div class="slip__step">
+          <div class="slip__h"><h3 data-en="You call" data-es="Tú llamas">You call</h3><i class="dots" aria-hidden="true"></i><span data-en="Any hour" data-es="A cualquier hora">Any hour</span></div>
+          <p data-en="A real person answers, any hour. Emergencies go out right away; most other jobs are booked within the week." data-es="Contesta una persona real, a cualquier hora. Las emergencias salen enseguida; la mayoría de trabajos se agendan en la semana.">A real person answers, any hour. Emergencies go out right away; most other jobs are booked within the week.</p>
+        </div>
+        <div class="slip__step">
+          <div class="slip__h"><h3 data-en="Written quote" data-es="Presupuesto por escrito">Written quote</h3><i class="dots" aria-hidden="true"></i><span data-en="Before we start" data-es="Antes de empezar">Before we start</span></div>
+          <p data-en="You get the price in writing before we start. Estimates are free. If the scope changes, we ask first." data-es="Recibes el precio por escrito antes de empezar. Los presupuestos son gratis. Si el trabajo cambia, te preguntamos primero.">You get the price in writing before we start. Estimates are free. If the scope changes, we ask first.</p>
+        </div>
+        <div class="slip__step">
+          <div class="slip__h"><h3 data-en="Licensed, clean work" data-es="Trabajo con licencia y limpio">Licensed, clean work</h3><i class="dots" aria-hidden="true"></i><span data-en="On the job" data-es="En la obra">On the job</span></div>
+          <p data-en="Licensed electricians, insured jobs, permits pulled when needed. Clean work that passes inspection the first time." data-es="Electricistas con licencia, trabajos asegurados y permisos cuando hacen falta. Trabajo limpio que pasa la inspección a la primera.">Licensed electricians, insured jobs, permits pulled when needed. Clean work that passes inspection the first time.</p>
+        </div>
+        <div class="slip__end"><span data-en="Result" data-es="Resultado">Result</span><b data-en="Passes inspection the first time" data-es="Pasa la inspección a la primera">Passes inspection the first time</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. FAQ -->
+<section class="sec cut-l faqs stone" id="faq" aria-labelledby="fq-h">
+  <div class="wrap faq__grid">
+    <div class="faq__txt">
+      <h2 class="h2 mask" id="fq-h"><span data-en="Before you call" data-es="Antes de llamar">Before you call</span></h2>
+      <div class="faq up" id="faqList">
+        <details>
+          <summary><span data-en="My breaker keeps tripping. Is it an emergency?" data-es="Mi breaker salta una y otra vez. ¿Es una emergencia?">My breaker keeps tripping. Is it an emergency?</span><i aria-hidden="true"></i></summary>
+          <div class="ans"><p data-en="If you smell burning, see sparks or a panel feels hot, switch off the main if it is safe and call us any hour. A breaker that trips now and then can usually wait for a same-week visit." data-es="Si huele a quemado, ve chispas o el panel está caliente, apaga el interruptor principal si es seguro y llámanos a cualquier hora. Un breaker que salta de vez en cuando suele poder esperar a una visita esa misma semana.">If you smell burning, see sparks or a panel feels hot, switch off the main if it is safe and call us any hour. A breaker that trips now and then can usually wait for a same-week visit.</p></div>
+        </details>
+        <details>
+          <summary><span data-en="Do I get a price before you start?" data-es="¿Me dan el precio antes de empezar?">Do I get a price before you start?</span><i aria-hidden="true"></i></summary>
+          <div class="ans"><p data-en="Yes. Estimates are free and the price comes in writing before any work begins. If the scope changes, we ask you first." data-es="Sí. Los presupuestos son gratis y el precio llega por escrito antes de empezar. Si el trabajo cambia, te preguntamos primero.">Yes. Estimates are free and the price comes in writing before any work begins. If the scope changes, we ask you first.</p></div>
+        </details>
+        <details>
+          <summary><span data-en="Can you install an EV charger at my house?" data-es="¿Pueden instalar un cargador de coche eléctrico en mi casa?">Can you install an EV charger at my house?</span><i aria-hidden="true"></i></summary>
+          <div class="ans"><p data-en="Yes. We check your panel load, run a dedicated circuit and mount a Level 2 charger for any make of electric vehicle." data-es="Sí. Revisamos la carga de tu panel, tendemos un circuito dedicado y montamos un cargador Nivel 2 para cualquier marca de coche eléctrico.">Yes. We check your panel load, run a dedicated circuit and mount a Level 2 charger for any make of electric vehicle.</p></div>
+        </details>
+        <details>
+          <summary><span data-en="Do you pull permits and pass inspection?" data-es="¿Sacan los permisos y pasan la inspección?">Do you pull permits and pass inspection?</span><i aria-hidden="true"></i></summary>
+          <div class="ans"><p data-en="When the work needs a permit, we pull it and schedule the inspection. Our goal is clean work that passes the first time." data-es="Cuando la obra necesita permiso, lo tramitamos y agendamos la inspección. Nuestro objetivo es un trabajo limpio que pase a la primera.">When the work needs a permit, we pull it and schedule the inspection. Our goal is clean work that passes the first time.</p></div>
+        </details>
+      </div>
+      <p class="faq__call up"><span data-en="Still not sure?" data-es="¿Sigues con dudas?">Still not sure?</span> <a href="tel:+14325550162"><span data-en="Call (432) 555-0162" data-es="Llamar (432) 555-0162">Call (432) 555-0162</span></a></p>
+    </div>
+    <div class="faq__pic wipe">
+      <img src="../../img/servicios/paneles-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Breaker panel with neatly color-coded wires" data-alt-en="Breaker panel with neatly color-coded wires" data-alt-es="Panel de breakers con cables ordenados por colores">
+    </div>
+  </div>
+</section>
+
+<!-- 7. PRESUPUESTO + HORARIO sobre foto -->
+<section class="sec cut-r quote" id="quote" aria-labelledby="qt-h">
+  <div class="quote__bg" aria-hidden="true"><img src="../../img/servicios/emergencias-960.webp" width="960" height="640" loading="lazy" decoding="async" alt=""></div>
+  <div class="wrap quote__grid">
+    <h2 class="h2 mask quote__h" id="qt-h"><span data-en="Tell us what you need" data-es="Cuéntanos qué necesitas">Tell us what you need</span></h2>
+    <div class="card hours pop">
+      <h3 data-en="Office hours" data-es="Horario de oficina">Office hours</h3>
+      <table>
+        <tr><th scope="row" data-en="Monday" data-es="Lunes">Monday</th><td>7:00 am – 5:30 pm</td></tr>
+        <tr><th scope="row" data-en="Tuesday" data-es="Martes">Tuesday</th><td>7:00 am – 5:30 pm</td></tr>
+        <tr><th scope="row" data-en="Wednesday" data-es="Miércoles">Wednesday</th><td>7:00 am – 5:30 pm</td></tr>
+        <tr><th scope="row" data-en="Thursday" data-es="Jueves">Thursday</th><td>7:00 am – 5:30 pm</td></tr>
+        <tr><th scope="row" data-en="Friday" data-es="Viernes">Friday</th><td>7:00 am – 5:30 pm</td></tr>
+        <tr><th scope="row" data-en="Saturday" data-es="Sábado">Saturday</th><td>8:00 am – 1:00 pm</td></tr>
+        <tr><th scope="row" data-en="Sunday" data-es="Domingo">Sunday</th><td data-en="Closed (emergencies only)" data-es="Cerrado (solo emergencias)">Closed (emergencies only)</td></tr>
+      </table>
+      <div class="emerg"><strong data-en="Emergencies 24/7" data-es="Emergencias 24/7">Emergencies 24/7</strong><span data-en="Every day, any hour, holidays included. Call and a real person answers." data-es="Todos los días, a cualquier hora, festivos incluidos. Llama y contesta una persona real.">Every day, any hour, holidays included. Call and a real person answers.</span></div>
+      <a class="btn btn--call btn--block" href="tel:+14325550162"><span data-en="Call (432) 555-0162" data-es="Llamar (432) 555-0162">Call (432) 555-0162</span></a>
+      <p class="note"><strong data-en="Reviews coming soon" data-es="Reseñas próximamente">Reviews coming soon</strong> <span data-en="Real customer reviews will go here once the business is live." data-es="Aquí irán reseñas reales de clientes cuando el negocio esté en línea.">Real customer reviews will go here once the business is live.</span></p>
+    </div>
+    <div class="card qcard pop">
+      <h3 data-en="Request a quote" data-es="Pedir presupuesto">Request a quote</h3>
+      <p class="note" data-en="Free, no obligation. We reply the same business day. For emergencies, please call." data-es="Gratis y sin compromiso. Respondemos el mismo día hábil. Para emergencias, llama por teléfono.">Free, no obligation. We reply the same business day. For emergencies, please call.</p>
+      <form id="form" novalidate>
+        <div class="row">
+          <div><label for="f-name" data-en="Name" data-es="Nombre">Name</label><input id="f-name" name="name" type="text" autocomplete="name"></div>
+          <div><label for="f-phone" data-en="Phone" data-es="Teléfono">Phone</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(432) 555-0100"></div>
+        </div>
+        <div><label for="f-city" data-en="City" data-es="Ciudad">City</label>
+          <select id="f-city" name="city"><option>Odessa</option><option>Midland</option><option data-en="Other nearby" data-es="Otra cercana">Other nearby</option></select></div>
+        <div><label for="f-msg" data-en="What do you need?" data-es="¿Qué necesitas?">What do you need?</label><textarea id="f-msg" name="msg" placeholder="Example: panel upgrade, EV charger, flickering lights" data-en-ph="Example: panel upgrade, EV charger, flickering lights" data-es-ph="Ejemplo: cambio de panel, cargador eléctrico, luces que parpadean"></textarea></div>
+        <button class="btn btn--dark btn--block" id="send" type="submit" data-en="Send quote request" data-es="Enviar solicitud">Send quote request</button>
+        <p class="note" data-en="This is a demo form. Nothing is sent." data-es="Este es un formulario de demostración. No se envía nada.">This is a demo form. Nothing is sent.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Cierre: el pie queda debajo y la pagina sube como una cortina -->
+<footer class="foot" id="foot">
+  <div class="wrap">
+    <p class="foot__big" aria-hidden="true">Permian Pro Electric</p>
+    <div class="foot__cols">
+      <div>
+        <a class="logo" href="#top"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg></b><span>Permian Pro Electric</span></a>
+        <p data-en="Licensed &amp; insured · TECL #000000 (demo)" data-es="Con licencia y seguro · TECL #000000 (demo)">Licensed &amp; insured · TECL #000000 (demo)</p>
+      </div>
+      <div>
+        <p><a class="tel" href="tel:+14325550162">(432) 555-0162</a> · <span data-en="24/7 emergencies" data-es="Emergencias 24/7">24/7 emergencies</span></p>
+        <p data-en="Serving Odessa, Midland and the Permian Basin." data-es="Servicio en Odessa, Midland y la cuenca Pérmica.">Serving Odessa, Midland and the Permian Basin.</p>
+      </div>
+      <div>
+        <p data-en="Demo website. Permian Pro Electric is a fictional business; the name, phone number and license are made up. Photos are stock." data-es="Sitio de demostración. Permian Pro Electric es un negocio ficticio; el nombre, el teléfono y la licencia son inventados. Las fotos son de archivo.">Demo website. Permian Pro Electric is a fictional business; the name, phone number and license are made up. Photos are stock.</p>
+        <p><a href="../../" data-en="Demo site by Permian Local · permianlocalseo.com" data-es="Sitio de demostración de Permian Local · permianlocalseo.com">Demo site by Permian Local · permianlocalseo.com</a></p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="dock" id="dock">
+  <a class="sos" href="tel:+14325550162">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg>
+    <span data-en="Electrical emergency · Call now" data-es="Emergencia eléctrica · Llamar ahora">Electrical emergency · Call now</span><span class="sos__n">(432) 555-0162</span>
+  </a>
+</div>
+
+<script src="../../js/vendor/gsap.min.js"></script>
+<script src="../../js/vendor/ScrollTrigger.min.js"></script>
+<script src="../../js/vendor/lenis.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

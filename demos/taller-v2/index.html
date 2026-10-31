@@ -1,0 +1,281 @@
+<!doctype html>
+<!--
+  Loop 338 Auto Repair, version 2 (2026-10-31). Direccion de arte: "la orden de reparacion".
+  La camioneta es el diagrama de inspeccion; cada punto es una linea del presupuesto escrito.
+  Original intacta en ../taller/. Rutas relativas, GSAP + Lenis en ../../js/vendor/.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loop 338 Auto Repair | Odessa, TX (demo)</title>
+<meta name="description" content="Demo website: Loop 338 Auto Repair, a fictional shop in Odessa, TX. Brakes, diagnostics, A/C, alignment, oil change and state inspection. Built by Permian Local.">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Loop 338 Auto Repair | Odessa, TX (demo)">
+<meta property="og:description" content="Demo website for a fictional auto repair shop in Odessa, TX. Written quote first. Built by Permian Local.">
+<meta name="theme-color" content="#dfdedb">
+<link rel="preload" as="image" href="img/camioneta-1600.webp" type="image/webp" fetchpriority="high" imagesrcset="img/camioneta-900.webp 900w, img/camioneta-1600.webp 1600w" imagesizes="(max-width:900px) 118vw, 88vw">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500&family=Barlow+Condensed:wght@600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar__in">
+    <a class="logo" href="#top" aria-label="Loop 338 Auto Repair"><b>Loop 338</b> <span>Auto</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#services" data-en="Services" data-es="Servicios">Services</a>
+      <a href="#visit" data-en="Hours &amp; map" data-es="Horario y mapa">Hours &amp; map</a>
+      <a href="#book" data-en="Book a visit" data-es="Pedir cita">Book a visit</a>
+    </nav>
+    <button class="lang" id="lang" type="button" aria-label="Cambiar a español">ES</button>
+    <a class="btn btn--main btn--bar" href="tel:+14325550138">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+      <span data-en="Call now" data-es="Llamar">Call now</span><span class="t-long">&nbsp;(432) 555-0138</span>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- 1. HERO: el titular va detras del recorte; la carretera lleva la frase y la accion -->
+<section class="hero" aria-labelledby="h1">
+  <div class="hero__sky">
+    <h1 class="hero__h1" id="h1"><span class="l1">Loop 338</span> <span class="l2">Auto Repair</span></h1>
+    <div class="hero__truck" id="heroTruck">
+      <img src="img/camioneta-1600.webp" srcset="img/camioneta-900.webp 900w, img/camioneta-1600.webp 1600w" sizes="(max-width:900px) 118vw, 88vw" width="1600" height="516" fetchpriority="high" decoding="async"
+           alt="Yellow pickup truck parked in profile" data-alt-en="Yellow pickup truck parked in profile" data-alt-es="Camioneta pickup amarilla estacionada de perfil">
+    </div>
+    <div class="hero__truck hero__cab" id="heroCab" aria-hidden="true">
+      <img src="img/camioneta-1600.webp" srcset="img/camioneta-900.webp 900w, img/camioneta-1600.webp 1600w" sizes="(max-width:900px) 118vw, 88vw" width="1600" height="516" alt="" decoding="async">
+    </div>
+  </div>
+  <div class="hero__road">
+    <div class="hero__copy">
+      <p class="lead" data-en="Car trouble in Odessa? Honest repairs, same-day when we can." data-es="¿Problemas con el carro en Odessa? Reparaciones honestas, el mismo día cuando se puede.">Car trouble in Odessa? Honest repairs, same-day when we can.</p>
+      <div class="cta">
+        <a class="btn btn--main" href="tel:+14325550138">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          <span data-en="Call now" data-es="Llamar">Call now</span>
+        </a>
+        <a class="btn btn--alt" href="#book"><span data-en="Book a visit" data-es="Pedir cita">Book a visit</span></a>
+      </div>
+    </div>
+    <p class="hero__facts"><span data-en="Mon to Sat, 7:30 am to 6:00 pm" data-es="Lun a sáb, 7:30 am a 6:00 pm">Mon to Sat, 7:30 am to 6:00 pm</span><br><span data-en="W University Blvd, Odessa, TX" data-es="W University Blvd, Odessa, TX">W University Blvd, Odessa, TX</span></p>
+  </div>
+</section>
+
+<!-- 2. LA ORDEN DE REPARACION: historia anclada; el presupuesto se suma sobre la camioneta -->
+<section class="order" id="services" aria-labelledby="h-services">
+  <div class="order__stage grid" id="orderStage">
+    <div class="order__left">
+      <h2 class="h2" id="h-services" data-en="Six jobs, done right" data-es="Seis trabajos, bien hechos">Six jobs, done right</h2>
+      <form class="slip" id="slip" aria-label="Repair order" data-aria-en="Repair order" data-aria-es="Orden de reparación" onsubmit="return false">
+        <div class="slip__head">
+          <strong data-en="Repair order" data-es="Orden de reparación">Repair order</strong>
+          <span data-en="Written quote first. Nothing extra without your OK." data-es="Primero el presupuesto por escrito. Nada extra sin su permiso.">Written quote first. Nothing extra without your OK.</span>
+        </div>
+        <ul class="slip__rows">
+          <li class="row" data-i="0" data-price="149">
+            <label><input type="checkbox" name="svc" value="Brakes">
+              <img src="img/svc-frenos.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+              <span class="row__n" data-en="Brakes" data-es="Frenos">Brakes</span><i class="row__dots" aria-hidden="true"></i><span class="row__p">$149</span></label>
+          </li>
+          <li class="row" data-i="1" data-price="89">
+            <label><input type="checkbox" name="svc" value="Diagnostics">
+              <img src="img/svc-diagnostico.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+              <span class="row__n" data-en="Diagnostics" data-es="Diagnóstico">Diagnostics</span><i class="row__dots" aria-hidden="true"></i><span class="row__p">$89</span></label>
+          </li>
+          <li class="row" data-i="2" data-price="79">
+            <label><input type="checkbox" name="svc" value="A/C repair">
+              <img src="img/svc-aire.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+              <span class="row__n" data-en="A/C repair" data-es="Aire acondicionado">A/C repair</span><i class="row__dots" aria-hidden="true"></i><span class="row__p">$79</span></label>
+          </li>
+          <li class="row" data-i="3" data-price="99">
+            <label><input type="checkbox" name="svc" value="Alignment">
+              <img src="img/svc-alineacion.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+              <span class="row__n" data-en="Alignment" data-es="Alineación">Alignment</span><i class="row__dots" aria-hidden="true"></i><span class="row__p">$99</span></label>
+          </li>
+          <li class="row" data-i="4" data-price="59">
+            <label><input type="checkbox" name="svc" value="Oil change">
+              <img src="img/svc-aceite.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+              <span class="row__n" data-en="Oil change" data-es="Cambio de aceite">Oil change</span><i class="row__dots" aria-hidden="true"></i><span class="row__p">$59</span></label>
+          </li>
+          <li class="row" data-i="5" data-price="25">
+            <label><input type="checkbox" name="svc" value="State inspection">
+              <img src="img/svc-inspeccion.webp" width="480" height="320" loading="lazy" decoding="async" alt="">
+              <span class="row__n" data-en="State inspection" data-es="Inspección estatal">State inspection</span><i class="row__dots" aria-hidden="true"></i><span class="row__p">$25</span></label>
+          </li>
+        </ul>
+        <p class="slip__total"><span data-en="Estimate, from" data-es="Estimado, desde">Estimate, from</span><output id="total" aria-live="polite" for="slip">$0</output></p>
+        <p class="slip__note" data-en="Demo prices, not a real claim. Untick what you do not need." data-es="Precios de demostración, no reales. Desmarque lo que no necesite.">Demo prices, not a real claim. Untick what you do not need.</p>
+        <div class="slip__cta">
+          <a class="btn btn--main" id="slipCall" href="tel:+14325550138"><span data-en="Call now" data-es="Llamar">Call now</span></a>
+          <a class="btn btn--alt" id="slipSend" href="#book"><span data-en="Send this list" data-es="Enviar esta lista">Send this list</span></a>
+        </div>
+        <svg class="zig" aria-hidden="true" focusable="false"><defs><pattern id="zz" width="24" height="12" patternUnits="userSpaceOnUse"><path d="M0 0h24L12 12z" fill="#fbfbf9"/></pattern></defs><rect width="100%" height="12" fill="url(#zz)"/></svg>
+      </form>
+    </div>
+
+    <div class="order__right">
+      <div class="diagram" id="diagram">
+        <img class="diagram__img" src="img/camioneta-1600.webp" srcset="img/camioneta-900.webp 900w, img/camioneta-1600.webp 1600w" sizes="(max-width:900px) 94vw, 56vw" width="1600" height="516" loading="lazy" decoding="async"
+             alt="Yellow pickup truck in profile with a point on each part we repair" data-alt-en="Yellow pickup truck in profile with a point on each part we repair" data-alt-es="Camioneta pickup amarilla de perfil con un punto en cada pieza que reparamos">
+        <button class="hs" type="button" data-i="2" style="left:39%;top:18%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+        <button class="hs" type="button" data-i="1" style="left:15%;top:35%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+        <button class="hs" type="button" data-i="4" style="left:35%;top:72%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+        <button class="hs" type="button" data-i="0" style="left:16%;top:81%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+        <button class="hs hs--r" type="button" data-i="3" style="left:65%;top:80%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+        <button class="hs hs--r" type="button" data-i="5" style="left:82%;top:46%" aria-pressed="false"><span class="hs__dot"></span><span class="hs__tip"></span></button>
+      </div>
+      <div class="detail" aria-live="polite">
+        <h3 class="detail__t" id="dTitle" data-en="Brakes" data-es="Frenos">Brakes</h3>
+        <p class="detail__p" id="dText"></p>
+        <p class="detail__hint" id="dHint" data-en="Tap a point on the truck, or scroll." data-es="Toque un punto de la camioneta, o siga bajando.">Tap a point on the truck, or scroll.</p>
+      </div>
+      <ul class="svc-text" hidden>
+        <li data-en="Squealing, grinding or a soft pedal. Pads, rotors, fluid and a safety check." data-es="Chillidos, ruido de metal o pedal blando. Pastillas, discos, líquido y revisión de seguridad.">Squealing, grinding or a soft pedal. Pads, rotors, fluid and a safety check.</li>
+        <li data-en="Check-engine light on? We read the codes and find the real cause, not just clear the light." data-es="¿Luz de check engine encendida? Leemos los códigos y buscamos la causa real, no solo apagamos la luz.">Check-engine light on? We read the codes and find the real cause, not just clear the light.</li>
+        <li data-en="West Texas heat is no joke. Leaks, low charge, weak airflow: we get the cold back." data-es="El calor de West Texas no es broma. Fugas, poca carga, poco aire: devolvemos el frío.">West Texas heat is no joke. Leaks, low charge, weak airflow: we get the cold back.</li>
+        <li data-en="Pulling to one side or uneven tire wear? A proper alignment saves tires and fuel." data-es="¿Se jala a un lado o las llantas se desgastan disparejo? Una buena alineación ahorra llantas y gasolina.">Pulling to one side or uneven tire wear? A proper alignment saves tires and fuel.</li>
+        <li data-en="Quick, clean, and with a look at fluids, filters and belts while it's on the lift." data-es="Rápido, limpio y con revisión de líquidos, filtros y bandas mientras está en el elevador.">Quick, clean, and with a look at fluids, filters and belts while it's on the lift.</li>
+        <li data-en="Texas vehicle inspection while you wait, so you can renew your registration." data-es="Inspección vehicular de Texas mientras espera, para renovar su registro.">Texas vehicle inspection while you wait, so you can renew your registration.</li>
+      </ul>
+      <p class="order__more" data-en="Not on the list? Call us. If we can do it, we will say so. If we can't, we will point you to someone who can." data-es="¿No está en la lista? Llámenos. Si podemos hacerlo, se lo decimos. Si no, le indicamos quién puede.">Not on the list? Call us. If we can do it, we will say so. If we can't, we will point you to someone who can.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. CIFRAS -->
+<section class="nums grid" id="numbers" aria-labelledby="h-nums">
+  <h2 class="h2 sr" id="h-nums" data-en="The shop in three numbers" data-es="El taller en tres cifras">The shop in three numbers</h2>
+    <ul class="nums__list">
+      <li class="nm nm--a"><b class="nm__n"><span data-count="15">15</span><i>+</i></b><div><strong data-en="Years in the trade" data-es="Años en el oficio">Years in the trade</strong><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div></li>
+      <li class="nm nm--b"><b class="nm__n"><span data-count="120">120</span><i>+</i></b><div><strong data-en="Cars a month" data-es="Carros al mes">Cars a month</strong><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div></li>
+      <li class="nm nm--c"><b class="nm__n"><span data-count="12">12</span><i>mo</i></b><div><strong data-en="Repair warranty" data-es="Garantía de reparación">Repair warranty</strong><small data-en="Demo figure, not a real claim." data-es="Cifra de demostración, no real.">Demo figure, not a real claim.</small></div></li>
+    </ul>
+    <figure class="nums__photo">
+      <img src="img/wrenches-tools-960.webp" srcset="img/wrenches-tools-480.webp 480w, img/wrenches-tools-960.webp 960w" sizes="(min-width:900px) 30vw, 94vw" width="960" height="1440" loading="lazy" decoding="async"
+           alt="Wrenches and hand tools laid out on a workshop bench" data-alt-en="Wrenches and hand tools laid out on a workshop bench" data-alt-es="Llaves y herramientas de mano sobre una mesa de taller">
+    </figure>
+    <ul class="nums__facts">
+      <li data-en="Family owned" data-es="Negocio familiar">Family owned</li>
+      <li data-en="ASE-style certified techs" data-es="Técnicos certificados estilo ASE">ASE-style certified techs</li>
+      <li data-en="Upfront quotes" data-es="Presupuesto por adelantado">Upfront quotes</li>
+    </ul>
+</section>
+
+<!-- 4. POR QUE NOS ELIGEN -->
+<section class="about grid" id="about" aria-labelledby="h-about">
+  <figure class="about__photo" id="aboutPhoto">
+    <img src="img/mechanic-under-car-960.webp" srcset="img/mechanic-under-car-480.webp 480w, img/mechanic-under-car-960.webp 960w" sizes="(min-width:900px) 58vw, 100vw" width="960" height="640" loading="lazy" decoding="async"
+         alt="A mechanic working under a lifted car beside a red jack stand" data-alt-en="A mechanic working under a lifted car beside a red jack stand" data-alt-es="Un mecánico trabajando bajo un carro elevado junto a un gato rojo">
+  </figure>
+  <div class="about__text">
+    <h2 class="h2" id="h-about" data-en="A shop you can ask questions" data-es="Un taller al que se le puede preguntar">A shop you can ask questions</h2>
+    <p class="say" data-en="We show you the worn part and explain it in plain English." data-es="Le mostramos la pieza gastada y se la explicamos en palabras sencillas.">We show you the worn part and explain it in plain English.</p>
+    <p class="say" data-en="Written quote first. Nothing extra without your OK." data-es="Primero el presupuesto por escrito. Nada extra sin su permiso.">Written quote first. Nothing extra without your OK.</p>
+    <p class="say" data-en="Same-day on most brakes, oil changes and inspections." data-es="El mismo día en la mayoría de frenos, aceite e inspecciones.">Same-day on most brakes, oil changes and inspections.</p>
+    <p class="proof"><strong data-en="Reviews coming soon" data-es="Reseñas próximamente">Reviews coming soon</strong> <span data-en="Real customer reviews will go here once the shop is live." data-es="Aquí irán reseñas reales de clientes cuando el taller esté en línea.">Real customer reviews will go here once the shop is live.</span></p>
+  </div>
+</section>
+
+<!-- 5. FAQ como texto corrido -->
+<section class="faq grid" id="faq" aria-labelledby="h-faq">
+  <div class="faq__left">
+    <h2 class="h2" id="h-faq" data-en="Before you call" data-es="Antes de llamar">Before you call</h2>
+    <figure class="faq__photo">
+      <img src="img/motor-1100.webp" srcset="img/motor-600.webp 600w, img/motor-1100.webp 1100w" sizes="(min-width:900px) 36vw, 94vw" width="1100" height="825" loading="lazy" decoding="async"
+           alt="Engine bay of a pickup: polished supercharged engine" data-alt-en="Engine bay of a pickup: polished supercharged engine" data-alt-es="Compartimento del motor de una camioneta: motor pulido con supercargador">
+    </figure>
+  </div>
+  <div class="faq__text">
+    <p class="qa"><strong data-en="Do I get a quote first?" data-es="¿Me dan un presupuesto primero?">Do I get a quote first?</strong> <span data-en="Yes. Written quote first, and nothing extra without your OK. Estimates are free." data-es="Sí. Primero el presupuesto por escrito y nada extra sin su permiso. Los presupuestos son gratis.">Yes. Written quote first, and nothing extra without your OK. Estimates are free.</span></p>
+    <p class="qa"><strong data-en="Can you do it the same day?" data-es="¿Lo pueden hacer el mismo día?">Can you do it the same day?</strong> <span data-en="Same-day on most brakes, oil changes and inspections. Call and we will tell you what fits." data-es="El mismo día en la mayoría de frenos, aceite e inspecciones. Llame y le decimos qué se puede.">Same-day on most brakes, oil changes and inspections. Call and we will tell you what fits.</span></p>
+    <p class="qa"><strong data-en="My check-engine light is on. Now what?" data-es="Mi luz de check engine está encendida. ¿Y ahora?">My check-engine light is on. Now what?</strong> <span data-en="We read the codes and find the real cause, not just clear the light. Then you decide what to fix." data-es="Leemos los códigos y buscamos la causa real, no solo apagamos la luz. Luego usted decide qué arreglar.">We read the codes and find the real cause, not just clear the light. Then you decide what to fix.</span></p>
+    <p class="qa"><strong data-en="What if you can't fix it?" data-es="¿Y si ustedes no pueden arreglarlo?">What if you can't fix it?</strong> <span data-en="If we can do it, we will say so. If we can't, we will point you to someone who can." data-es="Si podemos hacerlo, se lo decimos. Si no, le indicamos quién puede.">If we can do it, we will say so. If we can't, we will point you to someone who can.</span></p>
+  </div>
+</section>
+
+<!-- 6. HORARIO Y UBICACION -->
+<section class="visit grid" id="visit" aria-labelledby="h-visit">
+  <h2 class="h2" id="h-visit" data-en="Hours &amp; location" data-es="Horario y ubicación">Hours &amp; location</h2>
+    <div class="hours">
+      <h3 class="h3" data-en="Shop hours" data-es="Horario del taller">Shop hours</h3>
+      <table>
+        <tr><th scope="row" data-en="Monday" data-es="Lunes">Monday</th><td>7:30 am – 6:00 pm</td></tr>
+        <tr><th scope="row" data-en="Tuesday" data-es="Martes">Tuesday</th><td>7:30 am – 6:00 pm</td></tr>
+        <tr><th scope="row" data-en="Wednesday" data-es="Miércoles">Wednesday</th><td>7:30 am – 6:00 pm</td></tr>
+        <tr><th scope="row" data-en="Thursday" data-es="Jueves">Thursday</th><td>7:30 am – 6:00 pm</td></tr>
+        <tr><th scope="row" data-en="Friday" data-es="Viernes">Friday</th><td>7:30 am – 6:00 pm</td></tr>
+        <tr><th scope="row" data-en="Saturday" data-es="Sábado">Saturday</th><td>8:00 am – 1:00 pm</td></tr>
+        <tr><th scope="row" data-en="Sunday" data-es="Domingo">Sunday</th><td data-en="Closed" data-es="Cerrado">Closed</td></tr>
+      </table>
+      <address>W University Blvd, Odessa, TX<br><span data-en="Serving Odessa and Midland" data-es="Atendemos Odessa y Midland">Serving Odessa and Midland</span></address>
+      <div class="hours__cta">
+        <a class="btn btn--main" href="tel:+14325550138"><span data-en="Call (432) 555-0138" data-es="Llamar (432) 555-0138">Call (432) 555-0138</span></a>
+        <a class="btn btn--alt" href="https://www.google.com/maps/search/?api=1&amp;query=W+University+Blvd+Odessa+TX" target="_blank" rel="noopener"><span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a>
+      </div>
+    </div>
+    <div class="map">
+      <iframe title="Map of Odessa, TX" data-title-en="Map of Odessa, TX" data-title-es="Mapa de Odessa, TX" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=W+University+Blvd,+Odessa,+TX&amp;output=embed"></iframe>
+    </div>
+</section>
+
+<!-- 7. FORMULARIO -->
+<section class="book grid" id="book" aria-labelledby="h-book">
+  <div class="book__head">
+    <h2 class="h2" id="h-book" data-en="Request an appointment" data-es="Pida una cita">Request an appointment</h2>
+    <p class="sub" data-en="Tell us what is going on. We will call you back to confirm a time. Fastest way is still to call." data-es="Cuéntenos qué pasa. Le devolvemos la llamada para confirmar la hora. Lo más rápido sigue siendo llamar.">Tell us what is going on. We will call you back to confirm a time. Fastest way is still to call.</p>
+  </div>
+  <div class="book__in">
+    <form id="form" novalidate>
+      <div class="row2">
+        <div><label for="f-name" data-en="Your name" data-es="Su nombre">Your name</label><input id="f-name" name="name" type="text" autocomplete="name"></div>
+        <div><label for="f-phone" data-en="Phone" data-es="Teléfono">Phone</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(432) 555-0100"></div>
+      </div>
+      <div class="row2">
+        <div><label for="f-svc" data-en="Service" data-es="Servicio">Service</label>
+          <select id="f-svc" name="service">
+            <option data-en="Brakes" data-es="Frenos">Brakes</option>
+            <option data-en="Diagnostics / check-engine light" data-es="Diagnóstico / luz de check engine">Diagnostics / check-engine light</option>
+            <option data-en="A/C repair" data-es="Aire acondicionado">A/C repair</option>
+            <option data-en="Alignment" data-es="Alineación">Alignment</option>
+            <option data-en="Oil change" data-es="Cambio de aceite">Oil change</option>
+            <option data-en="State inspection" data-es="Inspección estatal">State inspection</option>
+            <option data-en="Other / not sure" data-es="Otro / no estoy seguro">Other / not sure</option>
+          </select></div>
+        <div><label for="f-day" data-en="Preferred day" data-es="Día preferido">Preferred day</label><input id="f-day" name="day" type="date"></div>
+      </div>
+      <div><label for="f-msg" data-en="What is the car doing?" data-es="¿Qué le pasa al carro?">What is the car doing?</label><textarea id="f-msg" name="msg"></textarea></div>
+      <button class="btn btn--main" id="send" type="submit" data-en="Request appointment" data-es="Pedir cita">Request appointment</button>
+      <p class="note" data-en="This is a demo form. It does not send anything." data-es="Este es un formulario de demostración. No envía nada.">This is a demo form. It does not send anything.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="foot grid">
+  <p class="foot__big" aria-hidden="true">Loop 338</p>
+  <div class="foot__a">
+    <p>W University Blvd, Odessa, TX · <a href="tel:+14325550138">(432) 555-0138</a></p>
+    <p data-en="Open Monday to Saturday · Closed Sunday · full hours above" data-es="Abierto de lunes a sábado · Domingo cerrado · horario completo arriba">Open Monday to Saturday · Closed Sunday · full hours above</p>
+    <p class="ribbon"><a href="https://permianlocalseo.com/" data-en="Demo site by Permian Local · fictional business · permianlocalseo.com" data-es="Sitio de demostración de Permian Local · negocio ficticio · permianlocalseo.com">Demo site by Permian Local · fictional business · permianlocalseo.com</a></p>
+  </div>
+  <div class="foot__b">
+    <p data-en="Demo website. Loop 338 Auto Repair is a fictional business; the name, phone number and address are made up. Photos are stock." data-es="Sitio de demostración. Loop 338 Auto Repair es un negocio ficticio; el nombre, el teléfono y la dirección son inventados. Las fotos son de archivo.">Demo website. Loop 338 Auto Repair is a fictional business; the name, phone number and address are made up. Photos are stock.</p>
+    <p class="credit" data-en="Photos: Andrew LaBonne (truck), Juan Montes (engine), Tahamie Farooqui (mechanic), Isabela Kronemberger (wrenches), Toby Hall, Kate Ibragimova, Olav Tvedt, Tekton, Xavier von Erlach, Dextar Studio (services). Pexels and Unsplash." data-es="Fotos: Andrew LaBonne (camioneta), Juan Montes (motor), Tahamie Farooqui (mecánico), Isabela Kronemberger (llaves), Toby Hall, Kate Ibragimova, Olav Tvedt, Tekton, Xavier von Erlach, Dextar Studio (servicios). Pexels y Unsplash.">Photos: Andrew LaBonne (truck), Juan Montes (engine), Tahamie Farooqui (mechanic), Isabela Kronemberger (wrenches), Toby Hall, Kate Ibragimova, Olav Tvedt, Tekton, Xavier von Erlach, Dextar Studio (services). Pexels and Unsplash.</p>
+  </div>
+</footer>
+
+<script src="../../js/vendor/gsap.min.js"></script>
+<script src="../../js/vendor/ScrollTrigger.min.js"></script>
+<script src="../../js/vendor/lenis.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
