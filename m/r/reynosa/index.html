@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="es" class="js">
+<head>
+<script>(function(d){d.className='js';try{if(matchMedia('(prefers-reduced-motion: reduce)').matches||/[?&]rm=1/.test(location.search))d.className+=' rm';}catch(e){}})(document.documentElement);</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- DATO: nombre del negocio en <title> (y en T.title del script de idioma ES/EN, y T.desc) -->
+<title>Taqueria Reynosa · Menú</title>
+<!-- DATO: descripcion meta en ingles (tambien T.desc ES/EN en el script de idioma) -->
+<meta name="description" content="Menú, precios, horario y teléfono de Taqueria Reynosa, Odessa TX. Demo de menú con QR/NFC de mesa por Permian Local.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1b120c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@400;600;800&display=swap">
+<link rel="icon" href="../../../favicon.ico">
+<style>
+@property --acc{syntax:'<color>';inherits:true;initial-value:#f2a93b}
+:root{
+  --coal:#1b120c;--coal2:#2a1a12;--coal3:#120b07;
+  --amber:#f2b13a;--amber2:#e39a1d;
+  --salsa:#9b2a1c;--verde:#4d6a21;--cilantro:#2f6b3a;--birria:#43200f;--maiz:#efb52b;--crema:#f4e7c9;--crema2:#e9d7b0;
+  --ink:#2a1405;
+  --head:"Anton","Impact","Arial Narrow",sans-serif;
+  --body:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --out:cubic-bezier(.23,1,.32,1);
+  --hh:64px;
+  --pad:clamp(16px,2.6vw,36px);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+html:not(.lenis){scroll-behavior:smooth}
+html.rm{scroll-behavior:auto}
+body{margin:0;background:var(--coal);color:var(--crema);font:400 1.0625rem/1.55 var(--body);padding-bottom:40px;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+p,h1,h2,h3,figure,blockquote,ul{margin:0;padding:0}
+ul{list-style:none}
+h1,h2,h3{font-family:var(--head);font-weight:400;text-transform:uppercase;line-height:.92;letter-spacing:-.012em}
+.ln{display:block}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+
+/* botones: pastilla, una decisión para toda la página */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border:3px solid transparent;border-radius:999px;cursor:pointer;
+  font:800 1.02rem/1 var(--body);text-decoration:none;white-space:nowrap;
+  transition:background-color .18s ease,color .18s ease,transform .16s var(--out)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn:active{transform:scale(.97)}
+.btn--amber{background:var(--amber);color:var(--ink)}
+.btn--ink{background:var(--ink);color:var(--crema)}
+.btn--line{background:transparent;color:var(--crema);border-color:var(--crema)}
+.btn--sm{min-height:46px;padding:0 18px}
+@media(hover:hover){
+  .btn--amber:hover{background:#ffc552}
+  .btn--ink:hover{background:#000}
+  .btn--line:hover{background:var(--crema);color:var(--ink)}
+}
+.lnk{font-weight:800;text-underline-offset:5px;text-decoration-thickness:2px;padding:12px 4px;transition:color .18s ease}
+@media(hover:hover){.lnk:hover{color:var(--amber)}}
+.cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
+
+/* barra */
+.top{position:sticky;top:0;z-index:60;height:var(--hh);background:var(--coal)}
+.top__in{position:relative;display:flex;align-items:center;gap:8px;height:100%;padding:0 var(--pad)}
+.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font:400 1.25rem/1 var(--head);text-transform:uppercase;letter-spacing:.02em;margin-right:auto}
+.logo svg{width:34px;height:34px}
+.nav{display:none;gap:2px;margin-right:12px}
+.nav a{white-space:nowrap;text-decoration:none;font-weight:600;padding:0 14px;min-height:46px;display:inline-flex;align-items:center;border-radius:999px;transition:background-color .18s ease}
+@media(hover:hover){.nav a:hover{background:var(--coal2)}}
+.lang{min-width:46px;min-height:46px;padding:0 12px;border:2px solid var(--crema2);border-radius:999px;background:transparent;color:var(--crema);font:800 .95rem/1 var(--body);cursor:pointer;transition:background-color .18s ease,color .18s ease,transform .16s var(--out)}
+.lang:active{transform:scale(.97)}
+@media(hover:hover){.lang:hover{background:var(--crema);color:var(--ink)}}
+.top .t-long{display:none}
+.progress{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--amber);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+
+@media(max-width:420px){.logo span{display:none}.top .btn--sm .t-long{display:none}}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:max(660px,calc(100svh - var(--hh)));background:var(--coal);overflow:clip;--acc:#f2a93b;transition:--acc .6s ease;isolation:isolate}
+.hero[data-k="1"]{--acc:#6fa83a}
+.hero[data-k="2"]{--acc:#f5b43c}
+.hero[data-k="3"]{--acc:#efb52b}
+.hero[data-k="4"]{--acc:#d6381f}
+.hero__halo{position:absolute;z-index:0;left:60%;top:60%;width:min(110vw,1100px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--acc) 62%,transparent),color-mix(in srgb,var(--acc) 22%,transparent) 55%,transparent 100%)}
+.hero__h1{position:relative;z-index:1;padding:26px var(--pad) 0;font-size:clamp(3.4rem,13.2vw,11.5rem);color:var(--crema)}
+.stage{position:relative;z-index:2;width:100%;margin-top:-4vw;height:min(60vw,60svh);pointer-events:none}
+.smoke{position:absolute;inset:-34% -8% 4% -8%;z-index:1;pointer-events:none}
+.smoke__p{position:absolute;inset:0;will-change:transform;transition:transform .8s var(--out)}
+.sm{position:absolute;mix-blend-mode:screen;opacity:.42}
+.sm1{width:70%;left:2%;top:-4%;animation:drift1 22s ease-in-out infinite alternate}
+.sm2{width:64%;right:0;top:6%;opacity:.34;animation:drift2 33s ease-in-out infinite alternate}
+@keyframes drift1{from{transform:translate(0,6%) rotate(-6deg) scale(1)}to{transform:translate(5%,-10%) rotate(8deg) scale(1.12)}}
+@keyframes drift2{from{transform:translate(0,0) rotate(10deg) scale(1.1)}to{transform:translate(-6%,-12%) rotate(-8deg) scale(.96)}}
+.plates{position:absolute;inset:0;z-index:2;perspective:1200px;perspective-origin:50% 40%}
+.hp{position:absolute;left:50%;top:0;width:min(92vw,1100px);height:100%;object-fit:contain;transform:translateX(-50%);opacity:0;
+  transition:opacity .35s ease;filter:drop-shadow(0 28px 30px rgba(0,0,0,.45));transform-origin:50% 60%;backface-visibility:hidden}
+.hp.is-on{opacity:1}
+html:not(.js) .hp[data-k="0"]{opacity:1}
+.hp[data-k="2"]{height:86%}
+.hp[data-k="3"]{height:90%;top:0}
+.hp[data-k="4"]{height:92%}
+/* entrada orbital ligera (solo transform y opacidad): giro de ~18 grados hacia su sitio */
+@keyframes orbit{
+  0%{opacity:0;transform:translateX(-50%) rotateY(-18deg) rotateX(6deg) scale(.93)}
+  20%{opacity:1}
+  100%{opacity:1;transform:translateX(-50%) rotateY(0) rotateX(0) scale(1)}
+}
+.js:not(.rm) .hp.is-on{animation:orbit .95s cubic-bezier(.16,1,.3,1) both}
+.js:not(.rm) .hero.boot .hp.is-on{animation:none;opacity:0;transition:none}
+.hero__bar{position:relative;z-index:3;display:grid;gap:14px;padding:6px var(--pad) 34px;justify-items:start}
+.lead{max-width:30ch;margin-bottom:18px;font-size:clamp(1.45rem,6vw,1.55rem);line-height:1.38;font-weight:600}
+.picker{display:flex;gap:10px}
+.pk{width:62px;height:62px;padding:0;border:3px solid transparent;border-radius:50%;background:var(--coal2);overflow:hidden;cursor:pointer;
+  transition:border-color .2s ease,transform .16s var(--out)}
+.pk img{width:100%;height:100%;object-fit:cover}
+.pk:active{transform:scale(.95)}
+.pk[aria-pressed="true"]{border-color:var(--acc)}
+@media(hover:hover){.pk:hover{border-color:var(--crema2)}.pk[aria-pressed="true"]:hover{border-color:var(--acc)}}
+.hero__meta{display:flex;align-items:flex-end;order:1;min-height:44px}
+.picker{order:2}.hero__copy{order:3;margin-top:10px}
+.hero__halo{top:44%;left:50%}.ribbon{font-size:.74rem;padding:7px 12px}
+.hn{display:flex;align-items:baseline;gap:16px;opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .3s var(--out)}
+.hn.is-on{opacity:1;transform:none}
+.hn b{font:400 clamp(1.7rem,3.4vw,2.6rem)/1 var(--head);text-transform:uppercase;white-space:nowrap}
+.hn i{font:400 clamp(1.7rem,3.4vw,2.6rem)/1 var(--head);font-style:normal;color:var(--acc);font-variant-numeric:tabular-nums;transition:color .6s ease}
+
+
+/* ---------- DEL COMAL AL PLATO ---------- */
+.comal{position:relative;background:var(--coal3);--u:min(1vmin,10px)}
+.comal__pin{position:relative;height:100svh;min-height:560px;overflow:clip;display:grid;place-items:center}
+.comal__t{position:absolute;z-index:1;left:var(--pad);top:calc(var(--hh) + clamp(14px,3vh,34px));font-size:clamp(2.4rem,5.4vw,5rem);color:var(--crema)}
+.comal__disc{position:absolute;left:50%;top:54%;width:min(86vmin,760px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#0b0705;border:clamp(8px,1.6vmin,16px) solid var(--coal2)}
+.ings{display:none}
+.taco{position:relative;z-index:3;width:min(92vw,86vmin);margin-top:20svh}
+.comal__cap{position:absolute;z-index:4;left:var(--pad);bottom:68px;display:grid}
+.cap{grid-area:1/1;font:400 clamp(1.5rem,3.6vw,2.8rem)/1 var(--head);text-transform:uppercase;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .3s ease,transform .4s var(--out),visibility 0s .3s}
+.cap.is-on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.cap--end{color:var(--amber)}
+.js:not(.rm) .ings{display:block;position:absolute;inset:0;z-index:2;pointer-events:none}
+.js:not(.rm) .taco{opacity:0}
+.js.rm .cap:not(.cap--end){display:none}
+.js.rm .cap--end{opacity:1;visibility:visible;transform:none}
+html:not(.js) .cap:not(.cap--end){display:none}
+html:not(.js) .cap--end{opacity:1;visibility:visible;transform:none}
+.ings,.taco,.comal__disc{pointer-events:none}
+.ing{position:absolute;left:50%;top:50%;height:auto;max-width:none;will-change:transform}
+.i-tort{width:calc(var(--u)*50)}
+.i-chi{width:calc(var(--u)*30)}
+.i-ceb{width:calc(var(--u)*17)}
+.i-cil{width:calc(var(--u)*19)}
+.i-lim{width:calc(var(--u)*22)}
+.i-tom{width:calc(var(--u)*19)}
+
+
+/* ---------- MENÚ POR PLATOS ---------- */
+.menu{position:relative;background:var(--salsa);transition:none}
+.dish{background:var(--bg);position:relative;min-height:max(600px,calc(100svh - var(--hh)));overflow:clip;display:flex;flex-direction:column;justify-content:flex-end;color:var(--fg,var(--crema));padding:0 var(--pad)}
+.d-salsa{--bg:var(--salsa);--word:rgba(255,196,120,.2)}
+.d-verde{--bg:var(--verde);--word:rgba(232,244,160,.17)}
+.d-crema{--bg:var(--crema);--fg:var(--ink);--word:rgba(155,42,28,.14)}
+.d-maiz{--bg:var(--maiz);--fg:var(--ink);--word:rgba(110,45,0,.2)}
+.d-birria{--bg:var(--birria);--word:rgba(242,177,58,.2)}
+.menu__t{position:absolute;z-index:3;left:var(--pad);top:calc(var(--hh) + 18px);font-size:clamp(2rem,4vw,3.4rem)}
+.dish__word{position:absolute;z-index:0;left:50%;top:36%;transform:translate(-50%,-50%);white-space:nowrap;font:400 clamp(8rem,29vw,30rem)/.8 var(--head);color:var(--word);text-transform:uppercase;user-select:none}
+.dish__word i{font-style:normal;display:inline-block;will-change:transform}
+.d-birria .dish__word{font-size:clamp(7rem,27vw,28rem)}
+/* entradas por plato: ocultas hasta que el script las lanza */
+.js:not(.rm) .dish__stage,.js:not(.rm) .dish__word i,.js:not(.rm) .dish__info{opacity:0}
+.d-birria::before{content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(55% 60% at 88% 38%,rgba(242,150,50,.3),transparent 70%)}
+.dish__stage{pointer-events:none;position:absolute;z-index:1;inset:calc(var(--hh) + 40px) 0 190px 0;display:flex;align-items:center;justify-content:center}
+.dish__img{height:100%;width:100%;object-fit:contain;max-width:min(94vw,900px);transform:rotate(var(--r));filter:drop-shadow(0 30px 34px rgba(0,0,0,.38));will-change:transform}
+.dish__info{position:relative;z-index:2;display:grid;gap:10px 28px;padding:0 0 56px;align-items:end}
+.dish__info h3{font-size:clamp(2rem,4.6vw,3.6rem)}
+.dish__info p{max-width:42ch;font-size:1.05rem}
+.dish__buy{display:flex;align-items:center;gap:18px}
+.dish__price{font:400 clamp(2rem,4vw,3rem)/1 var(--head);font-variant-numeric:tabular-nums;white-space:nowrap}
+.dish__price small{font:600 .95rem/1 var(--body);margin-left:6px}
+.menu__note{background:var(--birria);color:var(--crema);padding:22px var(--pad) 26px;font-size:1rem}
+
+
+  .dish{min-height:max(530px,calc(100svh - var(--hh) - 230px))}
+  .d-crema{min-height:565px}
+  .dish__stage{inset:64px 0 200px 0;align-items:flex-start}
+  .menu__t{top:16px}
+  .dish__img{width:118vw;max-width:none;height:auto}
+  .d-crema .dish__img{width:92vw}
+  .d-birria .dish__img{width:104vw}
+  .d-maiz .dish__img{width:84vw}
+  .dish__word{top:21%;font-size:clamp(6rem,46vw,14rem)}
+  .d-birria .dish__word{font-size:clamp(4.5rem,31vw,12rem)}
+
+
+/* ---------- RESEÑAS (claro) ---------- */
+.rev{position:relative;z-index:5;background:var(--crema);color:var(--ink);padding:clamp(40px,8vw,140px) 0 clamp(60px,9vw,150px);overflow-x:clip;overflow-y:visible}
+.rev__ph{position:relative;z-index:6;width:100%;margin-top:-18vw}
+.rev__ph img{width:100%;height:auto;filter:drop-shadow(0 22px 30px rgba(42,20,5,.25))}
+.rev__in{position:relative;z-index:7;padding:28px var(--pad) 0}
+.rev h2{font-size:clamp(3rem,8vw,7.4rem);color:var(--salsa);margin-bottom:28px}
+.rq{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;padding:22px 0}
+.rq:nth-of-type(2){padding-left:clamp(0px,4vw,60px)}
+.av{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font:400 1.5rem/1 var(--head);letter-spacing:.04em;color:var(--crema)}
+.av-salsa{background:var(--salsa)}.av-verde{background:var(--cilantro)}.av-maiz{background:var(--maiz);color:var(--ink)}
+.rq blockquote p{font:600 clamp(1.1rem,1.6vw,1.35rem)/1.4 var(--body);max-width:46ch}
+.rq figcaption{margin-top:8px;font-size:.95rem}
+.rq figcaption b{font-weight:800}
+.rev__note{margin-top:14px;font-size:.95rem}
+.loose{position:absolute;z-index:8;pointer-events:none;height:auto;max-width:none;will-change:transform}
+.l-cil{width:clamp(110px,16vw,260px);right:2vw;top:2%;transform:rotate(18deg)}
+.l-lim{width:clamp(120px,15vw,250px);right:6vw;bottom:4%;transform:rotate(-12deg)}
+.l-chi{width:clamp(120px,14vw,240px);right:34vw;top:5%;transform:rotate(-24deg)}
+
+
+  .l-chi{display:none}
+  .l-cil{width:100px;top:12vw}
+  .l-lim{width:110px;bottom:auto;top:62vw;right:2vw}
+
+
+/* ---------- HOY ---------- */
+.today{background:var(--amber);color:var(--ink)}
+.today__in{display:flex;flex-wrap:wrap;align-items:center;gap:14px 30px;padding:28px var(--pad)}
+.today__tag{font:400 clamp(2.6rem,6vw,4.6rem)/1 var(--head)}
+.today__state{flex:1 1 280px;display:flex;align-items:center;gap:12px;font:400 clamp(1.5rem,3.4vw,2.6rem)/1.05 var(--head);text-transform:uppercase}
+.today__state i{flex:none;width:18px;height:18px;border-radius:50%;background:var(--cilantro)}
+.today__state.off i{background:var(--salsa)}
+
+/* ---------- HORARIO ---------- */
+.hrs{background:var(--coal2);padding:clamp(70px,10vw,150px) 0}
+.hrs__in{display:grid;gap:40px;padding:0 var(--pad)}
+.hrs h2{font-size:clamp(3.4rem,10vw,9rem);color:var(--amber);margin-bottom:28px}
+.hours table{width:100%;border-collapse:collapse}
+.hours th,.hours td{padding:12px 16px;text-align:left}
+.hours th{font:400 clamp(1.4rem,2.4vw,2rem)/1 var(--head);text-transform:uppercase;width:55%}
+.hours td{font-weight:600;font-variant-numeric:tabular-nums}
+.hours tr:nth-child(odd){background:rgba(244,231,201,.06)}
+.hours tr.off td{opacity:.7}
+.hours tr.now{background:var(--amber);color:var(--ink)}
+.hours tr.now td{opacity:1}
+.hrs__r{display:grid;gap:20px;align-content:end;max-width:44ch}
+.hrs__r p{font-size:1.15rem}
+address{font-style:normal;font:400 clamp(1.7rem,3vw,2.4rem)/1.05 var(--head);text-transform:uppercase}
+
+
+/* ---------- CATERING ---------- */
+.cater{background:var(--salsa);overflow:clip;padding:clamp(70px,9vw,140px) 0 0}
+.cater__in{display:grid;grid-template-columns:minmax(0,1fr);gap:30px;padding-left:var(--pad)}
+.cater__txt{display:grid;gap:22px;justify-items:start;padding-right:var(--pad);max-width:720px;min-width:0}
+.cater h2{font-size:clamp(3.2rem,8.4vw,8rem)}
+.cater p{font-size:1.15rem;max-width:46ch}
+.cater__img{width:min(130vw,1000px);max-width:none;transform:rotate(-6deg) translateX(6%);margin-bottom:-4%;filter:drop-shadow(0 26px 30px rgba(0,0,0,.4))}
+
+
+/* ---------- CIFRAS ---------- */
+.nums{background:var(--coal);padding:clamp(60px,9vw,130px) var(--pad);overflow:clip}
+.js:not(.rm) .nums .nm{opacity:0}
+.nums__in{display:grid;gap:44px}
+.nums li{display:grid;gap:6px;align-content:start}
+.nums b{font:400 clamp(5rem,15vw,13rem)/.85 var(--head);color:var(--amber);font-variant-numeric:tabular-nums}
+.nums b i{font-style:normal;font-size:.4em;margin-left:.08em;color:var(--crema)}
+.nums .n2{color:var(--crema)}
+.nums .lbl{font:400 1.7rem/1.05 var(--head);text-transform:uppercase}
+.nums small{font-size:.92rem;opacity:.85}
+
+
+/* ---------- FAQ ---------- */
+.faqs{background:var(--crema);color:var(--ink);padding:clamp(70px,9vw,140px) var(--pad)}
+.faqs__in{display:grid;gap:36px}
+.faqs h2{font-size:clamp(3.2rem,7.4vw,7rem);color:var(--salsa)}
+.faq details{background:rgba(42,20,5,.06);margin-bottom:10px}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 20px;font:400 clamp(1.3rem,2.4vw,1.9rem)/1.1 var(--head);text-transform:uppercase;min-height:64px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{position:relative;flex:none;width:22px;height:22px;transition:transform .25s var(--out)}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;background:var(--salsa)}
+.faq summary i::after{transform:rotate(90deg)}
+.faq details[open] summary i{transform:rotate(45deg)}
+.faq .ans{padding:0 20px 24px;max-width:60ch;font-size:1.08rem}
+
+
+/* ---------- VISITA ---------- */
+.visit{background:var(--coal2);padding:clamp(70px,9vw,140px) var(--pad)}
+.visit__in{display:grid;gap:34px}
+.visit h2{font-size:clamp(3.4rem,10vw,9rem);color:var(--amber)}
+.visit__r{display:grid;gap:22px;align-content:end;justify-items:start}
+.map{width:100%;min-height:300px;background:var(--coal);display:grid;place-items:center}
+.map iframe{width:100%;height:340px;border:0;display:block}
+
+
+footer{background:var(--coal3);overflow:clip}
+.foot__name{font:400 clamp(3rem,14.4vw,17rem)/.85 var(--head);color:var(--amber);white-space:nowrap;padding:40px var(--pad) 0;letter-spacing:-.01em}
+.foot__in{display:grid;gap:8px;padding:24px var(--pad) 40px;font-size:1rem;max-width:80ch}
+.ribbon{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--coal3);color:var(--crema);font-size:.82rem;line-height:1.3;text-align:center;padding:9px 16px;min-height:36px;border-top:3px solid var(--amber)}
+.ribbon a{font-weight:600;text-underline-offset:3px}
+
+/* entradas: solo se ocultan si hay JS y movimiento permitido */
+.js:not(.rm) .rv{opacity:0;transform:translateY(24px);transition:opacity .6s var(--out),transform .7s var(--out)}
+.js:not(.rm) .rv.in{opacity:1;transform:none}
+
+@media(prefers-reduced-motion:reduce){
+  .sm1,.sm2{animation:none}
+  .hp,.hn,.cap{transition:opacity .2s ease}
+  .hp.is-on{animation:none}
+  .smoke__p{transition:none}
+}
+.rm .sm1,.rm .sm2{animation:none}
+.rm .smoke__p{transition:none}
+.rm .hp,.rm .hn,.rm .cap{transition:opacity .2s ease}
+.rm .hp.is-on{animation:none}
+
+/* entrada del hero al cargar: solo transform y opacidad */
+@keyframes rise{from{opacity:0;transform:translateY(26px)}}
+.js:not(.rm) .hero__h1 .ln{animation:rise .9s var(--out) both}
+.js:not(.rm) .hero__h1 .ln:nth-child(2){animation-delay:.08s}
+.js:not(.rm) .hero__copy{animation:rise .8s var(--out) .3s both}
+.js:not(.rm) .picker{animation:rise .8s var(--out) .38s both}
+.js:not(.rm) .hero__meta{animation:rise .8s var(--out) .46s both}
+
+.hero{min-height:0}
+.hero__h1{font-size:clamp(3rem,min(13.2vw,74px),4.6rem)}
+.comal{display:none}
+.hero__bar{padding-bottom:30px}
+body{max-width:560px;margin:0 auto}
+.top{position:sticky}
+.menu{transition:background-color .5s ease}
+.hrs{padding:60px 0}
+.hrs h2{font-size:clamp(3.2rem,18vw,5rem)}
+.mcall{background:var(--coal3);padding:44px var(--pad) 28px;display:grid;gap:16px;justify-items:start}
+.mcall h2{font-size:clamp(3rem,17vw,5rem);color:var(--amber)}
+.foot__in{padding:20px var(--pad) 30px}
+
+.chip{flex:none;display:inline-flex;align-items:center;min-height:34px;padding:0 12px;border-radius:999px;background:var(--amber);color:var(--ink);font:400 1.05rem/1 var(--head);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.chip[hidden]{display:none}
+.logo{margin-right:auto}
+.btn--sms svg{flex:none}
+@media(max-width:420px){.top .btn--sms{padding:0;width:46px;min-width:46px}.top .btn--sms .t-sms{display:none}.chip{padding:0 10px;font-size:.95rem}}
+@media(max-width:360px){.top__in{gap:5px}}
+@media(max-width:700px){.dish__img,.d-crema .dish__img,.d-birria .dish__img,.d-maiz .dish__img{width:90vw;max-width:90vw}}
+.foot__url{margin-top:8px}
+.hp,.hp[data-k="2"],.hp[data-k="3"],.hp[data-k="4"]{top:22px;height:calc(100% - 22px)}
+</style>
+</head>
+<!-- DATO: TELEFONO del negocio en formato E.164. Es la UNICA constante: alimenta todos los tel: y sms:. Cambiar tambien el texto visible "(432) 555-0174" (busca "DATO: telefono visible"). -->
+<body data-tel="+14322721056">
+<header class="top">
+  <div class="top__in">
+    <!-- DATO: nombre del negocio (aria-label del logo, texto junto al logo, titulo de pagina y meta en el script de idioma, pie de pagina) -->
+    <a class="logo" href="#top" aria-label="Taqueria Reynosa"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="8" fill="#f2b13a" stroke="#1b120c" stroke-width="2.4"/><g stroke="#f2b13a" stroke-width="3.4" stroke-linecap="round"><path d="M20 3v5M20 32v5M3 20h5M32 20h5M8 8l3.5 3.5M28.5 28.5L32 32M8 32l3.5-3.5M28.5 11.5L32 8"/></g></svg><span>Taqueria Reynosa</span></a>
+    <span class="chip" id="mesaChip" hidden></span>
+    <button class="lang" id="lang" type="button" aria-label="Switch to English">ES</button>
+    <a class="btn btn--amber btn--sm" data-tel-link><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-es="Llamar" data-en="Call">Llamar</span></a>
+    <a class="btn btn--ink btn--sm btn--sms" data-sms="bar" aria-label="Pedir por mensaje" data-aria-es="Pedir por mensaje" data-aria-en="Order by text"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span class="t-sms" data-es="Pedir por mensaje" data-en="Order by text">Pedir por mensaje</span></a>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+  </div>
+</header>
+<main id="top">
+<section class="hero" id="hero" data-k="0">
+  <div class="hero__halo" aria-hidden="true"></div>
+  <h1 class="hero__h1"><span class="ln" data-es="CUANDO PEGA" data-en="WHEN THE">CUANDO PEGA</span><span class="ln" data-es="EL ANTOJO" data-en="CRAVING HITS">EL ANTOJO</span></h1>
+  <div class="stage" id="stage">
+    <div class="smoke" aria-hidden="true">
+      <div class="smoke__p" data-d="14"><img class="sm sm1" src="../../../demos/taqueria/img/humo.png" width="1000" height="1000" alt="" decoding="async"></div>
+      <div class="smoke__p" data-d="-22"><img class="sm sm2" src="../../../demos/taqueria/img/humo.png" width="1000" height="1000" alt="" decoding="async"></div>
+    </div>
+    <div class="plates">
+<!-- DATO: imagenes del hero, una por plato (data-k 0-4): src y srcset 700 y 1200; mismo orden que los platos del selector y del menu -->
+<img class="hp" data-k="0" src="img/pastor-700.webp" sizes="92vw" width="700" height="525" loading="lazy" decoding="async" alt="Basket of al pastor tacos with pineapple, onion and cilantro" data-alt-es="Canasta de tacos al pastor con piña, cebolla y cilantro" data-alt-en="Basket of al pastor tacos with pineapple, onion and cilantro">
+<img class="hp" data-k="1" src="img/drben-700.webp" sizes="92vw" width="700" height="525" loading="lazy" decoding="async" alt="Steak tacos with queso fresco and avocado in a basket" data-alt-es="Tacos de bistec con queso fresco y aguacate en canasta" data-alt-en="Steak tacos with queso fresco and avocado in a basket">
+<img class="hp" data-k="2" src="img/discada-700.webp" sizes="92vw" width="700" height="525" loading="lazy" decoding="async" alt="Discada tacos with cilantro on newspaper paper" data-alt-es="Tacos de discada con cilantro sobre papel de periódico" data-alt-en="Discada tacos with cilantro on newspaper paper">
+<img class="hp" data-k="3" src="img/burger-700.webp" sizes="92vw" width="700" height="525" loading="lazy" decoding="async" alt="La Trompuda burger with avocado, pineapple and cheese" data-alt-es="Hamburguesa La Trompuda con aguacate, piña y queso" data-alt-en="La Trompuda burger with avocado, pineapple and cheese">
+<img class="hp" data-k="4" src="img/flautas-700.webp" sizes="92vw" width="700" height="525" loading="lazy" decoding="async" alt="Beef flautas topped with queso fresco and cream" data-alt-es="Flautas de res cubiertas de queso fresco y crema" data-alt-en="Beef flautas topped with queso fresco and cream">
+    </div>
+  </div>
+  <div class="hero__bar">
+    <div class="hero__copy">
+      <!-- DATO: frase del hero (ES/EN) -->
+<p class="lead" data-es="Escanea, elige y pide por teléfono: te esperamos con la bolsa lista." data-en="Scan, pick and order by phone: we will have your bag ready.">Escanea, elige y pide por teléfono: te esperamos con la bolsa lista.</p>
+      <div class="cta"><a class="btn btn--amber" data-tel-link><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span data-es="Llamar" data-en="Call">Llamar</span></a><a class="btn btn--line" data-sms="bar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span data-es="Pedir por mensaje" data-en="Order by text">Pedir por mensaje</span></a><a class="lnk" href="#menu"><span data-es="Ver el menú" data-en="See the menu">Ver el menú</span></a></div>
+    </div>
+    <div class="picker" role="group" data-aria-es="Elige un plato" data-aria-en="Pick a dish" aria-label="Pick a dish">
+<!-- DATO: selector de platos. Cada boton .pk: data-nes (nombre ES), data-nen (nombre EN), data-p (precio), aria-label/data-aria-es/en, y la MINIATURA (img interna). Mismo orden que las img.hp -->
+<button class="pk" type="button" data-k="0" data-nes="Tacos al pastor" data-nen="Al pastor tacos" data-p="$15.00" aria-pressed="true" aria-label="Al pastor tacos" data-aria-es="Tacos al pastor" data-aria-en="Al pastor tacos"><img src="img/th-pastor.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="1" data-nes="Tacos del Dr. Ben" data-nen="Dr. Ben's famous tacos" data-p="$17.00" aria-pressed="false" aria-label="Dr. Ben's famous tacos" data-aria-es="Tacos del Dr. Ben" data-aria-en="Dr. Ben's famous tacos"><img src="img/th-drben.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="2" data-nes="Tacos de discada" data-nen="Discada tacos" data-p="$16.00" aria-pressed="false" aria-label="Discada tacos" data-aria-es="Tacos de discada" data-aria-en="Discada tacos"><img src="img/th-discada.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="3" data-nes="La Trompuda" data-nen="La Trompuda burger" data-p="$15.00" aria-pressed="false" aria-label="La Trompuda burger" data-aria-es="La Trompuda" data-aria-en="La Trompuda burger"><img src="img/th-burger.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="4" data-nes="Flautas de res" data-nen="Shredded beef flautas" data-p="$17.00" aria-pressed="false" aria-label="Shredded beef flautas" data-aria-es="Flautas de res" data-aria-en="Shredded beef flautas"><img src="img/th-flautas.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+    </div>
+    <div class="hero__meta" aria-live="polite">
+<!-- DATO: plato inicial mostrado en el selector (nombre ES/EN y precio del plato 0) -->
+<div class="hn is-on"><b id="hnName" data-es="Tacos al pastor" data-en="Al pastor tacos">Tacos al pastor</b><i id="hnPrice">$15.00</i></div>    </div>
+  </div>
+<script>
+/* plato al azar por visita: se decide antes de pintar y no repite el de la visita anterior */
+(function(){
+  var h=document.getElementById('hero'),k=0,last=-1;
+  try{last=+localStorage.getItem('tq-last');}catch(e){}
+  if(/[?&]plate=(\d)/.test(location.search)) k=+RegExp.$1; else {do{k=Math.floor(Math.random()*5);}while(k===last);}
+  try{localStorage.setItem('tq-last',k);}catch(e){}
+  h.setAttribute('data-k',k);
+  var hp=h.querySelectorAll('.hp'),pk=h.querySelectorAll('.pk');
+  for(var i=0;i<hp.length;i++){hp[i].classList.toggle('is-on',i===k);}
+  for(var j=0;j<pk.length;j++){pk[j].setAttribute('aria-pressed',j===k?'true':'false');}
+  var on=hp[k];on.removeAttribute('loading');on.setAttribute('fetchpriority','high');
+  /* entrada orbital también al cargar: el plato arranca oculto (sin animar) hasta que su imagen está decodificada; se dispara una sola vez */
+  var R=document.documentElement;
+  if(R.classList.contains('js')&&!R.classList.contains('rm')){
+    h.classList.add('boot');
+    var rel=function(){if(!h.classList.contains('boot'))return;requestAnimationFrame(function(){requestAnimationFrame(function(){h.classList.remove('boot');});});};
+    var dp=on.decode?on.decode():Promise.resolve();dp.then(rel,rel);setTimeout(rel,2500);
+  }
+  var b=pk[k],n=h.querySelector('#hnName'),pr=h.querySelector('#hnPrice');
+  n.setAttribute('data-es',b.getAttribute('data-nes'));n.setAttribute('data-en',b.getAttribute('data-nen'));n.textContent=b.getAttribute('data-nen');pr.textContent=b.getAttribute('data-p');
+})();
+</script>
+</section>
+
+<div class="menu" id="menu">
+<!-- DATO: plato 1 (Tacos de adobada): palabra gigante .dish__word, imagen .dish__img (src/srcset 700 y 1200, alt ES/EN), h3 nombre ES/EN, descripcion ES/EN, precio .dish__price -->
+<section class="dish d-salsa" data-i="0" style="--r:-9deg">
+  <h2 class="menu__t"><span data-es="El menú" data-en="The menu">El menú</span></h2>
+  <span class="dish__word" aria-hidden="true"><i>PASTOR</i></span>
+  <div class="dish__stage"><img class="dish__img" src="img/pastor-700.webp" sizes="92vw" width="700" height="525" loading="lazy" decoding="async" alt="Basket of al pastor tacos with pineapple, onion and cilantro" data-alt-es="Canasta de tacos al pastor con piña, cebolla y cilantro" data-alt-en="Basket of al pastor tacos with pineapple, onion and cilantro"></div>
+  <div class="dish__info">
+    <h3 data-es="Tacos al pastor" data-en="Al pastor tacos">Tacos al pastor</h3>
+    <p data-es="Cinco tacos en tortilla de maíz o de harina, con frijoles charros." data-en="Five tacos on corn or flour tortillas, with charro beans.">Cinco tacos en tortilla de maíz o de harina, con frijoles charros.</p>
+    <div class="dish__buy"><span class="dish__price">$15.00</span><a class="btn btn--ink" data-sms="dish"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+  </div>
+</section>
+<!-- DATO: plato 2 (Tacos de asada): palabra gigante .dish__word, imagen .dish__img (src/srcset 700 y 1200, alt ES/EN), h3 nombre ES/EN, descripcion ES/EN, precio .dish__price -->
+<section class="dish d-verde" data-i="1" style="--r:8deg">
+  
+  <span class="dish__word" aria-hidden="true"><i>DR. BEN</i></span>
+  <div class="dish__stage"><img class="dish__img" src="img/drben-700.webp" sizes="92vw" width="700" height="525" loading="lazy" decoding="async" alt="Steak tacos with queso fresco and avocado in a basket" data-alt-es="Tacos de bistec con queso fresco y aguacate en canasta" data-alt-en="Steak tacos with queso fresco and avocado in a basket"></div>
+  <div class="dish__info">
+    <h3 data-es="Tacos del Dr. Ben" data-en="Dr. Ben's famous tacos">Tacos del Dr. Ben</h3>
+    <p data-es="Cinco tortillas de maíz con bistec, queso fresco y aguacate, con crema aparte." data-en="Five corn tortillas with steak, queso fresco and sliced avocado, with Mexican cream on the side.">Cinco tortillas de maíz con bistec, queso fresco y aguacate, con crema aparte.</p>
+    <div class="dish__buy"><span class="dish__price">$17.00</span><a class="btn btn--ink" data-sms="dish"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+  </div>
+</section>
+<!-- DATO: plato 3 (Caldo rojo): palabra gigante .dish__word, imagen .dish__img (src/srcset 700 y 1200, alt ES/EN), h3 nombre ES/EN, descripcion ES/EN, precio .dish__price -->
+<section class="dish d-crema" data-i="2" style="--r:-12deg">
+  
+  <span class="dish__word" aria-hidden="true"><i>DISCADA</i></span>
+  <div class="dish__stage"><img class="dish__img" src="img/discada-700.webp" sizes="92vw" width="700" height="525" loading="lazy" decoding="async" alt="Discada tacos with cilantro on newspaper paper" data-alt-es="Tacos de discada con cilantro sobre papel de periódico" data-alt-en="Discada tacos with cilantro on newspaper paper"></div>
+  <div class="dish__info">
+    <h3 data-es="Tacos de discada" data-en="Discada tacos">Tacos de discada</h3>
+    <p data-es="Cinco tacos con cilantro, cebolla, limones y cebollitas asadas, con frijoles charros." data-en="Five tacos with cilantro, onion, limes and grilled onions, with charro beans.">Cinco tacos con cilantro, cebolla, limones y cebollitas asadas, con frijoles charros.</p>
+    <div class="dish__buy"><span class="dish__price">$16.00</span><a class="btn btn--ink" data-sms="dish"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+  </div>
+</section>
+<!-- DATO: plato 4 (Burrito de carne): palabra gigante .dish__word, imagen .dish__img (src/srcset 700 y 1200, alt ES/EN), h3 nombre ES/EN, descripcion ES/EN, precio .dish__price -->
+<section class="dish d-maiz" data-i="3" style="--r:11deg">
+  
+  <span class="dish__word" aria-hidden="true"><i>TROMPUDA</i></span>
+  <div class="dish__stage"><img class="dish__img" src="img/burger-700.webp" sizes="92vw" width="700" height="525" loading="lazy" decoding="async" alt="La Trompuda burger with avocado, pineapple and cheese" data-alt-es="Hamburguesa La Trompuda con aguacate, piña y queso" data-alt-en="La Trompuda burger with avocado, pineapple and cheese"></div>
+  <div class="dish__info">
+    <h3 data-es="La Trompuda" data-en="La Trompuda burger">La Trompuda</h3>
+    <p data-es="Hamburguesa de res con queso, piña asada, pastor y aguacate. Con papas." data-en="Beef burger with cheese, grilled pineapple, al pastor and avocado. Served with fries.">Hamburguesa de res con queso, piña asada, pastor y aguacate. Con papas.</p>
+    <div class="dish__buy"><span class="dish__price">$15.00</span><a class="btn btn--ink" data-sms="dish"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+  </div>
+</section>
+<!-- DATO: plato 5 (Quesabirria): palabra gigante .dish__word, imagen .dish__img (src/srcset 700 y 1200, alt ES/EN), h3 nombre ES/EN, descripcion ES/EN, precio .dish__price -->
+<section class="dish d-birria" data-i="4" style="--r:-8deg">
+  
+  <span class="dish__word" aria-hidden="true"><i>FLAUTAS</i></span>
+  <div class="dish__stage"><img class="dish__img" src="img/flautas-700.webp" sizes="92vw" width="700" height="525" loading="lazy" decoding="async" alt="Beef flautas topped with queso fresco and cream" data-alt-es="Flautas de res cubiertas de queso fresco y crema" data-alt-en="Beef flautas topped with queso fresco and cream"></div>
+  <div class="dish__info">
+    <h3 data-es="Flautas de res" data-en="Shredded beef flautas">Flautas de res</h3>
+    <p data-es="Cinco flautas de res deshebrada con salsa de aguacate, lechuga, queso fresco y crema." data-en="Five shredded beef flautas with avocado sauce, lettuce, queso fresco and Mexican cream.">Cinco flautas de res deshebrada con salsa de aguacate, lechuga, queso fresco y crema.</p>
+    <div class="dish__buy"><span class="dish__price">$17.00</span><a class="btn btn--ink" data-sms="dish"><span data-es="Pedir" data-en="Order">Pedir</span></a></div>
+  </div>
+</section>
+  <!-- DATO: nota bajo el menu (ES/EN); quitar "Precios de ejemplo" si los precios son reales -->
+<p class="menu__note" data-es="Precios de la carta en línea (Toast), consultados el 2 de nov. de 2026; pueden cambiar. Pregunta por alergias o por menos picante." data-en="Prices from the online menu (Toast), checked Nov 2, 2026; they may change. Ask about allergies or milder salsa.">Precios de la carta en línea (Toast), consultados el 2 de nov. de 2026; pueden cambiar. Pregunta por alergias o por menos picante.</p>
+</div>
+
+<section class="today" id="hoy" aria-label="Today" data-aria-es="Hoy" data-aria-en="Today">
+  <div class="today__in">
+    <p class="today__tag"><span data-es="HOY" data-en="TODAY">HOY</span></p>
+    <p class="today__state" id="todayState" role="status"><i aria-hidden="true"></i><span id="todayText">…</span></p>
+  </div>
+</section>
+
+<section class="hrs" id="horario" aria-labelledby="hrsT">
+  <div class="hrs__in">
+    <div class="hrs__l">
+      <h2 id="hrsT"><span class="ln" data-es="HORARIO" data-en="HOURS">HORARIO</span></h2>
+      <div class="hours">
+        <table>
+          <!-- DATO: horario semanal. Cada <tr data-d=0-6> (0 domingo): hora de apertura/cierre en <td>; "off" si cierra ese dia -->
+<caption class="sr" data-es="Horario semanal" data-en="Weekly hours">Horario semanal</caption>
+          <tbody id="hrsBody">
+<tr data-d="1"><th scope="row" data-es="Lunes" data-en="Monday">Lunes</th><td>11 am – 9 pm</td></tr>
+<tr data-d="2"><th scope="row" data-es="Martes" data-en="Tuesday">Martes</th><td>11 am – 10 pm</td></tr>
+<tr data-d="3"><th scope="row" data-es="Miércoles" data-en="Wednesday">Miércoles</th><td>11 am – 10 pm</td></tr>
+<tr data-d="4"><th scope="row" data-es="Jueves" data-en="Thursday">Jueves</th><td>11 am – 10 pm</td></tr>
+<tr data-d="5"><th scope="row" data-es="Viernes" data-en="Friday">Viernes</th><td>11 am – 10 pm</td></tr>
+<tr data-d="6"><th scope="row" data-es="Sábado" data-en="Saturday">Sábado</th><td>11 am – 10 pm</td></tr>
+<tr data-d="0"><th scope="row" data-es="Domingo" data-en="Sunday">Domingo</th><td>12 pm – 9 pm</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mcall" aria-labelledby="callT">
+  <h2 id="callT"><span class="ln" data-es="PIDE" data-en="CALL">PIDE</span><span class="ln" data-es="AHORA" data-en="NOW">AHORA</span></h2>
+  <!-- DATO: direccion del negocio -->
+<address>2701 N Grandview Ave, Odessa, TX 79762</address>
+  <div class="cta"><a class="btn btn--amber" data-tel-link><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><!-- DATO: telefono visible "(432) 555-0174" (ES y EN); el href sale de data-tel del body -->
+  <span data-es="Llama: (432) 272-1056" data-en="Call: (432) 272-1056">Llama: (432) 272-1056</span></a><a class="btn btn--line" data-sms="bar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span data-es="Pedir por mensaje" data-en="Order by text">Pedir por mensaje</span></a></div>
+</section>
+</main>
+<!-- DATO: texto de pie (ES/EN): aviso de demo y nombre del negocio -->
+<footer>
+  <div class="foot__in">
+    <p data-es="Demo preparada por Permian Local para Taqueria Reynosa. Fotos públicas de clientes en Yelp; se sustituyen por las del negocio. No es un sitio oficial." data-en="Demo prepared by Permian Local for Taqueria Reynosa. Public customer photos from Yelp; to be replaced with the restaurant's own. Not an official site.">Demo preparada por Permian Local para Taqueria Reynosa. Fotos públicas de clientes en Yelp; se sustituyen por las del negocio. No es un sitio oficial.</p>
+    <p class="foot__url"><a href="https://permianlocalseo.com">permianlocalseo.com</a></p>
+  </div>
+</footer>
+<!-- DATO: cinta fija inferior "Sitio demo de Permian Local" (ES/EN) -->
+<div class="ribbon" role="note">
+  <a href="https://permianlocalseo.com" data-es="Sitio demo de Permian Local · permianlocalseo.com" data-en="Demo site by Permian Local · permianlocalseo.com">Sitio demo de Permian Local · permianlocalseo.com</a>
+</div>
+<script>
+/* mesa + pedido por mensaje. Telefono: data-tel en <body>. Mesa: ?mesa=N o ?table=N */
+(function(){
+  var TEL=document.body.getAttribute('data-tel')||'', mesa='';
+  try{var q=new URLSearchParams(location.search), m=q.get('mesa')||q.get('table')||''; if(/^[A-Za-z0-9-]{1,4}$/.test(m)) mesa=m;}catch(e){}
+  var chip=document.getElementById('mesaChip');
+  if(mesa&&chip){chip.setAttribute('data-es','Mesa '+mesa);chip.setAttribute('data-en','Table '+mesa);chip.textContent='Mesa '+mesa;chip.hidden=false;}
+  function L(){return window.__tqLang==='en'?'en':'es';}
+  function sms(text){return 'sms:'+TEL+'?&body='+encodeURIComponent(text);}
+  function refresh(l){
+    l=l||L();
+    var pre=mesa?((l==='en'?'Table ':'Mesa ')+mesa+' · '):'';
+    document.querySelectorAll('[data-tel-link]').forEach(function(a){a.setAttribute('href','tel:'+TEL);});
+    document.querySelectorAll('[data-sms]').forEach(function(a){
+      var t;
+      if(a.getAttribute('data-sms')==='dish'){
+        var h=a.closest('.dish').querySelector('h3');
+        t=pre+'1x '+h.getAttribute('data-'+l);
+      }else{
+        t=pre+(l==='en'?'I would like to order':'Quiero hacer un pedido');
+      }
+      a.setAttribute('href',sms(t));
+    });
+  }
+  document.addEventListener('tqlang',function(e){refresh(e.detail);});
+  refresh();
+})();
+</script>
+<script>
+/* idioma ES/EN: español por defecto; la elección se guarda */
+(function(){
+  var KEY='rey-lang1', btn=document.getElementById('lang'), lang='es';
+  try{var s=localStorage.getItem(KEY); lang=(s==='en'||s==='es')?s:'es';}catch(e){lang='es';}
+  var T={
+    /* DATO: nombre del negocio en el titulo ES/EN y descripcion meta ES/EN */
+    title:{es:'Taqueria Reynosa · Menú',en:'Taqueria Reynosa · Menu'},
+    desc:{es:'Menú, precios, horario y teléfono de Taqueria Reynosa, Odessa TX. Demo de Permian Local.',en:'Menu, prices, hours and phone of Taqueria Reynosa, Odessa TX. Demo by Permian Local.'},
+    toggle:{es:['EN','Switch to English'],en:['ES','Cambiar a español']}
+  };
+  function apply(l){
+    lang=l; window.__tqLang=l; document.documentElement.lang=l;
+    document.querySelectorAll('[data-es]').forEach(function(el){var v=el.getAttribute('data-'+l); if(v!==null) el.textContent=v;});
+    document.querySelectorAll('[data-alt-es]').forEach(function(el){el.setAttribute('alt',el.getAttribute('data-alt-'+l));});
+    document.querySelectorAll('[data-aria-es]').forEach(function(el){el.setAttribute('aria-label',el.getAttribute('data-aria-'+l));});
+    document.title=T.title[l];
+    var m=document.querySelector('meta[name=description]'); if(m) m.setAttribute('content',T.desc[l]);
+    btn.textContent=T.toggle[l][0]; btn.setAttribute('aria-label',T.toggle[l][1]);
+    document.dispatchEvent(new CustomEvent('tqlang',{detail:l}));
+  }
+  btn.addEventListener('click',function(){var n=lang==='es'?'en':'es'; try{localStorage.setItem(KEY,n);}catch(e){} apply(n);});
+  window.__tqLang=lang; window.__tqApply=apply;
+})();
+
+/* franja "Hoy": hora de Odessa (America/Chicago), resalta la fila del día */
+(function(){
+  var box=document.getElementById('todayState'),txt=document.getElementById('todayText'),rows=document.querySelectorAll('#hrsBody tr');
+  /* DATO: horario para la franja "Hoy": OPEN/CLOSE en horas 0-24 (debe coincidir con la tabla de horario y los dias cerrados) */
+  var OPEN=[12,11,11,11,11,11,11],CLOSE=[21,21,22,22,22,22,22],MAP={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+  function now(){
+    try{
+      var p=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',weekday:'short',hour:'numeric',minute:'numeric',hourCycle:'h23'}).formatToParts(new Date()),o={};
+      p.forEach(function(x){o[x.type]=x.value;});
+      return {d:MAP[o.weekday],h:(+o.hour)+(+o.minute)/60};
+    }catch(e){var n=new Date();return {d:n.getDay(),h:n.getHours()+n.getMinutes()/60};}
+  }
+  function hh(h){return (h>12?h-12:h)+(h>=12?' pm':' am');}
+  var S={
+    es:{open:function(c){return 'Abierto hasta las '+hh(c);},early:function(o){return 'Cerrado ahora · Abrimos a las '+hh(o);},late:function(o){return 'Cerrado ahora · Abrimos mañana a las '+hh(o);}},
+    en:{open:function(c){return 'Open until '+hh(c);},early:function(o){return 'Closed now · We open at '+hh(o);},late:function(o){return 'Closed now · We open tomorrow at '+hh(o);}}
+  };
+  function status(d,h){
+    if(h>=OPEN[d]&&h<CLOSE[d]) return {k:'open',v:CLOSE[d],open:true};
+    if(h<OPEN[d]) return {k:'early',v:OPEN[d],open:false};
+    return {k:'late',v:OPEN[(d+1)%7],open:false};
+  }
+  function render(){
+    var n=now(),l=window.__tqLang||'es',s=status(n.d,n.h);
+    txt.textContent=S[l][s.k](s.v); box.classList.toggle('off',!s.open);
+    rows.forEach(function(r){r.classList.toggle('now',+r.getAttribute('data-d')===n.d);});
+  }
+  window.__tqToday={status:function(d,h,l){var r=status(d,h);return S[l||'es'][r.k](r.v);}};
+  document.addEventListener('tqlang',render);
+  window.__tqApply(window.__tqLang);
+  setInterval(render,60000);
+})();
+
+/* progreso de lectura */
+(function(){
+  var bar=document.getElementById('progress'),tick=false;
+  function upd(){tick=false;var h=document.documentElement.scrollHeight-innerHeight;bar.style.transform='scaleX('+(h>0?Math.min(1,scrollY/h):0)+')';}
+  addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});upd();
+})();
+
+/* hero: selector de platos (cambia plato, nombre, precio y acento sin mover el layout) */
+(function(){
+  var hero=document.getElementById('hero'),pks=[].slice.call(hero.querySelectorAll('.pk')),hps=[].slice.call(hero.querySelectorAll('.hp')),hns=[];
+  var meta=hero.querySelector('.hn'),nm=document.getElementById('hnName'),pr=document.getElementById('hnPrice'),mt=0;
+  function setMeta(b){
+    var l=window.__tqLang==='es'?'es':'en';
+    nm.setAttribute('data-es',b.getAttribute('data-nes'));nm.setAttribute('data-en',b.getAttribute('data-nen'));
+    nm.textContent=b.getAttribute('data-n'+l);pr.textContent=b.getAttribute('data-p');
+  }
+  function pick(k){
+    hero.classList.remove('boot');
+    hero.setAttribute('data-k',k);
+    pks.forEach(function(b,i){b.setAttribute('aria-pressed',i===k?'true':'false');});
+    hps[k].loading='eager';
+    hps.forEach(function(el,i){el.classList.toggle('is-on',i===k);});
+    clearTimeout(mt);meta.classList.remove('is-on');
+    mt=setTimeout(function(){setMeta(pks[k]);meta.classList.add('is-on');},160);
+  }
+  pks.forEach(function(b,i){b.addEventListener('click',function(){pick(i);});});
+  /* humo: parallax leve con el ratón (solo con puntero fino y movimiento permitido) */
+  if(!document.documentElement.classList.contains('rm')&&matchMedia('(hover:hover)').matches){
+    var layers=[].slice.call(hero.querySelectorAll('.smoke__p'));
+    hero.addEventListener('pointermove',function(ev){
+      var r=hero.getBoundingClientRect(),mx=(ev.clientX-r.left)/r.width-.5,my=(ev.clientY-r.top)/r.height-.5;
+      layers.forEach(function(l){var d=+l.getAttribute('data-d');l.style.transform='translate('+(mx*d*2).toFixed(1)+'px,'+(my*d*2).toFixed(1)+'px)';});
+    });
+  }
+})();
+
+
+
+/* menú: una entrada distinta por plato (sin paradas de scroll en el móvil). Web Animations API: sin librerías */
+(function(){
+  var root=document.documentElement;
+  if(root.classList.contains('rm')||!('IntersectionObserver' in window)||!document.documentElement.animate){root.classList.add('rm');return;}
+  var OUT='cubic-bezier(.16,1,.3,1)',IN='cubic-bezier(.55,0,1,.45)',EO='cubic-bezier(.22,1,.36,1)',EX='cubic-bezier(.19,1,.22,1)';
+  function go(el,kf,dur,delay,origin){
+    if(origin)el.style.transformOrigin=origin;
+    var a=el.animate(kf,{duration:dur,delay:delay||0,fill:'both'});
+    a.onfinish=function(){el.style.opacity='1';};
+    return a;
+  }
+  /* entradas del menú: ~850 ms cada una; la 5.ª (quesabirria) ya no cae de arriba: llega deslizando desde la derecha con giro y arco y se posa */
+  var ENT=[
+    function(st,wi){go(st,[{opacity:0,transform:'scale(.55)'},{opacity:1,transform:'scale(1)'}],850,0,'50% 50%');go(wi,[{opacity:0,transform:'translateX(-115%)'},{opacity:1,transform:'none'}],850,0);},
+    function(st,wi){go(st,[{opacity:0,transform:'translateX(-100vw)'},{opacity:1,transform:'none'}],850,0);go(wi,[{opacity:0,transform:'translateX(115%)'},{opacity:1,transform:'none'}],900,40);},
+    function(st,wi){go(st,[{opacity:0,transform:'translateY(105%)'},{opacity:1,transform:'none'}],850,0);go(wi,[{opacity:0,transform:'translateY(40%)'},{opacity:1,transform:'none'}],700,120);},
+    function(st,wi){go(st,[{opacity:0,transform:'translateY(-125%)',offset:0,easing:IN},{opacity:1,transform:'translateY(0)',offset:.5,easing:EO},{transform:'translateY(-7%)',offset:.64,easing:IN},{transform:'translateY(0)',offset:.78,easing:EO},{transform:'translateY(-2%)',offset:.89,easing:IN},{transform:'translateY(0)',offset:1}],850,0);go(wi,[{opacity:0,transform:'translateY(-60%)'},{opacity:1,transform:'none'}],600,100);},
+    function(st,wi){go(st,[{opacity:0,transform:'translate(62vw,-5vh) rotate(15deg)',offset:0},{opacity:1,transform:'translate(18vw,-2vh) rotate(5deg)',offset:.35},{opacity:1,transform:'none',offset:1}],900,0,'60% 70%');
+      go(wi,[{opacity:0,transform:'scale(.8)'},{opacity:1,transform:'none'}],800,120);}
+  ];
+  /* sin paradas en táctil: la entrada se lanza cuando el plato ocupa el centro de la pantalla, se repite cada vez que se vuelve a pasar y se oculta al salir */
+  var dishes=[].slice.call(document.querySelectorAll('.dish')),shown=[],ZERO=[];
+  function parts(d){return [d.querySelector('.dish__stage'),d.querySelector('.dish__word i'),d.querySelector('.dish__info')];}
+  function showD(i){
+    if(shown[i])return;shown[i]=true;var d=dishes[i],p=parts(d);
+    ENT[i](p[0],p[1]);go(p[2],[{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'none'}],600,300);
+  }
+  function hideD(i){
+    if(!shown[i])return;shown[i]=false;
+    parts(dishes[i]).forEach(function(el){el.getAnimations().forEach(function(a){a.cancel();});el.style.opacity='';el.style.transformOrigin='';});
+  }
+  var tick=false;
+  function state(){
+    tick=false;var vh=innerHeight;
+    dishes.forEach(function(d,i){
+      var r=d.getBoundingClientRect();
+      if(r.top>=vh-2||r.bottom<=70){hideD(i);return;}
+      if(!shown[i]&&r.top<=vh*.5&&r.bottom>=vh*.5)showD(i);
+    });
+  }
+  dishes.forEach(function(d,i){shown[i]=false;});
+  addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(state);}},{passive:true});
+  addEventListener('resize',state);
+  state();
+  /* cifras: el 12 desde la izquierda, el 15 desde la derecha, el 3 desde abajo, con contador; al entrar la sección al 40 %, ~900 ms, y se repite al volver a entrar */
+  (function(){
+    var sec=document.querySelector('.nums');if(!sec)return;
+    var cfg=[].slice.call(sec.querySelectorAll('.nm')).map(function(li){
+      var f=li.getAttribute('data-from'),cnt=li.querySelector('.cnt');
+      return {li:li,cnt:cnt,to:+cnt.getAttribute('data-to'),raf:0,from:f==='l'?'translateX(-100vw)':f==='r'?'translateX(100vw)':'translateY(190px)'};
+    });
+    var on=false;
+    function reset(){on=false;cfg.forEach(function(c){cancelAnimationFrame(c.raf);c.li.getAnimations().forEach(function(a){a.cancel();});c.li.style.opacity='';c.cnt.textContent='0';});}
+    function play(){
+      if(on)return;on=true;
+      cfg.forEach(function(c,i){
+        c.cnt.textContent='0';
+        go(c.li,[{opacity:0,transform:c.from},{opacity:1,transform:'none'}],900,i*60);
+        var t0=performance.now()+i*60;(function tk(t){var p=Math.max(0,Math.min(1,(t-t0)/900));c.cnt.textContent=String(Math.round(c.to*(1-Math.pow(1-p,2))));if(p<1)c.raf=requestAnimationFrame(tk);})(performance.now());
+      });
+    }
+    cfg.forEach(function(c){c.cnt.textContent='0';});
+    var ioPlay=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting&&en.intersectionRect.height>=Math.min(en.boundingClientRect.height,innerHeight)*.4)play();});},{threshold:[.1,.2,.3,.4,.5,.6]});
+    var ioReset=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)reset();});},{threshold:0});
+    ioPlay.observe(sec);ioReset.observe(sec);
+  })();
+})();
+</script>
+</body>
+</html>
