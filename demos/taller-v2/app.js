@@ -23,11 +23,11 @@
 
   /* ---------- secuencia de fotogramas de la camioneta (canvas) ----------
      Fotogramas ../taller/video/motor/0005..0064, un fotograma por trabajo (mismo orden que las lineas de la orden):
-     Frenos 0026 (rueda delantera de perfil) | Diagnostico 0064 (capo abierto) | A/C 0038 (frontal, parrilla) |
+     Frenos 0020 (rueda trasera, 3/4 trasero) | Diagnostico 0064 (capo abierto) | A/C 0038 (frontal, parrilla) |
      Alineacion 0018 (lateral, rueda delantera) | Aceite 0022 (lateral, camara baja, bajos) | Inspeccion 0035 (frontal, parabrisas).
      En la pantalla anclada el fotograma sigue al scroll, pero la imagen mostrada persigue al objetivo como mucho
      2 indices por tick y NUNCA dibuja un fotograma que no este cargado (antes se pintaba el vecino: parpadeo). */
-  var FR={first:5,last:64,stops:[26,64,38,18,22,35]};
+  var FR={first:5,last:64,stops:[20,64,38,18,22,35]};
   var seq=(function(){
     var cv=$('#seqCv'), img=$('#seqImg'), ctx=cv.getContext('2d');
     var small=matchMedia('(max-width:699px)').matches;

@@ -311,71 +311,102 @@
     }
   })();
 
-  /* ---------- panel: secuencias de fotogramas en UN canvas; el scroll avanza y se PARA en cada hotspot ---------- */
+  /* ---------- panel: secuencias de fotogramas en UN canvas; el scroll avanza y se PARA en cada hotspot ----------
+     Misma mecanica que el taller v2: la imagen mostrada persigue al objetivo (indice decimal) como mucho 2 indices por tick
+     y SOLO por fotogramas ya cargados; nunca se dibuja uno sin cargar ni se sustituye por el vecino (antes: parpadeo).
+     El hotspot se marca cuando la imagen HA LLEGADO al fotograma de parada, no por el progreso del scroll. */
   (function () {
     var track = $('#pnTrack'), cv = $('#pnCv'); if (!track || !cv) return;
     var ctx = cv.getContext('2d', { alpha: false });
     var CNT = { caja: 64, breaker: 72, varilla: 72 };
     /* cada parada: de que fotograma a cual (el ultimo es donde se queda) */
     var STOPS = [{ set: 'caja', a: 0, b: 12 }, { set: 'caja', a: 12, b: 46 }, { set: 'breaker', a: 0, b: 71 }, { set: 'varilla', a: 0, b: 38 }];
-    var imgs = {}, st = {}, queue = [], started = false, drawnKey = '', dirty = true, raf = 0, want = { set: 'caja', i: 0 }, lastSet = 'caja', arrived = true, curStop = -1;
+    var TRAVEL = .5;
+    var imgs = {}, st = {}, queue = [], started = false, kicked = false, gen = 0, cw = 0, ch = 0, dirty = true, shownKey = '';
+    var cur = { set: 'caja', f: 0, stop: 0 }, arrived = false, T = { i: 0, set: 'caja', f: 0, hold: true };
     function dir(set) { return FR + set + (small.matches ? '-720' : ''); }
     function key(set, i) { return set + i; }
+    function ok(set, i) { return st[key(set, i)] === 2; }
     function load(set, i) {
       var k = key(set, i); if (st[k]) return; st[k] = 1;
-      var im = new Image(); im.decoding = 'async'; imgs[k] = im;
-      function ok() { st[k] = 2; if (want.set === set) schedule(); }
-      im.onload = function () { if (im.decode) im.decode().then(ok, ok); else ok(); };
-      im.onerror = function () { st[k] = 3; };
+      var g = gen, im = new Image(); im.decoding = 'async'; imgs[k] = im;
+      function done() { if (g === gen) { st[k] = 2; if (cur.set === set && Math.round(cur.f) === i) dirty = true; } }
+      im.onload = function () { if (im.decode) im.decode().then(done, done); else done(); };
+      im.onerror = function () { if (g === gen) st[k] = 3; };
       im.src = dir(set) + '/f' + pad3(i) + '.webp';
     }
-    function nearest(set, i) {
-      for (var a = i; a >= 0; a--) if (st[key(set, a)] === 2) return a;
-      for (var b = i + 1; b < CNT[set]; b++) if (st[key(set, b)] === 2) return b;
-      return -1;
-    }
-    function build() { /* orden de carga: fotogramas de parada primero, luego el resto en orden de uso */
+    function build() { /* orden de carga: fotogramas de parada primero, luego el resto de cada tramo en orden de uso */
       var seen = {}; function add(set, i) { var k = key(set, i); if (!seen[k]) { seen[k] = 1; queue.push([set, i]); } }
       STOPS.forEach(function (s) { add(s.set, s.a); add(s.set, s.b); });
       STOPS.forEach(function (s) { for (var i = s.a; i <= s.b; i++) add(s.set, i); });
     }
-    function pump() { var n = 0; while (queue.length && n < 4) { var q = queue.shift(); if (!st[key(q[0], q[1])]) { load(q[0], q[1]); n++; } } if (queue.length) setTimeout(pump, 80); }
-    function start() { if (started) return; started = true; build(); setTimeout(pump, 20); }
+    function pump() { var c = 0; while (queue.length && c < 6) { var q = queue.shift(); if (!st[key(q[0], q[1])]) { load(q[0], q[1]); c++; } } if (queue.length) setTimeout(pump, 60); }
+    function start() { if (started) return; started = true; build(); pump(); }
+    /* tamano del canvas: se fija aqui, solo cuando cambia el tamano real (ResizeObserver / cambio de pantalla) */
     function size() {
       var dpr = Math.min(window.devicePixelRatio || 1, 2), w = Math.round(cv.clientWidth * dpr), h = Math.round(cv.clientHeight * dpr);
-      if (!w || !h) return false; if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; dirty = true; } return true;
+      if (w && h && (w !== cw || h !== ch)) { cw = w; ch = h; cv.width = w; cv.height = h; dirty = true; }
     }
     function draw() {
-      raf = 0; if (!size()) return;
-      var set = want.set, i = clamp(Math.round(want.i), 0, CNT[set] - 1); if (!st[key(set, i)]) load(set, i);
-      var f = nearest(set, i); if (f < 0) return;
-      var k = key(set, f); if (k === drawnKey && !dirty) return;
-      var im = imgs[k], iw = im.naturalWidth, ih = im.naturalHeight, w = cv.width, h = cv.height; if (!iw) return;
-      var sc = Math.max(w / iw, h / ih), dw = iw * sc, dh = ih * sc;
-      ctx.drawImage(im, (w - dw) / 2, (h - dh) / 2, dw, dh); drawnKey = k; dirty = false;
+      var n = clamp(Math.round(cur.f), 0, CNT[cur.set] - 1), k = key(cur.set, n);
+      if (!ok(cur.set, n) || !cw) return;
+      if (k === shownKey && !dirty) return;
+      var im = imgs[k], iw = im.naturalWidth, ih = im.naturalHeight; if (!iw) return;
+      var sc = Math.max(cw / iw, ch / ih), dw = iw * sc, dh = ih * sc;
+      ctx.drawImage(im, (cw - dw) / 2, (ch - dh) / 2, dw, dh); shownKey = k; dirty = false;
       if (!cv.classList.contains('is-ready')) cv.classList.add('is-ready');
     }
-    function schedule() { if (!raf) raf = requestAnimationFrame(draw); }
-    if (window.ResizeObserver) new ResizeObserver(function () { dirty = true; schedule(); }).observe(cv);
-    if (small.addEventListener) small.addEventListener('change', function () { imgs = {}; st = {}; queue = []; started = false; drawnKey = ''; dirty = true; start(); });
-
-    var ST = ScrollTrigger.create({
-      trigger: track, start: function () { return 'top top+=' + HH(); }, end: 'bottom bottom',
-      onUpdate: function (self) {
-        var p = clamp(self.progress, 0, .9999) * 4, i = Math.floor(p), u = p - i, S = STOPS[i], m = clamp(u / .5, 0, 1);
-        want.set = S.set; want.i = S.a + (S.b - S.a) * m;
-        if (S.set !== lastSet) { lastSet = S.set; gsap.fromTo(cv, { opacity: .15 }, { opacity: 1, duration: .35, ease: 'power2.out', overwrite: true }); }
-        panel.set(i); var ar = m >= 1; if (ar !== arrived) { arrived = ar; panel.arrive(ar); }
-        schedule();
+    /* avanza hacia el objetivo (indice decimal), maximo 2 indices por tick y solo por fotogramas ya cargados */
+    function chase(target) {
+      var d = target - cur.f; if (Math.abs(d) < .001) return;
+      var step = clamp(d * .35, -2, 2);
+      if (Math.abs(step) < .25) step = d < 0 ? -Math.min(.25, -d) : Math.min(.25, d);
+      var nf = cur.f + step, n = Math.round(nf), c = Math.round(cur.f);
+      if (n !== c) {
+        var dr = n > c ? 1 : -1;
+        for (var k = c + dr; k !== n + dr; k += dr) { if (!ok(cur.set, k)) { nf = k - dr; break; } }
       }
-    });
-    ScrollTrigger.create({ trigger: track, start: 'top bottom+=1400', once: true, onEnter: start });
-    if (ST.progress > 0) start();
-    panel.set(0); panel.arrive(true);
-    function go(i) { scrollToY(ST.start + (ST.end - ST.start) * ((i + .75) / 4)); }
+      cur.f = nf; draw();
+    }
+    function target(p) {
+      var s = clamp(p, 0, .9999) * 4, i = Math.floor(s), u = s - i, S = STOPS[i];
+      if (u >= TRAVEL) return { i: i, set: S.set, f: S.b, hold: true };
+      var k = u / TRAVEL; k = k * k * (3 - 2 * k);
+      return { i: i, set: S.set, f: S.a + (S.b - S.a) * k, hold: false };
+    }
+    function tick() {
+      if (!cw) { size(); if (!cw) return; }
+      if (dirty) draw();
+      T = target(ST.progress);
+      if (T.set !== cur.set) { /* cambio de secuencia: se entra por el extremo mas cercano (si ya esta cargado) y se funde la opacidad */
+        var e = T.i > cur.stop ? STOPS[T.i].a : STOPS[T.i].b;
+        if (!ok(T.set, e)) { return; }
+        cur.set = T.set; cur.f = e; draw();
+        gsap.fromTo(cv, { opacity: .15 }, { opacity: 1, duration: .35, ease: 'power2.out', overwrite: true });
+      }
+      cur.stop = T.i;
+      chase(T.f);
+      var ar = T.hold && Math.abs(cur.f - T.f) < .5;
+      if (ar) panel.set(T.i);
+      if (ar !== arrived) { arrived = ar; panel.arrive(ar); }
+    }
+    if (window.ResizeObserver) new ResizeObserver(size).observe(cv); else addEventListener('resize', size);
+    if (small.addEventListener) small.addEventListener('change', function () { gen++; imgs = {}; st = {}; queue = []; started = false; shownKey = ''; dirty = true; size(); load(cur.set, Math.round(cur.f)); if (kicked) start(); });
+
+    var ST = ScrollTrigger.create({ trigger: track, start: function () { return 'top top+=' + HH(); }, end: 'bottom bottom' });
+    /* los fotogramas empiezan a bajar con la primera intencion de scroll; el primero se pide ya para que el canvas no nazca vacio */
+    var evs = ['wheel', 'touchstart', 'keydown', 'scroll'];
+    function kick() { if (kicked) return; kicked = true; start(); evs.forEach(function (ev) { removeEventListener(ev, kick); }); }
+    evs.forEach(function (ev) { addEventListener(ev, kick, { passive: true }); });
+    load('caja', 0); size();
+    if (ST.progress > 0) kick();
+    panel.set(0); panel.arrive(false); /* hasta que la imagen llegue a la parada no hay hotspot */
+    gsap.ticker.add(tick);
+    function go(i) { scrollToY(ST.start + (ST.end - ST.start) * ((i + TRAVEL + .25) / 4)); }
     panel.bind(go);
     gsap.fromTo('#pnStage', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1, ease: 'power3.inOut', scrollTrigger: { trigger: '#pnTrack', start: 'top 85%', once: true } });
-    window.__pn = { st: ST, want: want };
+    window.__pn = { st: ST, get shown() { return cur.f; }, get set() { return cur.set; }, get target() { return T.f; }, get hold() { return T.hold; }, get arrived() { return arrived; },
+      get loaded() { var c = 0; for (var k in st) if (st[k] === 2) c++; return c; } };
   })();
 
   /* ---------- zona: mapa real (teselas OSM); la ruta se dibuja con el scroll y los pueblos se encienden ---------- */
