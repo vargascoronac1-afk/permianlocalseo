@@ -25,3 +25,13 @@ Todas de Unsplash (Unsplash License; la página de cada foto dice "Foto gratuita
 | (sin uso, solo textura probada) | https://unsplash.com/photos/EkV07zka3J8 | gustavo nacht | Tela roja de otra foto, probada y descartada por estar desenfocada. |
 
 Sin uso desde la v4 (siguen en la carpeta): `quesabirria-plato-*`, `burrito-servilleta-*`, `th-*-plato/servilleta`, `ing-carne-cuchara`, `ing-salsa` (tomatillos), `ing-cebolla`.
+
+# Créditos de fotos nuevas, taquería v5 (2026-11-01)
+
+Unsplash License (foto libre, no Unsplash+). Descargada de images.unsplash.com el 2026-11-01.
+
+| Fichero | Origen | Autor | Notas |
+|---|---|---|---|
+| `burrito-tabla-1200.webp`, `-700.webp`, `th-burrito-tabla.webp` | https://unsplash.com/photos/a-cut-in-half-sandwich-sitting-on-top-of-a-cutting-board-xq04aTV-LVk (foto id photo-1719282431723-9d0f4370d4bc) | Bayuaji Abiyu (@bayuajiabiyu) | Burrito de carne cortado por la mitad sobre una tabla de madera real, sobre fondo negro. Recorte por clave de color (fondo negro) más limpieza; sin composición dibujada. Se quitó la lechuga suelta del borde inferior derecho. Sustituye a `burrito-rojo-*` (v4), que queda sin uso junto con `burrito-servilleta-*`. |
+
+Candidatas descartadas: https://unsplash.com/photos/two-burritos-on-a-plate-with-a-side-of-green-beans-W2SA9Pcq08Q (Alimentos Fotogénicos; plato de barro, birefnet lo borra y deja burrito + aguacate) y https://unsplash.com/photos/a-burrito-sitting-on-a-wooden-plate-KlOk50JUXwQ (Snappr; fondo con vasos y totopos, recorte sucio).

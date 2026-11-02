@@ -19,3 +19,5 @@ No se ha añadido ninguna foto nueva: todas estaban ya en el repositorio y con l
 Tipografías (Google Fonts, SIL OFL): Barlow Condensed y Albert Sans.
 
 Secuencia de la camioneta (ronda 2): se lee de ../taller/video/motor/ y motor600/ (órbita Seedance 2.0 generada por el director, recorte birefnet-general; ver demos/taller/video/NOTAS.md). Foto base: Andrew LaBonne, Pexels.
+
+Ronda 3: paleta roja del taller v1 (../taller/index.html: --red #c0321b, --red-dark #a02914, --glow #e0361a, --red-deep #3f0f09, --black #0d0a08, --light #e9e5df). Fotogramas por trabajo de la orbita: 0026 frenos, 0064 diagnostico, 0038 A/C, 0018 alineacion, 0022 aceite, 0035 inspeccion.

@@ -97,7 +97,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 .hp.is-on{opacity:1}
 html:not(.js) .hp[data-k="0"]{opacity:1}
 .hp[data-k="2"]{height:86%}
-.hp[data-k="3"]{height:72%;top:12%}
+.hp[data-k="3"]{height:90%;top:0}
 .hp[data-k="4"]{height:92%}
 /* entrada orbital ligera (solo transform y opacidad): giro de ~18 grados hacia su sitio */
 @keyframes orbit{
@@ -106,6 +106,7 @@ html:not(.js) .hp[data-k="0"]{opacity:1}
   100%{opacity:1;transform:translateX(-50%) rotateY(0) rotateX(0) scale(1)}
 }
 .js:not(.rm) .hp.is-on{animation:orbit .95s cubic-bezier(.16,1,.3,1) both}
+.js:not(.rm) .hero.boot .hp.is-on{animation:none;opacity:0;transition:none}
 .hero__bar{position:relative;z-index:3;display:grid;gap:14px;padding:6px var(--pad) 34px;justify-items:start}
 .lead{max-width:30ch;margin-bottom:18px;font-size:clamp(1.45rem,6vw,1.55rem);line-height:1.38;font-weight:600}
 .picker{display:flex;gap:10px}
@@ -184,7 +185,7 @@ html:not(.js) .cap--end{opacity:1;visibility:visible;transform:none}
   .dish__img{width:118vw;max-width:none;height:auto}
   .d-crema .dish__img{width:92vw}
   .d-birria .dish__img{width:104vw}
-  .d-maiz .dish__img{width:98vw}
+  .d-maiz .dish__img{width:84vw}
   .dish__word{top:21%;font-size:clamp(6rem,46vw,14rem)}
   .d-birria .dish__word{font-size:clamp(4.5rem,31vw,12rem)}
 
@@ -349,7 +350,7 @@ body{max-width:560px;margin:0 auto}
 <img class="hp" data-k="0" src="../../demos/taqueria/img/tacos-pastor-700.webp" srcset="../../demos/taqueria/img/tacos-pastor-700.webp 700w, ../../demos/taqueria/img/tacos-pastor-1200.webp 1200w" sizes="92vw" width="1200" height="709" loading="lazy" decoding="async" alt="Marinated pork tacos with onion and cilantro" data-alt-es="Tacos de cerdo adobado con cebolla y cilantro" data-alt-en="Marinated pork tacos with onion and cilantro">
 <img class="hp" data-k="1" src="../../demos/taqueria/img/tacos-asada-700.webp" srcset="../../demos/taqueria/img/tacos-asada-700.webp 700w, ../../demos/taqueria/img/tacos-asada-1200.webp 1200w" sizes="92vw" width="1200" height="739" loading="lazy" decoding="async" alt="Plate of asada tacos with two salsas" data-alt-es="Plato de tacos de asada con dos salsas" data-alt-en="Plate of asada tacos with two salsas">
 <img class="hp" data-k="2" src="../../demos/taqueria/img/quesabirria-serv-700.webp" srcset="../../demos/taqueria/img/quesabirria-serv-700.webp 700w, ../../demos/taqueria/img/quesabirria-serv-1200.webp 1200w" sizes="92vw" width="1200" height="654" loading="lazy" decoding="async" alt="Crisp quesabirria tacos with melted cheese and onion, served on a plate with a cup of consommé" data-alt-es="Tacos de quesabirria dorados con queso fundido y cebolla, servidos en plato con su consomé" data-alt-en="Crisp quesabirria tacos with melted cheese and onion, served on a plate with a cup of consommé">
-<img class="hp" data-k="3" src="../../demos/taqueria/img/burrito-rojo-700.webp" srcset="../../demos/taqueria/img/burrito-rojo-700.webp 700w, ../../demos/taqueria/img/burrito-rojo-1200.webp 1200w" sizes="92vw" width="1200" height="777" loading="lazy" decoding="async" alt="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa" data-alt-es="Burrito cortado por la mitad sobre una servilleta de tela roja bordada con salsero de salsa verde" data-alt-en="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa">
+<img class="hp" data-k="3" src="../../demos/taqueria/img/burrito-tabla-700.webp" srcset="../../demos/taqueria/img/burrito-tabla-700.webp 700w, ../../demos/taqueria/img/burrito-tabla-1200.webp 1200w" sizes="92vw" width="1200" height="741" loading="lazy" decoding="async" alt="Beef burrito cut in half on a wooden board with a few fries and lettuce" data-alt-es="Burrito de carne cortado por la mitad sobre una tabla de madera con papas y lechuga" data-alt-en="Beef burrito cut in half on a wooden board with a few fries and lettuce">
 <img class="hp" data-k="4" src="../../demos/taqueria/img/caldo-700.webp" srcset="../../demos/taqueria/img/caldo-700.webp 700w, ../../demos/taqueria/img/caldo-1200.webp 1200w" sizes="92vw" width="1200" height="959" loading="lazy" decoding="async" alt="Bowl of red broth with tender beef and dried chile" data-alt-es="Tazón de caldo rojo con res y chile seco" data-alt-en="Bowl of red broth with tender beef and dried chile">
     </div>
   </div>
@@ -362,7 +363,7 @@ body{max-width:560px;margin:0 auto}
 <button class="pk" type="button" data-k="0" data-nes="Tacos de adobada" data-nen="Adobada tacos" data-p="$2.75" aria-pressed="true" aria-label="Adobada tacos" data-aria-es="Tacos de adobada" data-aria-en="Adobada tacos"><img src="../../demos/taqueria/img/th-tacos-pastor.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
 <button class="pk" type="button" data-k="1" data-nes="Tacos de asada" data-nen="Asada tacos" data-p="$3.25" aria-pressed="false" aria-label="Asada tacos" data-aria-es="Tacos de asada" data-aria-en="Asada tacos"><img src="../../demos/taqueria/img/th-tacos-asada.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
 <button class="pk" type="button" data-k="2" data-nes="Quesabirria" data-nen="Quesabirria" data-p="$14.50" aria-pressed="false" aria-label="Quesabirria" data-aria-es="Quesabirria" data-aria-en="Quesabirria"><img src="../../demos/taqueria/img/th-quesabirria-serv.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
-<button class="pk" type="button" data-k="3" data-nes="Burrito de carne" data-nen="Beef burrito" data-p="$10.50" aria-pressed="false" aria-label="Beef burrito" data-aria-es="Burrito de carne" data-aria-en="Beef burrito"><img src="../../demos/taqueria/img/th-burrito-rojo.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
+<button class="pk" type="button" data-k="3" data-nes="Burrito de carne" data-nen="Beef burrito" data-p="$10.50" aria-pressed="false" aria-label="Beef burrito" data-aria-es="Burrito de carne" data-aria-en="Beef burrito"><img src="../../demos/taqueria/img/th-burrito-tabla.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
 <button class="pk" type="button" data-k="4" data-nes="Caldo rojo" data-nen="Red broth" data-p="$11.50" aria-pressed="false" aria-label="Red broth" data-aria-es="Caldo rojo" data-aria-en="Red broth"><img src="../../demos/taqueria/img/th-caldo.webp" width="144" height="144" alt="" loading="lazy" decoding="async"></button>
     </div>
     <div class="hero__meta" aria-live="polite">
@@ -380,6 +381,13 @@ body{max-width:560px;margin:0 auto}
   for(var i=0;i<hp.length;i++){hp[i].classList.toggle('is-on',i===k);}
   for(var j=0;j<pk.length;j++){pk[j].setAttribute('aria-pressed',j===k?'true':'false');}
   var on=hp[k];on.removeAttribute('loading');on.setAttribute('fetchpriority','high');
+  /* entrada orbital también al cargar: el plato arranca oculto (sin animar) hasta que su imagen está decodificada; se dispara una sola vez */
+  var R=document.documentElement;
+  if(R.classList.contains('js')&&!R.classList.contains('rm')){
+    h.classList.add('boot');
+    var rel=function(){if(!h.classList.contains('boot'))return;requestAnimationFrame(function(){requestAnimationFrame(function(){h.classList.remove('boot');});});};
+    var dp=on.decode?on.decode():Promise.resolve();dp.then(rel,rel);setTimeout(rel,2500);
+  }
   var b=pk[k],n=h.querySelector('#hnName'),pr=h.querySelector('#hnPrice');
   n.setAttribute('data-es',b.getAttribute('data-nes'));n.setAttribute('data-en',b.getAttribute('data-nen'));n.textContent=b.getAttribute('data-nen');pr.textContent=b.getAttribute('data-p');
 })();
@@ -420,7 +428,7 @@ body{max-width:560px;margin:0 auto}
 <section class="dish d-maiz" data-i="3" style="--r:11deg">
   
   <span class="dish__word" aria-hidden="true"><i>BURRITO</i></span>
-  <div class="dish__stage"><img class="dish__img" src="../../demos/taqueria/img/burrito-rojo-700.webp" srcset="../../demos/taqueria/img/burrito-rojo-700.webp 700w, ../../demos/taqueria/img/burrito-rojo-1200.webp 1200w" sizes="92vw" width="1200" height="777" loading="lazy" decoding="async" alt="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa" data-alt-es="Burrito cortado por la mitad sobre una servilleta de tela roja bordada con salsero de salsa verde" data-alt-en="Burrito cut in half on a red embroidered cloth napkin with a cup of green salsa"></div>
+  <div class="dish__stage"><img class="dish__img" src="../../demos/taqueria/img/burrito-tabla-700.webp" srcset="../../demos/taqueria/img/burrito-tabla-700.webp 700w, ../../demos/taqueria/img/burrito-tabla-1200.webp 1200w" sizes="92vw" width="1200" height="741" loading="lazy" decoding="async" alt="Beef burrito cut in half on a wooden board with a few fries and lettuce" data-alt-es="Burrito de carne cortado por la mitad sobre una tabla de madera con papas y lechuga" data-alt-en="Beef burrito cut in half on a wooden board with a few fries and lettuce"></div>
   <div class="dish__info">
     <h3 data-es="Burrito de carne" data-en="Beef burrito">Burrito de carne</h3>
     <p data-es="Relleno de carne, arroz y frijol, con salsita verde al lado." data-en="Filled with beef, rice and beans, with green salsa on the side.">Relleno de carne, arroz y frijol, con salsita verde al lado.</p>
@@ -564,6 +572,7 @@ body{max-width:560px;margin:0 auto}
     nm.textContent=b.getAttribute('data-n'+l);pr.textContent=b.getAttribute('data-p');
   }
   function pick(k){
+    hero.classList.remove('boot');
     hero.setAttribute('data-k',k);
     pks.forEach(function(b,i){b.setAttribute('aria-pressed',i===k?'true':'false');});
     hps[k].loading='eager';

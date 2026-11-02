@@ -17,3 +17,7 @@ No se ha generado ninguna imagen nueva ni se ha descargado nada nuevo para esta 
 
 ## Ronda 2 (2026-10-31)
 Sin descargas nuevas. "Inside your panel" usa los fotogramas propios `img/v9/frames/caja`, `breaker` y `varilla` (y sus -720 en movil), cargados desde `../../img/v9/frames/`. El mapa de la zona es un SVG dibujado a mano (posiciones aproximadas, estilizado).
+
+## Ronda 3 (2026-11-01)
+- `img/mapa-cuenca.webp` (70 KB, 1400x934): composicion propia de teselas de OpenStreetMap (zoom 10, centro 32.00 N, -102.20 W, 12 teselas descargadas de tile.openstreetmap.org con User-Agent "PermianLocalSEO-demo/1.0"), pasada a gris, invertida y teñida al azul de la marca por CSS. Datos del mapa: © OpenStreetMap contributors, licencia ODbL (https://www.openstreetmap.org/copyright). La atribucion se ve en la esquina del mapa. La ruta I-20 y los radios son un SVG propio; los puntos se colocan con proyeccion Web Mercator a partir del bbox real de la imagen.
+- El rayo, el flash y las tarjetas de oferta son SVG/CSS propios. Se retira el mapa de Google (boton e iframe).

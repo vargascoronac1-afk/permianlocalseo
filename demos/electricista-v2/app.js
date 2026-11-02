@@ -93,17 +93,6 @@
     return { set: set, arrive: arrive, bind: bind };
   })();
 
-  /* mapa de Google: se carga al pulsar (sin cookies ni avisos de rastreo antes) */
-  (function () {
-    var box = $('#gmap'), btn = $('#gmapBtn'); if (!btn) return;
-    btn.addEventListener('click', function () {
-      var f = document.createElement('iframe');
-      f.title = lang === 'es' ? 'Mapa de Odessa, TX' : 'Map of Odessa, TX'; f.setAttribute('data-title-en', 'Map of Odessa, TX'); f.setAttribute('data-title-es', 'Mapa de Odessa, TX');
-      f.referrerPolicy = 'no-referrer-when-downgrade'; f.src = 'https://www.google.com/maps?q=Odessa,+TX&output=embed';
-      box.appendChild(f); box.hidden = false; btn.setAttribute('aria-expanded', 'true'); btn.remove();
-    });
-  })();
-
   /* ---------- FAQ: despliegue corto (ease-out, < 300 ms) ---------- */
   $$('.faq details').forEach(function (d) {
     var sum = d.querySelector('summary'), ans = d.querySelector('.ans');
@@ -176,10 +165,23 @@
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
   }
-  function scrollToY(y) { if (lenis) lenis.scrollTo(y, { duration: 1 }); else window.scrollTo({ top: y, behavior: 'smooth' }); }
+  /* desplazamiento propio: parte SIEMPRE de la posicion real de la ventana (no de la cache de Lenis) y se cancela si el usuario toca o gira la rueda */
+  var scrollTw = null;
+  function stopScroll() { if (scrollTw) { scrollTw.kill(); scrollTw = null; } }
+  ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { addEventListener(ev, stopScroll, { passive: true }); });
+  function scrollToY(y, cb) {
+    stopScroll();
+    var max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    y = clamp(Math.round(y), 0, max);
+    var o = { v: window.pageYOffset }, dist = Math.abs(y - o.v);
+    if (dist < 2) { if (cb) cb(); return; }
+    scrollTw = gsap.to(o, { v: y, duration: clamp(.45 + dist / 3500, .5, 1.3), ease: 'power3.inOut',
+      onUpdate: function () { if (lenis) lenis.scrollTo(o.v, { immediate: true, force: true }); else window.scrollTo({ top: o.v, behavior: 'instant' }); },
+      onComplete: function () { scrollTw = null; if (cb) cb(); } });
+  }
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
-      var id = a.getAttribute('href'), t = $(id); if (!t) return; e.preventDefault();
+      var id = a.getAttribute('href'); if (id === '#') { e.preventDefault(); return; } var t = $(id); if (!t) return; e.preventDefault();
       if (id === '#top') return scrollToY(0);
       var y = t.getBoundingClientRect().top + window.pageYOffset - (id === '#panel' ? 0 : 0);
       scrollToY(y + 2);
@@ -271,6 +273,44 @@
     unveil($$('.hv'), { y: 20 });
   })();
 
+  /* ---------- E1: el breaker sube y CAE UN RAYO; del rayo sale el titular y, al lado, las ofertas ---------- */
+  (function () {
+    var head = $('#svcHead'), boltD = $('#bolt'), boltM = $('#boltM'), bolt = boltD, flash = $('#flash'), zap = $('#heroZap'); if (!head || !bolt) return;
+    var paths = [], h2 = $('#svc-h'), sub = $('#svcSub'), cards = $$('#offers li'), tl = null, played = false;
+    var lens = [];
+    function strike() {
+      played = true;
+      bolt = getComputedStyle(boltD).display === 'none' ? boltM : boltD;
+      gsap.set([boltD, boltM], { opacity: 0 });
+      paths = $$('.bolt__p', bolt); lens = paths.map(function (p) { return p.getTotalLength(); });
+      if (tl) tl.kill();
+      gsap.killTweensOf([h2, sub, flash, boltD, boltM].concat(cards));
+      paths.forEach(function (p, i) { p.style.strokeDasharray = lens[i]; p.style.strokeDashoffset = lens[i]; });
+      gsap.set(bolt, { opacity: 1 }); gsap.set(flash, { opacity: 0 });
+      gsap.set(h2, { opacity: 0, scale: 1.08, transformOrigin: '0% 60%' }); gsap.set(sub, { opacity: 0, y: 10 }); gsap.set(cards, { opacity: 0, y: 16 });
+      tl = gsap.timeline();
+      tl.to(paths[0], { strokeDashoffset: 0, duration: .35, ease: 'power2.in' }, 0)
+        .to(paths.slice(1), { strokeDashoffset: 0, duration: .28, ease: 'power1.in', stagger: .05 }, .1)
+        .to(flash, { opacity: .85, duration: .05, ease: 'none' }, .35).to(flash, { opacity: 0, duration: .4, ease: 'power2.out' }, .4)
+        .to(bolt, { opacity: .35, duration: .045, repeat: 3, yoyo: true, ease: 'none' }, .38)
+        .to(h2, { opacity: 1, scale: 1, duration: .36, ease: 'power3.out' }, .6)
+        .to(sub, { opacity: 1, y: 0, duration: .35, ease: 'power3.out' }, .8)
+        .to(cards, { opacity: 1, y: 0, duration: .34, ease: 'power3.out', stagger: .08 }, 1)
+        .to(bolt, { opacity: 0, duration: .45, ease: 'power1.out' }, .95);
+    }
+    ScrollTrigger.create({ trigger: head, start: 'top 15%', once: true, onEnter: function () { if (!played) strike(); } });
+    /* repetible: el boton junto al breaker lo sube otra vez y vuelve a caer el rayo */
+    if (zap) {
+      zap.hidden = false;
+      zap.addEventListener('click', function () {
+        played = true;
+        var y = head.getBoundingClientRect().top + window.pageYOffset;
+        if (Math.abs(window.pageYOffset - y) < 40) return strike();
+        scrollToY(y - window.innerHeight * .08, strike);
+      });
+    }
+  })();
+
   /* ---------- panel: secuencias de fotogramas en UN canvas; el scroll avanza y se PARA en cada hotspot ---------- */
   (function () {
     var track = $('#pnTrack'), cv = $('#pnCv'); if (!track || !cv) return;
@@ -338,25 +378,35 @@
     window.__pn = { st: ST, want: want };
   })();
 
-  /* ---------- zona: mapa estilizado; el radio de servicio crece con el scroll y enciende los pueblos ---------- */
+  /* ---------- zona: mapa real (teselas OSM); la ruta se dibuja con el scroll y los pueblos se encienden ---------- */
   (function () {
-    var map = $('#areaMap'); if (!map) return;
-    var fill = $('#mapFill'), ring = $('#mapRing'), road = $('#mapI20'), pts = $$('.pt', map), R = 172, len = road.getTotalLength();
-    road.style.strokeDasharray = len; road.style.strokeDashoffset = len;
+    var map = $('#mapSvg'); if (!map) return;
+    var road = $('#mapI20'), rads = $$('.map__rad', map), pts = $$('.pt', map), P = {};
+    pts.forEach(function (g) { P[g.getAttribute('data-n')] = g; });
+    var all = [road].concat(rads), L = all.map(function (p) { return p.getTotalLength(); });
+    all.forEach(function (p, i) { p.style.strokeDasharray = L[i]; p.style.strokeDashoffset = L[i]; });
+    /* fraccion de la ruta en la que esta Midland (suma de tramos hasta ese vertice) */
+    var nums = road.getAttribute('d').match(/-?\d+(\.\d+)?/g).map(Number), mid = P.Midland.getAttribute('transform').match(/-?\d+(\.\d+)?/g).map(Number), acc = 0, fMid = .5;
+    for (var k = 2; k < nums.length; k += 2) {
+      acc += Math.hypot(nums[k] - nums[k - 2], nums[k + 1] - nums[k - 1]);
+      if (Math.abs(nums[k] - mid[0]) < 1 && Math.abs(nums[k + 1] - mid[1]) < 1) { fMid = acc / L[0]; break; }
+    }
+    function lit(n, v) { P[n].classList.toggle('is-lit', v); }
     function upd(p) {
-      var r = clamp((p - .12) / .8, 0, 1) * R;
-      fill.setAttribute('r', r.toFixed(1)); ring.setAttribute('r', r.toFixed(1));
-      road.style.strokeDashoffset = (len * (1 - clamp(p / .45, 0, 1))).toFixed(1);
-      pts.forEach(function (g) { g.classList.toggle('is-lit', r >= +g.getAttribute('data-d')); });
+      var f = clamp(p / .6, 0, 1);
+      road.style.strokeDashoffset = (L[0] * (1 - f)).toFixed(1);
+      var r = rads.map(function (el, i) { var q = clamp((p - .55 - i * .1) / .25, 0, 1); el.style.strokeDashoffset = (L[i + 1] * (1 - q)).toFixed(1); return q; });
+      lit('Odessa', f > .01); lit('Midland', f >= fMid); lit('Stanton', f > .985);
+      lit('Goldsmith', r[0] > .95); lit('Gardendale', r[1] > .95); lit('Greenwood', r[2] > .95);
     }
     upd(0);
-    ScrollTrigger.create({ trigger: map, start: 'top 85%', end: 'center 52%', scrub: .4, onUpdate: function (self) { upd(self.progress); } });
+    ScrollTrigger.create({ trigger: '#areaMap', start: 'top 80%', end: 'center 42%', scrub: .4, onUpdate: function (self) { upd(self.progress); } });
   })();
 
   /* ---------- proceso: la orden de trabajo se imprime ---------- */
   (function () {
     var slip = $('#slip'); if (!slip) return;
-    gsap.fromTo('#slipIn', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', ease: 'none', scrollTrigger: { trigger: slip, start: 'top 80%', end: 'bottom 65%', scrub: .5 } });
+    gsap.fromTo('#slipIn', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', ease: 'none', scrollTrigger: { trigger: slip, start: 'top 85%', end: 'center 55%', scrub: .5 } });
     $$('[data-count]').forEach(function (n) {
       var end = +n.getAttribute('data-count'), o = { v: 0 };
       n.textContent = '0';

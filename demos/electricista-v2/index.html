@@ -30,6 +30,8 @@
 <body>
 <a class="skip" href="#services" data-en="Skip to content" data-es="Saltar al contenido">Skip to content</a>
 
+<div class="flash" id="flash" aria-hidden="true"></div>
+
 <header class="top">
   <div class="top__in">
     <a class="logo" href="#top" aria-label="Permian Pro Electric"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg></b><span>Permian Pro Electric</span></a>
@@ -73,9 +75,12 @@
         <img class="hero__poster" id="heroPoster" src="../../img/v9/frames/breaker/f000.webp" width="1280" height="720" fetchpriority="high" alt="Breaker panel on a dark wall, every breaker off" data-alt-en="Breaker panel on a dark wall, every breaker off" data-alt-es="Panel de breakers en una pared oscura, todos los breakers apagados">
       </picture>
       <canvas id="heroCv" aria-hidden="true"></canvas>
-      <figcaption class="hero__read" aria-hidden="true">
-        <span class="hero__main"><span data-en="Main breaker" data-es="Breaker principal">Main breaker</span> <b id="heroState" data-en="OFF" data-es="APAGADO">OFF</b></span>
-      </figcaption>
+      <div class="hero__ctl">
+        <figcaption class="hero__read" aria-hidden="true">
+          <span class="hero__main"><span data-en="Main breaker" data-es="Breaker principal">Main breaker</span> <b id="heroState" data-en="OFF" data-es="APAGADO">OFF</b></span>
+        </figcaption>
+        <button class="hero__zap" id="heroZap" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 1 4 13.5h6.2L8.8 23 20 9.8h-6.6z"/></svg><span data-en="Flip it again" data-es="Otra vez">Flip it again</span></button>
+      </div>
     </figure>
     <div class="hero__cue" id="heroCue" aria-hidden="true"><span data-en="Scroll to switch it on" data-es="Baja para encenderlo">Scroll to switch it on</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l7 7 7-7"/></svg></div>
   </div>
@@ -84,9 +89,22 @@
 <!-- 2. SERVICIOS: menu con puntos guia + foto fija que cambia -->
 <section class="sec cut-l svc light" id="services" aria-labelledby="svc-h">
   <div class="wrap svc__grid">
-    <div class="svc__head">
-      <h2 class="h2 mask" id="svc-h"><span data-en="Electrical work, done right" data-es="Trabajo eléctrico bien hecho">Electrical work, done right</span></h2>
-      <p class="sub up" data-en="From a dead outlet to a full commercial build-out. Not on the list? Call us and we will tell you straight if we can do it." data-es="Desde un enchufe muerto hasta una obra comercial completa. ¿No está en la lista? Llámanos y te decimos con franqueza si podemos hacerlo.">From a dead outlet to a full commercial build-out. Not on the list? Call us and we will tell you straight if we can do it.</p>
+    <div class="svc__head" id="svcHead">
+      <div class="svc__hl">
+        <h2 class="h2" id="svc-h"><span data-en="Electrical work, done right" data-es="Trabajo eléctrico bien hecho">Electrical work, done right</span></h2>
+        <p class="sub" id="svcSub" data-en="From a dead outlet to a full commercial build-out. Not on the list? Call us and we will tell you straight if we can do it." data-es="Desde un enchufe muerto hasta una obra comercial completa. ¿No está en la lista? Llámanos y te decimos con franqueza si podemos hacerlo.">From a dead outlet to a full commercial build-out. Not on the list? Call us and we will tell you straight if we can do it.</p>
+      </div>
+      <ul class="offers" id="offers">
+        <li><a class="offer" href="#quote"><span class="offer__k" data-en="Check-up" data-es="Revisión">Check-up</span><h3 data-en="Safety inspections" data-es="Inspecciones de seguridad">Safety inspections</h3><span class="offer__v" data-en="Straight answer" data-es="Respuesta clara">Straight answer</span></a></li>
+        <li><a class="offer" href="#panel"><span class="offer__k" data-en="Panel work" data-es="Panel">Panel work</span><h3 data-en="Main breaker" data-es="Breaker principal">Main breaker</h3><span class="offer__v" data-en="from $180 (demo)" data-es="desde $180 (demo)">from $180 (demo)</span></a></li>
+        <li><a class="offer" href="tel:+14325550162"><span class="offer__k" data-en="Any hour" data-es="A cualquier hora">Any hour</span><h3 data-en="24/7 emergency repair" data-es="Emergencias 24/7">24/7 emergency repair</h3><span class="offer__v" data-en="Fast response" data-es="Respuesta rápida">Fast response</span></a></li>
+      </ul>
+      <svg class="bolt bolt--d" id="bolt" viewBox="0 0 218 800" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <g><path class="bolt__p" d="M160 0 L140 90 L166 118 L104 220 L128 242 L46 330 L64 346 L8 400"/><path class="bolt__p" d="M104 220 L150 262 L136 288 L190 340"/><path class="bolt__p" d="M46 330 L96 372 L84 392 L120 440"/><path class="bolt__p" d="M166 118 L206 150 L196 170 L214 205"/></g>
+      </svg>
+      <svg class="bolt bolt--m" id="boltM" viewBox="0 0 375 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <g><path class="bolt__p" d="M250 0 L236 50 L262 70 L196 130 L216 148 L150 205 L166 218 L110 285"/><path class="bolt__p" d="M196 130 L250 165 L238 185 L290 230"/><path class="bolt__p" d="M150 205 L100 230 L112 246 L70 290"/></g>
+      </svg>
     </div>
     <div class="svc__pic" id="svcPic">
       <img class="on" src="../../img/servicios/emergencias-960.webp" width="960" height="640" loading="lazy" decoding="async" alt="Lightning striking over power lines at dusk" data-alt-en="Lightning striking over power lines at dusk" data-alt-es="Un rayo cae sobre cables eléctricos al anochecer">
@@ -206,10 +224,25 @@
         <li>Stanton</li>
       </ul>
       <p class="hours247 up" aria-label="24/7"><span aria-hidden="true">2 4 / 7</span></p>
-      <div class="area__cta up"><a class="btn btn--dark" href="tel:+14325550162"><span data-en="Call (432) 555-0162" data-es="Llamar (432) 555-0162">Call (432) 555-0162</span></a><button class="link link--dark" type="button" id="gmapBtn" aria-expanded="false" aria-controls="gmap"><span data-en="Show the map of Odessa" data-es="Ver el mapa de Odessa">Show the map of Odessa</span></button></div>
+      <div class="area__cta up"><a class="btn btn--dark" href="tel:+14325550162"><span data-en="Call (432) 555-0162" data-es="Llamar (432) 555-0162">Call (432) 555-0162</span></a></div>
     </div>
-    <div class="area__map" id="areaMap" role="img" aria-label="Stylized map of the Permian Basin: a service radius around Odessa and Midland that reaches Goldsmith, Gardendale, Greenwood and Stanton" data-aria-en="Stylized map of the Permian Basin: a service radius around Odessa and Midland that reaches Goldsmith, Gardendale, Greenwood and Stanton" data-aria-es="Mapa estilizado de la cuenca Pérmica: un radio de servicio alrededor de Odessa y Midland que llega a Goldsmith, Gardendale, Greenwood y Stanton"><svg class="map" viewBox="0 -78 420 378" aria-hidden="true" focusable="false"><path class="map__basin" d="M18 210 C40 150 30 90 90 60 C150 22 250 6 330 14 C390 20 410 60 402 118 C396 170 340 200 290 236 C230 276 120 290 60 262 C34 250 14 236 18 210 Z"/><path class="map__basin map__basin--in" d="M52 200 C64 150 60 104 110 82 C160 58 240 44 310 52 C360 58 380 86 372 126 C366 162 320 184 276 212 C226 244 130 252 84 234 C62 226 48 216 52 200 Z"/><path class="map__i20" id="mapI20" d="M10 186 L90 172 L146 160 L200 125 L256 91 L310 60 L366 32 L416 12"/><text class="map__road" x="22" y="176">I-20</text><g class="map__radius"><circle class="map__fill" id="mapFill" cx="210" cy="95" r="0"/><circle class="map__ring" id="mapRing" cx="210" cy="95" r="0"/></g><g class="pt" data-d="156.0" transform="translate(54 95)"><circle class="pt__halo" r="13"/><circle class="pt__dot" r="6"/><text class="pt__t" x="14" y="4" text-anchor="start">Goldsmith</text></g><g class="pt" data-d="69.1" transform="translate(141 99)"><circle class="pt__halo" r="13"/><circle class="pt__dot" r="6"/><text class="pt__t" x="0" y="-14" text-anchor="middle">Gardendale</text></g><g class="pt" data-d="15.3" transform="translate(213 110)"><circle class="pt__halo" r="13"/><circle class="pt__dot" r="6"/><text class="pt__t" x="0" y="22" text-anchor="middle">Greenwood</text></g><g class="pt pt--big" data-d="91.2" transform="translate(146 160)"><circle class="pt__halo" r="16"/><circle class="pt__dot" r="9"/><text class="pt__t" x="0" y="25" text-anchor="middle">Odessa</text></g><g class="pt pt--big" data-d="46.2" transform="translate(256 91)"><circle class="pt__halo" r="16"/><circle class="pt__dot" r="9"/><text class="pt__t" x="0" y="-17" text-anchor="middle">Midland</text></g><g class="pt" data-d="168.2" transform="translate(366 32)"><circle class="pt__halo" r="13"/><circle class="pt__dot" r="6"/><text class="pt__t" x="0" y="22" text-anchor="middle">Stanton</text></g></svg><span class="area__cap" data-en="Stylized map, approximate positions" data-es="Mapa estilizado, posiciones aproximadas">Stylized map, approximate positions</span></div>
-    <div class="area__gmap" id="gmap" hidden></div>
+    <figure class="area__map" id="areaMap">
+      <div class="map__frame" role="img" aria-label="Map of the Permian Basin with the I-20 route from Odessa through Midland to Stanton, and service radii to Goldsmith, Gardendale and Greenwood" data-aria-en="Map of the Permian Basin with the I-20 route from Odessa through Midland to Stanton, and service radii to Goldsmith, Gardendale and Greenwood" data-aria-es="Mapa de la cuenca Pérmica con la ruta de la I-20 de Odessa a Midland y Stanton, y radios de servicio a Goldsmith, Gardendale y Greenwood">
+        <img class="map__img" src="img/mapa-cuenca.webp" width="1400" height="934" loading="lazy" decoding="async" alt="">
+        <svg class="map" id="mapSvg" viewBox="0 0 1400 934" aria-hidden="true" focusable="false">
+        <path class="map__rad" d="M527.0 647.8 L272.2 491.7"/><path class="map__rad" d="M527.0 647.8 L547.4 443.6"/><path class="map__rad" d="M822.7 467.6 L955.2 527.7"/>
+        <path class="map__i20" id="mapI20" d="M527.0 647.8 L600 614 L680 565 L750 524 L822.7 467.6 L912 423 L1000 372 L1118.3 311.2"/>
+        <text class="map__road" x="1006" y="352">I-20</text>
+        <g class="pt" data-n="Goldsmith" transform="translate(272.2 491.7)"><circle class="pt__halo" r="24"/><circle class="pt__dot" r="11"/><text class="pt__t" x="0" y="62" text-anchor="middle">Goldsmith</text></g>
+        <g class="pt" data-n="Gardendale" transform="translate(547.4 443.6)"><circle class="pt__halo" r="24"/><circle class="pt__dot" r="11"/><text class="pt__t" x="0" y="-24" text-anchor="middle">Gardendale</text></g>
+        <g class="pt" data-n="Greenwood" transform="translate(955.2 527.7)"><circle class="pt__halo" r="24"/><circle class="pt__dot" r="11"/><text class="pt__t" x="20" y="34" text-anchor="middle">Greenwood</text></g>
+        <g class="pt pt--big" data-n="Odessa" transform="translate(527.0 647.8)"><circle class="pt__halo" r="35"/><circle class="pt__dot" r="16"/><text class="pt__t" x="0" y="50" text-anchor="middle">Odessa</text></g>
+        <g class="pt pt--big" data-n="Midland" transform="translate(822.7 467.6)"><circle class="pt__halo" r="35"/><circle class="pt__dot" r="16"/><text class="pt__t" x="0" y="-28" text-anchor="middle">Midland</text></g>
+        <g class="pt" data-n="Stanton" transform="translate(1118.3 311.2)"><circle class="pt__halo" r="24"/><circle class="pt__dot" r="11"/><text class="pt__t" x="0" y="-24" text-anchor="middle">Stanton</text></g>
+      </svg>
+      </div>
+      <a class="map__attr" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>
+    </figure>
   </div>
 </section>
 

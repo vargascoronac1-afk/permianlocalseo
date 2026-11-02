@@ -178,32 +178,13 @@ h1 .ln>span{display:inline-block}
 .towns b{font-weight:500}
 .towns small{font-size:var(--s-xs);margin-left:4px}
 .hours247{font-size:var(--s-h2);font-weight:500;line-height:1;letter-spacing:.06em;margin:clamp(24px,3vw,48px) 0 clamp(20px,2.4vw,32px);white-space:nowrap}
-.area__map{position:relative;width:100%;max-width:620px;background:var(--yellow)}
-.map{width:100%;height:auto;overflow:visible}
-.map__basin{fill:none;stroke:var(--ink);stroke-opacity:.2;stroke-width:1.5}
-.map__basin--in{stroke-opacity:.12;stroke-dasharray:2 6}
-.map__i20{fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:.85}
-.map__road{font-size:13px;font-weight:500;fill:var(--ink)}
-.map__fill{fill:var(--ink);fill-opacity:.1}
-.map__ring{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:6 6}
-.pt__halo{fill:var(--yellow);transition:opacity .3s}
-.pt__dot{fill:var(--yellow);stroke:var(--ink);stroke-width:3;transition:fill .3s ease,transform .35s var(--out);transform-box:fill-box;transform-origin:center}
-.pt__t{font-size:14px;font-weight:500;fill:var(--ink);opacity:.45;transition:opacity .3s ease}
-.pt--big .pt__t{font-size:19px;letter-spacing:-.02em}
-.pt.is-lit .pt__dot{fill:var(--ink);transform:scale(1.15)}
-.pt.is-lit .pt__t{opacity:1}
-.area__cap{display:block;margin-top:10px;font-size:var(--s-xs)}
-.area__gmap{position:relative;aspect-ratio:16/10;background:#e8b300}
-.area__gmap[hidden]{display:none}
 .area__cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px}
 .link--dark{color:var(--ink);background:none;border:0;cursor:pointer;font-size:var(--s-b);text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px;padding:12px 4px;min-height:48px}
 .link--dark:hover{text-decoration-thickness:3px}
-.area__gmap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 @media(min-width:900px){
   .area__grid{grid-template-columns:repeat(12,1fr)}
   .area__txt{grid-column:1/7}
   .area__map{grid-column:7/13;align-self:center;justify-self:end}
-  .area__gmap{grid-column:1/-1;aspect-ratio:21/6}
 }
 
 /* ---------- proceso: la orden de trabajo ---------- */
@@ -333,3 +314,73 @@ html:not(.js-anim) .hs:not([data-i="2"]){display:none}
 .faq summary i::before,.faq summary i::after{transition:background-color .3s ease,transform .25s var(--out)}
 .pn__stage .hs:not(.is-on){opacity:0;pointer-events:none}
 .hs__l--l{bottom:auto;top:calc(100% - 2px);transform:translateX(-50%) translateY(-4px)}.hs.is-on .hs__l--l{transform:translateX(-50%)}
+
+/* ================= ronda 3 ================= */
+
+/* E1: servicios abre con una banda azul marino; al llegar cae un rayo y de el sale el titular, con las ofertas al lado */
+.svc__head{position:relative;background:var(--blue);color:#fff;display:grid;gap:clamp(20px,3vw,32px) var(--g);align-items:center;
+  margin:calc((var(--sp) + var(--cut)) * -1) calc(var(--m) * -1) clamp(32px,4vw,56px);
+  padding:calc(var(--cut) + clamp(40px,6vw,88px)) var(--m) calc(var(--cut) + clamp(24px,3vw,48px));
+  clip-path:polygon(0 0,100% 0,100% calc(100% - var(--cut)),0 100%)}
+.svc__head .sub{color:var(--soft-dark)}
+.offers{display:grid;gap:10px}
+.offer{display:grid;grid-template-columns:1fr auto;grid-template-areas:"k k" "h v";align-items:baseline;gap:2px 16px;padding:16px 20px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);text-decoration:none;color:#fff;transition:background-color .2s ease,border-color .2s ease}
+.offer:hover,.offer:focus-visible{border-color:var(--yellow);background:rgba(255,196,0,.09)}
+.offer__k{grid-area:k;font-size:var(--s-xs);color:var(--soft-dark);letter-spacing:.06em;text-transform:uppercase}
+.offer h3{grid-area:h;font-size:var(--s-lead);font-weight:500;letter-spacing:-.02em;line-height:1.1}
+.offer__v{grid-area:v;font-size:var(--s-b);color:var(--yellow);font-variant-numeric:tabular-nums;text-align:right}
+@media(min-width:900px){
+  .svc__head{grid-template-columns:repeat(12,1fr)}
+  .svc__hl{grid-column:1/7}
+  .offers{grid-column:8/13}
+}
+.js-anim #svc-h,.js-anim #svcSub,.js-anim .offers li{opacity:0}
+.bolt{position:absolute;overflow:visible;pointer-events:none;z-index:3;opacity:0;filter:drop-shadow(0 0 3px #ffc400) drop-shadow(0 0 12px rgba(255,196,0,.85))}
+.bolt__p{fill:none;stroke:#fff6c4;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.bolt__p:first-child{stroke-width:3.4}
+.flash{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 52% 40%,#fffde6 0,rgba(255,243,176,.9) 38%,rgba(255,206,60,.5) 100%)}
+.hero__ctl{position:absolute;left:var(--m);bottom:calc(var(--dockh) + var(--cut) + 12px);z-index:3;display:flex;gap:8px;align-items:stretch}
+.hero__ctl .hero__read{position:static}
+.hero__zap{display:inline-flex;align-items:center;gap:8px;background:var(--yellow);color:var(--ink);border:0;padding:0 14px;min-height:44px;font-size:var(--s-xs);font-weight:500}
+.hero__zap[hidden]{display:none}
+.hero__zap svg{width:16px;height:16px}
+.hero__zap:hover{background:#ffd23d}
+@media(min-width:769px){.hero__ctl{left:auto;right:var(--m);bottom:calc(var(--cut) + 14px)}}
+
+/* E3: compactar. El titular y su contenido quedan a una pantalla; la diagonal pegada al bloque */
+.sec.pn{padding-top:calc(var(--cut) + clamp(24px,3vw,44px));padding-bottom:clamp(28px,4vw,56px)}
+.pn__head{padding-bottom:clamp(16px,2vw,28px)}
+@media(min-width:900px){.js-anim .pn__track{margin-top:calc(max(0px,(100svh - var(--hh) - 460px) / 2) * -1)}}
+.sec.proc{padding-top:calc(var(--cut) + clamp(28px,4vw,56px));padding-bottom:clamp(56px,7vw,104px)}
+.proc .figs{margin-top:clamp(20px,2.4vw,32px);gap:clamp(14px,2vw,24px)}
+.proc__grid{gap:clamp(24px,4vw,48px) var(--g)}
+
+/* E4: mapa real (teselas de OpenStreetMap) teñido al azul de la marca, ruta amarilla encima */
+.area__map{margin:0;width:100%;max-width:700px;position:relative}
+.map__frame{position:relative;aspect-ratio:1400/934;background:var(--blue);overflow:hidden;isolation:isolate}
+.map__img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;filter:grayscale(1) invert(1) contrast(.9) brightness(1.05);mix-blend-mode:screen;opacity:.85}
+.map{position:absolute;inset:0;width:100%;height:100%;max-width:none;overflow:visible}
+.map__i20{fill:none;stroke:var(--yellow);stroke-width:10;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 8px rgba(255,196,0,.7))}
+.map__rad{fill:none;stroke:var(--yellow);stroke-width:5;stroke-linecap:round;stroke-opacity:.9}
+.pt__halo{fill:rgba(255,196,0,.28);opacity:0;transform-box:fill-box;transform-origin:center;transition:opacity .35s ease,transform .5s var(--out);transform:scale(.4)}
+.pt__dot{fill:var(--blue);stroke:#fff;stroke-width:4;transition:fill .3s ease,stroke .3s ease}
+.pt__t{font-size:32px;font-weight:500;fill:#fff;opacity:0;paint-order:stroke;stroke:var(--blue);stroke-width:8px;stroke-linejoin:round;transition:opacity .35s ease}
+.pt--big .pt__t{font-size:42px}
+.pt.is-lit .pt__halo{opacity:1;transform:scale(1)}
+.pt.is-lit .pt__dot{fill:var(--yellow);stroke:var(--blue)}
+.pt.is-lit .pt__t{opacity:1}
+.map__attr{position:absolute;right:0;bottom:0;z-index:3;background:rgba(255,255,255,.88);color:#333;font-size:11px;line-height:1;padding:5px 7px;text-decoration:none}
+.map__attr:hover{text-decoration:underline}
+html:not(.js-anim) .pt__t,html:not(.js-anim) .pt__halo{opacity:1;transform:none}
+html:not(.js-anim) .pt__dot{fill:var(--yellow);stroke:var(--blue)}
+@media(max-width:700px){.pt__t{font-size:54px;stroke-width:12px}.pt--big .pt__t{font-size:64px}.map__i20{stroke-width:14}.map__rad{stroke-width:8}.pt__dot{stroke-width:6}}
+
+/* vuelta 2: banda >= 100svh; el rayo cae en el hueco entre titular y tarjetas */
+.svc__head{min-height:100svh;align-content:center}
+.bolt--d{left:40%;width:17%;top:0;height:100%}
+.bolt--m{display:none;left:0;width:100%;top:0;height:300px}
+@media(max-width:899px){
+  .bolt--d{display:none}.bolt--m{display:block}
+  .svc__head{padding-top:calc(var(--cut) + 230px);align-content:start}
+  .offer{padding:12px 16px}
+}
